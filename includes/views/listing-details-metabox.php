@@ -43,8 +43,15 @@ echo '</div><br style="clear: both;" />';
 // * Agent Assignments
 echo '<div style="width: 90%; float: left">';
 	_e( '<h4>Agent Assignments</h4>', 'wp-listings-pro' );
-	echo '<p>Agents will go here</p>';
-echo '</div>';
+	echo '<p>Agents will go here</p><p>';
+	// Example for how to access Will's first name. Neat.
+	// echo get_post_meta(8, '_employee_first_name', true);
+	update_post_meta($post->ID, '_assigned_employees[\'8\']', 1);
+	echo print_r(get_posts(array(
+		'post_type'       => 'employee',
+		'posts_per_page'  => -1,
+	)), true);
+echo '</p></div>';
 
 // * Price Options
 echo '<div style="width: 45%; float: left">';
