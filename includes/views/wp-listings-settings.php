@@ -60,10 +60,10 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 				<?php
 				if ( $options['wp_listings_stylesheet_load'] == 1 ) {
-					echo '<p style="color:red; font-weight: bold;">The plugin\'s main stylesheet (wp-listings.css) has been deregistered<p>';
+					echo '<p style="color:red; font-weight: bold;">The plugin\'s main stylesheet (wp-listings.min.css) has been deregistered<p>';
 				}
 				if ( $options['wp_listings_widgets_stylesheet_load'] == 1 ) {
-					echo '<p style="color:red; font-weight: bold;">The plugin\'s widget stylesheet (wp-listings-widgets.css) has been deregistered<p>';
+					echo '<p style="color:red; font-weight: bold;">The plugin\'s widget stylesheet (wp-listings-widgets.min.css) has been deregistered<p>';
 				}
 				?>
 				<form action="options.php" method="post" id="wp-listings-settings-options-form">

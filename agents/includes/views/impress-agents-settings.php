@@ -39,7 +39,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 				}
 
 				if ( $options['impress_agents_stylesheet_load'] == 1 ) {
-					echo '<p style="color:red; font-weight: bold;">The plugin\'s main stylesheet (impress-agents.css) has been deregistered<p>';
+					echo '<p style="color:red; font-weight: bold;">The plugin\'s main stylesheet (impress-agents.min.css) has been deregistered<p>';
 				}
 				?>
 				<form action="options.php" method="post" id="impress-agents-settings-options-form">
