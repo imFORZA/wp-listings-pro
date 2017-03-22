@@ -55,14 +55,14 @@ function impress_agents_post_nav() {
 
 	?>
 	<nav class="navigation employee-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Agents navigation', 'impress_agents' ); ?></h1>
+		<h1 class="screen-reader-text"><?php _e( 'Agents navigation', 'wp-listings-pro' ); ?></h1>
 		<div class="nav-links">
 			<?php
 			if ( is_attachment() ) :
-				previous_post_link( '%link', __( '<span class="meta-nav">Published In</span>%title', 'impress_agents' ) );
+				previous_post_link( '%link', __( '<span class="meta-nav">Published In</span>%title', 'wp-listings-pro' ) );
 			else :
-				previous_post_link( '%link', __( '<span class="meta-nav">Previous Agent</span>%title', 'impress_agents' ) );
-				next_post_link( '%link', __( '<span class="meta-nav">Next Agent</span>%title', 'impress_agents' ) );
+				previous_post_link( '%link', __( '<span class="meta-nav">Previous Agent</span>%title', 'wp-listings-pro' ) );
+				next_post_link( '%link', __( '<span class="meta-nav">Next Agent</span>%title', 'wp-listings-pro' ) );
 			endif;
 			?>
 		</div><!-- .nav-links -->
@@ -105,15 +105,15 @@ function impress_agents_paging_nav() {
 		'current'  => $paged,
 		'mid_size' => 1,
 		'add_args' => array_map( 'urlencode', $query_args ),
-		'prev_text' => __( '&larr; Previous', 'impress_agents' ),
-		'next_text' => __( 'Next &rarr;', 'impress_agents' ),
+		'prev_text' => __( '&larr; Previous', 'wp-listings-pro' ),
+		'next_text' => __( 'Next &rarr;', 'wp-listings-pro' ),
 	) );
 
 	if ( $links ) :
 
 	?>
 	<nav class="navigation archive-employee-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Agents navigation', 'impress_agents' ); ?></h1>
+		<h1 class="screen-reader-text"><?php _e( 'Agents navigation', 'wp-listings-pro' ); ?></h1>
 		<div class="pagination loop-pagination">
 			<?php echo $links; ?>
 		</div><!-- .pagination -->

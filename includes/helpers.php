@@ -55,14 +55,14 @@ function wp_listings_post_nav() {
 
 	?>
 	<nav class="navigation listing-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Listing navigation', 'wp-listings' ); ?></h1>
+		<h1 class="screen-reader-text"><?php _e( 'Listing navigation', 'wp-listings-pro' ); ?></h1>
 		<div class="nav-links">
 			<?php
 			if ( is_attachment() ) :
-				previous_post_link( '%link', __( '<span class="meta-nav">Published In</span>%title', 'wp-listings' ) );
+				previous_post_link( '%link', __( '<span class="meta-nav">Published In</span>%title', 'wp-listings-pro' ) );
 			else :
-				previous_post_link( '%link', __( '<span class="meta-nav">Previous Listing</span>%title', 'wp-listings' ) );
-				next_post_link( '%link', __( '<span class="meta-nav">Next Listing</span>%title', 'wp-listings' ) );
+				previous_post_link( '%link', __( '<span class="meta-nav">Previous Listing</span>%title', 'wp-listings-pro' ) );
+				next_post_link( '%link', __( '<span class="meta-nav">Next Listing</span>%title', 'wp-listings-pro' ) );
 			endif;
 			?>
 		</div><!-- .nav-links -->
@@ -105,15 +105,15 @@ function wp_listings_paging_nav() {
 		'current'  => $paged,
 		'mid_size' => 1,
 		'add_args' => array_map( 'urlencode', $query_args ),
-		'prev_text' => __( '&larr; Previous', 'wp-listings' ),
-		'next_text' => __( 'Next &rarr;', 'wp-listings' ),
+		'prev_text' => __( '&larr; Previous', 'wp-listings-pro' ),
+		'next_text' => __( 'Next &rarr;', 'wp-listings-pro' ),
 	) );
 
 	if ( $links ) :
 
 	?>
 	<nav class="navigation archive-listing-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Listings navigation', 'wp-listings' ); ?></h1>
+		<h1 class="screen-reader-text"><?php _e( 'Listings navigation', 'wp-listings-pro' ); ?></h1>
 		<div class="pagination loop-pagination">
 			<?php echo $links; ?>
 		</div><!-- .pagination -->

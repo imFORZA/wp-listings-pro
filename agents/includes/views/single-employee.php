@@ -94,7 +94,7 @@ if($options['impress_agents_custom_wrapper'] && $options['impress_agents_start_w
 			<small><?php if ( function_exists('yoast_breadcrumb') ) { yoast_breadcrumb('<p id="breadcrumbs">','</p>'); } ?></small>
 			<div class="entry-meta">
 
-				<?php edit_post_link( __( 'Edit', 'impress_agents' ), '<span class="edit-link">', '</span>' ); ?>
+				<?php edit_post_link( __( 'Edit', 'wp-listings-pro' ), '<span class="edit-link">', '</span>' ); ?>
 			</div><!-- .entry-meta -->
 		</header><!-- .entry-header -->
 

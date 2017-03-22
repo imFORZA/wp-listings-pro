@@ -53,7 +53,7 @@ class IMPress_Agents_Taxonomies {
 
 	function settings_init() {
 
-		add_submenu_page( 'edit.php?post_type=employee', __( 'Register Taxonomies', 'impress_agents' ), __( 'Register Taxonomies', 'impress_agents' ), 'manage_options', $this->menu_page, array( &$this, 'admin' ) );
+		add_submenu_page( 'edit.php?post_type=employee', __( 'Register Taxonomies', 'wp-listings-pro' ), __( 'Register Taxonomies', 'wp-listings-pro' ), 'manage_options', $this->menu_page, array( &$this, 'admin' ) );
 	}
 
 	function actions() {
@@ -100,11 +100,11 @@ class IMPress_Agents_Taxonomies {
 
 		/** No empty fields */
 		if ( ! isset( $args['id'] ) || empty( $args['id'] ) )
-			wp_die( __( 'Please complete all required fields.', 'impress_agents' ) );
+			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		if ( ! isset( $args['name'] ) || empty( $args['name'] ) )
-			wp_die( __( 'Please complete all required fields.', 'impress_agents' ) );
+			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		if ( ! isset( $args['singular_name'] ) || empty( $args['singular_name'] ) )
-			wp_die( __( 'Please complete all required fields.', 'impress_agents' ) );
+			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
 
 		extract( $args );
 
@@ -113,15 +113,15 @@ class IMPress_Agents_Taxonomies {
 			'singular_name' 		=> strip_tags( $singular_name ),
 			'menu_name'				=> strip_tags( $name ),
 
-			'search_items'			=> sprintf( __( 'Search %s', 'impress_agents' ), strip_tags( $name ) ),
-			'popular_items'			=> sprintf( __( 'Popular %s', 'impress_agents' ), strip_tags( $name ) ),
-			'all_items'				=> sprintf( __( 'All %s', 'impress_agents' ), strip_tags( $name ) ),
-			'edit_item'				=> sprintf( __( 'Edit %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-			'update_item'			=> sprintf( __( 'Update %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-			'add_new_item'			=> sprintf( __( 'Add New %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-			'new_item_name'			=> sprintf( __( 'New %s Name', 'impress_agents' ), strip_tags( $singular_name ) ),
-			'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'impress_agents' ), strip_tags( $name ) ),
-			'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'impress_agents' ), strip_tags( $name ) )
+			'search_items'			=> sprintf( __( 'Search %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+			'popular_items'			=> sprintf( __( 'Popular %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+			'all_items'				=> sprintf( __( 'All %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+			'edit_item'				=> sprintf( __( 'Edit %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+			'update_item'			=> sprintf( __( 'Update %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+			'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+			'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+			'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+			'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
 		);
 
 		$args = array(
@@ -150,7 +150,7 @@ class IMPress_Agents_Taxonomies {
 
 		/** No empty ID */
 		if ( ! isset( $id ) || empty( $id ) )
-			wp_die( __( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'impress_agents' ) );
+			wp_die( __( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
 
 		$options = get_option( $this->settings_field );
 
@@ -158,7 +158,7 @@ class IMPress_Agents_Taxonomies {
 		if ( array_key_exists( $id, (array) $options ) ) {
 			unset( $options[$id] );
 		} else {
-			wp_die( __( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'impress_agents' ) );
+			wp_die( __( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
 		}
 
 		/** Update the DB */
@@ -172,11 +172,11 @@ class IMPress_Agents_Taxonomies {
 
 		/** No empty fields */
 		if ( ! isset( $args['id'] ) || empty( $args['id'] ) )
-			wp_die( __( 'Please complete all required fields.', 'impress_agents' ) );
+			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		if ( ! isset( $args['name'] ) || empty( $args['name'] ) )
-			wp_die( __( 'Please complete all required fields.', 'impress_agents' ) );
+			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		if ( ! isset( $args['singular_name'] ) || empty( $args['singular_name'] ) )
-			wp_die( __( 'Please complete all required fields.', 'impress_agents' ) );
+			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
 
 		extract( $args );
 
@@ -185,15 +185,15 @@ class IMPress_Agents_Taxonomies {
 			'singular_name' 		=> strip_tags( $singular_name ),
 			'menu_name'				=> strip_tags( $name ),
 
-			'search_items'			=> sprintf( __( 'Search %s', 'impress_agents' ), strip_tags( $name ) ),
-			'popular_items'			=> sprintf( __( 'Popular %s', 'impress_agents' ), strip_tags( $name ) ),
-			'all_items'				=> sprintf( __( 'All %s', 'impress_agents' ), strip_tags( $name ) ),
-			'edit_item'				=> sprintf( __( 'Edit %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-			'update_item'			=> sprintf( __( 'Update %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-			'add_new_item'			=> sprintf( __( 'Add New %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-			'new_item_name'			=> sprintf( __( 'New %s Name', 'impress_agents' ), strip_tags( $singular_name ) ),
-			'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'impress_agents' ), strip_tags( $name ) ),
-			'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'impress_agents' ), strip_tags( $name ) )
+			'search_items'			=> sprintf( __( 'Search %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+			'popular_items'			=> sprintf( __( 'Popular %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+			'all_items'				=> sprintf( __( 'All %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+			'edit_item'				=> sprintf( __( 'Edit %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+			'update_item'			=> sprintf( __( 'Update %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+			'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+			'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+			'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+			'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
 		);
 
 		$args = array(
@@ -220,17 +220,17 @@ class IMPress_Agents_Taxonomies {
 		$format = '<div id="message" class="updated"><p><strong>%s</strong></p></div>';
 
 		if ( isset( $_REQUEST['created'] ) && 'true' == $_REQUEST['created'] ) {
-			printf( $format, __('New taxonomy successfully created!', 'impress_agents') );
+			printf( $format, __('New taxonomy successfully created!', 'wp-listings-pro') );
 			return;
 		}
 
 		if ( isset( $_REQUEST['edited'] ) && 'true' == $_REQUEST['edited'] ) {
-			printf( $format, __('Taxonomy successfully edited!', 'impress_agents') );
+			printf( $format, __('Taxonomy successfully edited!', 'wp-listings-pro') );
 			return;
 		}
 
 		if ( isset( $_REQUEST['deleted'] ) && 'true' == $_REQUEST['deleted'] ) {
-			printf( $format, __('Taxonomy successfully deleted.', 'impress_agents') );
+			printf( $format, __('Taxonomy successfully deleted.', 'wp-listings-pro') );
 			return;
 		}
 
@@ -243,8 +243,8 @@ class IMPress_Agents_Taxonomies {
 	 */
 	function employee_job_type_taxonomy() {
 
-		$name = __( 'Job Types', 'impress_agents' );
-		$singular_name = __( 'Job Type', 'impress_agents' );
+		$name = __( 'Job Types', 'wp-listings-pro' );
+		$singular_name = __( 'Job Type', 'wp-listings-pro' );
 
 		return array(
 			'job-types' => array(
@@ -253,18 +253,18 @@ class IMPress_Agents_Taxonomies {
 					'singular_name' 		=> strip_tags( $singular_name ),
 					'menu_name'				=> strip_tags( $name ),
 
-					'search_items'			=> sprintf( __( 'Search %s', 'impress_agents' ), strip_tags( $name ) ),
-					'popular_items'			=> sprintf( __( 'Popular %s', 'impress_agents' ), strip_tags( $name ) ),
-					'all_items'				=> sprintf( __( 'All %s', 'impress_agents' ), strip_tags( $name ) ),
-					'edit_item'				=> sprintf( __( 'Edit %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-					'update_item'			=> sprintf( __( 'Update %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-					'add_new_item'			=> sprintf( __( 'Add New %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-					'new_item_name'			=> sprintf( __( 'New %s Name', 'impress_agents' ), strip_tags( $singular_name ) ),
-					'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'impress_agents' ), strip_tags( $name ) ),
-					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'impress_agents' ), strip_tags( $name ) )
+					'search_items'			=> sprintf( __( 'Search %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+					'popular_items'			=> sprintf( __( 'Popular %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+					'all_items'				=> sprintf( __( 'All %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+					'edit_item'				=> sprintf( __( 'Edit %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+					'update_item'			=> sprintf( __( 'Update %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+					'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+					'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+					'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
 				),
 				'hierarchical' => true,
-				'rewrite'  => array( __( 'job-types', 'impress_agents' ), 'with_front' => false ),
+				'rewrite'  => array( __( 'job-types', 'wp-listings-pro' ), 'with_front' => false ),
 				'editable' => 0,
 				'show_in_rest'  => true,
 				'rest_base'     => 'job-types',
@@ -279,8 +279,8 @@ class IMPress_Agents_Taxonomies {
 	 */
 	function employee_offices_taxonomy() {
 
-		$name = __( 'Offices', 'impress_agents' );
-		$singular_name = __( 'Office', 'impress_agents' );
+		$name = __( 'Offices', 'wp-listings-pro' );
+		$singular_name = __( 'Office', 'wp-listings-pro' );
 
 		return array(
 			'offices' => array(
@@ -289,18 +289,18 @@ class IMPress_Agents_Taxonomies {
 					'singular_name' 		=> strip_tags( $singular_name ),
 					'menu_name'				=> strip_tags( $name ),
 
-					'search_items'			=> sprintf( __( 'Search %s', 'impress_agents' ), strip_tags( $name ) ),
-					'popular_items'			=> sprintf( __( 'Popular %s', 'impress_agents' ), strip_tags( $name ) ),
-					'all_items'				=> sprintf( __( 'All %s', 'impress_agents' ), strip_tags( $name ) ),
-					'edit_item'				=> sprintf( __( 'Edit %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-					'update_item'			=> sprintf( __( 'Update %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-					'add_new_item'			=> sprintf( __( 'Add New %s', 'impress_agents' ), strip_tags( $singular_name ) ),
-					'new_item_name'			=> sprintf( __( 'New %s Name', 'impress_agents' ), strip_tags( $singular_name ) ),
-					'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'impress_agents' ), strip_tags( $name ) ),
-					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'impress_agents' ), strip_tags( $name ) )
+					'search_items'			=> sprintf( __( 'Search %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+					'popular_items'			=> sprintf( __( 'Popular %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+					'all_items'				=> sprintf( __( 'All %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+					'edit_item'				=> sprintf( __( 'Edit %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+					'update_item'			=> sprintf( __( 'Update %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+					'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+					'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
+					'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
 				),
 				'hierarchical' => true,
-				'rewrite' => array( __( 'offices', 'impress_agents' ), 'with_front' => false ),
+				'rewrite' => array( __( 'offices', 'wp-listings-pro' ), 'with_front' => false ),
 				'editable' => 0,
 				'show_in_rest'  => true,
 				'rest_base'     => 'offices',
@@ -384,7 +384,7 @@ class IMPress_Agents_Taxonomies {
 
 	function impress_agents_edit_term_columns( $columns ) {
 
-	    $columns['impa_term_image'] = __( 'Image', 'impress_agents' );
+	    $columns['impa_term_image'] = __( 'Image', 'wp-listings-pro' );
 
 	    return $columns;
 	}
@@ -459,13 +459,13 @@ class IMPress_Agents_Taxonomies {
 	    wp_nonce_field( basename( __FILE__ ), 'impa_term_image_nonce' ); ?>
 
 	    <div class="form-field impa-term-image-wrap">
-	        <label for="impa-term-image"><?php _e( 'Image', 'impress_agents' ); ?></label>
+	        <label for="impa-term-image"><?php _e( 'Image', 'wp-listings-pro' ); ?></label>
 	        <!-- Begin term image -->
 			<p>
 				<input type="hidden" name="impa-term-image" id="impa-term-image" value="<?php echo esc_attr( $image_id ); ?>" />
 				<a href="#" class="impa-add-media impa-add-media-img"><img class="impa-term-image-url" src="" style="max-width: 100%; max-height: 200px; height: auto; display: block;" /></a>
-				<a href="#" class="impa-add-media impa-add-media-text"><?php _e( 'Set term image', 'impress_agents' ); ?></a>
-				<a href="#" class="impa-remove-media"><?php _e( 'Remove term image', 'impress_agents' ); ?></a>
+				<a href="#" class="impa-add-media impa-add-media-text"><?php _e( 'Set term image', 'wp-listings-pro' ); ?></a>
+				<a href="#" class="impa-remove-media"><?php _e( 'Remove term image', 'wp-listings-pro' ); ?></a>
 			</p>
 			<!-- End term image -->
 	    </div>
@@ -483,15 +483,15 @@ class IMPress_Agents_Taxonomies {
 	    	$image_url = ''; ?>
 
 	    <tr class="form-field impa-term-image-wrap">
-	        <th scope="row"><label for="impa-term-image"><?php _e( 'Image', 'impress_agents' ); ?></label></th>
+	        <th scope="row"><label for="impa-term-image"><?php _e( 'Image', 'wp-listings-pro' ); ?></label></th>
 	        <td>
 	            <?php wp_nonce_field( basename( __FILE__ ), 'impa_term_image_nonce' ); ?>
 	            <!-- Begin term image -->
 				<p>
 					<input type="hidden" name="impa-term-image" id="impa-term-image" value="<?php echo esc_attr( $image_id ); ?>" />
 					<a href="#" class="impa-add-media impa-add-media-img"><img class="impa-term-image-url" src="<?php echo esc_url( $image_url ); ?>" style="max-width: 100%; max-height: 200px; height: auto; display: block;" /></a>
-					<a href="#" class="impa-add-media impa-add-media-text"><?php _e( 'Set term image', 'impress_agents' ); ?></a>
-					<a href="#" class="impa-remove-media"><?php _e( 'Remove term image', 'impress_agents' ); ?></a>
+					<a href="#" class="impa-add-media impa-add-media-text"><?php _e( 'Set term image', 'wp-listings-pro' ); ?></a>
+					<a href="#" class="impa-remove-media"><?php _e( 'Remove term image', 'wp-listings-pro' ); ?></a>
 				</p>
 				<!-- End term image -->
 	        </td>

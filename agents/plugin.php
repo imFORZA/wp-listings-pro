@@ -48,7 +48,7 @@ function impress_agents_init() {
 	define( 'IMPRESS_AGENTS_VERSION', '1.1.3' );
 
 	/** Load textdomain for translation */
-	load_plugin_textdomain( 'impress_agents', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'wp-listings-pro', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 
 	/** Includes */
 	require_once( dirname( __FILE__ ) . '/includes/helpers.php' );
@@ -84,8 +84,8 @@ function impress_agents_init() {
 		}
 
         if ( file_exists(dirname( __FILE__ ) . '/includes/css/impress-agents.css') ) {
-        	wp_register_style('impress_agents', IMPRESS_AGENTS_URL . 'includes/css/impress-agents.css', '', null, 'all');
-            wp_enqueue_style('impress_agents');
+        	wp_register_style('wp-listings-pro', IMPRESS_AGENTS_URL . 'includes/css/impress-agents.css', '', null, 'all');
+            wp_enqueue_style('wp-listings-pro');
         }
     }
 
@@ -96,8 +96,8 @@ function impress_agents_init() {
 		wp_enqueue_script( 'impress-agents-admin', IMPRESS_AGENTS_URL . 'includes/js/admin.js', 'media-views' );
 
 		$localize_script = array(
-			'title'        => __( 'Set Term Image', 'impress_agents' ),
-			'button'       => __( 'Set term image', 'impress_agents' )
+			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
+			'button'       => __( 'Set term image', 'wp-listings-pro' )
 		);
 
 		/* Pass custom variables to the script. */

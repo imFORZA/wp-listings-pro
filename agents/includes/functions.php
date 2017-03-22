@@ -292,7 +292,7 @@ function impress_agents_glance_items( $items = array() ) {
             $published = intval( $num_posts->publish );
             $post_type = get_post_type_object( $type );
 
-            $text = _n( '%s ' . $post_type->labels->singular_name, '%s ' . $post_type->labels->name, $published, 'impress_agents' );
+            $text = _n( '%s ' . $post_type->labels->singular_name, '%s ' . $post_type->labels->name, $published, 'wp-listings-pro' );
             $text = sprintf( $text, number_format_i18n( $published ) );
 
             if ( current_user_can( $post_type->cap->edit_posts ) ) {

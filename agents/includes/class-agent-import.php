@@ -274,7 +274,7 @@ class IMPress_Agents_Import {
  */
 add_action( 'admin_menu', 'impress_agents_idx_agent_register_menu_page');
 function impress_agents_idx_agent_register_menu_page() {
-	add_submenu_page( 'edit.php?post_type=employee', __( 'Import Agents', 'impress_agents' ), __( 'Import Agents', 'impress_agents' ), 'manage_options', 'impa-idx-agent', 'impress_agents_idx_agent_setting_page' );
+	add_submenu_page( 'edit.php?post_type=employee', __( 'Import Agents', 'wp-listings-pro' ), __( 'Import Agents', 'wp-listings-pro' ), 'manage_options', 'impa-idx-agent', 'impress_agents_idx_agent_setting_page' );
 	add_action( 'admin_init', 'impress_agents_idx_agent_register_settings' );
 }
 

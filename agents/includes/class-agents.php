@@ -32,33 +32,33 @@ class IMPress_Agents {
 
 		$this->employee_details = apply_filters( 'impress_agents_employee_details', array(
 			'col1' => array(
-				__( 'First Name:', 'impress_agents' ) 		=> '_employee_first_name',
-				__( 'Last Name:', 'impress_agents' ) 		=> '_employee_last_name',
-				__( 'Title:', 'impress_agents' ) 			=> '_employee_title',
-				__( 'Email:', 'impress_agents' )			=> '_employee_email',
-				__( 'Website:', 'impress_agents' )			=> '_employee_website',
-				__( 'Phone:', 'impress_agents' ) 			=> '_employee_phone',
-				__( 'Mobile:', 'impress_agents' ) 			=> '_employee_mobile'
+				__( 'First Name:', 'wp-listings-pro' ) 		=> '_employee_first_name',
+				__( 'Last Name:', 'wp-listings-pro' ) 		=> '_employee_last_name',
+				__( 'Title:', 'wp-listings-pro' ) 			=> '_employee_title',
+				__( 'Email:', 'wp-listings-pro' )			=> '_employee_email',
+				__( 'Website:', 'wp-listings-pro' )			=> '_employee_website',
+				__( 'Phone:', 'wp-listings-pro' ) 			=> '_employee_phone',
+				__( 'Mobile:', 'wp-listings-pro' ) 			=> '_employee_mobile'
 			),
 			'col2' => array(
-				__( 'License #:', 'impress_agents' ) 		=> '_employee_license',
-				__( 'Agent ID:', 'impress_agents' ) 		=> '_employee_agent_id',
-				__( 'Designations:', 'impress_agents' ) 	=> '_employee_designations',
-				__( 'Address:', 'impress_agents' ) 			=> '_employee_address',
-				__( 'City:', 'impress_agents' )				=> '_employee_city',
-				__( 'State:', 'impress_agents' )			=> '_employee_state',
-				__( 'Zip:', 'impress_agents' )				=> '_employee_zip'
+				__( 'License #:', 'wp-listings-pro' ) 		=> '_employee_license',
+				__( 'Agent ID:', 'wp-listings-pro' ) 		=> '_employee_agent_id',
+				__( 'Designations:', 'wp-listings-pro' ) 	=> '_employee_designations',
+				__( 'Address:', 'wp-listings-pro' ) 			=> '_employee_address',
+				__( 'City:', 'wp-listings-pro' )				=> '_employee_city',
+				__( 'State:', 'wp-listings-pro' )			=> '_employee_state',
+				__( 'Zip:', 'wp-listings-pro' )				=> '_employee_zip'
 			),
 		) );
 
 		$this->employee_social = apply_filters( 'impress_agents_employee_social', array(
-				__( 'Facebook URL:', 'impress_agents' ) 	=> '_employee_facebook',
-				__( 'Twitter URL:', 'impress_agents' )		=> '_employee_twitter',
-				__( 'LinkedIn URL:', 'impress_agents' )		=> '_employee_linkedin',
-				__( 'Google+ URL:', 'impress_agents' )		=> '_employee_googleplus',
-				__( 'Pinterest URL:', 'impress_agents' )	=> '_employee_pinterest',
-				__( 'YouTube URL:', 'impress_agents' )		=> '_employee_youtube',
-				__( 'Instagram URL:', 'impress_agents' )	=> '_employee_instagram'
+				__( 'Facebook URL:', 'wp-listings-pro' ) 	=> '_employee_facebook',
+				__( 'Twitter URL:', 'wp-listings-pro' )		=> '_employee_twitter',
+				__( 'LinkedIn URL:', 'wp-listings-pro' )		=> '_employee_linkedin',
+				__( 'Google+ URL:', 'wp-listings-pro' )		=> '_employee_googleplus',
+				__( 'Pinterest URL:', 'wp-listings-pro' )	=> '_employee_pinterest',
+				__( 'YouTube URL:', 'wp-listings-pro' )		=> '_employee_youtube',
+				__( 'Instagram URL:', 'wp-listings-pro' )	=> '_employee_instagram'
 			)
 		);
 
@@ -103,7 +103,7 @@ class IMPress_Agents {
 	 * Adds settings page and IDX Import page to admin menu
 	 */
 	function settings_init() {
-		add_submenu_page( 'edit.php?post_type=employee', __( 'Settings', 'impress_agents' ), __( 'Settings', 'impress_agents' ), 'manage_options', $this->settings_page, array( &$this, 'settings_page' ) );
+		add_submenu_page( 'edit.php?post_type=employee', __( 'Settings', 'wp-listings-pro' ), __( 'Settings', 'wp-listings-pro' ), 'manage_options', $this->settings_page, array( &$this, 'settings_page' ) );
 	}
 
 	/**
@@ -121,21 +121,21 @@ class IMPress_Agents {
 		$args = apply_filters( 'impress_agents_post_type_args',
 			array(
 				'labels' => array(
-					'name'					=> __( 'Employees', 'impress_agents' ),
-					'singular_name'			=> __( 'Employee', 'impress_agents' ),
-					'add_new'				=> __( 'Add New', 'impress_agents' ),
-					'add_new_item'			=> __( 'Add New Employee', 'impress_agents' ),
-					'edit'					=> __( 'Edit', 'impress_agents' ),
-					'edit_item'				=> __( 'Edit Employee', 'impress_agents' ),
-					'new_item'				=> __( 'New Employee', 'impress_agents' ),
-					'view'					=> __( 'View Employee', 'impress_agents' ),
-					'view_item'				=> __( 'View Employee', 'impress_agents' ),
-					'search_items'			=> __( 'Search Employees', 'impress_agents' ),
-					'not_found'				=> __( 'No employees found', 'impress_agents' ),
-					'not_found_in_trash'	=> __( 'No employees found in Trash', 'impress_agents' ),
-					'filter_items_list'     => __( 'Filter Employees', 'impress_agents' ),
-					'items_list_navigation' => __( 'Employees navigation', 'impress_agents' ),
-					'items_list'            => __( 'Employees list', 'impress_agents' )
+					'name'					=> __( 'Employees', 'wp-listings-pro' ),
+					'singular_name'			=> __( 'Employee', 'wp-listings-pro' ),
+					'add_new'				=> __( 'Add New', 'wp-listings-pro' ),
+					'add_new_item'			=> __( 'Add New Employee', 'wp-listings-pro' ),
+					'edit'					=> __( 'Edit', 'wp-listings-pro' ),
+					'edit_item'				=> __( 'Edit Employee', 'wp-listings-pro' ),
+					'new_item'				=> __( 'New Employee', 'wp-listings-pro' ),
+					'view'					=> __( 'View Employee', 'wp-listings-pro' ),
+					'view_item'				=> __( 'View Employee', 'wp-listings-pro' ),
+					'search_items'			=> __( 'Search Employees', 'wp-listings-pro' ),
+					'not_found'				=> __( 'No employees found', 'wp-listings-pro' ),
+					'not_found_in_trash'	=> __( 'No employees found in Trash', 'wp-listings-pro' ),
+					'filter_items_list'     => __( 'Filter Employees', 'wp-listings-pro' ),
+					'items_list_navigation' => __( 'Employees navigation', 'wp-listings-pro' ),
+					'items_list'            => __( 'Employees list', 'wp-listings-pro' )
 				),
 				'public'		=> true,
 				'query_var'		=> true,
@@ -155,7 +155,7 @@ class IMPress_Agents {
 	}
 
 	function register_meta_boxes() {
-		add_meta_box( 'employee_details_metabox', __( 'Employee Info', 'impress_agents' ), array( &$this, 'employee_details_metabox' ), 'employee', 'normal', 'high' );
+		add_meta_box( 'employee_details_metabox', __( 'Employee Info', 'wp-listings-pro' ), array( &$this, 'employee_details_metabox' ), 'employee', 'normal', 'high' );
 	}
 
 	function employee_details_metabox() {
@@ -180,7 +180,7 @@ class IMPress_Agents {
 	    if ( ! current_user_can( 'edit_post', $post_id ) )
 	        return;
 
-	    $employee_details = $_POST['impress_agents'];
+	    $employee_details = $_POST['wp-listings-pro'];
 
 	    /** Store the employee details custom fields */
 	    foreach ( (array) $employee_details as $key => $value ) {
@@ -211,10 +211,10 @@ class IMPress_Agents {
 
 		$columns = array(
 			'cb'					=> '<input type="checkbox" />',
-			'employee_thumbnail'	=> __( 'Thumbnail', 'impress_agents' ),
-			'title'					=> __( 'Employee Name', 'impress_agents' ),
-			'employee_details'		=> __( 'Details', 'impress_agents' ),
-			'employee_tags'			=> __( 'Categories', 'impress_agents' )
+			'employee_thumbnail'	=> __( 'Thumbnail', 'wp-listings-pro' ),
+			'title'					=> __( 'Employee Name', 'wp-listings-pro' ),
+			'employee_details'		=> __( 'Details', 'wp-listings-pro' ),
+			'employee_tags'			=> __( 'Categories', 'wp-listings-pro' )
 		);
 
 		return $columns;
@@ -249,8 +249,8 @@ class IMPress_Agents {
 				}
 				break;
 			case "employee_tags":
-				_e('<b>Job Type:</b> ' . get_the_term_list( $post->ID, 'job-types', '', ', ', '' ) . '<br />', 'impress_agents');
-				_e('<b>Office:</b> ' . get_the_term_list( $post->ID, 'offices', '', ', ', '' ) . '<br />', 'impress_agents');				break;
+				_e('<b>Job Type:</b> ' . get_the_term_list( $post->ID, 'job-types', '', ', ', '' ) . '<br />', 'wp-listings-pro');
+				_e('<b>Office:</b> ' . get_the_term_list( $post->ID, 'offices', '', ', ', '' ) . '<br />', 'wp-listings-pro');				break;
 		}
 
 	}

@@ -434,7 +434,7 @@ class WPL_Idx_Listing {
  */
 add_action( 'admin_menu', 'wp_listings_idx_listing_register_menu_page');
 function wp_listings_idx_listing_register_menu_page() {
-	add_submenu_page( 'edit.php?post_type=listing', __( 'Import IDX Listings', 'wp-listings' ), __( 'Import IDX Listings', 'wp-listings' ), 'manage_options', 'wplistings-idx-listing', 'wp_listings_idx_listing_setting_page' );
+	add_submenu_page( 'edit.php?post_type=listing', __( 'Import IDX Listings', 'wp-listings-pro' ), __( 'Import IDX Listings', 'wp-listings-pro' ), 'manage_options', 'wplistings-idx-listing', 'wp_listings_idx_listing_setting_page' );
 	add_action( 'admin_init', 'wp_listings_idx_listing_register_settings' );
 }
 

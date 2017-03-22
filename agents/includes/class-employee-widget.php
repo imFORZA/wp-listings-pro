@@ -9,9 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class IMPress_Agents_Widget extends WP_Widget {
 
 	function __construct() {
-		$widget_ops = array( 'classname' => 'featured-employee', 'description' => __( 'Display a featured employee or employees contact info.', 'impress_agents' ), 'customize_selective_refresh' => true );
+		$widget_ops = array( 'classname' => 'featured-employee', 'description' => __( 'Display a featured employee or employees contact info.', 'wp-listings-pro' ), 'customize_selective_refresh' => true );
 		$control_ops = array( 'width' => 300, 'height' => 350 );
-		parent::__construct( 'featured-employee', __( 'IMPress Agents', 'impress_agents' ), $widget_ops, $control_ops );
+		parent::__construct( 'featured-employee', __( 'IMPress Agents', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
 
 	function widget( $args, $instance ) {
@@ -124,16 +124,16 @@ class IMPress_Agents_Widget extends WP_Widget {
 		?>
 
 		<p>
-				<label for="<?php echo $this->get_field_id('show_agent'); ?>"><?php _e('Show Agent', 'impress_agents'); ?>:</label>
+				<label for="<?php echo $this->get_field_id('show_agent'); ?>"><?php _e('Show Agent', 'wp-listings-pro'); ?>:</label>
 				<select id="<?php echo $this->get_field_id('show_agent'); ?>" name="<?php echo $this->get_field_name('show_agent'); ?>">
-					<option value="show_selected" <?php selected('show_selected', $instance['show_agent']); ?>><?php _e('Show Agent selected above', 'impress_agents'); ?></option>
-					<option value="show_random" <?php selected('show_random', $instance['show_agent']); ?>><?php _e('Show Random', 'impress_agents'); ?></option>
-					<option value="show_all" <?php selected('show_all', $instance['show_agent']); ?>><?php _e('Show All', 'impress_agents'); ?></option>
+					<option value="show_selected" <?php selected('show_selected', $instance['show_agent']); ?>><?php _e('Show Agent selected above', 'wp-listings-pro'); ?></option>
+					<option value="show_random" <?php selected('show_random', $instance['show_agent']); ?>><?php _e('Show Random', 'wp-listings-pro'); ?></option>
+					<option value="show_all" <?php selected('show_all', $instance['show_agent']); ?>><?php _e('Show All', 'wp-listings-pro'); ?></option>
 				</select>
 		</p>
 
 		<hr>
-		<p><?php _e('If Show Random selected: ', 'impress_agents'); ?></p>
+		<p><?php _e('If Show Random selected: ', 'wp-listings-pro'); ?></p>
 
 			<p>
 				<label for="<?php echo $this->get_field_id('show_number'); ?>"><?php _e('Max number of agents to show:'); ?></label>
@@ -141,23 +141,23 @@ class IMPress_Agents_Widget extends WP_Widget {
 			</p>
 
 		<hr>
-		<p><?php _e('If Show All selected: ', 'impress_agents');?></p>
+		<p><?php _e('If Show All selected: ', 'wp-listings-pro');?></p>
 			<p>
-				<label for="<?php echo $this->get_field_id('orderby'); ?>"><?php _e('Order By', 'impress_agents'); ?>:</label>
+				<label for="<?php echo $this->get_field_id('orderby'); ?>"><?php _e('Order By', 'wp-listings-pro'); ?>:</label>
 				<select id="<?php echo $this->get_field_id('orderby'); ?>" name="<?php echo $this->get_field_name('orderby'); ?>">
-					<option value="date" <?php selected('date', $instance['orderby']); ?>><?php _e('Date', 'impress_agents'); ?></option>
-					<option value="title" <?php selected('title', $instance['orderby']); ?>><?php _e('Title', 'impress_agents'); ?></option>
-					<option value="menu_order" <?php selected('menu_order', $instance['orderby']); ?>><?php _e('Menu Order', 'impress_agents'); ?></option>
-					<option value="ID" <?php selected('ID', $instance['orderby']); ?>><?php _e('ID', 'impress_agents'); ?></option>
-					<option value="rand" <?php selected('rand', $instance['orderby']); ?>><?php _e('Random', 'impress_agents'); ?></option>
+					<option value="date" <?php selected('date', $instance['orderby']); ?>><?php _e('Date', 'wp-listings-pro'); ?></option>
+					<option value="title" <?php selected('title', $instance['orderby']); ?>><?php _e('Title', 'wp-listings-pro'); ?></option>
+					<option value="menu_order" <?php selected('menu_order', $instance['orderby']); ?>><?php _e('Menu Order', 'wp-listings-pro'); ?></option>
+					<option value="ID" <?php selected('ID', $instance['orderby']); ?>><?php _e('ID', 'wp-listings-pro'); ?></option>
+					<option value="rand" <?php selected('rand', $instance['orderby']); ?>><?php _e('Random', 'wp-listings-pro'); ?></option>
 				</select>
 			</p>
 
 			<p>
-				<label for="<?php echo $this->get_field_id('order'); ?>"><?php _e('Sort Order', 'impress_agents'); ?>:</label>
+				<label for="<?php echo $this->get_field_id('order'); ?>"><?php _e('Sort Order', 'wp-listings-pro'); ?>:</label>
 				<select id="<?php echo $this->get_field_id('order'); ?>" name="<?php echo $this->get_field_name('order'); ?>">
-					<option value="DESC" <?php selected('DESC', $instance['order']); ?>><?php _e('Descending (3, 2, 1)', 'impress_agents'); ?></option>
-					<option value="ASC" <?php selected('ASC', $instance['order']); ?>><?php _e('Ascending (1, 2, 3)', 'impress_agents'); ?></option>
+					<option value="DESC" <?php selected('DESC', $instance['order']); ?>><?php _e('Descending (3, 2, 1)', 'wp-listings-pro'); ?></option>
+					<option value="ASC" <?php selected('ASC', $instance['order']); ?>><?php _e('Ascending (1, 2, 3)', 'wp-listings-pro'); ?></option>
 				</select>
 			</p>
 		<?php

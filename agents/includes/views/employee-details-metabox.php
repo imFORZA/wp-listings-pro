@@ -24,7 +24,7 @@ echo '</div>';
 
 $pattern = '<p><label>%s<br /><input type="url" name="impress_agents[%s]" value="%s" style="width:80&#37;;"/></label></p>';
 
-echo '<div style="width: 100%;"><h4>' . __('Social info:', 'impress_agents') . '</h4><hr>';
+echo '<div style="width: 100%;"><h4>' . __('Social info:', 'wp-listings-pro') . '</h4><hr>';
 
 	foreach ( (array) $this->employee_social as $label => $key ) {
 		printf( $pattern, esc_html( $label ), $key, esc_attr( get_post_meta( $post->ID, $key, true ) ) );

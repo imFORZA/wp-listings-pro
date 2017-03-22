@@ -5,7 +5,7 @@
 	Description: Creates a real estate listing management system. Designed to work with any theme using built-in templates.
 	Author: imFORZA
 	Author URI: https://www.imforza.com
-	Text Domain: wp-listings
+	Text Domain: wp-listings-pro
 
 	Version: 2.2.2
 
@@ -72,7 +72,7 @@ function wp_listings_init() {
 	define( 'WP_LISTINGS_VERSION', '2.2.2' );
 
 	/** Load textdomain for translation */
-	load_plugin_textdomain( 'wp-listings', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'wp-listings-pro', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 
 	/** Includes */
 	require_once( dirname( __FILE__ ) . '/includes/helpers.php' );
@@ -172,12 +172,12 @@ function wp_listings_init() {
 			'ajaxurl'    => admin_url( 'admin-ajax.php' ),
 			'nonce'      => wp_create_nonce( $nonce_action ),
 			'wp_version' => $wp_version,
-			'dismiss'    => __( 'Dismiss this notice', 'wp-listings' ),
+			'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
 		) );
 
 		$localize_script = array(
-			'title'        => __( 'Set Term Image', 'wp-listings' ),
-			'button'       => __( 'Set term image', 'wp-listings' )
+			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
+			'button'       => __( 'Set term image', 'wp-listings-pro' )
 		);
 
 		/* Pass custom variables to the script. */
