@@ -234,8 +234,11 @@ class WP_Listings {
 				'posts_per_page'  => -1,
 			));
 			foreach($stuff as $agent){
+				error_log($agent->ID);
 				if( ! isset( $property_details['_employee_responsibility_' . $agent->ID])){
 					$property_details['_employee_responsibility_' . $agent->ID] = 0;
+				}else{
+					$property_details['_employee_responsibility_' . $agent->ID] = 1;
 				}
 			}
 
