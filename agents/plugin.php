@@ -90,7 +90,7 @@ function impress_agents_init() {
 
 	/** Add admin scripts and styles */
 	function impress_agents_admin_scripts_styles() {
-		wp_enqueue_style( 'impress_agents_admin_css', IMPRESS_AGENTS_URL . '../assets/css/impress-agents-admin.css' );
+		wp_enqueue_style( 'impress_agents_admin_css', IMPRESS_AGENTS_URL . '../assets/css/impress-agents-admin.min.css' );
 
 		wp_enqueue_script( 'impress-agents-admin', IMPRESS_AGENTS_URL . '../assets/js/admin.min.js', 'media-views' );
 
