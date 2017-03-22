@@ -225,7 +225,19 @@ class WP_Listings {
 
 	    if ( ! isset( $property_details['_listing_hide_price'] ) ) {
 				$property_details['_listing_hide_price'] = 0;
-		}
+			}
+
+
+			// Making sure null data isn't saved, per client stuff
+			$stuff = get_posts(array(
+				'post_type'       => 'employee',
+				'posts_per_page'  => -1,
+			));
+			foreach($stuff as $agent){
+				if( ! isset( $property_details['_employee_responsibility_' . $agent->ID])){
+					$property_details['_employee_responsibility_' . $agent->ID] = 0;
+				}
+			}
 
 	    /** Store the property details custom fields */
 	    foreach ( (array) $property_details as $key => $value ) {
