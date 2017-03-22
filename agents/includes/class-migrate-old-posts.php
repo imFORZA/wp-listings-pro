@@ -1,27 +1,27 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 /**
  * Migrate Posts from Genesis Agent Profiles to IMPress Agents
+ *
  * @since 1.1.0
-*/
-class IMPress_Agents_Migrate
-{
-	public function __construct()
-	{
+ */
+class IMPress_Agents_Migrate {
+
+	public function __construct() {
 		$post_info = get_posts( array(
 			'post_type' => 'aeprofiles',
-			'nopaging'  => true
+			'nopaging'  => true,
 			)
 		);
-		if (empty($post_info)) {
+		if ( empty( $post_info ) ) {
 			return;
 		}
-		$this->update_post_type($post_info);
+		$this->update_post_type( $post_info );
 	}
 
-	public function update_post_type($post_info)
-	{
+	public function update_post_type( $post_info ) {
 		$meta_keys = array(
 			'_agent_title' 		  => '_employee_title',
 			'_agent_license' 	  => '_employee_license',
@@ -40,15 +40,15 @@ class IMPress_Agents_Migrate
 			'_agent_googleplus'   => '_employee_googleplus',
 			'_agent_pinterest' 	  => '_employee_pinterest',
 			'_agent_youtube' 	  => '_employee_youtube',
-			'_agent_instagram' 	  => '_employee_instagram'
+			'_agent_instagram' 	  => '_employee_instagram',
 			);
 
-		foreach($post_info as $post) {
-			foreach($meta_keys as $old_key => $new_key) {
-				$old_value = get_post_meta($post->ID, $old_key, true);
-				update_post_meta($post->ID, $new_key, $old_value);
+		foreach ( $post_info as $post ) {
+			foreach ( $meta_keys as $old_key => $new_key ) {
+				$old_value = get_post_meta( $post->ID, $old_key, true );
+				update_post_meta( $post->ID, $new_key, $old_value );
 			}
-			set_post_type($post->ID, 'employee');
+			set_post_type( $post->ID, 'employee' );
 		}
 	}
 }

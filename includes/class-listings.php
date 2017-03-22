@@ -6,7 +6,6 @@
 /**
  * This class handles the creation of the "Listings" post type, and creates a
  * UI to display the Listing-specific data on the admin screens.
- *
  */
 class WP_Listings {
 
@@ -26,7 +25,7 @@ class WP_Listings {
 	 */
 	function __construct() {
 
-		$this->options = get_option('plugin_wp_listings_settings');
+		$this->options = get_option( 'plugin_wp_listings_settings' );
 
 		$this->property_details = apply_filters( 'wp_listings_property_details', array(
 			'col1' => array(
@@ -38,7 +37,7 @@ class WP_Listings {
 			    __( 'Country:', 'wp-listings-pro' )					=> '_listing_country',
 			    __( 'ZIP:', 'wp-listings-pro' )						=> '_listing_zip',
 			    __( 'MLS #:', 'wp-listings-pro' ) 					=> '_listing_mls',
-				__( 'Open House Time & Date:', 'wp-listings-pro' ) 	=> '_listing_open_house'
+				__( 'Open House Time & Date:', 'wp-listings-pro' ) 	=> '_listing_open_house',
 			),
 			'col2' => array(
 			    __( 'Year Built:', 'wp-listings-pro' ) 				=> '_listing_year_built',
@@ -49,7 +48,7 @@ class WP_Listings {
 			    __( 'Bathrooms:', 'wp-listings-pro' )				=> '_listing_bathrooms',
 			    __( 'Half Bathrooms:', 'wp-listings-pro' )			=> '_listing_half_bath',
 			    __( 'Garage:', 'wp-listings-pro' )					=> '_listing_garage',
-			    __( 'Pool:', 'wp-listings-pro' )					=> '_listing_pool'
+			    __( 'Pool:', 'wp-listings-pro' )					=> '_listing_pool',
 			),
 		) );
 
@@ -64,7 +63,7 @@ class WP_Listings {
 			    __( 'Fencing:', 'wp-listings-pro' ) 				=> '_listing_fencing',
 				__( 'Interior:', 'wp-listings-pro' ) 				=> '_listing_interior',
 				__( 'Flooring:', 'wp-listings-pro' ) 				=> '_listing_flooring',
-				__( 'Heat/Cool:', 'wp-listings-pro' ) 				=> '_listing_heatcool'
+				__( 'Heat/Cool:', 'wp-listings-pro' ) 				=> '_listing_heatcool',
 			),
 			'col2' => array(
 				__( 'Lot size:', 'wp-listings-pro' ) 				=> '_listing_lotsize',
@@ -77,7 +76,7 @@ class WP_Listings {
 				__( 'Parking:', 'wp-listings-pro' )					=> '_listing_parking',
 				__( 'Rooms:', 'wp-listings-pro' )					=> '_listing_rooms',
 				__( 'Laundry:', 'wp-listings-pro' )					=> '_listing_laundry',
-				__( 'Utilities:', 'wp-listings-pro' )				=> '_listing_utilities'
+				__( 'Utilities:', 'wp-listings-pro' )				=> '_listing_utilities',
 			),
 		) );
 
@@ -112,10 +111,10 @@ class WP_Listings {
 
 		$new_options = array(
 			'wp_listings_archive_posts_num' => 9,
-			'wp_listings_slug' => 'listings'
+			'wp_listings_slug' => 'listings',
 		);
 
-		if ( empty($this->options['wp_listings_slug']) && empty($this->options['wp_listings_archive_posts_num']) )  {
+		if ( empty( $this->options['wp_listings_slug'] ) && empty( $this->options['wp_listings_archive_posts_num'] ) ) {
 			add_option( 'plugin_wp_listings_settings', $new_options );
 		}
 
@@ -157,7 +156,7 @@ class WP_Listings {
 					'not_found_in_trash'	=> __( 'No listings found in Trash', 'wp-listings-pro' ),
 					'filter_items_list'     => __( 'Filter Listings', 'wp-listings-pro' ),
 					'items_list_navigation' => __( 'Listings navigation', 'wp-listings-pro' ),
-					'items_list'            => __( 'Listings list', 'wp-listings-pro' )
+					'items_list'            => __( 'Listings list', 'wp-listings-pro' ),
 				),
 				'public'		=> true,
 				'query_var'		=> true,
@@ -167,7 +166,7 @@ class WP_Listings {
 				'menu_position'	=> 5,
 				'menu_icon'		=> 'dashicons-admin-home',
 				'has_archive'	=> true,
-				'supports'		=> array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown'),
+				'supports'		=> array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown' ),
 				'rewrite'		=> array( 'slug' => $this->options['wp_listings_slug'], 'feeds' => true, 'with_front' => false ),
 			)
 		);
@@ -179,7 +178,6 @@ class WP_Listings {
 	function register_meta_boxes() {
 		add_meta_box( 'listing_details_metabox', __( 'Property Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
-
 
 	}
 
@@ -202,51 +200,57 @@ class WP_Listings {
 	function metabox_save( $post_id, $post ) {
 
 		/** Run only on listings post type save */
-		if ( 'listing' != $post->post_type )
+		if ( 'listing' != $post->post_type ) {
 			return;
+		}
 
-		if ( !isset( $_POST['wp_listings_metabox_nonce'] ) || !wp_verify_nonce( $_POST['wp_listings_metabox_nonce'], 'wp_listings_metabox_save' ) )
+		if ( ! isset( $_POST['wp_listings_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['wp_listings_metabox_nonce'], 'wp_listings_metabox_save' ) ) {
 	        return $post_id;
+		}
 
 	    /** Don't try to save the data under autosave, ajax, or future post */
-	    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-	    if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) return;
-	    if ( defined( 'DOING_CRON' ) && DOING_CRON ) return;
+	    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return;
+		}
+	    if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) { return;
+		}
+	    if ( defined( 'DOING_CRON' ) && DOING_CRON ) { return;
+		}
 
 	    /** Check permissions */
-	    if ( ! current_user_can( 'edit_post', $post_id ) )
+	    if ( ! current_user_can( 'edit_post', $post_id ) ) {
 	        return;
+		}
 
 	    $property_details = $_POST['wp_listings'];
 
-	    if ( ! isset( $property_details['_listing_hide_price'] ) )
+	    if ( ! isset( $property_details['_listing_hide_price'] ) ) {
 				$property_details['_listing_hide_price'] = 0;
+		}
 
 	    /** Store the property details custom fields */
 	    foreach ( (array) $property_details as $key => $value ) {
 
 	        /** Save/Update/Delete */
 	        if ( $value ) {
-	            update_post_meta($post->ID, $key, $value);
+	            update_post_meta( $post->ID, $key, $value );
 	        } else {
-	            delete_post_meta($post->ID, $key);
+	            delete_post_meta( $post->ID, $key );
 	        }
-
-	    }
+		}
 
 	}
 
 	/**
 	 * Filter the columns in the "Listings" screen, define our own.
 	 */
-	function columns_filter ( $columns ) {
+	function columns_filter( $columns ) {
 
 		$columns = array(
 			'cb'					=> '<input type="checkbox" />',
 			'listing_thumbnail'		=> __( 'Thumbnail', 'wp-listings-pro' ),
 			'title'					=> __( 'Listing Title', 'wp-listings-pro' ),
 			'listing_details'		=> __( 'Details', 'wp-listings-pro' ),
-			'listing_tags'			=> __( 'Tags', 'wp-listings-pro' )
+			'listing_tags'			=> __( 'Tags', 'wp-listings-pro' ),
 		);
 
 		return $columns;
@@ -262,29 +266,29 @@ class WP_Listings {
 
 		$image_size = 'style="max-width: 115px;"';
 
-		apply_filters( 'wp_listings_admin_listing_details', $admin_details = $this->property_details['col1']);
+		apply_filters( 'wp_listings_admin_listing_details', $admin_details = $this->property_details['col1'] );
 
-		if (isset($_GET["mode"]) && trim($_GET["mode"]) == 'excerpt' ) {
-			apply_filters( 'wp_listings_admin_extended_details', $admin_details = $this->property_details['col1'] + $this->property_details['col2']);
+		if ( isset( $_GET['mode'] ) && trim( $_GET['mode'] ) == 'excerpt' ) {
+			apply_filters( 'wp_listings_admin_extended_details', $admin_details = $this->property_details['col1'] + $this->property_details['col2'] );
 			$image_size = 'style="max-width: 150px;"';
 		}
 
-		$image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'thumbnail');
+		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );
 
-		switch( $column ) {
-			case "listing_thumbnail":
+		switch ( $column ) {
+			case 'listing_thumbnail':
 				echo '<p><img src="' . $image[0] . '" alt="listing-thumbnail" ' . $image_size . '/></p>';
 				break;
-			case "listing_details":
+			case 'listing_details':
 				foreach ( (array) $admin_details as $label => $key ) {
-					printf( '<b>%s</b> %s<br />', esc_html( $label ), esc_html( get_post_meta($post->ID, $key, true) ) );
+					printf( '<b>%s</b> %s<br />', esc_html( $label ), esc_html( get_post_meta( $post->ID, $key, true ) ) );
 				}
 				break;
-			case "listing_tags":
-				_e('<b>Status</b>: ' . get_the_term_list( $post->ID, 'status', '', ', ', '' ) . '<br />', 'wp-listings-pro');
-				_e('<b>Property Type:</b> ' . get_the_term_list( $post->ID, 'property-types', '', ', ', '' ) . '<br />', 'wp-listings-pro');
-				_e('<b>Location:</b> ' . get_the_term_list( $post->ID, 'locations', '', ', ', '' ) . '<br />', 'wp-listings-pro');
-				_e('<b>Features:</b> ' . get_the_term_list( $post->ID, 'features', '', ', ', '' ), 'wp-listings-pro');
+			case 'listing_tags':
+				_e( '<b>Status</b>: ' . get_the_term_list( $post->ID, 'status', '', ', ', '' ) . '<br />', 'wp-listings-pro' );
+				_e( '<b>Property Type:</b> ' . get_the_term_list( $post->ID, 'property-types', '', ', ', '' ) . '<br />', 'wp-listings-pro' );
+				_e( '<b>Location:</b> ' . get_the_term_list( $post->ID, 'locations', '', ', ', '' ) . '<br />', 'wp-listings-pro' );
+				_e( '<b>Features:</b> ' . get_the_term_list( $post->ID, 'features', '', ', ', '' ), 'wp-listings-pro' );
 				break;
 		}
 
@@ -292,14 +296,16 @@ class WP_Listings {
 
 	/**
 	 * Adds query var on saving post to show notice
+	 *
 	 * @param  [type] $post_id [description]
 	 * @param  [type] $post    [description]
 	 * @param  [type] $update  [description]
 	 * @return [type]          [description]
 	 */
 	function save_post( $post_id, $post, $update ) {
-		if ( 'listing' != $post->post_type )
+		if ( 'listing' != $post->post_type ) {
 			return;
+		}
 
 		add_filter( 'redirect_post_location', array( &$this, 'add_notice_query_var' ), 99 );
 	}
@@ -311,6 +317,7 @@ class WP_Listings {
 
 	/**
 	 * Displays admin notices if show-notice url param exists or edit listing page
+	 *
 	 * @return object current screen
 	 * @uses  wp_listings_admin_notice
 	 */
@@ -318,9 +325,9 @@ class WP_Listings {
 
 		$screen = get_current_screen();
 
-		if ( isset( $_GET['wp-listings-pro']) || $screen->id == 'edit-listing' ) {
+		if ( isset( $_GET['wp-listings-pro'] ) || $screen->id == 'edit-listing' ) {
 
-			if( get_option('wp_listings_import_progress') == true ) {
+			if ( get_option( 'wp_listings_import_progress' ) == true ) {
 				echo wp_listings_admin_notice( __( '<strong>Your listings are being imported in the background. This notice will dismiss when all selected listings have been imported.</strong>', 'wp-listings-pro' ), false, 'activate_plugins', 'wpl_notice_import_progress' );
 			}
 		}

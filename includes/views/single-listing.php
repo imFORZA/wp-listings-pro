@@ -6,28 +6,28 @@
  * @since 0.1.0
  */
 
-add_action('wp_enqueue_scripts', 'enqueue_single_listing_scripts');
+add_action( 'wp_enqueue_scripts', 'enqueue_single_listing_scripts' );
 function enqueue_single_listing_scripts() {
 	wp_enqueue_style( 'wp-listings-single' );
 	wp_enqueue_style( 'font-awesome' );
-	wp_enqueue_script( 'jquery-validate', array('jquery'), true, true );
-	wp_enqueue_script( 'fitvids', array('jquery'), true, true );
-	wp_enqueue_script( 'wp-listings-single', array('jquery, jquery-ui-tabs', 'jquery-validate'), true, true );
+	wp_enqueue_script( 'jquery-validate', array( 'jquery' ), true, true );
+	wp_enqueue_script( 'fitvids', array( 'jquery' ), true, true );
+	wp_enqueue_script( 'wp-listings-single', array( 'jquery, jquery-ui-tabs', 'jquery-validate' ), true, true );
 }
 
 function single_listing_post_content() {
 
 	global $post;
-	$options = get_option('plugin_wp_listings_settings');
+	$options = get_option( 'plugin_wp_listings_settings' );
 
 	?>
 
 	<div itemscope itemtype="http://schema.org/SingleFamilyResidence" class="entry-content wplistings-single-listing">
 
 		<div class="listing-image-wrap">
-			<?php echo '<div itemprop="image" itemscope itemtype="http://schema.org/ImageObject">'. get_the_post_thumbnail( $post->ID, 'listings-full', array('class' => 'single-listing-image', 'itemprop'=>'contentUrl') ) . '</div>';
+			<?php echo '<div itemprop="image" itemscope itemtype="http://schema.org/ImageObject">' . get_the_post_thumbnail( $post->ID, 'listings-full', array( 'class' => 'single-listing-image', 'itemprop' => 'contentUrl' ) ) . '</div>';
 			if ( '' != wp_listings_get_status() ) {
-				printf( '<span class="listing-status %s">%s</span>', strtolower(str_replace(' ', '-', wp_listings_get_status())), wp_listings_get_status() );
+				printf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wp_listings_get_status() ) ), wp_listings_get_status() );
 			}
 			if ( '' != get_post_meta( $post->ID, '_listing_open_house', true ) ) {
 				printf( '<span class="listing-open-house">Open House: %s</span>', get_post_meta( $post->ID, '_listing_open_house', true ) );
@@ -35,12 +35,12 @@ function single_listing_post_content() {
 		</div><!-- .listing-image-wrap -->
 
 		<?php
-		$listing_meta = sprintf( '<ul class="listing-meta">');
+		$listing_meta = sprintf( '<ul class="listing-meta">' );
 
-		if ( get_post_meta($post->ID, '_listing_hide_price', true) == 1 ) {
-			$listing_meta .= (get_post_meta($post->ID, '_listing_price_alt', true)) ? sprintf( '<li class="listing-price">%s</li>', get_post_meta( $post->ID, '_listing_price_alt', true ) ) : '';
+		if ( get_post_meta( $post->ID, '_listing_hide_price', true ) == 1 ) {
+			$listing_meta .= (get_post_meta( $post->ID, '_listing_price_alt', true )) ? sprintf( '<li class="listing-price">%s</li>', get_post_meta( $post->ID, '_listing_price_alt', true ) ) : '';
 		} else {
-			$listing_meta .= sprintf( '<li class="listing-price">%s %s %s</li>', '<span class="currency-symbol">' . $options['wp_listings_currency_symbol'] . '</span>', get_post_meta( $post->ID, '_listing_price', true ), (isset($options['wp_listings_display_currency_code']) && $options['wp_listings_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wp_listings_currency_code'] . '</span>' : '' );
+			$listing_meta .= sprintf( '<li class="listing-price">%s %s %s</li>', '<span class="currency-symbol">' . $options['wp_listings_currency_symbol'] . '</span>', get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wp_listings_display_currency_code'] ) && $options['wp_listings_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wp_listings_currency_code'] . '</span>' : '' );
 		}
 
 		if ( '' != wp_listings_get_property_types() ) {
@@ -67,11 +67,11 @@ function single_listing_post_content() {
 			$listing_meta .= sprintf( '<li class="listing-lot-sqft"><span class="label">Lot Sq Ft: </span>%s</li>', get_post_meta( $post->ID, '_listing_lot_sqft', true ) );
 		}
 
-		$listing_meta .= sprintf( '</ul>');
+		$listing_meta .= sprintf( '</ul>' );
 
 		echo $listing_meta;
 
-		echo (get_post_meta($post->ID, '_listing_courtesy', true)) ? '<p class="wp-listings-courtesy">' . get_post_meta($post->ID, '_listing_courtesy', true) . '</p>' : '';
+		echo (get_post_meta( $post->ID, '_listing_courtesy', true )) ? '<p class="wp-listings-courtesy">' . get_post_meta( $post->ID, '_listing_courtesy', true ) . '</p>' : '';
 
 		?>
 
@@ -83,15 +83,15 @@ function single_listing_post_content() {
 				<li><a href="#listing-details">Details</a></li>
 
 
-				<?php if (get_post_meta( $post->ID, '_listing_gallery', true) != '') { ?>
+				<?php if ( get_post_meta( $post->ID, '_listing_gallery', true ) != '' ) { ?>
 					<li><a href="#listing-gallery">Photos</a></li>
 				<?php } ?>
 
-				<?php if (get_post_meta( $post->ID, '_listing_video', true) != '') { ?>
+				<?php if ( get_post_meta( $post->ID, '_listing_video', true ) != '' ) { ?>
 					<li><a href="#listing-video">Video / Virtual Tour</a></li>
 				<?php } ?>
 
-				<?php if (get_post_meta( $post->ID, '_listing_school_neighborhood', true) != '') { ?>
+				<?php if ( get_post_meta( $post->ID, '_listing_school_neighborhood', true ) != '' ) { ?>
 				<li><a href="#listing-school-neighborhood">Schools &amp; Neighborhood</a></li>
 				<?php } ?>
 			</ul>
@@ -99,16 +99,16 @@ function single_listing_post_content() {
 			<div id="listing-description" itemprop="description">
 				<?php the_content( __( 'View more <span class="meta-nav">&rarr;</span>', 'wp-listings-pro' ) );
 
-				echo (get_post_meta($post->ID, '_listing_featured_on', true)) ? '<p class="wp_listings_featured_on">' . get_post_meta($post->ID, '_listing_featured_on', true) . '</p>' : '';
+				echo (get_post_meta( $post->ID, '_listing_featured_on', true )) ? '<p class="wp_listings_featured_on">' . get_post_meta( $post->ID, '_listing_featured_on', true ) . '</p>' : '';
 
-				if( get_post_meta($post->ID, '_listing_disclaimer', true) ) {
-					echo '<p class="wp-listings-disclaimer">' . get_post_meta($post->ID, '_listing_disclaimer', true) . '</p>';
-				} elseif ($options['wp_listings_global_disclaimer'] != '' && $options['wp_listings_global_disclaimer'] != null) {
+				if ( get_post_meta( $post->ID, '_listing_disclaimer', true ) ) {
+					echo '<p class="wp-listings-disclaimer">' . get_post_meta( $post->ID, '_listing_disclaimer', true ) . '</p>';
+				} elseif ( $options['wp_listings_global_disclaimer'] != '' && $options['wp_listings_global_disclaimer'] != null ) {
 					echo '<p class="wp-listings-disclaimer">' . $options['wp_listings_global_disclaimer'] . '</p>';
 				}
 
-				if(class_exists('Idx_Broker_Plugin') && $options['wp_listings_display_idx_link'] == true && get_post_meta($post->ID, '_listing_details_url', true)) {
-					echo '<a href="' . get_post_meta($post->ID, '_listing_details_url', true) . '" title="' . get_post_meta($post->ID, '_listing_mls', true) . '">View full listing details</a>';
+				if ( class_exists( 'Idx_Broker_Plugin' ) && $options['wp_listings_display_idx_link'] == true && get_post_meta( $post->ID, '_listing_details_url', true ) ) {
+					echo '<a href="' . get_post_meta( $post->ID, '_listing_details_url', true ) . '" title="' . get_post_meta( $post->ID, '_listing_mls', true ) . '">View full listing details</a>';
 				}
 				?>
 			</div><!-- #listing-description -->
@@ -121,96 +121,96 @@ function single_listing_post_content() {
 
 					echo '<table class="listing-details">';
 
-                    echo '<tbody class="left">';
-                    if ( get_post_meta($post->ID, '_listing_hide_price', true) == 1 ) {
-                    	echo (get_post_meta($post->ID, '_listing_price_alt', true)) ? '<tr class="wp_listings_listing_price"><td class="label">' . __('Price:', 'wp-listings-pro') . '</td><td>'.get_post_meta( $post->ID, '_listing_price_alt', true) .'</td></tr>' : '';
-                	} elseif(get_post_meta($post->ID, '_listing_price', true)) {
-                    	echo '<tr class="wp_listings_listing_price"><td class="label">' . __('Price:', 'wp-listings-pro') . '</td><td><span class="currency-symbol">' . $options['wp_listings_currency_symbol'] . '</span>';
-                    	echo get_post_meta( $post->ID, '_listing_price', true) . ' ';
-                    	echo (isset($options['wp_listings_display_currency_code']) && $options['wp_listings_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wp_listings_currency_code'] . '</span>' : '';
-                    	echo '</td></tr>';
-                	}
-                    echo '<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">';
-                    echo (get_post_meta($post->ID, '_listing_address', true)) ? '<tr class="wp_listings_listing_address"><td class="label">' . __('Address:', 'wp-listings-pro') . '</td><td itemprop="streetAddress">'.get_post_meta( $post->ID, '_listing_address', true) .'</td></tr>' : '';
-                    echo (get_post_meta($post->ID, '_listing_city', true)) ? '<tr class="wp_listings_listing_city"><td class="label">' . __('City:', 'wp-listings-pro') . '</td><td itemprop="addressLocality">'.get_post_meta( $post->ID, '_listing_city', true) .'</td></tr>' : '';
-                    echo (get_post_meta($post->ID, '_listing_county', true)) ? '<tr class="wp_listings_listing_county"><td class="label">' . __('County:', 'wp-listings-pro') . '</td><td>'.get_post_meta( $post->ID, '_listing_county', true) .'</td></tr>' : '';
-                    echo (get_post_meta($post->ID, '_listing_state', true)) ? '<tr class="wp_listings_listing_state"><td class="label">' . __('State:', 'wp-listings-pro') . '</td><td itemprop="addressRegion">'.get_post_meta( $post->ID, '_listing_state', true) .'</td></tr>' : '';
-                    echo (get_post_meta($post->ID, '_listing_zip', true)) ? '<tr class="wp_listings_listing_zip"><td class="label">' . __('Zip Code:', 'wp-listings-pro') . '</td><td itemprop="postalCode">'.get_post_meta( $post->ID, '_listing_zip', true) .'</td></tr>' : '';
-                    echo '</div>';
-                    echo (get_post_meta($post->ID, '_listing_mls', true)) ? '<tr class="wp_listings_listing_mls"><td class="label">MLS:</td><td>'.get_post_meta( $post->ID, '_listing_mls', true) .'</td></tr>' : '';
-                    echo '</tbody>';
+					echo '<tbody class="left">';
+				if ( get_post_meta( $post->ID, '_listing_hide_price', true ) == 1 ) {
+					echo (get_post_meta( $post->ID, '_listing_price_alt', true )) ? '<tr class="wp_listings_listing_price"><td class="label">' . __( 'Price:', 'wp-listings-pro' ) . '</td><td>' . get_post_meta( $post->ID, '_listing_price_alt', true ) . '</td></tr>' : '';
+				} elseif ( get_post_meta( $post->ID, '_listing_price', true ) ) {
+					echo '<tr class="wp_listings_listing_price"><td class="label">' . __( 'Price:', 'wp-listings-pro' ) . '</td><td><span class="currency-symbol">' . $options['wp_listings_currency_symbol'] . '</span>';
+					echo get_post_meta( $post->ID, '_listing_price', true ) . ' ';
+					echo (isset( $options['wp_listings_display_currency_code'] ) && $options['wp_listings_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wp_listings_currency_code'] . '</span>' : '';
+					echo '</td></tr>';
+				}
+					echo '<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">';
+					echo (get_post_meta( $post->ID, '_listing_address', true )) ? '<tr class="wp_listings_listing_address"><td class="label">' . __( 'Address:', 'wp-listings-pro' ) . '</td><td itemprop="streetAddress">' . get_post_meta( $post->ID, '_listing_address', true ) . '</td></tr>' : '';
+					echo (get_post_meta( $post->ID, '_listing_city', true )) ? '<tr class="wp_listings_listing_city"><td class="label">' . __( 'City:', 'wp-listings-pro' ) . '</td><td itemprop="addressLocality">' . get_post_meta( $post->ID, '_listing_city', true ) . '</td></tr>' : '';
+					echo (get_post_meta( $post->ID, '_listing_county', true )) ? '<tr class="wp_listings_listing_county"><td class="label">' . __( 'County:', 'wp-listings-pro' ) . '</td><td>' . get_post_meta( $post->ID, '_listing_county', true ) . '</td></tr>' : '';
+					echo (get_post_meta( $post->ID, '_listing_state', true )) ? '<tr class="wp_listings_listing_state"><td class="label">' . __( 'State:', 'wp-listings-pro' ) . '</td><td itemprop="addressRegion">' . get_post_meta( $post->ID, '_listing_state', true ) . '</td></tr>' : '';
+					echo (get_post_meta( $post->ID, '_listing_zip', true )) ? '<tr class="wp_listings_listing_zip"><td class="label">' . __( 'Zip Code:', 'wp-listings-pro' ) . '</td><td itemprop="postalCode">' . get_post_meta( $post->ID, '_listing_zip', true ) . '</td></tr>' : '';
+					echo '</div>';
+					echo (get_post_meta( $post->ID, '_listing_mls', true )) ? '<tr class="wp_listings_listing_mls"><td class="label">MLS:</td><td>' . get_post_meta( $post->ID, '_listing_mls', true ) . '</td></tr>' : '';
+					echo '</tbody>';
 
 					echo '<tbody class="right">';
-					foreach ( (array) $details_instance->property_details['col2'] as $label => $key ) {
-						$detail_value = esc_html( get_post_meta($post->ID, $key, true) );
-						if (! empty( $detail_value ) ) :
-							printf( $pattern, $key, esc_html( $label ), $detail_value );
+				foreach ( (array) $details_instance->property_details['col2'] as $label => $key ) {
+					$detail_value = esc_html( get_post_meta( $post->ID, $key, true ) );
+					if ( ! empty( $detail_value ) ) :
+						printf( $pattern, $key, esc_html( $label ), $detail_value );
 						endif;
-					}
+				}
 					echo '</tbody>';
 
 					echo '</table>';
 
 					echo '<table class="listing-details extended">';
 					echo '<tbody class="left">';
-					foreach ( (array) $details_instance->extended_property_details['col1'] as $label => $key ) {
-						$detail_value = esc_html( get_post_meta($post->ID, $key, true) );
-						if (! empty( $detail_value ) ) :
-							printf( $pattern, $key, esc_html( $label ), $detail_value );
+				foreach ( (array) $details_instance->extended_property_details['col1'] as $label => $key ) {
+					$detail_value = esc_html( get_post_meta( $post->ID, $key, true ) );
+					if ( ! empty( $detail_value ) ) :
+						printf( $pattern, $key, esc_html( $label ), $detail_value );
 						endif;
-					}
+				}
 					echo '</tbody>';
 					echo '<tbody class="right">';
-					foreach ( (array) $details_instance->extended_property_details['col2'] as $label => $key ) {
-						$detail_value = esc_html( get_post_meta($post->ID, $key, true) );
-						if (! empty( $detail_value ) ) :
-							printf( $pattern, $key, esc_html( $label ), $detail_value );
+				foreach ( (array) $details_instance->extended_property_details['col2'] as $label => $key ) {
+					$detail_value = esc_html( get_post_meta( $post->ID, $key, true ) );
+					if ( ! empty( $detail_value ) ) :
+						printf( $pattern, $key, esc_html( $label ), $detail_value );
 						endif;
-					}
+				}
 					echo '</tbody>';
 					echo '</table>';
 
-				if(get_the_term_list( get_the_ID(), 'features', '<li>', '</li><li>', '</li>' ) != null) {
-					echo '<h5>' . __('Tagged Features:', 'wp-listings-pro') . '</h5><ul class="tagged-features">';
+				if ( get_the_term_list( get_the_ID(), 'features', '<li>', '</li><li>', '</li>' ) != null ) {
+					echo '<h5>' . __( 'Tagged Features:', 'wp-listings-pro' ) . '</h5><ul class="tagged-features">';
 					echo get_the_term_list( get_the_ID(), 'features', '<li>', '</li><li>', '</li>' );
 					echo '</ul><!-- .tagged-features -->';
 				}
 
-				if ( get_post_meta( $post->ID, '_listing_home_sum', true) != '' || get_post_meta( $post->ID, '_listing_kitchen_sum', true) != '' || get_post_meta( $post->ID, '_listing_living_room', true) != '' || get_post_meta( $post->ID, '_listing_master_suite', true) != '') { ?>
+				if ( get_post_meta( $post->ID, '_listing_home_sum', true ) != '' || get_post_meta( $post->ID, '_listing_kitchen_sum', true ) != '' || get_post_meta( $post->ID, '_listing_living_room', true ) != '' || get_post_meta( $post->ID, '_listing_master_suite', true ) != '' ) { ?>
 					<div class="additional-features">
 						<h4>Additional Features</h4>
-						<h6 class="label"><?php _e("Home Summary", 'wp-listings-pro'); ?></h6>
-						<p class="value"><?php echo do_shortcode(get_post_meta( $post->ID, '_listing_home_sum', true)); ?></p>
-						<h6 class="label"><?php _e("Kitchen Summary", 'wp-listings-pro'); ?></h6>
-						<p class="value"><?php echo do_shortcode(get_post_meta( $post->ID, '_listing_kitchen_sum', true)); ?></p>
-						<h6 class="label"><?php _e("Living Room", 'wp-listings-pro'); ?></h6>
-						<p class="value"><?php echo do_shortcode(get_post_meta( $post->ID, '_listing_living_room', true)); ?></p>
-						<h6 class="label"><?php _e("Master Suite", 'wp-listings-pro'); ?></h6>
-						<p class="value"><?php echo do_shortcode(get_post_meta( $post->ID, '_listing_master_suite', true)); ?></p>
+						<h6 class="label"><?php _e( 'Home Summary', 'wp-listings-pro' ); ?></h6>
+						<p class="value"><?php echo do_shortcode( get_post_meta( $post->ID, '_listing_home_sum', true ) ); ?></p>
+						<h6 class="label"><?php _e( 'Kitchen Summary', 'wp-listings-pro' ); ?></h6>
+						<p class="value"><?php echo do_shortcode( get_post_meta( $post->ID, '_listing_kitchen_sum', true ) ); ?></p>
+						<h6 class="label"><?php _e( 'Living Room', 'wp-listings-pro' ); ?></h6>
+						<p class="value"><?php echo do_shortcode( get_post_meta( $post->ID, '_listing_living_room', true ) ); ?></p>
+						<h6 class="label"><?php _e( 'Master Suite', 'wp-listings-pro' ); ?></h6>
+						<p class="value"><?php echo do_shortcode( get_post_meta( $post->ID, '_listing_master_suite', true ) ); ?></p>
 					</div><!-- .additional-features -->
 				<?php
 				} ?>
 
 			</div><!-- #listing-details -->
 
-			<?php if (get_post_meta( $post->ID, '_listing_gallery', true) != '') { ?>
+			<?php if ( get_post_meta( $post->ID, '_listing_gallery', true ) != '' ) { ?>
 			<div id="listing-gallery">
-				<?php echo do_shortcode(get_post_meta( $post->ID, '_listing_gallery', true)); ?>
+				<?php echo do_shortcode( get_post_meta( $post->ID, '_listing_gallery', true ) ); ?>
 			</div><!-- #listing-gallery -->
 			<?php } ?>
 
-			<?php if (get_post_meta( $post->ID, '_listing_video', true) != '') { ?>
+			<?php if ( get_post_meta( $post->ID, '_listing_video', true ) != '' ) { ?>
 			<div id="listing-video">
 				<div class="iframe-wrap">
-				<?php echo do_shortcode(get_post_meta( $post->ID, '_listing_video', true)); ?>
+				<?php echo do_shortcode( get_post_meta( $post->ID, '_listing_video', true ) ); ?>
 				</div>
 			</div><!-- #listing-video -->
 			<?php } ?>
 
-			<?php if (get_post_meta( $post->ID, '_listing_school_neighborhood', true) != '') { ?>
+			<?php if ( get_post_meta( $post->ID, '_listing_school_neighborhood', true ) != '' ) { ?>
 			<div id="listing-school-neighborhood">
 				<p>
-				<?php echo do_shortcode(get_post_meta( $post->ID, '_listing_school_neighborhood', true)); ?>
+				<?php echo do_shortcode( get_post_meta( $post->ID, '_listing_school_neighborhood', true ) ); ?>
 				</p>
 			</div><!-- #listing-school-neighborhood -->
 			<?php } ?>
@@ -218,22 +218,21 @@ function single_listing_post_content() {
 		</div><!-- #listing-tabs.listing-data -->
 
 		<?php
-			if (get_post_meta( $post->ID, '_listing_map', true) != '') {
-				echo '<div id="listing-map"><h3>Location Map</h3>';
-				echo do_shortcode(get_post_meta( $post->ID, '_listing_map', true) );
-				echo '</div><!-- .listing-map -->';
-			}
-			elseif(get_post_meta( $post->ID, '_listing_latitude', true) && get_post_meta( $post->ID, '_listing_longitude', true) && get_post_meta( $post->ID, '_listing_automap', true) == 'y') {
+		if ( get_post_meta( $post->ID, '_listing_map', true ) != '' ) {
+			echo '<div id="listing-map"><h3>Location Map</h3>';
+			echo do_shortcode( get_post_meta( $post->ID, '_listing_map', true ) );
+			echo '</div><!-- .listing-map -->';
+		} elseif ( get_post_meta( $post->ID, '_listing_latitude', true ) && get_post_meta( $post->ID, '_listing_longitude', true ) && get_post_meta( $post->ID, '_listing_automap', true ) == 'y' ) {
 
-				$map_info_content = sprintf('<p style="font-size: 14px; margin-bottom: 0;">%s<br />%s %s, %s</p>', get_post_meta( $post->ID, '_listing_address', true), get_post_meta( $post->ID, '_listing_city', true), get_post_meta( $post->ID, '_listing_state', true), get_post_meta( $post->ID, '_listing_zip', true));
+			$map_info_content = sprintf( '<p style="font-size: 14px; margin-bottom: 0;">%s<br />%s %s, %s</p>', get_post_meta( $post->ID, '_listing_address', true ), get_post_meta( $post->ID, '_listing_city', true ), get_post_meta( $post->ID, '_listing_state', true ), get_post_meta( $post->ID, '_listing_zip', true ) );
 
-				($options['wp_listings_gmaps_api_key']) ? $map_key = $options['wp_listings_gmaps_api_key'] : $map_key = '';
+			($options['wp_listings_gmaps_api_key']) ? $map_key = $options['wp_listings_gmaps_api_key'] : $map_key = '';
 
-				echo '<script src="https://maps.googleapis.com/maps/api/js?key=' . $map_key . '"></script>
+			echo '<script src="https://maps.googleapis.com/maps/api/js?key=' . $map_key . '"></script>
 				<script>
 					function initialize() {
 						var mapCanvas = document.getElementById(\'map-canvas\');
-						var myLatLng = new google.maps.LatLng(' . get_post_meta( $post->ID, '_listing_latitude', true) . ', ' . get_post_meta( $post->ID, '_listing_longitude', true) . ')
+						var myLatLng = new google.maps.LatLng(' . get_post_meta( $post->ID, '_listing_latitude', true ) . ', ' . get_post_meta( $post->ID, '_listing_longitude', true ) . ')
 						var mapOptions = {
 							center: myLatLng,
 							zoom: 14,
@@ -260,39 +259,39 @@ function single_listing_post_content() {
 					google.maps.event.addDomListener(window, \'load\', initialize);
 				</script>
 				';
-				echo '<div id="listing-map"><h3>Location Map</h3><div id="map-canvas" style="width: 100%; height: 350px;"></div></div><!-- .listing-map -->';
-			}
+			echo '<div id="listing-map"><h3>Location Map</h3><div id="map-canvas" style="width: 100%; height: 350px;"></div></div><!-- .listing-map -->';
+		}
 		?>
 
 		<?php
-			if (function_exists('_p2p_init') && function_exists('agent_profiles_init') ) {
-				if(impa_has_listings($post->ID)) {
-					echo'<div id="listing-agent">
+		if ( function_exists( '_p2p_init' ) && function_exists( 'agent_profiles_init' ) ) {
+			if ( impa_has_listings( $post->ID ) ) {
+				echo'<div id="listing-agent">
 					<div class="connected-agents">';
-					aeprofiles_connected_agents_markup();
-					echo '</div></div><!-- .listing-agent -->';
-				}
-			} elseif (function_exists('_p2p_init') && function_exists('impress_agents_init') ) {
-				if(impa_has_listings($post->ID)) {
-					echo'<div id="listing-agent">
-					<div class="connected-agents">';
-					impa_connected_agents_markup();
-					echo '</div></div><!-- .listing-agent -->';
-				}
+				aeprofiles_connected_agents_markup();
+				echo '</div></div><!-- .listing-agent -->';
 			}
+		} elseif ( function_exists( '_p2p_init' ) && function_exists( 'impress_agents_init' ) ) {
+			if ( impa_has_listings( $post->ID ) ) {
+				echo'<div id="listing-agent">
+					<div class="connected-agents">';
+				impa_connected_agents_markup();
+				echo '</div></div><!-- .listing-agent -->';
+			}
+		}
 		?>
 
 		<div id="listing-contact">
 
 			<?php
 
-			if (get_post_meta( $post->ID, '_listing_contact_form', true) != '') {
+			if ( get_post_meta( $post->ID, '_listing_contact_form', true ) != '' ) {
 
-				echo do_shortcode(get_post_meta( $post->ID, '_listing_contact_form', true) );
+				echo do_shortcode( get_post_meta( $post->ID, '_listing_contact_form', true ) );
 
-			} elseif (isset($options['wp_listings_default_form']) && $options['wp_listings_default_form'] != '') {
+			} elseif ( isset( $options['wp_listings_default_form'] ) && $options['wp_listings_default_form'] != '' ) {
 
-				echo do_shortcode($options['wp_listings_default_form']);
+				echo do_shortcode( $options['wp_listings_default_form'] );
 
 			} else {
 
@@ -302,55 +301,55 @@ function single_listing_post_content() {
 				$emailError = '';
 				$response = '';
 
-				if(isset($_POST['submitted'])) {
+				if ( isset( $_POST['submitted'] ) ) {
 
 					$url = get_permalink();
 					$listing = get_the_title();
 
-					if(trim($_POST['firstName']) === '') {
+					if ( trim( $_POST['firstName'] ) === '' ) {
 						$firstNameError = 'Please enter your first name.';
 						$hasError = true;
 					} else {
-						$firstName = esc_html(trim($_POST['firstName']));
+						$firstName = esc_html( trim( $_POST['firstName'] ) );
 					}
 
-					if(trim($_POST['lastName']) === '') {
+					if ( trim( $_POST['lastName'] ) === '' ) {
 						$lastNameError = 'Please enter your last name.';
 						$hasError = true;
 					} else {
-						$lastName = esc_html(trim($_POST['lastName']));
+						$lastName = esc_html( trim( $_POST['lastName'] ) );
 					}
 
-					if(trim($_POST['email']) === '')  {
+					if ( trim( $_POST['email'] ) === '' ) {
 						$emailError = 'Please enter your email address.';
 						$hasError = true;
-					} else if (!is_email(trim($_POST['email']))) {
+					} elseif ( ! is_email( trim( $_POST['email'] ) ) ) {
 						$emailError = 'You entered an invalid email address.';
 						$hasError = true;
 					} else {
-						$email = esc_html(trim($_POST['email']));
+						$email = esc_html( trim( $_POST['email'] ) );
 					}
 
-					$phone = esc_html(trim($_POST['phone']));
+					$phone = esc_html( trim( $_POST['phone'] ) );
 
-					if(function_exists('stripslashes')) {
-						$comments = esc_html(stripslashes(trim($_POST['comments'])));
+					if ( function_exists( 'stripslashes' ) ) {
+						$comments = esc_html( stripslashes( trim( $_POST['comments'] ) ) );
 					} else {
-						$comments = esc_html(trim($_POST['comments']));
+						$comments = esc_html( trim( $_POST['comments'] ) );
 					}
 
-					if($options['wp_listings_captcha_site_key'] != '' && $options['wp_listings_captcha_secret_key'] != '') {
+					if ( $options['wp_listings_captcha_site_key'] != '' && $options['wp_listings_captcha_secret_key'] != '' ) {
 						require_once( WP_LISTINGS_DIR . '/includes/recaptcha.php' );
 
 						// your secret key
 						$secret = $options['wp_listings_captcha_secret_key'];
 
-						$gRecaptchaResponse = $_POST["g-recaptcha-response"];
-						$remoteIp = $_SERVER["REMOTE_ADDR"];
+						$gRecaptchaResponse = $_POST['g-recaptcha-response'];
+						$remoteIp = $_SERVER['REMOTE_ADDR'];
 
-						$recaptcha = new \ReCaptcha\ReCaptcha($secret);
-						$resp = $recaptcha->verify($gRecaptchaResponse, $remoteIp);
-						if ($resp->isSuccess()) {
+						$recaptcha = new \ReCaptcha\ReCaptcha( $secret );
+						$resp = $recaptcha->verify( $gRecaptchaResponse, $remoteIp );
+						if ( $resp->isSuccess() ) {
 						    // verified!
 						    $emailSent = true;
 						} else {
@@ -359,67 +358,67 @@ function single_listing_post_content() {
 						}
 					}
 
-					if(isset($_POST['antispam']) && $_POST['antispam'] == '' || $resp != null && $resp->isSuccess()) {
-						if(!isset($hasError)) {
+					if ( isset( $_POST['antispam'] ) && $_POST['antispam'] == '' || $resp != null && $resp->isSuccess() ) {
+						if ( ! isset( $hasError ) ) {
 							$emailTo = get_the_author_meta( 'user_email', $post->post_author );
-							if (!isset($emailTo) || ($emailTo == '') ){
-								$emailTo = get_option('admin_email');
+							if ( ! isset( $emailTo ) || ($emailTo == '') ) {
+								$emailTo = get_option( 'admin_email' );
 							}
-							$subject = 'Listing Inquiry from '. $firstName . ' ' . $lastName;
-							$body = 'Name: ' . $firstName . ' ' . $lastName . "\n\n" .'Email: ' . $email . "\n\n" . 'Phone: ' . $phone . "\n\n" . 'Listing: ' . $listing . "\n\n" . 'URL: ' . $url . "\n\n" .'Comments: ' . $comments;
-							$headers = 'From: '.$firstName . ' ' . $lastName .' <'.$emailTo.'>' . "\r\n" . 'Reply-To: ' . $email;
+							$subject = 'Listing Inquiry from ' . $firstName . ' ' . $lastName;
+							$body = 'Name: ' . $firstName . ' ' . $lastName . "\n\n" . 'Email: ' . $email . "\n\n" . 'Phone: ' . $phone . "\n\n" . 'Listing: ' . $listing . "\n\n" . 'URL: ' . $url . "\n\n" . 'Comments: ' . $comments;
+							$headers = 'From: ' . $firstName . ' ' . $lastName . ' <' . $emailTo . '>' . "\r\n" . 'Reply-To: ' . $email;
 
-							wp_mail($emailTo, $subject, $body, $headers);
+							wp_mail( $emailTo, $subject, $body, $headers );
 
 							// If option is set. PUT or POST contact form data to IDX as a lead or lead note
-							if($options['wp_listings_idx_lead_form'] == 1) {
+							if ( $options['wp_listings_idx_lead_form'] == 1 ) {
 								$lead_data = array(
 									'firstName' => $firstName,
 									'lastName'  => $lastName,
 									'email'		=> $email,
-									'phone'		=> (isset($phone)) ? $phone : ''
+									'phone'		=> (isset( $phone )) ? $phone : '',
 								);
 								$api_url = 'https://api.idxbroker.com/leads/lead';
 								$args = array(
 									'method' => 'PUT',
 									'headers' => array(
 										'content-type' => 'application/x-www-form-urlencoded',
-										'accesskey'    => get_option('idx_broker_apikey'),
-										'outputtype'   => 'json'
+										'accesskey'    => get_option( 'idx_broker_apikey' ),
+										'outputtype'   => 'json',
 									),
 									'sslverify' => false,
-									'body'		=> http_build_query($lead_data)
+									'body'		=> http_build_query( $lead_data ),
 								);
-								$response = wp_remote_request($api_url, $args);
+								$response = wp_remote_request( $api_url, $args );
 
 								// Check for error then add note
-								if (is_wp_error($response)) {
+								if ( is_wp_error( $response ) ) {
 									$hasError = true;
 								} else {
 
-									$decoded_response = json_decode($response['body']);
+									$decoded_response = json_decode( $response['body'] );
 									$note = array(
-										'note' => (isset($comments) && $comments != '') ? 'I\'m interested in this listing: <a href="' . $url . '">' . $listing . '</a>' . "\n\n" . 'Comments: ' . $comments : 'I\'m interested in this listing: <a href="' . $url . '">' . $listing . '</a>'
+										'note' => (isset( $comments ) && $comments != '') ? 'I\'m interested in this listing: <a href="' . $url . '">' . $listing . '</a>' . "\n\n" . 'Comments: ' . $comments : 'I\'m interested in this listing: <a href="' . $url . '">' . $listing . '</a>',
 									);
 
 									// Add note if lead already exists
-									if($decoded_response == 'Lead already exists.') {
-										$args = array_replace($args, array('method' => 'GET', 'body' => null));
+									if ( $decoded_response == 'Lead already exists.' ) {
+										$args = array_replace( $args, array( 'method' => 'GET', 'body' => null ) );
 
 										// Get leads
-										if ( false === ( $all_leads = get_transient('idx_leads') ) ) {
-											$response = wp_remote_request($api_url, $args);
-											$all_leads = json_decode($response['body'], 1);
-											set_transient('idx_leads', $all_leads, 60*60*1);
+										if ( false === ( $all_leads = get_transient( 'idx_leads' ) ) ) {
+											$response = wp_remote_request( $api_url, $args );
+											$all_leads = json_decode( $response['body'], 1 );
+											set_transient( 'idx_leads', $all_leads, 60 * 60 * 1 );
 										}
 
 										// Loop through leads to match email address
-										foreach($all_leads as $leads => $lead) {
-											if($lead['email'] == $email) {
+										foreach ( $all_leads as $leads => $lead ) {
+											if ( $lead['email'] == $email ) {
 												$api_url = 'https://api.idxbroker.com/leads/note/' . $lead['id'];
-												$args = array_replace($args, array('method' => 'PUT', 'body' => http_build_query($note)));
-												$response = wp_remote_request($api_url, $args);
-												if (is_wp_error($response)) {
+												$args = array_replace( $args, array( 'method' => 'PUT', 'body' => http_build_query( $note ) ) );
+												$response = wp_remote_request( $api_url, $args );
+												if ( is_wp_error( $response ) ) {
 													$hasError = true;
 												}
 											}
@@ -428,9 +427,9 @@ function single_listing_post_content() {
 										// Add note for new lead
 										$lead_id = $decoded_response->newID;
 										$api_url = 'https://api.idxbroker.com/leads/note/' . $lead_id;
-										$args = array_replace($args, array('body' => http_build_query($note)));
-										$response = wp_remote_request($api_url, $args);
-										if (is_wp_error($response)) {
+										$args = array_replace( $args, array( 'body' => http_build_query( $note ) ) );
+										$response = wp_remote_request( $api_url, $args );
+										if ( is_wp_error( $response ) ) {
 											$hasError = true;
 										}
 									}
@@ -444,13 +443,13 @@ function single_listing_post_content() {
 				}
 				?>
 
-			<?php if(isset($emailSent) && $emailSent == true) {	?>
+			<?php if ( isset( $emailSent ) && $emailSent == true ) {	?>
 				<div class="thanks">
 					<a name="redirectTo"></a>
 					<p>Thanks, your message was sent! We'll be in touch shortly.</p>
 				</div>
 			<?php } else { ?>
-				<?php if(isset($hasError)) { ?>
+				<?php if ( isset( $hasError ) ) { ?>
 					<a name="redirectTo"></a>
 					<label class="error" name="redirectTo">Sorry, an error occured. Please try again.<label>
 				<?php } ?>
@@ -459,40 +458,40 @@ function single_listing_post_content() {
 					<ul class="inquiry-form">
 						<li class="firstName">
 							<label for="firstName">First name: <span class="required">*</span></label>
-							<input type="text" name="firstName" id="firstName" value="<?php if(isset($_POST['firstName'])) echo esc_html($_POST['firstName']);?>" class="required requiredField" />
-							<?php if($firstNameError != '') { ?>
-								<label class="error"><?=$firstNameError;?></label>
+							<input type="text" name="firstName" id="firstName" value="<?php if ( isset( $_POST['firstName'] ) ) { echo esc_html( $_POST['firstName'] );}?>" class="required requiredField" />
+							<?php if ( $firstNameError != '' ) { ?>
+								<label class="error"><?php echo $firstNameError;?></label>
 							<?php } ?>
 						</li>
 
 						<li class="lastName">
 							<label for="lastName">Last name: <span class="required">*</span></label>
-							<input type="text" name="lastName" id="lastName" value="<?php if(isset($_POST['lastName'])) echo esc_html($_POST['lastName']);?>" class="required requiredField" />
-							<?php if($lastNameError != '') { ?>
-								<label class="error"><?=$lastNameError;?></label>
+							<input type="text" name="lastName" id="lastName" value="<?php if ( isset( $_POST['lastName'] ) ) { echo esc_html( $_POST['lastName'] );}?>" class="required requiredField" />
+							<?php if ( $lastNameError != '' ) { ?>
+								<label class="error"><?php echo $lastNameError;?></label>
 							<?php } ?>
 						</li>
 
 						<li class="contactEmail">
 							<label for="email">Email: <span class="required">*</span></label>
-							<input type="text" name="email" id="email" value="<?php if(isset($_POST['email']))  echo esc_html($_POST['email']);?>" class="required requiredField email" />
-							<?php if($emailError != '') { ?>
-								<label class="error"><?=$emailError;?></label>
+							<input type="text" name="email" id="email" value="<?php if ( isset( $_POST['email'] ) ) {  echo esc_html( $_POST['email'] );}?>" class="required requiredField email" />
+							<?php if ( $emailError != '' ) { ?>
+								<label class="error"><?php echo $emailError;?></label>
 							<?php } ?>
 						</li>
 
 						<li class="contactPhone">
 							<label for="phone">Phone:</label>
-							<input type="text" name="phone" id="phone" value="<?php if(isset($_POST['phone']))  echo esc_html($_POST['phone']);?>" />
+							<input type="text" name="phone" id="phone" value="<?php if ( isset( $_POST['phone'] ) ) {  echo esc_html( $_POST['phone'] );}?>" />
 						</li>
 
 						<li class="contactComments"><label for="commentsText">Message:</label>
-							<textarea name="comments" id="commentsText" rows="6" cols="20"><?php if(isset($_POST['comments'])) echo esc_html($_POST['comments']); ?></textarea>
+							<textarea name="comments" id="commentsText" rows="6" cols="20"><?php if ( isset( $_POST['comments'] ) ) { echo esc_html( $_POST['comments'] );} ?></textarea>
 						</li>
 
 						<?php
-						if($options['wp_listings_captcha_site_key'] != '' && $options['wp_listings_captcha_secret_key'] != '') {
-							echo '<div class="g-recaptcha" data-sitekey="'. $options['wp_listings_captcha_site_key'] .'"></div>';
+						if ( $options['wp_listings_captcha_site_key'] != '' && $options['wp_listings_captcha_secret_key'] != '' ) {
+							echo '<div class="g-recaptcha" data-sitekey="' . $options['wp_listings_captcha_site_key'] . '"></div>';
 							echo '<script src="https://www.google.com/recaptcha/api.js"></script>';
 						} else {
 							echo '<li>
@@ -508,7 +507,6 @@ function single_listing_post_content() {
 					<input type="hidden" name="submitted" id="submitted" value="true" />
 				</form>
 			<?php }
-
 			}
 			?>
 		</div><!-- .listing-contact -->
@@ -518,7 +516,7 @@ function single_listing_post_content() {
 <?php
 }
 
-if (function_exists('equity')) {
+if ( function_exists( 'equity' ) ) {
 
 	remove_action( 'equity_entry_header', 'equity_post_info', 12 );
 	remove_action( 'equity_entry_footer', 'equity_post_meta' );
@@ -528,7 +526,7 @@ if (function_exists('equity')) {
 
 	equity();
 
-} elseif (function_exists('genesis_init')) {
+} elseif ( function_exists( 'genesis_init' ) ) {
 
 	remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
 	remove_action( 'genesis_entry_header', 'genesis_post_info', 12 ); // HTML5
@@ -547,10 +545,10 @@ if (function_exists('equity')) {
 
 } else {
 
-	$options = get_option('plugin_wp_listings_settings');
+	$options = get_option( 'plugin_wp_listings_settings' );
 
 	get_header();
-	if(isset($options['wp_listings_custom_wrapper']) && isset($options['wp_listings_start_wrapper']) && $options['wp_listings_start_wrapper'] != '') {
+	if ( isset( $options['wp_listings_custom_wrapper'] ) && isset( $options['wp_listings_start_wrapper'] ) && $options['wp_listings_start_wrapper'] != '' ) {
 		echo $options['wp_listings_start_wrapper'];
 	} else {
 		echo '<div id="primary" class="content-area container inner">
@@ -558,21 +556,21 @@ if (function_exists('equity')) {
 	}
 
 		// Start the Loop.
-		while ( have_posts() ) : the_post(); ?>
+	while ( have_posts() ) : the_post(); ?>
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 			<header class="entry-header">
 				<?php the_title( '<h1 class="entry-title" itemprop="name">', '</h1>' ); ?>
-				<small><?php if ( function_exists('yoast_breadcrumb') ) { yoast_breadcrumb('<p id="breadcrumbs">','</p>'); } ?></small>
+				<small><?php if ( function_exists( 'yoast_breadcrumb' ) ) { yoast_breadcrumb( '<p id="breadcrumbs">','</p>' ); } ?></small>
 				<div class="entry-meta">
 					<?php
-						if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) :
+					if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) :
 					?>
 					<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'wp-listings-pro' ), __( '1 Comment', 'wp-listings-pro' ), __( '% Comments', 'wp-listings-pro' ) ); ?></span>
 					<?php
-						endif;
+					endif;
 
-						edit_post_link( __( 'Edit', 'wp-listings-pro' ), '<span class="edit-link">', '</span>' );
+					edit_post_link( __( 'Edit', 'wp-listings-pro' ), '<span class="edit-link">', '</span>' );
 					?>
 				</div><!-- .entry-meta -->
 			</header><!-- .entry-header -->
@@ -583,16 +581,16 @@ if (function_exists('equity')) {
 		</article><!-- #post-ID -->
 
 	<?php
-		// Previous/next post navigation.
-		wp_listings_post_nav();
+	// Previous/next post navigation.
+	wp_listings_post_nav();
 
-		// If comments are open or we have at least one comment, load up the comment template.
-		if ( comments_open() || get_comments_number() ) {
-			comments_template();
-		}
+	// If comments are open or we have at least one comment, load up the comment template.
+	if ( comments_open() || get_comments_number() ) {
+		comments_template();
+	}
 		endwhile;
 
-	if(isset($options['wp_listings_custom_wrapper']) && isset($options['wp_listings_end_wrapper']) && $options['wp_listings_end_wrapper'] != '') {
+	if ( isset( $options['wp_listings_custom_wrapper'] ) && isset( $options['wp_listings_end_wrapper'] ) && $options['wp_listings_end_wrapper'] != '' ) {
 		echo $options['wp_listings_end_wrapper'];
 	} else {
 		echo '</div><!-- #content -->

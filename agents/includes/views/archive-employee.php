@@ -8,16 +8,16 @@
  * @since 0.9.0
  */
 
-add_action('wp_enqueue_scripts', 'enqueue_single_employee_scripts');
+add_action( 'wp_enqueue_scripts', 'enqueue_single_employee_scripts' );
 function enqueue_single_employee_scripts() {
 	wp_enqueue_style( 'font-awesome' );
 }
 
-add_filter('body_class', 'add_body_class');
+add_filter( 'body_class', 'add_body_class' );
 
-function add_body_class($classes) {
-    $classes[] = 'archive-employee';
-    return $classes;
+function add_body_class( $classes ) {
+	$classes[] = 'archive-employee';
+	return $classes;
 }
 
 function archive_employee_loop() {
@@ -27,63 +27,59 @@ function archive_employee_loop() {
 
 	if ( have_posts() ) : while ( have_posts() ) : the_post();
 
-	// starting at 4
-	if ($i == 4) {
-		$class = 'first one-fourth agent-wrap';
-		$i = 0;
-	}
-	else {
-		$class = 'one-fourth agent-wrap';
-	}
+			// starting at 4
+			if ( $i == 4 ) {
+				$class = 'first one-fourth agent-wrap';
+				$i = 0;
+			} else {
+				$class = 'one-fourth agent-wrap';
+			}
 
-	//increase count by 1
-	$i++;
+			// increase count by 1
+			$i++;
 
-	$post_id = get_the_id();
-	$thumb_id = get_post_thumbnail_id();
-	$thumb_url = wp_get_attachment_image_src($thumb_id, 'employee-thumbnail', true);
+			$post_id = get_the_id();
+			$thumb_id = get_post_thumbnail_id();
+			$thumb_url = wp_get_attachment_image_src( $thumb_id, 'employee-thumbnail', true );
 
 	?>
 
-	<div <?php post_class($class); ?> itemscope itemtype="http://schema.org/Person">
+	<div <?php post_class( $class ); ?> itemscope itemtype="http://schema.org/Person">
 	<?php echo '<a href="' . get_permalink() . '"><img src="' . $thumb_url[0] . '" alt="' . get_the_title() . ' photo" class="attachment-employee-thumbnail wp-post-image" itemprop="image" /></a>'; ?>
 		<div class="agent-details vcard">
 		<?php
 
-		printf('<p><a class="fn" href="%s" itemprop="name">%s</a></p>', get_permalink(), get_the_title() );
+		printf( '<p><a class="fn" href="%s" itemprop="name">%s</a></p>', get_permalink(), get_the_title() );
 
 		echo impa_employee_archive_details();
-		if (function_exists('_p2p_init') && function_exists('agentpress_listings_init') || function_exists('_p2p_init') && function_exists('wp_listings_init')) {
+		if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wp_listings_init' ) ) {
 
 			$has_listings = impa_has_listings( $post_id );
-			if (!empty($has_listings)) {
+			if ( ! empty( $has_listings ) ) {
 				echo '<p><a class="agent-listings-link" href="' . get_permalink() . '#agent-listings">View My Listings</a></p>';
 			}
 		}
 
-		//echo impa_employee_social();
-
+		// echo impa_employee_social();
 		?>
 		</div><!-- .agent-details -->
 	</div> <!-- .agent-wrap -->
 
 	<?php endwhile;
-		if (function_exists('equity')) {
-			equity_posts_nav();
-		} elseif (function_exists('genesis_init')) {
-			genesis_posts_nav();
-		} else {
-			impress_agents_paging_nav();
-		}
+	if ( function_exists( 'equity' ) ) {
+		equity_posts_nav();
+	} elseif ( function_exists( 'genesis_init' ) ) {
+		genesis_posts_nav();
+	} else {
+		impress_agents_paging_nav();
+	} else : ?>
 
-	else : ?>
-
-	<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
+	<p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
 	<?php endif;
 
 }
 
-if (function_exists('equity')) {
+if ( function_exists( 'equity' ) ) {
 
 	add_filter( 'equity_pre_get_option_site_layout', '__equity_return_full_width_content' );
 	remove_action( 'equity_entry_header', 'equity_post_info', 12 );
@@ -94,7 +90,7 @@ if (function_exists('equity')) {
 
 	equity();
 
-} elseif (function_exists('genesis_init')) {
+} elseif ( function_exists( 'genesis_init' ) ) {
 
 	add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
 	remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
@@ -109,28 +105,28 @@ if (function_exists('equity')) {
 
 } else {
 
-get_header();
-if($options['impress_agents_custom_wrapper'] && $options['impress_agents_start_wrapper']) {
-	echo $options['impress_agents_start_wrapper'];
-} else {
-	echo '<div id="primary" class="content-area container inner">
+	get_header();
+	if ( $options['impress_agents_custom_wrapper'] && $options['impress_agents_start_wrapper'] ) {
+		echo $options['impress_agents_start_wrapper'];
+	} else {
+		echo '<div id="primary" class="content-area container inner">
 		<div id="content" class="site-content" role="main">';
-}
+	}
 	if ( have_posts() ) : ?>
 
 		<header class="archive-header">
 			<?php
 			$object = get_queried_object();
 
-			if ( !isset($object->label) ) {
+			if ( ! isset( $object->label ) ) {
 				$title = '<h1 class="archive-title">' . $object->name . '</h1>';
 			} else {
-				$title = '<h1 class="archive-title">' . get_bloginfo('name') . ' Employees</h1>';
+				$title = '<h1 class="archive-title">' . get_bloginfo( 'name' ) . ' Employees</h1>';
 			}
 
 			echo $title; ?>
 
-			<small><?php if ( function_exists('yoast_breadcrumb') ) { yoast_breadcrumb('<p id="breadcrumbs">','</p>'); } ?></small>
+			<small><?php if ( function_exists( 'yoast_breadcrumb' ) ) { yoast_breadcrumb( '<p id="breadcrumbs">','</p>' ); } ?></small>
 		</header><!-- .archive-header -->
 
 	<?php
@@ -143,13 +139,13 @@ if($options['impress_agents_custom_wrapper'] && $options['impress_agents_start_w
 
 	endif;
 
-if($options['impress_agents_custom_wrapper'] && $options['impress_agents_end_wrapper']) {
-	echo $options['impress_agents_end_wrapper'];
-} else {
-	echo '</div><!-- #content -->
+	if ( $options['impress_agents_custom_wrapper'] && $options['impress_agents_end_wrapper'] ) {
+		echo $options['impress_agents_end_wrapper'];
+	} else {
+		echo '</div><!-- #content -->
 	</div><!-- #primary -->';
-}
-get_sidebar();
-get_footer();
+	}
+	get_sidebar();
+	get_footer();
 
 }

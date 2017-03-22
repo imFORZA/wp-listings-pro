@@ -1,6 +1,7 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 register_activation_hook( __FILE__, 'impress_agents_activation' );
 /**
@@ -11,12 +12,12 @@ register_activation_hook( __FILE__, 'impress_agents_activation' );
 function impress_agents_activation() {
 
 		/** Flush rewrite rules */
-		if ( ! post_type_exists( 'employee' ) ) {
-			impress_agents_init();
-			global $_impress_agents, $_impress_agents_taxonomies;
-			$_impress_agents->create_post_type();
-			$_impress_agents_taxonomies->register_taxonomies();
-		}
+	if ( ! post_type_exists( 'employee' ) ) {
+		impress_agents_init();
+		global $_impress_agents, $_impress_agents_taxonomies;
+		$_impress_agents->create_post_type();
+		$_impress_agents_taxonomies->register_taxonomies();
+	}
 
 		flush_rewrite_rules();
 }
@@ -61,43 +62,43 @@ function impress_agents_init() {
 	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
 
 	/** Add theme support for post thumbnails if it does not exist */
-	if(!current_theme_supports('post-thumbnails')) {
+	if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 		add_theme_support( 'post-thumbnails' );
 	}
 
 	/** Enqueues impress-agents.css style file if it exists and is not deregistered in settings */
-	add_action('wp_enqueue_scripts', 'add_impress_agents_main_styles');
+	add_action( 'wp_enqueue_scripts', 'add_impress_agents_main_styles' );
 	function add_impress_agents_main_styles() {
 
-		$options = get_option('plugin_impress_agents_settings');
+		$options = get_option( 'plugin_impress_agents_settings' );
 
 		/** Register Font Awesome icons but don't enqueue them */
-		wp_register_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css', '', null, 'all');
-		wp_enqueue_style('font-awesome');
+		wp_register_style( 'font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css', '', null, 'all' );
+		wp_enqueue_style( 'font-awesome' );
 
-		if ( !isset($options['impress_agents_stylesheet_load']) ) {
+		if ( ! isset( $options['impress_agents_stylesheet_load'] ) ) {
 			$options['impress_agents_stylesheet_load'] = 0;
 		}
 
-		if ('1' == $options['impress_agents_stylesheet_load'] ) {
+		if ( '1' == $options['impress_agents_stylesheet_load'] ) {
 			return;
 		}
 
-        if ( file_exists(dirname( __FILE__ ) . '/includes/css/impress-agents.css') ) {
-        	wp_register_style('wp-listings-pro', IMPRESS_AGENTS_URL . 'includes/css/impress-agents.css', '', null, 'all');
-            wp_enqueue_style('wp-listings-pro');
-        }
-    }
+		if ( file_exists( dirname( __FILE__ ) . '/includes/css/impress-agents.css' ) ) {
+			wp_register_style( 'wp-listings-pro', IMPRESS_AGENTS_URL . 'includes/css/impress-agents.css', '', null, 'all' );
+			wp_enqueue_style( 'wp-listings-pro' );
+		}
+	}
 
-    /** Add admin scripts and styles */
-    function impress_agents_admin_scripts_styles() {
-        wp_enqueue_style( 'impress_agents_admin_css', IMPRESS_AGENTS_URL . 'includes/css/impress-agents-admin.css' );
+	/** Add admin scripts and styles */
+	function impress_agents_admin_scripts_styles() {
+		wp_enqueue_style( 'impress_agents_admin_css', IMPRESS_AGENTS_URL . 'includes/css/impress-agents-admin.css' );
 
 		wp_enqueue_script( 'impress-agents-admin', IMPRESS_AGENTS_URL . 'includes/js/admin.js', 'media-views' );
 
 		$localize_script = array(
 			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
-			'button'       => __( 'Set term image', 'wp-listings-pro' )
+			'button'       => __( 'Set term image', 'wp-listings-pro' ),
 		);
 
 		/* Pass custom variables to the script. */
@@ -117,7 +118,7 @@ function impress_agents_init() {
 	/** Make sure is_plugin_active() can be called */
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-	if(is_plugin_active('genesis-agent-profiles/plugin.php')) {
+	if ( is_plugin_active( 'genesis-agent-profiles/plugin.php' ) ) {
 		add_action( 'wp_loaded', 'impress_agents_migrate' );
 	}
 }

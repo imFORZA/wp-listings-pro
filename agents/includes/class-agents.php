@@ -1,5 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 /**
  * This file contains the IMPress_Agents class.
  */
@@ -7,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * This class handles the creation of the "Employees" post type, and creates a
  * UI to display the Employee-specific data on the admin screens.
- *
  */
 class IMPress_Agents {
 
@@ -28,7 +28,7 @@ class IMPress_Agents {
 	 */
 	function __construct() {
 
-		$this->options = get_option('plugin_impress_agents_settings');
+		$this->options = get_option( 'plugin_impress_agents_settings' );
 
 		$this->employee_details = apply_filters( 'impress_agents_employee_details', array(
 			'col1' => array(
@@ -38,7 +38,7 @@ class IMPress_Agents {
 				__( 'Email:', 'wp-listings-pro' )			=> '_employee_email',
 				__( 'Website:', 'wp-listings-pro' )			=> '_employee_website',
 				__( 'Phone:', 'wp-listings-pro' ) 			=> '_employee_phone',
-				__( 'Mobile:', 'wp-listings-pro' ) 			=> '_employee_mobile'
+				__( 'Mobile:', 'wp-listings-pro' ) 			=> '_employee_mobile',
 			),
 			'col2' => array(
 				__( 'License #:', 'wp-listings-pro' ) 		=> '_employee_license',
@@ -47,7 +47,7 @@ class IMPress_Agents {
 				__( 'Address:', 'wp-listings-pro' ) 			=> '_employee_address',
 				__( 'City:', 'wp-listings-pro' )				=> '_employee_city',
 				__( 'State:', 'wp-listings-pro' )			=> '_employee_state',
-				__( 'Zip:', 'wp-listings-pro' )				=> '_employee_zip'
+				__( 'Zip:', 'wp-listings-pro' )				=> '_employee_zip',
 			),
 		) );
 
@@ -58,7 +58,7 @@ class IMPress_Agents {
 				__( 'Google+ URL:', 'wp-listings-pro' )		=> '_employee_googleplus',
 				__( 'Pinterest URL:', 'wp-listings-pro' )	=> '_employee_pinterest',
 				__( 'YouTube URL:', 'wp-listings-pro' )		=> '_employee_youtube',
-				__( 'Instagram URL:', 'wp-listings-pro' )	=> '_employee_instagram'
+				__( 'Instagram URL:', 'wp-listings-pro' )	=> '_employee_instagram',
 			)
 		);
 
@@ -90,10 +90,10 @@ class IMPress_Agents {
 
 		$new_options = array(
 			'impress_agents_archive_posts_num' => 9,
-			'impress_agents_slug' => 'employees'
+			'impress_agents_slug' => 'employees',
 		);
 
-		if ( empty($this->options['impress_agents_slug']) && empty($this->options['impress_agents_archive_posts_num']) )  {
+		if ( empty( $this->options['impress_agents_slug'] ) && empty( $this->options['impress_agents_archive_posts_num'] ) ) {
 			add_option( 'plugin_impress_agents_settings', $new_options );
 		}
 
@@ -135,7 +135,7 @@ class IMPress_Agents {
 					'not_found_in_trash'	=> __( 'No employees found in Trash', 'wp-listings-pro' ),
 					'filter_items_list'     => __( 'Filter Employees', 'wp-listings-pro' ),
 					'items_list_navigation' => __( 'Employees navigation', 'wp-listings-pro' ),
-					'items_list'            => __( 'Employees list', 'wp-listings-pro' )
+					'items_list'            => __( 'Employees list', 'wp-listings-pro' ),
 				),
 				'public'		=> true,
 				'query_var'		=> true,
@@ -145,7 +145,7 @@ class IMPress_Agents {
 				'menu_position'	=> 5,
 				'menu_icon'		=> 'dashicons-groups',
 				'has_archive'	=> true,
-				'supports'		=> array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown'),
+				'supports'		=> array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown' ),
 				'rewrite'		=> array( 'slug' => $this->options['impress_agents_slug'], 'feeds' => true, 'with_front' => false ),
 			)
 		);
@@ -165,56 +165,61 @@ class IMPress_Agents {
 	function metabox_save( $post_id, $post ) {
 
 		/** Run only on employees post type save */
-		if ( 'employee' != $post->post_type )
+		if ( 'employee' != $post->post_type ) {
 			return;
+		}
 
-		if ( !isset( $_POST['impress_agents_metabox_nonce'] ) || !wp_verify_nonce( $_POST['impress_agents_metabox_nonce'], 'impress_agents_metabox_save' ) )
+		if ( ! isset( $_POST['impress_agents_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['impress_agents_metabox_nonce'], 'impress_agents_metabox_save' ) ) {
 	        return $post_id;
+		}
 
 	    /** Don't try to save the data under autosave, ajax, or future post */
-	    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-	    if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) return;
-	    if ( defined( 'DOING_CRON' ) && DOING_CRON ) return;
+	    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return;
+		}
+	    if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) { return;
+		}
+	    if ( defined( 'DOING_CRON' ) && DOING_CRON ) { return;
+		}
 
 	    /** Check permissions */
-	    if ( ! current_user_can( 'edit_post', $post_id ) )
+	    if ( ! current_user_can( 'edit_post', $post_id ) ) {
 	        return;
+		}
 
 	    $employee_details = $_POST['wp-listings-pro'];
 
 	    /** Store the employee details custom fields */
 	    foreach ( (array) $employee_details as $key => $value ) {
 
-	    	$key = sanitize_key($key);
+	    	$key = sanitize_key( $key );
 
-	    	if($key == '_employee_email') {
-	    		$value = sanitize_email($value);
+	    	if ( $key == '_employee_email' ) {
+	    		$value = sanitize_email( $value );
 	    	} else {
-	    		$value = sanitize_text_field($value);
+	    		$value = sanitize_text_field( $value );
 	    	}
 
 	        /** Save/Update/Delete */
 	        if ( $value ) {
-	            update_post_meta($post->ID, $key, $value);
+	            update_post_meta( $post->ID, $key, $value );
 	        } else {
-	            delete_post_meta($post->ID, $key);
+	            delete_post_meta( $post->ID, $key );
 	        }
-
-	    }
+		}
 
 	}
 
 	/**
 	 * Filter the columns in the "Employees" screen, define our own.
 	 */
-	function columns_filter ( $columns ) {
+	function columns_filter( $columns ) {
 
 		$columns = array(
 			'cb'					=> '<input type="checkbox" />',
 			'employee_thumbnail'	=> __( 'Thumbnail', 'wp-listings-pro' ),
 			'title'					=> __( 'Employee Name', 'wp-listings-pro' ),
 			'employee_details'		=> __( 'Details', 'wp-listings-pro' ),
-			'employee_tags'			=> __( 'Categories', 'wp-listings-pro' )
+			'employee_tags'			=> __( 'Categories', 'wp-listings-pro' ),
 		);
 
 		return $columns;
@@ -230,27 +235,28 @@ class IMPress_Agents {
 
 		$image_size = 'style="max-width: 115px;"';
 
-		apply_filters( 'impress_agents_admin_employee_details', $admin_details = $this->employee_details['col1']);
+		apply_filters( 'impress_agents_admin_employee_details', $admin_details = $this->employee_details['col1'] );
 
-		if (isset($_GET["mode"]) && trim($_GET["mode"]) == 'excerpt' ) {
-			apply_filters( 'impress_agents_admin_extended_details', $admin_details = $this->employee_details['col1'] + $this->employee_details['col2']);
+		if ( isset( $_GET['mode'] ) && trim( $_GET['mode'] ) == 'excerpt' ) {
+			apply_filters( 'impress_agents_admin_extended_details', $admin_details = $this->employee_details['col1'] + $this->employee_details['col2'] );
 			$image_size = 'style="max-width: 150px;"';
 		}
 
-		$image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'thumbnail');
+		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );
 
-		switch( $column ) {
-			case "employee_thumbnail":
+		switch ( $column ) {
+			case 'employee_thumbnail':
 				echo '<p><img src="' . $image[0] . '" alt="employee-thumbnail" ' . $image_size . '/></p>';
 				break;
-			case "employee_details":
+			case 'employee_details':
 				foreach ( (array) $admin_details as $label => $key ) {
-					printf( '<b>%s</b> %s<br />', esc_html( $label ), esc_html( get_post_meta($post->ID, $key, true) ) );
+					printf( '<b>%s</b> %s<br />', esc_html( $label ), esc_html( get_post_meta( $post->ID, $key, true ) ) );
 				}
 				break;
-			case "employee_tags":
-				_e('<b>Job Type:</b> ' . get_the_term_list( $post->ID, 'job-types', '', ', ', '' ) . '<br />', 'wp-listings-pro');
-				_e('<b>Office:</b> ' . get_the_term_list( $post->ID, 'offices', '', ', ', '' ) . '<br />', 'wp-listings-pro');				break;
+			case 'employee_tags':
+				_e( '<b>Job Type:</b> ' . get_the_term_list( $post->ID, 'job-types', '', ', ', '' ) . '<br />', 'wp-listings-pro' );
+				_e( '<b>Office:</b> ' . get_the_term_list( $post->ID, 'offices', '', ', ', '' ) . '<br />', 'wp-listings-pro' );
+break;
 		}
 
 	}

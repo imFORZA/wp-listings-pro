@@ -6,16 +6,17 @@
  * Adds the taxonomy title and a list of the terms associated with that taxonomy
  * used in custom post type templates.
  */
-function wp_listings_list_terms($taxonomy) {
-	$the_tax_object = get_taxonomy($taxonomy);
-	$terms = get_terms($taxonomy);
+function wp_listings_list_terms( $taxonomy ) {
+	$the_tax_object = get_taxonomy( $taxonomy );
+	$terms = get_terms( $taxonomy );
 	$term_list = '';
 
-	$count = count($terms); $i=0;
-	if ($count > 0) {
-	    foreach ($terms as $term) {
+	$count = count( $terms );
+	$i = 0;
+	if ( $count > 0 ) {
+	    foreach ( $terms as $term ) {
 	        $i++;
-	    	$term_list .= '<li><a href="' . site_url($taxonomy . '/' . $term->slug) . '" title="' . sprintf(__('View all post filed under %s', 'gbd'), $term->name) . '">' . $term->name . ' (' . $term->count . ')</a></li>';
+	    	$term_list .= '<li><a href="' . site_url( $taxonomy . '/' . $term->slug ) . '" title="' . sprintf( __( 'View all post filed under %s', 'gbd' ), $term->name ) . '">' . $term->name . ' (' . $term->count . ')</a></li>';
 	    }
 		echo '<div class="' . $taxonomy . ' term-list-container">';
 		echo '<h3 class="taxonomy-name">' . $the_tax_object->label . '</h3>';
@@ -28,11 +29,11 @@ function wp_listings_list_terms($taxonomy) {
 /**
  * Returns true if the queried taxonomy is a taxonomy of the given post type
  */
-function wp_listings_is_taxonomy_of($post_type) {
-	$taxonomies = get_object_taxonomies($post_type);
-	$queried_tax = get_query_var('taxonomy');
+function wp_listings_is_taxonomy_of( $post_type ) {
+	$taxonomies = get_object_taxonomies( $post_type );
+	$queried_tax = get_query_var( 'taxonomy' );
 
-	if ( in_array($queried_tax, $taxonomies) ) {
+	if ( in_array( $queried_tax, $taxonomies ) ) {
 		return true;
 	}
 
@@ -137,8 +138,9 @@ function wp_listings_get_additional_image_sizes() {
 
 	global $_wp_additional_image_sizes;
 
-	if ( $_wp_additional_image_sizes )
+	if ( $_wp_additional_image_sizes ) {
 		return $_wp_additional_image_sizes;
+	}
 
 	return array();
 
@@ -148,34 +150,34 @@ function wp_listings_get_additional_image_sizes() {
 /*
  * function to set column classes based on parameter
  */
-function get_column_class($columns) {
-    $column_class = '';
+function get_column_class( $columns ) {
+	$column_class = '';
 
-    // Max of six columns
-    $columns = ( $columns > 6 ) ? 6 : (int)$columns;
+	// Max of six columns
+	$columns = ( $columns > 6 ) ? 6 : (int) $columns;
 
-    // column class
-    switch ($columns) {
-        case 0:
-        case 1:
-            $column_class = '';
-            break;
-        case 2:
-            $column_class = 'one-half';
-            break;
-        case 3:
-            $column_class = 'one-third';
-            break;
-        case 4:
-            $column_class = 'one-fourth';
-            break;
-        case 5:
-            $column_class = 'one-fifth';
-            break;
-        case 6:
-            $column_class = 'one-sixth';
-            break;
-    }
+	// column class
+	switch ( $columns ) {
+		case 0:
+		case 1:
+			$column_class = '';
+			break;
+		case 2:
+			$column_class = 'one-half';
+			break;
+		case 3:
+			$column_class = 'one-third';
+			break;
+		case 4:
+			$column_class = 'one-fourth';
+			break;
+		case 5:
+			$column_class = 'one-fifth';
+			break;
+		case 6:
+			$column_class = 'one-sixth';
+			break;
+	}
 
-    return $column_class;
+	return $column_class;
 }

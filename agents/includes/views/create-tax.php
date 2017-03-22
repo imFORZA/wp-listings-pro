@@ -1,5 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 screen_icon( 'themes' ); ?>
 <h2><?php _e( 'Employee Taxonomies', 'wp-listings-pro' ); ?></h2>
 
@@ -21,8 +22,8 @@ screen_icon( 'themes' ); ?>
 			<tfoot>
 			<tr>
 			<th scope="col" class="manage-column column-slug"><?php _e( 'ID', 'wp-listings-pro' ); ?></th>
-			<th scope="col" class="manage-column column-singular-name"><?php _e( 'Singular Name', 'wp-listings-pro'); ?></th>
-			<th scope="col" class="manage-column column-plural-name"><?php _e( 'Plural Name', 'wp-listings-pro'); ?></th>
+			<th scope="col" class="manage-column column-singular-name"><?php _e( 'Singular Name', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-plural-name"><?php _e( 'Plural Name', 'wp-listings-pro' ); ?></th>
 			</tr>
 			</tfoot>
 
@@ -36,7 +37,9 @@ screen_icon( 'themes' ); ?>
 				foreach ( (array) $employee_taxonomies as $id => $data ) :
 				?>
 
-				<tr <?php if ( $alt ) { echo 'class="alternate"'; $alt = false; } else { $alt = true; } ?>>
+				<tr <?php if ( $alt ) { echo 'class="alternate"';
+					$alt = false;
+} else { $alt = true; } ?>>
 					<td class="slug column-slug">
 
 					<?php if ( isset( $data['editable'] ) && 0 === $data['editable'] ) : ?>

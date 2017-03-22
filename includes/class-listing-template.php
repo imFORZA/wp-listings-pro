@@ -31,8 +31,9 @@ class Single_Listing_Template {
 
 		foreach ( (array) $templates as $file => $full_path ) {
 
-			if ( ! preg_match( '|Single Listing Template:(.*)$|mi', file_get_contents( $full_path ), $header ) )
+			if ( ! preg_match( '|Single Listing Template:(.*)$|mi', file_get_contents( $full_path ), $header ) ) {
 				continue;
+			}
 
 			$listing_templates[ $file ] = _cleanup_header_comment( $header[1] );
 
@@ -82,16 +83,18 @@ class Single_Listing_Template {
 		 * Verify this came from our screen and with proper authorization,
 		 * because save_post can be triggered at other times
 		 */
-		if ( !isset( $_POST['wplistings_single_noncename'] ) || ! wp_verify_nonce( $_POST['wplistings_single_noncename'], plugin_basename( __FILE__ ) ) )
+		if ( ! isset( $_POST['wplistings_single_noncename'] ) || ! wp_verify_nonce( $_POST['wplistings_single_noncename'], plugin_basename( __FILE__ ) ) ) {
 			return $post->ID;
+		}
 
 		/** Is the user allowed to edit the post or page? */
-		if ( 'listing' == $_POST['post_type'] )
-			if ( ! current_user_can( 'edit_page', $post->ID ) )
+		if ( 'listing' == $_POST['post_type'] ) {
+			if ( ! current_user_can( 'edit_page', $post->ID ) ) {
 				return $post->ID;
-		else
-			if ( ! current_user_can( 'edit_post', $post->ID ) )
+			} elseif ( ! current_user_can( 'edit_post', $post->ID ) ) {
 				return $post->ID;
+			}
+		}
 
 		/** OK, we're authenticated: we need to find and save the data */
 
@@ -101,21 +104,23 @@ class Single_Listing_Template {
 		/** Add values of $mydata as custom fields */
 		foreach ( $mydata as $key => $value ) {
 			/** Don't store custom data twice */
-			if( 'revision' == $post->post_type )
+			if ( 'revision' == $post->post_type ) {
 				return;
+			}
 
 			/** If $value is an array, make it a CSV (unlikely) */
 			$value = implode( ',', (array) $value );
 
 			/** Update the data if it exists, or add it if it doesn't */
-			if( get_post_meta( $post->ID, $key, false ) )
+			if ( get_post_meta( $post->ID, $key, false ) ) {
 				update_post_meta( $post->ID, $key, $value );
-			else
-				add_post_meta( $post->ID, $key, $value );
+			} else { add_post_meta( $post->ID, $key, $value );
+			}
 
 			/** Delete if blank */
-			if( ! $value )
+			if ( ! $value ) {
 				delete_post_meta( $post->ID, $key );
+			}
 		}
 
 	}

@@ -1,5 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 /**
  * This file contains the IMPress_Agents_Taxonomies class.
  */
@@ -7,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * This class handles all the aspects of displaying, creating, and editing the
  * user-created taxonomies for the "Employees" post-type.
- *
  */
 class IMPress_Agents_Taxonomies {
 
@@ -29,18 +29,18 @@ class IMPress_Agents_Taxonomies {
 		if ( function_exists( 'get_term_meta' ) ) {
 			add_action( 'init', array( $this, 'register_term_meta' ), 17 );
 
-			foreach( (array) $this->get_taxonomies() as $slug => $data ) {
-				add_action( "{$slug}_add_form_fields", array( $this, 'impress_agents_new_term_image_field') );
-				add_action( "{$slug}_edit_form_fields", array( $this, 'impress_agents_edit_term_image_field') );
-				add_action( "create_{$slug}", array( $this, 'impress_agents_save_term_image') );
-				add_action( "edit_{$slug}", array( $this, 'impress_agents_save_term_image') );
+			foreach ( (array) $this->get_taxonomies() as $slug => $data ) {
+				add_action( "{$slug}_add_form_fields", array( $this, 'impress_agents_new_term_image_field' ) );
+				add_action( "{$slug}_edit_form_fields", array( $this, 'impress_agents_edit_term_image_field' ) );
+				add_action( "create_{$slug}", array( $this, 'impress_agents_save_term_image' ) );
+				add_action( "edit_{$slug}", array( $this, 'impress_agents_save_term_image' ) );
 				add_filter( "manage_edit-{$slug}_columns", array( $this, 'impress_agents_edit_term_columns' ) );
 				add_action( "manage_{$slug}_custom_column", array( $this, 'impress_agents_manage_term_custom_column' ), 10, 3 );
 			}
 		}
 
-		add_action('restrict_manage_posts', array($this, 'impress_agents_filter_post_type_by_taxonomy') );
-		add_filter('parse_query', array($this, 'impress_agents_convert_id_to_term_in_query') );
+		add_action( 'restrict_manage_posts', array( $this, 'impress_agents_filter_post_type_by_taxonomy' ) );
+		add_filter( 'parse_query', array( $this, 'impress_agents_convert_id_to_term_in_query' ) );
 
 	}
 
@@ -83,12 +83,11 @@ class IMPress_Agents_Taxonomies {
 
 		echo '<div class="wrap">';
 
-			if ( isset( $_REQUEST['view'] ) && 'edit' == $_REQUEST['view'] ) {
-				require( dirname( __FILE__ ) . '/views/edit-tax.php' );
-			}
-			else {
-				require( dirname( __FILE__ ) . '/views/create-tax.php' );
-			}
+		if ( isset( $_REQUEST['view'] ) && 'edit' == $_REQUEST['view'] ) {
+			require( dirname( __FILE__ ) . '/views/edit-tax.php' );
+		} else {
+			require( dirname( __FILE__ ) . '/views/create-tax.php' );
+		}
 
 		echo '</div>';
 
@@ -99,12 +98,15 @@ class IMPress_Agents_Taxonomies {
 		/**** VERIFY THE NONCE ****/
 
 		/** No empty fields */
-		if ( ! isset( $args['id'] ) || empty( $args['id'] ) )
+		if ( ! isset( $args['id'] ) || empty( $args['id'] ) ) {
 			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
-		if ( ! isset( $args['name'] ) || empty( $args['name'] ) )
+		}
+		if ( ! isset( $args['name'] ) || empty( $args['name'] ) ) {
 			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
-		if ( ! isset( $args['singular_name'] ) || empty( $args['singular_name'] ) )
+		}
+		if ( ! isset( $args['singular_name'] ) || empty( $args['singular_name'] ) ) {
 			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+		}
 
 		extract( $args );
 
@@ -121,14 +123,14 @@ class IMPress_Agents_Taxonomies {
 			'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 			'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 			'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-			'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
+			'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) ),
 		);
 
 		$args = array(
 			'labels'		=> $labels,
 			'hierarchical'	=> true,
 			'rewrite'		=> array( 'slug' => $id, 'with_front' => false ),
-			'editable'		=> 1
+			'editable'		=> 1,
 		);
 
 		$tax = array( $id => $args );
@@ -149,14 +151,15 @@ class IMPress_Agents_Taxonomies {
 		/**** VERIFY THE NONCE ****/
 
 		/** No empty ID */
-		if ( ! isset( $id ) || empty( $id ) )
+		if ( ! isset( $id ) || empty( $id ) ) {
 			wp_die( __( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
+		}
 
 		$options = get_option( $this->settings_field );
 
 		/** Look for the ID, delete if it exists */
 		if ( array_key_exists( $id, (array) $options ) ) {
-			unset( $options[$id] );
+			unset( $options[ $id ] );
 		} else {
 			wp_die( __( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
 		}
@@ -171,12 +174,15 @@ class IMPress_Agents_Taxonomies {
 		/**** VERIFY THE NONCE ****/
 
 		/** No empty fields */
-		if ( ! isset( $args['id'] ) || empty( $args['id'] ) )
+		if ( ! isset( $args['id'] ) || empty( $args['id'] ) ) {
 			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
-		if ( ! isset( $args['name'] ) || empty( $args['name'] ) )
+		}
+		if ( ! isset( $args['name'] ) || empty( $args['name'] ) ) {
 			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
-		if ( ! isset( $args['singular_name'] ) || empty( $args['singular_name'] ) )
+		}
+		if ( ! isset( $args['singular_name'] ) || empty( $args['singular_name'] ) ) {
 			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+		}
 
 		extract( $args );
 
@@ -193,14 +199,14 @@ class IMPress_Agents_Taxonomies {
 			'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 			'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 			'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-			'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
+			'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) ),
 		);
 
 		$args = array(
 			'labels'		=> $labels,
 			'hierarchical'	=> true,
 			'rewrite'		=> array( 'slug' => $id, 'with_front' => false ),
-			'editable'		=> 1
+			'editable'		=> 1,
 		);
 
 		$tax = array( $id => $args );
@@ -220,17 +226,17 @@ class IMPress_Agents_Taxonomies {
 		$format = '<div id="message" class="updated"><p><strong>%s</strong></p></div>';
 
 		if ( isset( $_REQUEST['created'] ) && 'true' == $_REQUEST['created'] ) {
-			printf( $format, __('New taxonomy successfully created!', 'wp-listings-pro') );
+			printf( $format, __( 'New taxonomy successfully created!', 'wp-listings-pro' ) );
 			return;
 		}
 
 		if ( isset( $_REQUEST['edited'] ) && 'true' == $_REQUEST['edited'] ) {
-			printf( $format, __('Taxonomy successfully edited!', 'wp-listings-pro') );
+			printf( $format, __( 'Taxonomy successfully edited!', 'wp-listings-pro' ) );
 			return;
 		}
 
 		if ( isset( $_REQUEST['deleted'] ) && 'true' == $_REQUEST['deleted'] ) {
-			printf( $format, __('Taxonomy successfully deleted.', 'wp-listings-pro') );
+			printf( $format, __( 'Taxonomy successfully deleted.', 'wp-listings-pro' ) );
 			return;
 		}
 
@@ -261,15 +267,15 @@ class IMPress_Agents_Taxonomies {
 					'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
+					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) ),
 				),
 				'hierarchical' => true,
 				'rewrite'  => array( __( 'job-types', 'wp-listings-pro' ), 'with_front' => false ),
 				'editable' => 0,
 				'show_in_rest'  => true,
 				'rest_base'     => 'job-types',
-				'rest_controller_class' => 'WP_REST_Terms_Controller'
-			)
+				'rest_controller_class' => 'WP_REST_Terms_Controller',
+			),
 		);
 
 	}
@@ -297,15 +303,15 @@ class IMPress_Agents_Taxonomies {
 					'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
+					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) ),
 				),
 				'hierarchical' => true,
 				'rewrite' => array( __( 'offices', 'wp-listings-pro' ), 'with_front' => false ),
 				'editable' => 0,
 				'show_in_rest'  => true,
 				'rest_base'     => 'offices',
-				'rest_controller_class' => 'WP_REST_Terms_Controller'
-			)
+				'rest_controller_class' => 'WP_REST_Terms_Controller',
+			),
 		);
 
 	}
@@ -315,7 +321,7 @@ class IMPress_Agents_Taxonomies {
 	 */
 	function register_taxonomies() {
 
-		foreach( (array) $this->get_taxonomies() as $id => $data ) {
+		foreach ( (array) $this->get_taxonomies() as $id => $data ) {
 			register_taxonomy( $id, array( 'employee' ), $data );
 		}
 
@@ -332,6 +338,7 @@ class IMPress_Agents_Taxonomies {
 
 	/**
 	 * Register term meta for a featured image
+	 *
 	 * @return [type] [description]
 	 */
 	function register_term_meta() {
@@ -340,6 +347,7 @@ class IMPress_Agents_Taxonomies {
 
 	/**
 	 * Callback to retrieve the term image
+	 *
 	 * @return [type] [description]
 	 */
 	function impress_agents_sanitize_term_image( $impa_term_image ) {
@@ -348,6 +356,7 @@ class IMPress_Agents_Taxonomies {
 
 	/**
 	 * Get the term featured image id
+	 *
 	 * @param  $html bool whether to use html wrapper
 	 * @uses  wp_get_attachment_image to return image id wrapped in markup
 	 */
@@ -358,21 +367,24 @@ class IMPress_Agents_Taxonomies {
 
 	/**
 	 * Save the image uploaded
+	 *
 	 * @param  string $term_id term slug
 	 */
 	function impress_agents_save_term_image( $term_id ) {
 
-	    if ( ! isset( $_POST['impa_term_image_nonce'] ) || ! wp_verify_nonce( $_POST['impa_term_image_nonce'], basename( __FILE__ ) ) )
+	    if ( ! isset( $_POST['impa_term_image_nonce'] ) || ! wp_verify_nonce( $_POST['impa_term_image_nonce'], basename( __FILE__ ) ) ) {
 	        return;
+		}
 
 	    $old_image = $this->impress_agents_get_term_image( $term_id );
 	    $new_image = isset( $_POST['impa-term-image'] ) ? $_POST['impa-term-image'] : '';
 
-	    if ( $old_image && '' === $new_image )
+	    if ( $old_image && '' === $new_image ) {
 	        delete_term_meta( $term_id, 'impa_term_image' );
 
-	    else if ( $old_image !== $new_image )
+	    } elseif ( $old_image !== $new_image ) {
 	        update_term_meta( $term_id, 'impa_term_image', $new_image );
+		}
 
 	    return $term_id;
 
@@ -398,10 +410,11 @@ class IMPress_Agents_Taxonomies {
 
 	        $image_id = $this->impress_agents_get_term_image( $term_id, false );
 
-	        if (!$image_id)
+	        if ( ! $image_id ) {
 	        	return $out;
+			}
 
-	        $image_markup = wp_get_attachment_image( $image_id, 'thumbnail', true, array('class' => 'impa-term-image'));
+	        $image_markup = wp_get_attachment_image( $image_id, 'thumbnail', true, array( 'class' => 'impa-term-image' ) );
 
 	        $out = $image_markup;
 	    }
@@ -415,13 +428,13 @@ class IMPress_Agents_Taxonomies {
 	function impress_agents_filter_post_type_by_taxonomy() {
 		global $typenow;
 		$post_type = 'employee';
-		$taxonomies  = array('job-types', 'offices');
-		foreach($taxonomies as $taxonomy) {
-			if ($typenow == $post_type) {
-				$selected      = isset($_GET[$taxonomy]) ? $_GET[$taxonomy] : '';
-				$info_taxonomy = get_taxonomy($taxonomy);
+		$taxonomies  = array( 'job-types', 'offices' );
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( $typenow == $post_type ) {
+				$selected      = isset( $_GET[ $taxonomy ] ) ? $_GET[ $taxonomy ] : '';
+				$info_taxonomy = get_taxonomy( $taxonomy );
 				wp_dropdown_categories(array(
-					'show_option_all' => __("Show All {$info_taxonomy->label}"),
+					'show_option_all' => __( "Show All {$info_taxonomy->label}" ),
 					'taxonomy'        => $taxonomy,
 					'name'            => $taxonomy,
 					'orderby'         => 'name',
@@ -436,15 +449,15 @@ class IMPress_Agents_Taxonomies {
 	/**
 	 * Filter posts by taxonomy in admin
 	 */
-	function impress_agents_convert_id_to_term_in_query($query) {
+	function impress_agents_convert_id_to_term_in_query( $query ) {
 		global $pagenow;
 		$post_type = 'employee';
-		$taxonomies  = array('job-types', 'offices');
+		$taxonomies  = array( 'job-types', 'offices' );
 		$q_vars    = &$query->query_vars;
-		foreach($taxonomies as $taxonomy) {
-			if ( $pagenow == 'edit.php' && isset($q_vars['post_type']) && $q_vars['post_type'] == $post_type && isset($q_vars[$taxonomy]) && is_numeric($q_vars[$taxonomy]) && $q_vars[$taxonomy] != 0 ) {
-				$term = get_term_by('id', $q_vars[$taxonomy], $taxonomy);
-				$q_vars[$taxonomy] = $term->slug;
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( $pagenow == 'edit.php' && isset( $q_vars['post_type'] ) && $q_vars['post_type'] == $post_type && isset( $q_vars[ $taxonomy ] ) && is_numeric( $q_vars[ $taxonomy ] ) && $q_vars[ $taxonomy ] != 0 ) {
+				$term = get_term_by( 'id', $q_vars[ $taxonomy ], $taxonomy );
+				$q_vars[ $taxonomy ] = $term->slug;
 			}
 		}
 	}
@@ -477,10 +490,11 @@ class IMPress_Agents_Taxonomies {
 	function impress_agents_edit_term_image_field( $term ) {
 
 	    $image_id = $this->impress_agents_get_term_image( $term->term_id, false );
-	    $image_url = wp_get_attachment_url($image_id);
+	    $image_url = wp_get_attachment_url( $image_id );
 
-	    if ( ! $image_url )
-	    	$image_url = ''; ?>
+	    if ( ! $image_url ) {
+	    	$image_url = '';
+		} ?>
 
 	    <tr class="form-field impa-term-image-wrap">
 	        <th scope="row"><label for="impa-term-image"><?php _e( 'Image', 'wp-listings-pro' ); ?></label></th>

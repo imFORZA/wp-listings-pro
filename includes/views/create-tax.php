@@ -19,8 +19,8 @@
 			<tfoot>
 			<tr>
 			<th scope="col" class="manage-column column-slug"><?php _e( 'ID', 'wp-listings-pro' ); ?></th>
-			<th scope="col" class="manage-column column-singular-name"><?php _e( 'Singular Name', 'wp-listings-pro'); ?></th>
-			<th scope="col" class="manage-column column-plural-name"><?php _e( 'Plural Name', 'wp-listings-pro'); ?></th>
+			<th scope="col" class="manage-column column-singular-name"><?php _e( 'Singular Name', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-plural-name"><?php _e( 'Plural Name', 'wp-listings-pro' ); ?></th>
 			</tr>
 			</tfoot>
 
@@ -34,7 +34,9 @@
 				foreach ( (array) $listing_taxonomies as $id => $data ) :
 				?>
 
-				<tr <?php if ( $alt ) { echo 'class="alternate"'; $alt = false; } else { $alt = true; } ?>>
+				<tr <?php if ( $alt ) { echo 'class="alternate"';
+					$alt = false;
+} else { $alt = true; } ?>>
 					<td class="slug column-slug">
 
 					<?php if ( isset( $data['editable'] ) && 0 === $data['editable'] ) : ?>

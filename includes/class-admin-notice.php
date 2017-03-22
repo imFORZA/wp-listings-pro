@@ -56,15 +56,15 @@ class WP_Listings_Admin_Notice {
 	 *
 	 * @since 1.3
 	 *
-	 * @param string $message The text of the message.
-	 * @param bool $error Optional. Whether to show as error or update. Default is notice.
-	 * @param string $cap_check Optional. Minimum user capability to show notice to. Default is "activate_plugins"
+	 * @param string      $message The text of the message.
+	 * @param bool        $error Optional. Whether to show as error or update. Default is notice.
+	 * @param string      $cap_check Optional. Minimum user capability to show notice to. Default is "activate_plugins"
 	 * @param string|bool $ignore_key Optional. The user meta key to use for storing if this message has been dismissed by current user or not. If false, it will be generated.
 	 *
 	 * @return string|void Admin notice if is_admin() and not dismissed.
 	 */
-	public static function notice( $message,  $error = false, $cap_check = 'activate_plugins', $ignore_key = false ) {
-		if ( is_admin() && ( !defined( 'DOING_AJAX' ) || !DOING_AJAX ) ) {
+	public static function notice( $message, $error = false, $cap_check = 'activate_plugins', $ignore_key = false ) {
+		if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 			if ( current_user_can( $cap_check ) ) {
 				$user_id = get_current_user_id();
 				if ( ! is_string( $ignore_key ) ) {
@@ -96,9 +96,7 @@ class WP_Listings_Admin_Notice {
 					return implode( '', $out );
 
 				}
-
 			}
-
 		}
 
 	}
@@ -131,12 +129,12 @@ class WP_Listings_Admin_Notice {
 	 * @return bool
 	 */
 	public static function ajax_cb() {
-		if (  ! isset( $_POST[ 'nonce' ] ) || ! wp_verify_nonce( $_POST[ 'nonce' ], self::$nonce_action ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], self::$nonce_action ) ) {
 			return false;
 		}
 
-		$nag = sanitize_key( $_POST[ 'nag' ] );
-		if ( $nag === $_POST[ 'nag' ] ) {
+		$nag = sanitize_key( $_POST['nag'] );
+		if ( $nag === $_POST['nag'] ) {
 			update_user_meta( get_current_user_id(), $nag, true );
 		}
 

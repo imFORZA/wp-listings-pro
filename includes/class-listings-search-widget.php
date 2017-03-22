@@ -17,7 +17,7 @@ class WP_Listings_Search_Widget extends WP_Widget {
 
 		$instance = wp_parse_args( (array) $instance, array(
 			'title'			=> '',
-			'button_text'	=> __( 'Search Listings', 'wp-listings-pro' )
+			'button_text'	=> __( 'Search Listings', 'wp-listings-pro' ),
 		) );
 
 		global $_wp_listings_taxonomies;
@@ -28,28 +28,32 @@ class WP_Listings_Search_Widget extends WP_Widget {
 
 		echo $before_widget;
 
-		if ( $instance['title'] ) echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
+		if ( $instance['title'] ) { echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
+		}
 
 		echo '<form role="search" method="get" id="searchform" action="' . home_url( '/' ) . '" ><input type="hidden" value="" name="s" /><input type="hidden" value="listing" name="post_type" />';
 
 		foreach ( $listings_taxonomies as $tax => $data ) {
-			if ( ! isset( $instance[$tax] ) || ! $instance[$tax] )
+			if ( ! isset( $instance[ $tax ] ) || ! $instance[ $tax ] ) {
 				continue;
+			}
 
 			$terms = get_terms( $tax, array( 'orderby' => 'title', 'number' => 100, 'hierarchical' => false ) );
-			if ( empty( $terms ) )
+			if ( empty( $terms ) ) {
 				continue;
+			}
 
-			$current = ! empty( $wp_query->query_vars[$tax] ) ? $wp_query->query_vars[$tax] : '';
+			$current = ! empty( $wp_query->query_vars[ $tax ] ) ? $wp_query->query_vars[ $tax ] : '';
 			echo "<select name='$tax' id='$tax' class='wp-listings-taxonomy'>\n\t";
 			echo '<option value="" ' . selected( $current == '', true, false ) . ">{$data['labels']['name']}</option>\n";
-			foreach ( (array) $terms as $term )
+			foreach ( (array) $terms as $term ) {
 				echo "\t<option value='{$term->slug}' " . selected( $current, $term->slug, false ) . ">{$term->name}</option>\n";
+			}
 
 			echo '</select>';
 		}
 
-		echo '<div class="btn-search"><button type="submit" class="searchsubmit"><i class="fa fa-search"></i><span class="button-text">'. esc_attr( $instance['button_text'] ) .'</span></button></div>';
+		echo '<div class="btn-search"><button type="submit" class="searchsubmit"><i class="fa fa-search"></i><span class="button-text">' . esc_attr( $instance['button_text'] ) . '</span></button></div>';
 		echo '<div class="clear"></div>
 		</form>';
 
@@ -65,7 +69,7 @@ class WP_Listings_Search_Widget extends WP_Widget {
 
 		$instance = wp_parse_args( (array) $instance, array(
 			'title'			=> '',
-			'button_text'	=> __( 'Search Listings', 'wp-listings-pro' )
+			'button_text'	=> __( 'Search Listings', 'wp-listings-pro' ),
 		) );
 
 		global $_wp_listings_taxonomies;
@@ -79,8 +83,9 @@ class WP_Listings_Search_Widget extends WP_Widget {
 		<?php
 		foreach ( (array) $listings_taxonomies as $tax => $data ) {
 			$terms = get_terms( $tax );
-			if ( empty( $terms ) )
+			if ( empty( $terms ) ) {
 				continue;
+			}
 
 			$checked = isset( $instance[ $tax ] ) && $instance[ $tax ];
 
