@@ -31,6 +31,17 @@ function wp_listings_activation() {
 		$_wp_listings->create_post_type();
 		$_wp_listings_taxonomies->register_taxonomies();
 	}
+
+	/** Flush rewrite rules */
+	if ( ! post_type_exists( 'employee' ) ) {
+		impress_agents_init();
+		global $_impress_agents, $_impress_agents_taxonomies;
+		$_impress_agents->create_post_type();
+		$_impress_agents_taxonomies->register_taxonomies();
+	}
+
+
+
 	flush_rewrite_rules();
 
 	$notice_keys = array( 'wpl_notice_idx', 'wpl_listing_notice_idx', 'wpl_notice_equity' );
@@ -67,12 +78,30 @@ function wp_listings_init() {
 
 	global $_wp_listings, $_wp_listings_taxonomies, $_wp_listings_templates;
 
+	global $_impress_agents, $_impress_agents_taxonomies;
+
+		define( 'IMPRESS_AGENTS_URL', plugin_dir_url( __FILE__ )  );
+	define( 'IMPRESS_AGENTS_VERSION', '1.1.3' );
+
 	define( 'WP_LISTINGS_URL', plugin_dir_url( __FILE__ ) );
 	define( 'WP_LISTINGS_DIR', plugin_dir_path( __FILE__ ) );
 	define( 'WP_LISTINGS_VERSION', '2.2.2' );
 
 	/** Load textdomain for translation */
 	load_plugin_textdomain( 'wp-listings-pro', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+
+		/** Instantiate */
+	$_impress_agents = new IMPress_Agents;
+	$_impress_agents_taxonomies = new IMPress_Agents_Taxonomies;
+
+	add_action( 'widgets_init', 'impress_agents_register_widgets' );
+
+	/** Make sure is_plugin_active() can be called */
+	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+	if ( is_plugin_active( 'genesis-agent-profiles/plugin.php' ) ) {
+		add_action( 'wp_loaded', 'impress_agents_migrate' );
+	}
 
 	/** Includes */
 	require_once( dirname( __FILE__ ) . '/includes/helpers.php' );
@@ -86,6 +115,11 @@ function wp_listings_init() {
 	require_once( dirname( __FILE__ ) . '/includes/class-featured-listings-widget.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-admin-notice.php' );
 	require_once( dirname( __FILE__ ) . '/includes/wp-api.php' );
+
+	require_once( dirname( __FILE__ ) . '/includes/class-agents.php' );
+	require_once( dirname( __FILE__ ) . '/includes/class-agent-import.php' );
+	require_once( dirname( __FILE__ ) . '/includes/class-employee-widget.php' );
+	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
 
 	/** Add theme support for post thumbnails if it does not exist */
 	if ( ! current_theme_supports( 'post-thumbnails' ) ) {
@@ -108,14 +142,30 @@ function wp_listings_init() {
 
 		$options = get_option( 'plugin_wp_listings_settings' );
 
+		$options = get_option( 'plugin_impress_agents_settings' );
+
+		if ( ! isset( $options['impress_agents_stylesheet_load'] ) ) {
+			$options['impress_agents_stylesheet_load'] = 0;
+		}
+
+		if ( '1' == $options['impress_agents_stylesheet_load'] ) {
+			return;
+		}
+
+
+		wp_register_style( 'agents-css', WP_LISTINGS_URL . 'assets/css/impress-agents.min.css', '', null, 'all' );
+		wp_enqueue_style( 'agents-css' );
+
+
 		/** Register single styles but don't enqueue them */
 		wp_register_style( 'wp-listings-single', WP_LISTINGS_URL . 'assets/css/wp-listings-single.min.css', '', null, 'all' );
 
 		/** Register Font Awesome icons but don't enqueue them */
-		wp_register_style( 'font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css', '', null, 'all' );
+		wp_register_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', '', null, 'all' );
+		wp_enqueue_style( 'font-awesome' );
 
 		/** Register Properticons but don't enqueue them */
-		wp_register_style( 'properticons', '//s3.amazonaws.com/properticons/css/properticons.css', '', null, 'all' );
+		wp_register_style( 'properticons', 'https://s3.amazonaws.com/properticons/css/properticons.css', '', null, 'all' );
 
 		if ( ! isset( $options['wp_listings_stylesheet_load'] ) ) {
 			$options['wp_listings_stylesheet_load'] = 0;
@@ -129,7 +179,29 @@ function wp_listings_init() {
 			wp_register_style( 'wp_listings', WP_LISTINGS_URL . 'assets/css/wp-listings.css', '', null, 'all' );
 			wp_enqueue_style( 'wp_listings' );
 		}
+
+
+
 	}
+
+		/** Add admin scripts and styles */
+	function impress_agents_admin_scripts_styles() {
+		wp_enqueue_style( 'impress_agents_admin_css', WP_LISTINGS_URL . 'assets/css/impress-agents-admin.min.css' );
+
+		wp_enqueue_script( 'impress-agents-admin', WP_LISTINGS_URL . 'assets/js/admin.min.js', 'media-views' );
+
+		$localize_script = array(
+			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
+			'button'       => __( 'Set term image', 'wp-listings-pro' ),
+		);
+
+		/* Pass custom variables to the script. */
+		wp_localize_script( 'impress-agents-admin', 'impa_term_image', $localize_script );
+
+		wp_enqueue_media();
+
+	}
+	add_action( 'admin_enqueue_scripts', 'impress_agents_admin_scripts_styles' );
 
 	/** Enqueues wp-listings-widgets.css style file if it exists and is not deregistered in settings */
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_widgets_styles' );
@@ -231,6 +303,35 @@ function wp_listings_init() {
 function wp_listings_register_widgets() {
 
 	$widgets = array( 'WP_Listings_Featured_Listings_Widget', 'WP_Listings_Search_Widget' );
+
+	foreach ( (array) $widgets as $widget ) {
+		register_widget( $widget );
+	}
+
+}
+
+
+
+
+
+/**
+ * impress_agents_migrate function.
+ *
+ * @access public
+ * @return void
+ */
+function impress_agents_migrate() {
+	new IMPress_Agents_Migrate();
+}
+
+/**
+ * Register Widgets that will be used in the IMPress Agents plugin
+ *
+ * @since 0.9.0
+ */
+function impress_agents_register_widgets() {
+
+	$widgets = array( 'IMPress_Agents_Widget' );
 
 	foreach ( (array) $widgets as $widget ) {
 		register_widget( $widget );
