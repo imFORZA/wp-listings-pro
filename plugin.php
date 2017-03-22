@@ -109,7 +109,7 @@ function wp_listings_init() {
 		$options = get_option( 'plugin_wp_listings_settings' );
 
 		/** Register single styles but don't enqueue them */
-		wp_register_style( 'wp-listings-single', WP_LISTINGS_URL . 'includes/css/wp-listings-single.css', '', null, 'all' );
+		wp_register_style( 'wp-listings-single', WP_LISTINGS_URL . 'assets/css/wp-listings-single.css', '', null, 'all' );
 
 		/** Register Font Awesome icons but don't enqueue them */
 		wp_register_style( 'font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css', '', null, 'all' );
@@ -125,8 +125,8 @@ function wp_listings_init() {
 			return;
 		}
 
-		if ( file_exists( dirname( __FILE__ ) . '/includes/css/wp-listings.css' ) ) {
-			wp_register_style( 'wp_listings', WP_LISTINGS_URL . 'includes/css/wp-listings.css', '', null, 'all' );
+		if ( file_exists( dirname( __FILE__ ) . '/assets/css/wp-listings.css' ) ) {
+			wp_register_style( 'wp_listings', WP_LISTINGS_URL . 'assets/css/wp-listings.css', '', null, 'all' );
 			wp_enqueue_style( 'wp_listings' );
 		}
 	}
@@ -145,28 +145,28 @@ function wp_listings_init() {
 			return;
 		}
 
-		if ( file_exists( dirname( __FILE__ ) . '/includes/css/wp-listings-widgets.css' ) ) {
-			wp_register_style( 'wp_listings_widgets', WP_LISTINGS_URL . 'includes/css/wp-listings-widgets.css', '', null, 'all' );
+		if ( file_exists( dirname( __FILE__ ) . '/assets/css/wp-listings-widgets.css' ) ) {
+			wp_register_style( 'wp_listings_widgets', WP_LISTINGS_URL . 'assets/css/wp-listings-widgets.css', '', null, 'all' );
 			wp_enqueue_style( 'wp_listings_widgets' );
 		}
 	}
 
 	/** Add admin scripts and styles */
 	function wp_listings_admin_scripts_styles() {
-		wp_enqueue_style( 'wp_listings_admin_css', WP_LISTINGS_URL . 'includes/css/wp-listings-admin.css' );
+		wp_enqueue_style( 'wp_listings_admin_css', WP_LISTINGS_URL . 'assets/css/wp-listings-admin.css' );
 
 		/** Enqueue Font Awesome in the Admin if IDX Broker is not installed */
 		if ( ! class_exists( 'Idx_Broker_Plugin' ) ) {
 			wp_register_style( 'font-awesome-admin', '//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css', '', null, 'all' );
 			wp_enqueue_style( 'font-awesome-admin' );
-			wp_enqueue_style( 'upgrade-icon', WP_LISTINGS_URL . 'includes/css/wp-listings-upgrade.css' );
+			wp_enqueue_style( 'upgrade-icon', WP_LISTINGS_URL . 'assets/css/wp-listings-upgrade.css' );
 		}
 
 		global $wp_version;
 		$nonce_action = 'wp_listings_admin_notice';
 
-		wp_enqueue_style( 'wp-listings-admin-notice', WP_LISTINGS_URL . 'includes/css/wp-listings-admin-notice.css' );
-		wp_enqueue_script( 'wp-listings-admin', WP_LISTINGS_URL . 'includes/js/admin.js', 'media-views' );
+		wp_enqueue_style( 'wp-listings-admin-notice', WP_LISTINGS_URL . 'assets/css/wp-listings-admin-notice.css' );
+		wp_enqueue_script( 'wp-listings-admin', WP_LISTINGS_URL . 'assets/js/admin.min.js', 'media-views' );
 		wp_localize_script( 'wp-listings-admin', 'wp_listings_adminL10n', array(
 			'ajaxurl'    => admin_url( 'admin-ajax.php' ),
 			'nonce'      => wp_create_nonce( $nonce_action ),

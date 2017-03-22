@@ -84,17 +84,17 @@ function impress_agents_init() {
 			return;
 		}
 
-		if ( file_exists( dirname( __FILE__ ) . '/includes/css/impress-agents.css' ) ) {
-			wp_register_style( 'wp-listings-pro', IMPRESS_AGENTS_URL . 'includes/css/impress-agents.css', '', null, 'all' );
+		if ( file_exists( dirname( __FILE__ ) . '/assets/css/impress-agents.css' ) ) {
+			wp_register_style( 'wp-listings-pro', IMPRESS_AGENTS_URL . 'assets/css/impress-agents.css', '', null, 'all' );
 			wp_enqueue_style( 'wp-listings-pro' );
 		}
 	}
 
 	/** Add admin scripts and styles */
 	function impress_agents_admin_scripts_styles() {
-		wp_enqueue_style( 'impress_agents_admin_css', IMPRESS_AGENTS_URL . 'includes/css/impress-agents-admin.css' );
+		wp_enqueue_style( 'impress_agents_admin_css', IMPRESS_AGENTS_URL . 'assets/css/impress-agents-admin.css' );
 
-		wp_enqueue_script( 'impress-agents-admin', IMPRESS_AGENTS_URL . 'includes/js/admin.js', 'media-views' );
+		wp_enqueue_script( 'impress-agents-admin', IMPRESS_AGENTS_URL . 'assets/js/admin.min.js', 'media-views' );
 
 		$localize_script = array(
 			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
