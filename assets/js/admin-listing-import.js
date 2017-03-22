@@ -12,11 +12,11 @@ jQuery(document).ready(function($) {
 		itemSelector: '.grid-item'
 	});
 
-	$(document).on( 'click', '.delete-post', function() {
-		var id = $(this).data('id');
-		var nonce = $(this).data('nonce');
-		var post = $(this).parents('.post:first');
-		var grid = $('.grid').masonry({
+	jQuery(document).on( 'click', '.delete-post', function() {
+		var id = jQuery(this).data('id');
+		var nonce = jQuery(this).data('nonce');
+		var post = jQuery(this).parents('.post:first');
+		var grid = jQuery('.grid').masonry({
 			columnWidth: '.grid-sizer',
 			itemSelector: '.grid-item'
 		});
@@ -40,11 +40,11 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
-	$(document).on( 'click', '.delete-all', function() {
+	jQuery(document).on( 'click', '.delete-all', function() {
 		var go_ahead = confirm("This will delete all imported listings and their attached images. Are you sure you want to continue?");
-		var nonce = $(this).data('nonce');
-		var post = $('#selectable').find('.selected');
-		var grid = $('.grid').masonry({
+		var nonce = jQuery(this).data('nonce');
+		var post = jQuery('#selectable').find('.selected');
+		var grid = jQuery('.grid').masonry({
 			columnWidth: '.grid-sizer',
 			itemSelector: '.grid-item'
 		});
@@ -69,34 +69,34 @@ jQuery(document).ready(function($) {
 		} else {
 			return false;
 		}
-		
+
 	});
 
 
 
 
 	// make sure labels are drawn in the correct state
-	$('li').each(function()
+	jQuery('li').each(function()
 	{
 
-		if ($(this).find(':checkbox').attr('checked'))
-			$(this).addClass('selected');
+		if (jQuery(this).find(':checkbox').attr('checked'))
+			jQuery(this).addClass('selected');
 
 	});
 
 	// toggle label css when checkbox is clicked
-	$(':checkbox').click(function(e)
+	jQuery(':checkbox').click(function(e)
 	{
 
-		var checked = $(this).attr('checked');
-		$(this).closest('li').toggleClass('selected', checked);
+		var checked = jQuery(this).attr('checked');
+		jQuery(this).closest('li').toggleClass('selected', checked);
 
 	});
 
 	// Select all
-	$("#selectall").change(function(){
-		$(".checkbox").prop('checked', $(this).prop("checked"));
-		$(this).closest('li').addClass('selected');
+	jQuery("#selectall").change(function(){
+		jQuery(".checkbox").prop('checked', jQuery(this).prop("checked"));
+		jQuery(this).closest('li').addClass('selected');
 	});
 
 	/* === End listing importer JS. === */
