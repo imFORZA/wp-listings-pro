@@ -121,6 +121,13 @@ function impress_agents_init() {
 	}
 }
 
+
+/**
+ * impress_agents_migrate function.
+ *
+ * @access public
+ * @return void
+ */
 function impress_agents_migrate() {
 	new IMPress_Agents_Migrate();
 }
