@@ -294,11 +294,11 @@ function impress_agents_idx_agent_scripts() {
 		return;
 	}
 
-	wp_enqueue_script( 'impress_agents_idx_agent_delete_script', IMPRESS_AGENTS_URL . 'includes/js/admin-agent-import.js', array( 'jquery' ), true );
+	wp_enqueue_script( 'impress_agents_idx_agent_delete_script', IMPRESS_AGENTS_URL . '../assets/js/admin-agent-import.min.js', array( 'jquery' ), true );
 	wp_enqueue_script( 'jquery-masonry' );
 	wp_enqueue_script( 'images-loaded', 'https://unpkg.com/imagesloaded@4.1/imagesloaded.pkgd.min.js' );
 	wp_localize_script( 'impress_agents_idx_agent_delete_script', 'DeleteAgentAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-	wp_enqueue_style( 'impress_agents_idx_agent_style', IMPRESS_AGENTS_URL . 'includes/css/impress-agents-import.css' );
+	wp_enqueue_style( 'impress_agents_idx_agent_style', IMPRESS_AGENTS_URL . '../assets/css/impress-agents-import.css' );
 }
 add_action( 'wp_ajax_impa_idx_agent_delete', 'impa_idx_agent_delete' );
 function impa_idx_agent_delete() {
