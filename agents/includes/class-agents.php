@@ -1,6 +1,9 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit;
-}
+
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+
 /**
  * This file contains the IMPress_Agents class.
  */
