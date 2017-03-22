@@ -1,11 +1,6 @@
 <?php
 
-if ( !class_exists( 'Idx_Broker_Plugin' ) ) {
-	echo wp_listings_admin_notice( __( '<strong>Integrate your MLS Listings into WordPress with IDX Broker!</strong> <a href="http://www.idxbroker.com/features/idx-wordpress-plugin">Find out how</a>', 'wp-listings' ), false, 'activate_plugins', 'wpl_notice_idx' );
-}
-if( !function_exists( 'equity' ) ) {
-	echo wp_listings_admin_notice( __( '<strong>Want enhanced listings? Automatically import extra details and photos with Equity.</strong> <a href="http://www.agentevolution.com/equity/">Learn how</a>', 'wp-listings' ), false, 'activate_plugins', 'wpl_notice_equity' );
-}
+
 
 if( isset($_GET['settings-updated']) ) { ?>
 	<div id="message" class="updated">

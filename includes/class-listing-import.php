@@ -535,17 +535,7 @@ function wp_listings_idx_listing_setting_page() {
 			submit_button('Import Listings');
 
 
-			// Show popup if IDX Broker plugin not active or installed
-			if( !class_exists( 'IDX_Broker_Plugin') ) {
-				// thickbox like content
-				echo '
-					<img class="idx-import bkg" src="' . WP_LISTINGS_URL . 'images/import-bg.jpg' . '" /></a>
-					<div class="idx-import thickbox">
-					     <a href="http://www.idxbroker.com/features/idx-wordpress-plugin" target="_blank"><img src="' . WP_LISTINGS_URL . 'images/idx-ad.png' . '" alt="Sign up for IDX now!"/></a>
-					</div>';
 
-				return;
-			}
 
 			settings_errors('wp_listings_idx_listing_settings_group');
 			?>

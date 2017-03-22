@@ -322,18 +322,7 @@ function impress_agents_idx_agent_setting_page() {
 				<?php submit_button('Import Agents'); ?>
 
 			<?php
-			// Show popup if IDX Broker plugin not active or installed
-			if( !class_exists( 'IDX_Broker_Plugin') ) {
-				echo 'You must have the IMPress for IDX Broker plugin and an active IDX Broker account to import agents.';
-				// thickbox like content
-				// echo '
-				// 	<img class="idx-import bkg" src="' . IMPRESS_AGENTS_URL . 'images/import-bg.jpg' . '" /></a>
-				// 	<div class="idx-import thickbox">
-				// 	     <a href="http://www.idxbroker.com/features/idx-wordpress-plugin" target="_blank"><img src="' . IMPRESS_AGENTS_URL . 'images/idx-ad.png' . '" alt="Sign up for IDX now!"/></a>
-				// 	</div>';
 
-				return;
-			}
 
 			settings_errors('impress_agents_idx_agent_settings_group');
 			?>
