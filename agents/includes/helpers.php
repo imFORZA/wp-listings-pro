@@ -155,7 +155,7 @@ function impress_agents_get_additional_image_sizes() {
  * @return array|bool array of posts if any else false
  */
 function impa_get_connected_posts_of_type( $type ) {
-
+	error_log("getting called: " . print_r($type, true));
 	$connected = get_posts( array(
 		'connected_type'  => $type,
 		'connected_items' => get_queried_object(),
