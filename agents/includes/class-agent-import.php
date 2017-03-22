@@ -396,7 +396,7 @@ function impress_agents_idx_agent_setting_page() {
 					printf('<div class="grid-item post"><label for="%s" class="idx-agent"><li class="%s agent"><img class="agent" src="%s"><input type="checkbox" id="%s" class="checkbox" name="impress_agents_idx_agent_options[]" value="%s" %s /><p><span class="agent-name">%s</span><br/><span class="agent-title">%s</span><br/><span class="agent-phone">%s</span><br/><span class="agent-id">Agent ID: %s</span></p><div class="controls">%s %s</div></li></label></div>',
 						$a['agentID'],
 						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] == 'publish' ? 'imported' : '') : '',
-						isset( $a['agentPhotoURL'] ) && $a['agentPhotoURL'] != '' ? $a['agentPhotoURL'] : IMPRESS_AGENTS_URL . 'images/impress-agents-nophoto.png',
+						isset( $a['agentPhotoURL'] ) && $a['agentPhotoURL'] != '' ? $a['agentPhotoURL'] : IMPRESS_AGENTS_URL . '../assets/images/impress-agents-nophoto.png',
 						$a['agentID'],
 						$a['agentID'],
 						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] == 'publish' ? 'checked' : '') : '',

@@ -48,8 +48,6 @@ function impress_agents_init() {
 	define( 'IMPRESS_AGENTS_URL', plugin_dir_url( __FILE__ )  );
 	define( 'IMPRESS_AGENTS_VERSION', '1.1.3' );
 
-	/** Load textdomain for translation */
-	load_plugin_textdomain( 'wp-listings-pro', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 
 	/** Includes */
 	require_once( dirname( __FILE__ ) . '/includes/helpers.php' );
