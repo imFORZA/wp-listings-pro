@@ -165,6 +165,7 @@ class IMPress_Agents {
 		include( dirname( __FILE__ ) . '/views/employee-details-metabox.php' );
 	}
 
+	// Should be what gets called to save the meta boxes right?
 	function metabox_save( $post_id, $post ) {
 
 		/** Run only on employees post type save */
@@ -172,44 +173,47 @@ class IMPress_Agents {
 			return;
 		}
 
+		error_log("here"); // Good news, you were abl to figure out where the error was. Neat.
+
 		if ( ! isset( $_POST['impress_agents_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['impress_agents_metabox_nonce'], 'impress_agents_metabox_save' ) ) {
 	        return $post_id;
 		}
 
 	    /** Don't try to save the data under autosave, ajax, or future post */
-	    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return;
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return;
 		}
-	    if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) { return;
+    if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) { return;
 		}
-	    if ( defined( 'DOING_CRON' ) && DOING_CRON ) { return;
+    if ( defined( 'DOING_CRON' ) && DOING_CRON ) { return;
 		}
 
 	    /** Check permissions */
-	    if ( ! current_user_can( 'edit_post', $post_id ) ) {
-	        return;
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+      return;
 		}
 
-	    $employee_details = $_POST['wp-listings-pro'];
+		// And there's an error here.
+    $employee_details = $_POST['impress_agents'];
+		// Fixed it.
 
-	    /** Store the employee details custom fields */
-	    foreach ( (array) $employee_details as $key => $value ) {
+    /** Store the employee details custom fields */
+    foreach ( (array) $employee_details as $key => $value ) {
 
-	    	$key = sanitize_key( $key );
+    	$key = sanitize_key( $key );
 
-	    	if ( $key == '_employee_email' ) {
-	    		$value = sanitize_email( $value );
-	    	} else {
-	    		$value = sanitize_text_field( $value );
-	    	}
+    	if ( $key == '_employee_email' ) {
+    		$value = sanitize_email( $value );
+    	} else {
+    		$value = sanitize_text_field( $value );
+    	}
 
-	        /** Save/Update/Delete */
-	        if ( $value ) {
-	            update_post_meta( $post->ID, $key, $value );
-	        } else {
-	            delete_post_meta( $post->ID, $key );
-	        }
+      /** Save/Update/Delete */
+      if ( $value ) {
+          update_post_meta( $post->ID, $key, $value );
+      } else {
+          delete_post_meta( $post->ID, $key );
+      }
 		}
-
 	}
 
 	/**
