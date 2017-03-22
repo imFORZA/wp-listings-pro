@@ -13,8 +13,7 @@
 	License URI: http://www.opensource.org/licenses/gpl-license.php
 */
 
-// Include Agent Plugin.
-include_once( 'agents/plugin.php' );
+
 
 register_activation_hook( __FILE__, 'wp_listings_activation' );
 /**
@@ -76,11 +75,10 @@ add_action( 'after_setup_theme', 'wp_listings_init' );
  */
 function wp_listings_init() {
 
-	global $_wp_listings, $_wp_listings_taxonomies, $_wp_listings_templates;
+	global $_wp_listings, $_wp_listings_taxonomies, $_wp_listings_templates, $_impress_agents, $_impress_agents_taxonomies;
 
-	global $_impress_agents, $_impress_agents_taxonomies;
 
-		define( 'IMPRESS_AGENTS_URL', plugin_dir_url( __FILE__ )  );
+	define( 'IMPRESS_AGENTS_URL', plugin_dir_url( __FILE__ )  );
 	define( 'IMPRESS_AGENTS_VERSION', '1.1.3' );
 
 	define( 'WP_LISTINGS_URL', plugin_dir_url( __FILE__ ) );
@@ -90,9 +88,7 @@ function wp_listings_init() {
 	/** Load textdomain for translation */
 	load_plugin_textdomain( 'wp-listings-pro', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 
-		/** Instantiate */
-	$_impress_agents = new IMPress_Agents;
-	$_impress_agents_taxonomies = new IMPress_Agents_Taxonomies;
+
 
 	add_action( 'widgets_init', 'impress_agents_register_widgets' );
 
@@ -120,6 +116,10 @@ function wp_listings_init() {
 	require_once( dirname( __FILE__ ) . '/includes/class-agent-import.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-employee-widget.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
+
+	/** Instantiate */
+	$_impress_agents = new IMPress_Agents;
+	$_impress_agents_taxonomies = new IMPress_Agents_Taxonomies;
 
 	/** Add theme support for post thumbnails if it does not exist */
 	if ( ! current_theme_supports( 'post-thumbnails' ) ) {
