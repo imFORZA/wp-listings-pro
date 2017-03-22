@@ -2,14 +2,14 @@
 if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) { exit();
 }
 
-$settings = get_option( 'plugin_wp_listings_settings' );
+$settings = get_option( 'wplpro_plugin_settings' );
 
 if ( $settings['wp_listings_uninstall_delete'] == true ) {
 
 	wp_listings_delete_listings();
 
 	// Delete our Options
-	delete_site_option( 'plugin_wp_listings_settings' );
+	delete_site_option( 'wplpro_plugin_settings' );
 	delete_site_option( 'wp_listings_idx_featured_listing_wp_options' );
 	delete_site_option( 'wp_listings_taxonomies' );
 	delete_site_option( 'widget_wplistings-featured-listings' );

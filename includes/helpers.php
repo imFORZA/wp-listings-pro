@@ -29,7 +29,7 @@ function wp_listings_list_terms( $taxonomy ) {
 /**
  * Returns true if the queried taxonomy is a taxonomy of the given post type
  */
-function wp_listings_is_taxonomy_of( $post_type ) {
+function wplpro_is_taxonomy_of( $post_type ) {
 	$taxonomies = get_object_taxonomies( $post_type );
 	$queried_tax = get_query_var( 'taxonomy' );
 

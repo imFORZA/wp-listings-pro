@@ -25,7 +25,7 @@ class WP_Listings {
 	 */
 	function __construct() {
 
-		$this->options = get_option( 'plugin_wp_listings_settings' );
+		$this->options = get_option( 'wplpro_plugin_settings' );
 
 		$this->property_details = apply_filters( 'wp_listings_property_details', array(
 			'col1' => array(
@@ -101,7 +101,7 @@ class WP_Listings {
 	 * Registers the option to load the stylesheet
 	 */
 	function register_settings() {
-		register_setting( 'wp_listings_options', 'plugin_wp_listings_settings' );
+		register_setting( 'wp_listings_options', 'wplpro_plugin_settings' );
 	}
 
 	/**
@@ -115,7 +115,7 @@ class WP_Listings {
 		);
 
 		if ( empty( $this->options['wp_listings_slug'] ) && empty( $this->options['wp_listings_archive_posts_num'] ) ) {
-			add_option( 'plugin_wp_listings_settings', $new_options );
+			add_option( 'wplpro_plugin_settings', $new_options );
 		}
 
 	}

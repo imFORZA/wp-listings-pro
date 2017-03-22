@@ -77,16 +77,16 @@ function wp_listings_shortcode( $atts, $content = null ) {
 
 		$output .= '<div class="listing-wrap ' . get_column_class( $columns ) . ' ' . $first_class . '"><div class="listing-widget-thumb"><a href="' . get_permalink() . '" class="listing-image-link">' . get_the_post_thumbnail( $post->ID, 'listings' ) . '</a>';
 
-		if ( '' != wp_listings_get_status() ) {
-			$output .= '<span class="listing-status ' . strtolower( str_replace( ' ', '-', wp_listings_get_status() ) ) . '">' . wp_listings_get_status() . '</span>';
+		if ( '' != wplpro_get_status() ) {
+			$output .= '<span class="listing-status ' . strtolower( str_replace( ' ', '-', wplpro_get_status() ) ) . '">' . wplpro_get_status() . '</span>';
 		}
 
 		$output .= '<div class="listing-thumb-meta">';
 
 		if ( '' != get_post_meta( $post->ID, '_listing_text', true ) ) {
 			$output .= '<span class="listing-text">' . get_post_meta( $post->ID, '_listing_text', true ) . '</span>';
-		} elseif ( '' != wp_listings_get_property_types() ) {
-			$output .= '<span class="listing-property-type">' . wp_listings_get_property_types() . '</span>';
+		} elseif ( '' != wplpro_get_property_types() ) {
+			$output .= '<span class="listing-property-type">' . wplpro_get_property_types() . '</span>';
 		}
 
 		if ( '' != get_post_meta( $post->ID, '_listing_price', true ) ) {
@@ -100,8 +100,8 @@ function wp_listings_shortcode( $atts, $content = null ) {
 		}
 
 		$output .= '<div class="listing-widget-details"><h3 class="listing-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
-		$output .= '<p class="listing-address"><span class="listing-address">' . wp_listings_get_address() . '</span><br />';
-		$output .= '<span class="listing-city-state-zip">' . wp_listings_get_city() . ', ' . wp_listings_get_state() . ' ' . get_post_meta( $post->ID, '_listing_zip', true ) . '</span></p>';
+		$output .= '<p class="listing-address"><span class="listing-address">' . wplpro_get_address() . '</span><br />';
+		$output .= '<span class="listing-city-state-zip">' . wplpro_get_city() . ', ' . wplpro_get_state() . ' ' . get_post_meta( $post->ID, '_listing_zip', true ) . '</span></p>';
 
 		if ( '' != get_post_meta( $post->ID, '_listing_bedrooms', true ) || '' != get_post_meta( $post->ID, '_listing_bathrooms', true ) || '' != get_post_meta( $post->ID, '_listing_sqft', true ) ) {
 			$output .= '<ul class="listing-beds-baths-sqft"><li class="beds">' . get_post_meta( $post->ID, '_listing_bedrooms', true ) . '<span>' . __( 'Beds', 'wp-listings-pro' ) . '</span></li> <li class="baths">' . get_post_meta( $post->ID, '_listing_bathrooms', true ) . '<span>' . __( 'Baths', 'wp-listings-pro' ) . '</span></li> <li class="sqft">' . get_post_meta( $post->ID, '_listing_sqft', true ) . '<span>' . __( 'Square Feet', 'wp-listings-pro' ) . '</span></li></ul>';

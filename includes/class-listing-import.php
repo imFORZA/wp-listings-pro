@@ -72,7 +72,7 @@ class WPL_Idx_Listing {
 
 			// Load WP options
 			$idx_featured_listing_wp_options = get_option( 'wp_listings_idx_featured_listing_wp_options' );
-			$wpl_options = get_option( 'plugin_wp_listings_settings' );
+			$wpl_options = get_option( 'wplpro_plugin_settings' );
 			update_option( 'wp_listings_import_progress', true );
 
 			if ( is_array( $listings ) && is_array( $properties ) ) {
@@ -192,7 +192,7 @@ class WPL_Idx_Listing {
 
 		// Load WP options
 		$idx_featured_listing_wp_options = get_option( 'wp_listings_idx_featured_listing_wp_options' );
-		$wpl_options = get_option( 'plugin_wp_listings_settings' );
+		$wpl_options = get_option( 'wplpro_plugin_settings' );
 
 		foreach ( $properties as $prop ) {
 

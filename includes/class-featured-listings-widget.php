@@ -56,7 +56,7 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 
 		extract( $args );
 
-		$options = get_option( 'plugin_wp_listings_settings' );
+		$options = get_option( 'wplpro_plugin_settings' );
 
 		$column_class = $instance['use_columns'] ? $this->get_column_class( $instance['number_columns'] ) : '';
 
@@ -94,16 +94,16 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 
 				$loop = sprintf( '<div class="listing-widget-thumb"><a href="%s" class="listing-image-link">%s</a>', get_permalink(), get_the_post_thumbnail( $post->ID, $instance['image_size'] ) );
 
-				if ( '' != wp_listings_get_status() ) {
-					$loop .= sprintf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wp_listings_get_status() ) ), wp_listings_get_status() );
+				if ( '' != wplpro_get_status() ) {
+					$loop .= sprintf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wplpro_get_status() ) ), wplpro_get_status() );
 				}
 
 				$loop .= sprintf( '<div class="listing-thumb-meta">' );
 
 				if ( '' != get_post_meta( $post->ID, '_listing_text', true ) ) {
 					$loop .= sprintf( '<span class="listing-text">%s</span>', get_post_meta( $post->ID, '_listing_text', true ) );
-				} elseif ( '' != wp_listings_get_property_types() ) {
-					$loop .= sprintf( '<span class="listing-property-type">%s</span>', wp_listings_get_property_types() );
+				} elseif ( '' != wplpro_get_property_types() ) {
+					$loop .= sprintf( '<span class="listing-property-type">%s</span>', wplpro_get_property_types() );
 				}
 
 				if ( '' != get_post_meta( $post->ID, '_listing_price', true ) ) {
@@ -117,8 +117,8 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 				}
 
 				$loop .= sprintf( '<div class="listing-widget-details"><h3 class="listing-title"><a href="%s">%s</a></h3>', get_permalink(), get_the_title() );
-				$loop .= sprintf( '<p class="listing-address"><span class="listing-address">%s</span><br />', wp_listings_get_address() );
-				$loop .= sprintf( '<span class="listing-city-state-zip">%s, %s %s</span></p>', wp_listings_get_city(), wp_listings_get_state(), get_post_meta( $post->ID, '_listing_zip', true ) );
+				$loop .= sprintf( '<p class="listing-address"><span class="listing-address">%s</span><br />', wplpro_get_address() );
+				$loop .= sprintf( '<span class="listing-city-state-zip">%s, %s %s</span></p>', wplpro_get_city(), wplpro_get_state(), get_post_meta( $post->ID, '_listing_zip', true ) );
 
 				if ( '' != get_post_meta( $post->ID, '_listing_bedrooms', true ) || '' != get_post_meta( $post->ID, '_listing_bathrooms', true ) || '' != get_post_meta( $post->ID, '_listing_sqft', true ) ) {
 					$loop .= sprintf( '<ul class="listing-beds-baths-sqft"><li class="beds">%s<span>Beds</span></li> <li class="baths">%s<span>Baths</span></li> <li class="sqft">%s<span>Sq ft</span></li></ul>', get_post_meta( $post->ID, '_listing_bedrooms', true ), get_post_meta( $post->ID, '_listing_bathrooms', true ), get_post_meta( $post->ID, '_listing_sqft', true ) );

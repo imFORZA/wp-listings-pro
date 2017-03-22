@@ -18,7 +18,7 @@ function enqueue_single_listing_scripts() {
 function single_listing_post_content() {
 
 	global $post;
-	$options = get_option( 'plugin_wp_listings_settings' );
+	$options = get_option( 'wplpro_plugin_settings' );
 
 	?>
 
@@ -26,8 +26,8 @@ function single_listing_post_content() {
 
 		<div class="listing-image-wrap">
 			<?php echo '<div itemprop="image" itemscope itemtype="http://schema.org/ImageObject">' . get_the_post_thumbnail( $post->ID, 'listings-full', array( 'class' => 'single-listing-image', 'itemprop' => 'contentUrl' ) ) . '</div>';
-			if ( '' != wp_listings_get_status() ) {
-				printf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wp_listings_get_status() ) ), wp_listings_get_status() );
+			if ( '' != wplpro_get_status() ) {
+				printf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wplpro_get_status() ) ), wplpro_get_status() );
 			}
 			if ( '' != get_post_meta( $post->ID, '_listing_open_house', true ) ) {
 				printf( '<span class="listing-open-house">Open House: %s</span>', get_post_meta( $post->ID, '_listing_open_house', true ) );
@@ -43,11 +43,11 @@ function single_listing_post_content() {
 			$listing_meta .= sprintf( '<li class="listing-price">%s %s %s</li>', '<span class="currency-symbol">' . $options['wp_listings_currency_symbol'] . '</span>', get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wp_listings_display_currency_code'] ) && $options['wp_listings_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wp_listings_currency_code'] . '</span>' : '' );
 		}
 
-		if ( '' != wp_listings_get_property_types() ) {
+		if ( '' != wplpro_get_property_types() ) {
 			$listing_meta .= sprintf( '<li class="listing-property-type"><span class="label">Property Type: </span>%s</li>', get_the_term_list( get_the_ID(), 'property-types', '', ', ', '' ) );
 		}
 
-		if ( '' != wp_listings_get_locations() ) {
+		if ( '' != wplpro_get_locations() ) {
 			$listing_meta .= sprintf( '<li class="listing-location"><span class="label">Location: </span>%s</li>', get_the_term_list( get_the_ID(), 'locations', '', ', ', '' ) );
 		}
 
@@ -545,7 +545,7 @@ if ( function_exists( 'equity' ) ) {
 
 } else {
 
-	$options = get_option( 'plugin_wp_listings_settings' );
+	$options = get_option( 'wplpro_plugin_settings' );
 
 	get_header();
 	if ( isset( $options['wp_listings_custom_wrapper'] ) && isset( $options['wp_listings_start_wrapper'] ) && $options['wp_listings_start_wrapper'] != '' ) {

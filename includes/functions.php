@@ -5,8 +5,8 @@
 add_image_size( 'listings-full', 1060, 9999, false );
 add_image_size( 'listings', 560, 380, true );
 
-add_filter( 'template_include', 'wp_listings_template_include' );
-function wp_listings_template_include( $template ) {
+add_filter( 'template_include', 'wplpro_template_include' );
+function wplpro_template_include( $template ) {
 
 	global $wp_query;
 
@@ -20,7 +20,7 @@ function wp_listings_template_include( $template ) {
 			return dirname( __FILE__ ) . '/views/archive-' . $post_type . '.php';
 		}
 	}
-	if ( wp_listings_is_taxonomy_of( $post_type ) ) {
+	if ( wplpro_is_taxonomy_of( $post_type ) ) {
 		if ( file_exists( get_stylesheet_directory() . '/taxonomy-' . $post_type . '.php' ) ) {
 		    return get_stylesheet_directory() . '/taxonomy-' . $post_type . '.php';
 		} elseif ( file_exists( get_stylesheet_directory() . '/archive-' . $post_type . '.php' ) ) {
@@ -66,16 +66,16 @@ function wp_listings_template_include( $template ) {
 /**
  * Controls output of default state for the state custom field if there is one set
  */
-function wp_listings_get_state( $post_id = null ) {
-	$options = get_option( 'plugin_wp_listings_settings' );
+function wplpro_get_state( $post_id = null ) {
+	$options = get_option( 'wplpro_plugin_settings' );
 	if ( null == $post_id ) {
 		global $post;
 		$post_id = $post->ID;
 	}
 
 	$state = get_post_meta( $post_id, '_listing_state', true );
-	if ( isset( $options['wp_listings_default_state'] ) ) {
-		$default_state = $options['wp_listings_default_state'];
+	if ( isset( $options['wplpro_default_state'] ) ) {
+		$default_state = $options['wplpro_default_state'];
 	}
 
 	if ( empty( $default_state ) ) {
@@ -91,7 +91,7 @@ function wp_listings_get_state( $post_id = null ) {
 /**
  * Controls output of city name
  */
-function wp_listings_get_city( $post_id = null ) {
+function wplpro_get_city( $post_id = null ) {
 	if ( null == $post_id ) {
 		global $post;
 		$post_id = $post->ID;
@@ -107,7 +107,7 @@ function wp_listings_get_city( $post_id = null ) {
 /**
  * Controls output of address
  */
-function wp_listings_get_address( $post_id = null ) {
+function wplpro_get_address( $post_id = null ) {
 	if ( null == $post_id ) {
 		global $post;
 		$post_id = $post->ID;
@@ -123,7 +123,7 @@ function wp_listings_get_address( $post_id = null ) {
 /**
  * Displays the status (active, pending, sold, for rent) of a listing
  */
-function wp_listings_get_status( $post_id = null, $single = 0 ) {
+function wplpro_get_status( $post_id = null, $single = 0 ) {
 	if ( null == $post_id ) {
 		global $post;
 		$post_id = $post->ID;
@@ -150,7 +150,7 @@ function wp_listings_get_status( $post_id = null, $single = 0 ) {
 /**
  * Displays the property type (residential, condo, comemrcial, etc) of a listing
  */
-function wp_listings_get_property_types( $post_id = null ) {
+function wplpro_get_property_types( $post_id = null ) {
 	if ( null == $post_id ) {
 		global $post;
 		$post_id = $post->ID;
@@ -168,7 +168,7 @@ function wp_listings_get_property_types( $post_id = null ) {
 /**
  * Displays the location term of a listing
  */
-function wp_listings_get_locations( $post_id = null ) {
+function wplpro_get_locations( $post_id = null ) {
 	if ( null == $post_id ) {
 		global $post;
 		$post_id = $post->ID;
@@ -184,13 +184,13 @@ function wp_listings_get_locations( $post_id = null ) {
 	}
 }
 
-function wp_listings_post_number( $query ) {
+function wplpro_post_number( $query ) {
 
 	if ( ! $query->is_main_query() || is_admin() || ! is_post_type_archive( 'listing' ) ) {
 		return;
 	}
 
-	$options = get_option( 'plugin_wp_listings_settings' );
+	$options = get_option( 'wplpro_plugin_settings' );
 
 	$archive_posts_num = $options['wp_listings_archive_posts_num'];
 
@@ -201,13 +201,13 @@ function wp_listings_post_number( $query ) {
 	$query->query_vars['posts_per_page'] = $archive_posts_num;
 
 }
-add_action( 'pre_get_posts', 'wp_listings_post_number' );
+add_action( 'pre_get_posts', 'wplpro_post_number' );
 
 /**
  * Add Listings to "At a glance" Dashboard widget
  */
-add_filter( 'dashboard_glance_items', 'impress_listings_glance_items', 10, 1 );
-function impress_listings_glance_items( $items = array() ) {
+add_filter( 'dashboard_glance_items', 'wplpro_glance_items', 10, 1 );
+function wplpro_glance_items( $items = array() ) {
 
 	$post_types = array( 'listing' );
 
@@ -622,4 +622,3 @@ function impress_agents_term_image( $term_id, $html = true, $size = 'full' ) {
 	$image_id = get_term_meta( $term_id, 'impa_term_image', true );
 	return $image_id && $html ? wp_get_attachment_image( $image_id, $size, false, array( 'class' => 'impress-agents-term-image' ) ) : $image_id;
 }
-

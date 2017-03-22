@@ -140,7 +140,7 @@ function wp_listings_init() {
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_main_styles' );
 	function add_wp_listings_main_styles() {
 
-		$options = get_option( 'plugin_wp_listings_settings' );
+		$options = get_option( 'wplpro_plugin_settings' );
 
 		$options = get_option( 'plugin_impress_agents_settings' );
 
@@ -207,7 +207,7 @@ function wp_listings_init() {
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_widgets_styles' );
 	function add_wp_listings_widgets_styles() {
 
-		$options = get_option( 'plugin_wp_listings_settings' );
+		$options = get_option( 'wplpro_plugin_settings' );
 
 		if ( ! isset( $options['wp_listings_widgets_stylesheet_load'] ) ) {
 			$options['wp_listings_widgets_stylesheet_load'] = 0;
