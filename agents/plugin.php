@@ -84,7 +84,7 @@ function impress_agents_init() {
 			return;
 		}
 
-		if ( file_exists( dirname( __FILE__ ) . '/assets/css/impress-agents.css' ) ) {
+		if ( file_exists( dirname( __FILE__ ) . '/assets/css/impress-agents.min.css' ) ) {
 			wp_register_style( 'wp-listings-pro', IMPRESS_AGENTS_URL . '../assets/css/impress-agents.css', '', null, 'all' );
 			wp_enqueue_style( 'wp-listings-pro' );
 		}
