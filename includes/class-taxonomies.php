@@ -755,9 +755,10 @@ class IMPress_Agents_Taxonomies {
 		echo '<div class="wrap">';
 
 		if ( isset( $_REQUEST['view'] ) && 'edit' == $_REQUEST['view'] ) {
-			require( dirname( __FILE__ ) . '/views/edit-tax.php' );
+			require( dirname( __FILE__ ) . '/views/agents-edit-tax.php' );
+
 		} else {
-			require( dirname( __FILE__ ) . '/views/create-tax.php' );
+			require( dirname( __FILE__ ) . '/views/agents-create-tax.php' );
 		}
 
 		echo '</div>';
