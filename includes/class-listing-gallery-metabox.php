@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * WC_Meta_Box_listing_Images Class.
+ * WPLPRO_Meta_Box_listing_Images Class.
  */
 class WPLPRO_Meta_Box_listing_Images {
 
@@ -28,9 +28,7 @@ class WPLPRO_Meta_Box_listing_Images {
 						$listing_image_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
 					} else {
 						// Backwards compat
-						$attachment_ids = get_posts( 'post_parent=' . $post->ID . '&numberposts=-1&post_type=attachment&orderby=menu_order&order=ASC&post_mime_type=image&fields=ids&meta_key=_wplpro_exclude_image&meta_value=0' );
-						$attachment_ids = array_diff( $attachment_ids, array( get_post_thumbnail_id() ) );
-						$listing_image_gallery = implode( ',', $attachment_ids );
+						$listing_image_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
 					}
 
 					$attachments         = array_filter( explode( ',', $listing_image_gallery ) );
@@ -82,7 +80,7 @@ class WPLPRO_Meta_Box_listing_Images {
 	 * @param WP_Post $post
 	 */
 	public static function save( $post_id, $post ) {
-		$attachment_ids = isset( $_POST['listing_image_gallery'] ) ? array_filter( explode( ',', wc_clean( $_POST['listing_image_gallery'] ) ) ) : array();
+		$attachment_ids = isset( $_POST['listing_image_gallery'] ) ? array_filter( explode( ',',  $_POST['listing_image_gallery'] ) ) : array();
 
 		update_post_meta( $post_id, '_listing_image_gallery', implode( ',', $attachment_ids ) );
 	}

@@ -16,9 +16,9 @@ jQuery( function( $ ) {
 		$target.data( 'listing_gallery', this );
 
 		// Pick functionality to initialize...
-		this.flexslider_enabled = $.isFunction( $.fn.flexslider ) && wc_single_listing_params.flexslider_enabled;
-		this.zoom_enabled       = $.isFunction( $.fn.zoom ) && wc_single_listing_params.zoom_enabled;
-		this.photoswipe_enabled = typeof PhotoSwipe !== 'undefined' && wc_single_listing_params.photoswipe_enabled;
+		this.flexslider_enabled = $.isFunction( $.fn.flexslider ) && wplpro_single_listing_params.flexslider_enabled;
+		this.zoom_enabled       = $.isFunction( $.fn.zoom ) && wplpro_single_listing_params.zoom_enabled;
+		this.photoswipe_enabled = typeof PhotoSwipe !== 'undefined' && wplpro_single_listing_params.photoswipe_enabled;
 
 		// ...also taking args into account.
 		if ( args ) {
@@ -58,13 +58,13 @@ jQuery( function( $ ) {
 
 		this.$target.flexslider( {
 			selector:       '.wplpro-listing-gallery__wrapper > .wplpro-listing-gallery__image',
-			animation:      wc_single_listing_params.flexslider.animation,
-			smoothHeight:   wc_single_listing_params.flexslider.smoothHeight,
-			directionNav:   wc_single_listing_params.flexslider.directionNav,
-			controlNav:     wc_single_listing_params.flexslider.controlNav,
-			slideshow:      wc_single_listing_params.flexslider.slideshow,
-			animationSpeed: wc_single_listing_params.flexslider.animationSpeed,
-			animationLoop:  wc_single_listing_params.flexslider.animationLoop, // Breaks photoswipe pagination if true.
+			animation:      wplpro_single_listing_params.flexslider.animation,
+			smoothHeight:   wplpro_single_listing_params.flexslider.smoothHeight,
+			directionNav:   wplpro_single_listing_params.flexslider.directionNav,
+			controlNav:     wplpro_single_listing_params.flexslider.controlNav,
+			slideshow:      wplpro_single_listing_params.flexslider.slideshow,
+			animationSpeed: wplpro_single_listing_params.flexslider.animationSpeed,
+			animationLoop:  wplpro_single_listing_params.flexslider.animationLoop, // Breaks photoswipe pagination if true.
 			start: function() {
 				var largest_height = 0;
 
@@ -189,9 +189,9 @@ jQuery( function( $ ) {
 	};
 
 	/**
-	 * Function to call wc_listing_gallery on jquery selector.
+	 * Function to call wplpro_listing_gallery on jquery selector.
 	 */
-	$.fn.wc_listing_gallery = function( args ) {
+	$.fn.wplpro_listing_gallery = function( args ) {
 		new listingGallery( this, args );
 		return this;
 	};
@@ -200,7 +200,7 @@ jQuery( function( $ ) {
 	 * Initialize all galleries on page.
 	 */
 	jQuery( '.wplpro-listing-gallery' ).each( function() {
-		jQuery( this ).wc_listing_gallery();
+		jQuery( this ).wplpro_listing_gallery();
 	} );
 
 
@@ -348,7 +348,7 @@ jQuery( function( $ ) {
 		forceHelperSize: false,
 		helper: 'clone',
 		opacity: 0.65,
-		placeholder: 'wc-metabox-sortable-placeholder',
+		placeholder: 'wplpro-metabox-sortable-placeholder',
 		start: function( event, ui ) {
 			ui.item.css( 'background-color', '#f6f6f6' );
 		},
