@@ -117,6 +117,8 @@ function wp_listings_init() {
 	require_once( dirname( __FILE__ ) . '/includes/class-employee-widget.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
 
+	require_once( dirname( __FILE__ ) . '/includes/class-listing-gallery-metabox.php' );
+
 	/** Instantiate */
 	$_impress_agents = new IMPress_Agents;
 	$_impress_agents_taxonomies = new IMPress_Agents_Taxonomies;
@@ -134,6 +136,12 @@ function wp_listings_init() {
 		wp_register_script( 'fitvids', '//cdnjs.cloudflare.com/ajax/libs/fitvids/1.1.0/jquery.fitvids.min.js', array( 'jquery' ), null, true ); // enqueued only on single listings
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-ui-tabs', array( 'jquery' ) );
+
+		wp_register_script( 'wp-listings-gallery', WP_LISTINGS_URL . 'assets/js/admin-listing-gallery.min.js', array( 'jquery' ), null, true );
+		wp_enqueue_script( 'wp-listings-gallery' );
+
+		wp_register_script( 'jquery-prettyphoto', WP_LISTINGS_URL . 'assets/js/jquery.prettyPhoto.min.js', array( 'jquery' ), null, true );
+		wp_enqueue_script( 'jquery-prettyphoto' );
 	}
 
 	/** Enqueues wp-listings.css style file if it exists and is not deregistered in settings */

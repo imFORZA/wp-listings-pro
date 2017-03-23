@@ -179,6 +179,8 @@ class WP_Listings {
 		add_meta_box( 'listing_details_metabox', __( 'Property Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
 
+		add_meta_box( 'woocommerce-listing-images', __( 'Gallery', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_listing_Images::output', 'listing', 'high' );
+
 	}
 
 	function listing_details_metabox() {
