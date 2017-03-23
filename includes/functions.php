@@ -240,7 +240,7 @@ function wplpro_glance_items( $items = array() ) {
 /**
  * Better Jetpack Related Posts Support for Listings
  */
-function wp_listings_jetpack_relatedposts( $headline ) {
+function wplpro_jetpack_relatedposts( $headline ) {
 	if ( is_singular( 'listing' ) ) {
 		$headline = sprintf(
 			'<h3 class="jp-relatedposts-headline"><em>%s</em></h3>',
@@ -249,7 +249,7 @@ function wp_listings_jetpack_relatedposts( $headline ) {
 	}
 	return $headline;
 }
-add_filter( 'jetpack_relatedposts_filter_headline', 'wp_listings_jetpack_relatedposts' );
+add_filter( 'jetpack_relatedposts_filter_headline', 'wplpro_jetpack_relatedposts' );
 
 /**
  * Add Listings to Jetpack Omnisearch
@@ -261,9 +261,9 @@ if ( class_exists( 'Jetpack_Omnisearch_Posts' ) ) {
 /**
  * Add Listings to Jetpack sitemap
  */
-add_filter( 'jetpack_sitemap_post_types', 'wp_listings_jetpack_sitemap' );
-function wp_listings_jetpack_sitemap() {
-	$post_types[] = 'listing';
+add_filter( 'jetpack_sitemap_post_types', 'wplpro_jetpack_sitemap' );
+function wplpro_jetpack_sitemap() {
+	$post_types = array('listing', 'employee');
 	return $post_types;
 }
 
@@ -274,7 +274,7 @@ function wp_listings_jetpack_sitemap() {
  * @param  boolean $html    use html wrapper with wp_get_attachment_image
  * @return mixed  the image with html markup or the image id
  */
-function wp_listings_term_image( $term_id, $html = true, $size = 'full' ) {
+function wplpro_term_image( $term_id, $html = true, $size = 'full' ) {
 	$image_id = get_term_meta( $term_id, 'wpl_term_image', true );
 	return $image_id && $html ? wp_get_attachment_image( $image_id, $size, false, array( 'class' => 'wp-listings-term-image' ) ) : $image_id;
 }
@@ -285,11 +285,11 @@ function wp_listings_term_image( $term_id, $html = true, $size = 'full' ) {
 /**
  * Holds miscellaneous functions for use in the IMPress Agents plugin
  */
-add_action( 'pre_get_posts', 'impa_change_sort_order' );
+add_action( 'pre_get_posts', 'wplpro_change_sort_order' );
 /**
  * Add pagination and sort by menu order for employee archives
  */
-function impa_change_sort_order( $query ) {
+function wplpro_change_sort_order( $query ) {
 
 	$paged = (get_query_var( 'paged' )) ? get_query_var( 'paged' ) : 1;
 
@@ -300,11 +300,11 @@ function impa_change_sort_order( $query ) {
 	}
 }
 
-add_action( 'p2p_init', 'impa_employee_connection_types' );
+add_action( 'p2p_init', 'wplpro_employee_connection_types' );
 /**
  * Connects employee post type to listing post type
  */
-function impa_employee_connection_types() {
+function wplpro_employee_connection_types() {
 
 	if ( ! post_type_exists( 'listing' ) || ! post_type_exists( 'employee' ) ) {
 		return;
@@ -321,8 +321,8 @@ function impa_employee_connection_types() {
 add_image_size( 'employee-thumbnail', 150, 200, true );
 add_image_size( 'employee-full', 300, 400, true );
 
-add_filter( 'template_include', 'impress_agents_template_include' );
-function impress_agents_template_include( $template ) {
+add_filter( 'template_include', 'wplpro_template_include_employee' );
+function wplpro_template_include_employee( $template ) {
 
 	global $wp_query;
 
@@ -336,7 +336,7 @@ function impress_agents_template_include( $template ) {
 			return dirname( __FILE__ ) . '/views/archive-' . $post_type . '.php';
 		}
 	}
-	if ( impress_agents_is_taxonomy_of( $post_type ) ) {
+	if ( wplpro_is_taxonomy_of( $post_type ) ) {
 		if ( file_exists( get_stylesheet_directory() . '/taxonomy-' . $post_type . '.php' ) ) {
 		    return get_stylesheet_directory() . '/taxonomy-' . $post_type . '.php';
 		} elseif ( file_exists( get_stylesheet_directory() . '/archive-' . $post_type . '.php' ) ) {
@@ -365,7 +365,7 @@ function impress_agents_template_include( $template ) {
 	return $template;
 }
 
-function impa_employee_details() {
+function wplpro_employee_details() {
 	global $post;
 
 	$output = '';
@@ -431,7 +431,7 @@ function impa_employee_details() {
 	return $output;
 }
 
-function impa_employee_archive_details() {
+function wplpro_employee_archive_details() {
 	global $post;
 
 	$output = '';
@@ -459,7 +459,7 @@ function impa_employee_archive_details() {
 	return $output;
 }
 
-function impa_employee_social() {
+function wplpro_employee_social() {
 	global $post;
 
 	if ( get_post_meta( $post->ID, '_employee_facebook', true ) != '' || get_post_meta( $post->ID, '_employee_twitter', true ) != '' || get_post_meta( $post->ID, '_employee_linkedin', true ) != '' || get_post_meta( $post->ID, '_employee_googleplus', true ) != '' || get_post_meta( $post->ID, '_employee_pinterest', true ) != '' || get_post_meta( $post->ID, '_employee_youtube', true ) != '' || get_post_meta( $post->ID, '_employee_instagram', true ) != '' ) {
@@ -503,7 +503,7 @@ function impa_employee_social() {
 /**
  * Displays the job type of a employee
  */
-function impress_agents_get_job_types( $post_id = null ) {
+function wplpro_get_job_types( $post_id = null ) {
 
 	if ( null == $post_id ) {
 		global $post;
@@ -602,14 +602,6 @@ if ( class_exists( 'Jetpack_Omnisearch_Posts' ) ) {
 	new Jetpack_Omnisearch_Posts( 'employee' );
 }
 
-/**
- * Add Employees to Jetpack sitemap
- */
-add_filter( 'jetpack_sitemap_post_types', 'impress_agents_jetpack_sitemap' );
-function impress_agents_jetpack_sitemap() {
-	$post_types[] = 'employee';
-	return $post_types;
-}
 
 /**
  * Function to return term image for use on front end

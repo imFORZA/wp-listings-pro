@@ -179,7 +179,7 @@ function impa_profile_shortcode( $atts, $content = null ) {
 		$output .= '<div class="shortcode-agent-wrap">';
 		$output .= '<a href="' . get_permalink() . '">' . get_the_post_thumbnail( $post->ID, 'employee-thumbnail' ) . '</a>';
 		$output .= '<div class="shortcode-agent-details"><a class="fn" href="' . get_permalink() . '">' . get_the_title() . '</a>';
-		$output .= impa_employee_details();
+		$output .= wplpro_employee_details();
 		if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wp_listings_init' ) ) {
 			$has_listings = impa_has_listings( $post->ID );
 			if ( ! empty( $has_listings ) ) {
@@ -188,7 +188,7 @@ function impa_profile_shortcode( $atts, $content = null ) {
 		}
 
 		$output .= '</div>';
-		$output .= impa_employee_social();
+		$output .= wplpro_employee_social();
 
 		$output .= '</div><!-- .shortcode-agent-wrap -->';
 

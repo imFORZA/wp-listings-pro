@@ -15,7 +15,7 @@ function archive_listing_loop() {
 		$count = 0; // start counter at 0
 
 		// Uncomment to use term image in your theme
-		// echo '<div class="wp-listings-term-image">' . wp_listings_term_image(get_queried_object()->term_id, true, 'full') . '</div>';
+		// echo '<div class="wp-listings-term-image">' . wplpro_term_image(get_queried_object()->term_id, true, 'full') . '</div>';
 		// Start the Loop.
 	while ( have_posts() ) : the_post();
 

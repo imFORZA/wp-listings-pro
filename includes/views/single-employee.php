@@ -25,8 +25,8 @@ function single_employee_post_content() {
 		?>
 		<div class="agent-details vcard">
 			<span class="fn" style="display:none;" itemprop="name"><?php the_title(); ?></span>
-			<?php echo impa_employee_details(); ?>
-			<?php echo impa_employee_social(); ?>
+			<?php echo wplpro_employee_details(); ?>
+			<?php echo wplpro_employee_social(); ?>
 		</div> <!-- .agent-details -->
 	</div> <!-- .agent-wrap -->
 

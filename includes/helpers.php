@@ -209,19 +209,6 @@ function impress_agents_list_terms( $taxonomy ) {
 }
 
 
-/**
- * Returns true if the queried taxonomy is a taxonomy of the given post type
- */
-function impress_agents_is_taxonomy_of( $post_type ) {
-	$taxonomies = get_object_taxonomies( $post_type );
-	$queried_tax = get_query_var( 'taxonomy' );
-
-	if ( in_array( $queried_tax, $taxonomies ) ) {
-		return true;
-	}
-
-	return false;
-}
 
 /**
  * Display navigation to next/previous employee when applicable.
@@ -463,8 +450,8 @@ function impa_connected_agents_markup() {
 		<div ', post_class( 'connected-agents vcard' ), ' itemscope itemtype="http://schema.org/Person">
 			<div class="agent-thumb"><a href="', get_permalink( $profile->ID ), '"><img src="', $thumb_url[0], '" alt="', get_the_title(), ' photo" class="attachment-agent-profile-photo wp-post-image alignleft" itemprop="image" /></a></div><!-- .agent-thumb -->
 			<div class="agent-details"><h5><a class="fn agent-name" itemprop="name" href="', get_permalink( $profile->ID ), '">', get_the_title( $profile->ID ), '</a></h5>';
-			echo impa_employee_details();
-			echo impa_employee_social();
+			echo wplpro_employee_details();
+			echo wplpro_employee_social();
 		echo '</div><!-- .agent-details --></div><!-- .connected-agents .vcard -->';
 	}
 
@@ -472,4 +459,3 @@ function impa_connected_agents_markup() {
 
 	wp_reset_postdata();
 }
-

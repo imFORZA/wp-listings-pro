@@ -62,7 +62,7 @@ class IMPress_Agents_Widget extends WP_Widget {
 				echo '<div ', post_class( 'widget-agent-wrap' ), '>';
 				echo '<a href="', get_permalink(), '">', get_the_post_thumbnail( $post->ID, 'employee-thumbnail' ), '</a>';
 				printf( '<div class="widget-agent-details"><a class="fn" href="%s">%s</a>', get_permalink(), get_the_title() );
-				echo impa_employee_archive_details();
+				echo wplpro_employee_archive_details();
 
 				if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wp_listings_init' ) ) {
 					$has_listings = impa_has_listings( $post->ID );
@@ -72,7 +72,7 @@ class IMPress_Agents_Widget extends WP_Widget {
 				}
 
 				echo '</div>';
-				// echo impa_employee_social();
+				// echo wplpro_employee_social();
 				echo '</div><!-- .widget-agent-wrap -->';
 
 				endwhile;

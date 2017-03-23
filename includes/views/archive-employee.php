@@ -51,7 +51,7 @@ function archive_employee_loop() {
 
 		printf( '<p><a class="fn" href="%s" itemprop="name">%s</a></p>', get_permalink(), get_the_title() );
 
-		echo impa_employee_archive_details();
+		echo wplpro_employee_archive_details();
 		if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wp_listings_init' ) ) {
 
 			$has_listings = impa_has_listings( $post_id );
@@ -60,7 +60,7 @@ function archive_employee_loop() {
 			}
 		}
 
-		// echo impa_employee_social();
+		// echo wplpro_employee_social();
 		?>
 		</div><!-- .agent-details -->
 	</div> <!-- .agent-wrap -->
