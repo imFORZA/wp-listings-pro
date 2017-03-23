@@ -114,6 +114,7 @@ gulp.task('build-js', function(){
       noSource: true
     }))
     .pipe(gulp.dest( JS_DEST ));
+
 });
 
 gulp.task('build-img', function(){
@@ -140,3 +141,5 @@ gulp.task('zip', function(){
     .pipe( zip( BASE_NAME + '.zip' ) )
     .pipe( gulp.dest('dist') );
 });
+
+module.exports = gulp;
