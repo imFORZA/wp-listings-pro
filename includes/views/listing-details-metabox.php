@@ -81,9 +81,15 @@ echo '</div><br style="clear: both;" /><br /><br /><hr>';
 
 echo '<div style="width: 100%; float: left;">';
 
-_e( '<p><label>Photo Gallery (use Add Media button to insert Gallery):<br />', 'wp-listings-pro' );
+
 
 $wplistings_gallery_content = get_post_meta( $post->ID, '_listing_gallery', true );
+
+// Hide Legacy Gallery Meta Field if empty.
+if( ! empty( $wplistings_gallery_content ) ) {
+
+	_e( '<p><label>Photo Gallery (use Add Media button to insert Gallery):<br />', 'wp-listings-pro' );
+
 $wplistings_gallery_editor_id = '_listing_gallery';
 
 $wplistings_gallery_editor_settings = array(
@@ -97,6 +103,8 @@ $wplistings_gallery_editor_settings = array(
 	);
 
 wp_editor( $wplistings_gallery_content, $wplistings_gallery_editor_id, $wplistings_gallery_editor_settings );
+
+}
 
 echo '</div><br style="clear: both;" /><br /><br />';
 
