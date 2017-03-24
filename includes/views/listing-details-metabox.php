@@ -56,7 +56,7 @@ echo '<div style="width: 90%; float: left">';
 	foreach($stuff as $agent){
 	  printf('<input type="checkbox" name="wp_listings[_employee_responsibility_' . $agent->ID . ']" %s />',checked( get_post_meta( $post->ID, '_employee_responsibility_' . $agent->ID , true ), 1, 0 ) );
 
-		echo $agent->ID;
+		echo get_post_meta($agent->ID, '_employee_last_name', true) . ", " . get_post_meta($agent->ID, '_employee_first_name', true);
 		echo "<br>";
 	}
 echo '</p></div>';
