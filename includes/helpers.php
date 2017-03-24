@@ -45,7 +45,7 @@ function wplpro_is_taxonomy_of( $post_type ) {
  *
  * @since 0.1.0
  */
-function wplpro_post_nav() {
+function wplpro_post_nav_listing() {
 	// Don't print empty markup if there's nowhere to navigate.
 	$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
 	$next     = get_adjacent_post( false, '', false );
@@ -70,7 +70,13 @@ function wplpro_post_nav() {
 	</nav><!-- .navigation -->
 	<?php
 }
-function impress_agents_post_nav() {
+
+/**
+ * Display navigation to next/previous employee when applicable.
+ *
+ * @since 0.1.0
+ */
+function wplpro_post_nav_employee() {
 	// Don't print empty markup if there's nowhere to navigate.
 	$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
 	$next     = get_adjacent_post( false, '', false );
@@ -97,13 +103,12 @@ function impress_agents_post_nav() {
 }
 
 
-
 /**
  * Display navigation to next/previous set of listings when applicable.
  *
  * @since 0.1.0
  */
-function wp_listings_paging_nav() {
+function wplpro_paging_nav_listing() {
 	// Don't print empty markup if there's only one page.
 	if ( $GLOBALS['wp_query']->max_num_pages < 2 ) {
 		return;
@@ -148,101 +153,12 @@ function wp_listings_paging_nav() {
 	<?php
 	endif;
 }
-
-/**
- * Return registered image sizes.
- *
- * Return a two-dimensional array of just the additionally registered image sizes, with width, height and crop sub-keys.
- *
- * @since 1.0.1
- *
- * @global array $_wp_additional_image_sizes Additionally registered image sizes.
- *
- * @return array Two-dimensional, with width, height and crop sub-keys.
- */
-function wp_listings_get_additional_image_sizes() {
-
-	global $_wp_additional_image_sizes;
-
-	if ( $_wp_additional_image_sizes ) {
-		return $_wp_additional_image_sizes;
-	}
-
-	return array();
-
-}
-
-
-/*
- * function to set column classes based on parameter
- */
-function get_column_class( $columns ) {
-	$column_class = '';
-
-	// Max of six columns
-	$columns = ( $columns > 6 ) ? 6 : (int) $columns;
-
-	// column class
-	switch ( $columns ) {
-		case 0:
-		case 1:
-			$column_class = '';
-			break;
-		case 2:
-			$column_class = 'one-half';
-			break;
-		case 3:
-			$column_class = 'one-third';
-			break;
-		case 4:
-			$column_class = 'one-fourth';
-			break;
-		case 5:
-			$column_class = 'one-fifth';
-			break;
-		case 6:
-			$column_class = 'one-sixth';
-			break;
-	}
-
-	return $column_class;
-}
-
-
-/**
- * Lists all the terms of a given taxonomy
- *
- * Adds the taxonomy title and a list of the terms associated with that taxonomy
- * used in custom post type templates.
- */
-function impress_agents_list_terms( $taxonomy ) {
-	$the_tax_object = get_taxonomy( $taxonomy );
-	$terms = get_terms( $taxonomy );
-	$term_list = '';
-
-	$count = count( $terms );
-	$i = 0;
-	if ( $count > 0 ) {
-	    foreach ( $terms as $term ) {
-	        $i++;
-	    	$term_list .= '<li><a href="' . site_url( $taxonomy . '/' . $term->slug ) . '" title="' . sprintf( __( 'View all post filed under %s', 'gbd' ), $term->name ) . '">' . $term->name . ' (' . $term->count . ')</a></li>';
-	    }
-		echo '<div class="' . $taxonomy . ' term-list-container">';
-		echo '<h3 class="taxonomy-name">' . $the_tax_object->label . '</h3>';
-		echo "<ul class=\"term-list\">{$term_list}</ul>";
-		echo '</div> <!-- .' . $taxonomy . ' .term-list-container -->';
-	}
-}
-
-
-
-
 /**
  * Display navigation to next/previous set of employees when applicable.
  *
  * @since 0.1.0
  */
-function impress_agents_paging_nav() {
+function wplpro_paging_nav_employee() {
 	// Don't print empty markup if there's only one page.
 	if ( $GLOBALS['wp_query']->max_num_pages < 2 ) {
 		return;
@@ -299,7 +215,7 @@ function impress_agents_paging_nav() {
  *
  * @return array Two-dimensional, with width, height and crop sub-keys.
  */
-function impress_agents_get_additional_image_sizes() {
+function wplpro_get_additional_image_sizes() {
 
 	global $_wp_additional_image_sizes;
 
@@ -312,13 +228,53 @@ function impress_agents_get_additional_image_sizes() {
 }
 
 
+/*
+ * function to set column classes based on parameter
+ */
+function get_column_class( $columns ) {
+	$column_class = '';
+
+	// Max of six columns
+	$columns = ( $columns > 6 ) ? 6 : (int) $columns;
+
+	// column class
+	switch ( $columns ) {
+		case 0:
+		case 1:
+			$column_class = '';
+			break;
+		case 2:
+			$column_class = 'one-half';
+			break;
+		case 3:
+			$column_class = 'one-third';
+			break;
+		case 4:
+			$column_class = 'one-fourth';
+			break;
+		case 5:
+			$column_class = 'one-fifth';
+			break;
+		case 6:
+			$column_class = 'one-sixth';
+			break;
+	}
+
+	return $column_class;
+}
+
+
+
+
+
+
 /**
  * Returns an array of posts of connected $type
  *
  * @param string $type the connected_type
  * @return array|bool array of posts if any else false
  */
-function impa_get_connected_posts_of_type( $type ) {
+function wplpro_get_connected_posts_of_type( $type ) {
 
 	$connected = get_posts( array(
 		'connected_type'  => $type,
@@ -341,7 +297,7 @@ function impa_get_connected_posts_of_type( $type ) {
  * @param  int    $post the post id
  * @return array|bool array of posts if any else false
  */
-function impa_get_connected_posts_of_type_archive( $type, $post ) {
+function wplpro_get_connected_posts_of_type_archive( $type, $post ) {
 
 	$connected = get_posts( array(
 		'connected_type'  => $type,
@@ -359,17 +315,17 @@ function impa_get_connected_posts_of_type_archive( $type, $post ) {
 /**
  * Outputs markup for the connected listings on single agents
  */
-function impa_connected_listings_markup() {
+function wplpro_connected_listings_markup() {
 
 	$count = 0;
 
-	$listings = impa_get_connected_posts_of_type( 'agents_to_listings' );
+	$listings = wplpro_get_connected_posts_of_type( 'agents_to_listings' );
 
 	if ( empty( $listings ) ) {
 		return;
 	}
 
-	echo apply_filters( 'impa_connected_listing_heading', $heading = '<h3><a name="agent-listings">My Listings</a></h3>' );
+	echo apply_filters( 'wplpro_connected_listing_heading', $heading = '<h3><a name="agent-listings">My Listings</a></h3>' );
 
 	global $post;
 
@@ -408,9 +364,9 @@ function impa_connected_listings_markup() {
 /**
  * Check if the agent post id has connected listings
  */
-function impa_has_listings( $post ) {
+function wplpro_has_listings( $post ) {
 
-	$listings = impa_get_connected_posts_of_type_archive( 'agents_to_listings', $post );
+	$listings = wplpro_get_connected_posts_of_type_archive( 'agents_to_listings', $post );
 
 	if ( empty( $listings ) ) {
 		return false;
@@ -421,15 +377,15 @@ function impa_has_listings( $post ) {
 /**
  * Outputs markup for the connected agents on single listings
  */
-function impa_connected_agents_markup() {
+function wplpro_connected_agents_markup() {
 
-	$profiles = impa_get_connected_posts_of_type( 'agents_to_listings' );
+	$profiles = wplpro_get_connected_posts_of_type( 'agents_to_listings' );
 
 	if ( empty( $profiles ) ) {
 		return;
 	}
 
-	echo apply_filters( 'impa_connected_agent_heading', $heading = '<h4>Listing Presented by:</h4>' );
+	echo apply_filters( 'wplpro_connected_agent_heading', $heading = '<h4>Listing Presented by:</h4>' );
 
 	global $post;
 

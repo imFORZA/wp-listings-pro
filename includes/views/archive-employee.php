@@ -54,7 +54,7 @@ function archive_employee_loop() {
 		echo wplpro_employee_archive_details();
 		if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wp_listings_init' ) ) {
 
-			$has_listings = impa_has_listings( $post_id );
+			$has_listings = wplpro_has_listings( $post_id );
 			if ( ! empty( $has_listings ) ) {
 				echo '<p><a class="agent-listings-link" href="' . get_permalink() . '#agent-listings">View My Listings</a></p>';
 			}
@@ -71,7 +71,7 @@ function archive_employee_loop() {
 	} elseif ( function_exists( 'genesis_init' ) ) {
 		genesis_posts_nav();
 	} else {
-		impress_agents_paging_nav();
+		wplpro_paging_nav_employee();
 	} else : ?>
 
 	<p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>

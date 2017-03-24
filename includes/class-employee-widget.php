@@ -65,7 +65,7 @@ class IMPress_Agents_Widget extends WP_Widget {
 				echo wplpro_employee_archive_details();
 
 				if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wp_listings_init' ) ) {
-					$has_listings = impa_has_listings( $post->ID );
+					$has_listings = wplpro_has_listings( $post->ID );
 					if ( ! empty( $has_listings ) ) {
 					    echo '<p><a class="agent-listings-link" href="' . get_permalink() . '#agent-listings">View My Listings</a></p>';
 					}

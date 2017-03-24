@@ -446,7 +446,7 @@ function wplpro_employee_archive_details() {
 	}
 
 	if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wp_listings_init' ) ) {
-		$listings = impa_get_connected_posts_of_type( 'agents_to_listings' );
+		$listings = wplpro_get_connected_posts_of_type( 'agents_to_listings' );
 		if ( ! empty( $listings ) ) {
 			echo '<p><a class="agent-listings-link" href="' . get_permalink() . '#agent-listings">View My Listings</a></p>';
 		}

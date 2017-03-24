@@ -265,17 +265,17 @@ function single_listing_post_content() {
 
 		<?php
 		if ( function_exists( '_p2p_init' ) && function_exists( 'agent_profiles_init' ) ) {
-			if ( impa_has_listings( $post->ID ) ) {
+			if ( wplpro_has_listings( $post->ID ) ) {
 				echo'<div id="listing-agent">
 					<div class="connected-agents">';
 				aeprofiles_connected_agents_markup();
 				echo '</div></div><!-- .listing-agent -->';
 			}
 		} elseif ( function_exists( '_p2p_init' ) && function_exists( 'impress_agents_init' ) ) {
-			if ( impa_has_listings( $post->ID ) ) {
+			if ( wplpro_has_listings( $post->ID ) ) {
 				echo'<div id="listing-agent">
 					<div class="connected-agents">';
-				impa_connected_agents_markup();
+				wplpro_connected_agents_markup();
 				echo '</div></div><!-- .listing-agent -->';
 			}
 		}
@@ -582,7 +582,7 @@ if ( function_exists( 'equity' ) ) {
 
 	<?php
 	// Previous/next post navigation.
-	wplpro_post_nav();
+	wplpro_post_nav_listing();
 
 	// If comments are open or we have at least one comment, load up the comment template.
 	if ( comments_open() || get_comments_number() ) {

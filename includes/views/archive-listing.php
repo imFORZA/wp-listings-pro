@@ -71,7 +71,7 @@ function archive_listing_loop() {
 	} elseif ( function_exists( 'genesis_init' ) ) {
 		genesis_posts_nav();
 	} else {
-		wp_listings_paging_nav();
+		wplpro_paging_nav_listing();
 	}
 
 }

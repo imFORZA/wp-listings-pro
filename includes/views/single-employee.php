@@ -37,7 +37,7 @@ function single_employee_post_content() {
 	<?php if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wp_listings_init' ) ) {
 		echo'
 		<div class="connected-agent-listings">';
-		impa_connected_listings_markup();
+		wplpro_connected_listings_markup();
 		echo '</div>';
 }?>
 
@@ -105,7 +105,7 @@ if ( function_exists( 'equity' ) ) {
 
 	<?php
 	// Previous/next post navigation.
-	wplpro_post_nav();
+	wplpro_post_nav_employee();
 
 	// If comments are open or we have at least one comment, load up the comment template.
 	if ( comments_open() || get_comments_number() ) {
