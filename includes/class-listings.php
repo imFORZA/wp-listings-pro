@@ -110,11 +110,11 @@ class WP_Listings {
 	function add_options() {
 
 		$new_options = array(
-			'wp_listings_archive_posts_num' => 9,
-			'wp_listings_slug' => 'listings',
+			'wplpro_archive_posts_num' => 9,
+			'wplpro_listings_slug' => 'listings',
 		);
 
-		if ( empty( $this->options['wp_listings_slug'] ) && empty( $this->options['wp_listings_archive_posts_num'] ) ) {
+		if ( empty( $this->options['wplpro_listings_slug'] ) && empty( $this->options['wplpro_archive_posts_num'] ) ) {
 			add_option( 'wplpro_plugin_settings', $new_options );
 		}
 
@@ -167,7 +167,7 @@ class WP_Listings {
 				'menu_icon'		=> 'dashicons-admin-home',
 				'has_archive'	=> true,
 				'supports'		=> array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown' ),
-				'rewrite'		=> array( 'slug' => $this->options['wp_listings_slug'], 'feeds' => true, 'with_front' => false ),
+				'rewrite'		=> array( 'slug' => $this->options['wplpro_listings_slug'], 'feeds' => true, 'with_front' => false ),
 			)
 		);
 

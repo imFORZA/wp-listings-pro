@@ -107,7 +107,7 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 				}
 
 				if ( '' != get_post_meta( $post->ID, '_listing_price', true ) ) {
-					$loop .= sprintf( '<span class="listing-price"><span class="currency-symbol">%s</span>%s %s</span>', $options['wp_listings_currency_symbol'], get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wp_listings_display_currency_code'] ) && $options['wp_listings_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wp_listings_currency_code'] . '</span>': '' );
+					$loop .= sprintf( '<span class="listing-price"><span class="currency-symbol">%s</span>%s %s</span>', $options['wplpro_currency_symbol'], get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wplpro_display_currency_code'] ) && $options['wplpro_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>': '' );
 				}
 
 				$loop .= sprintf( '</div><!-- .listing-thumb-meta --></div><!-- .listing-widget-thumb -->' );

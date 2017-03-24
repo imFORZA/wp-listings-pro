@@ -167,11 +167,11 @@ function wp_listings_init() {
 		/** Register Properticons but don't enqueue them */
 		wp_register_style( 'properticons', 'https://s3.amazonaws.com/properticons/css/properticons.css', '', null, 'all' );
 
-		if ( ! isset( $options['wp_listings_stylesheet_load'] ) ) {
-			$options['wp_listings_stylesheet_load'] = 0;
+		if ( ! isset( $options['wplpro_stylesheet_load'] ) ) {
+			$options['wplpro_stylesheet_load'] = 0;
 		}
 
-		if ( '1' == $options['wp_listings_stylesheet_load'] ) {
+		if ( '1' == $options['wplpro_stylesheet_load'] ) {
 			return;
 		}
 
@@ -209,11 +209,11 @@ function wp_listings_init() {
 
 		$options = get_option( 'wplpro_plugin_settings' );
 
-		if ( ! isset( $options['wp_listings_widgets_stylesheet_load'] ) ) {
-			$options['wp_listings_widgets_stylesheet_load'] = 0;
+		if ( ! isset( $options['wplpro_widgets_stylesheet_load'] ) ) {
+			$options['wplpro_widgets_stylesheet_load'] = 0;
 		}
 
-		if ( '1' == $options['wp_listings_widgets_stylesheet_load'] ) {
+		if ( '1' == $options['wplpro_widgets_stylesheet_load'] ) {
 			return;
 		}
 

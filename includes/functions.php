@@ -546,7 +546,7 @@ function wplpro_post_number( $query ) {
 
 	$options = get_option( 'wplpro_plugin_settings' );
 
-	$archive_posts_num = $options['wp_listings_archive_posts_num'];
+	$archive_posts_num = $options['wplpro_archive_posts_num'];
 
 	if ( empty( $archive_posts_num ) ) {
 		$archive_posts_num = '9';

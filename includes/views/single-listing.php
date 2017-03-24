@@ -40,7 +40,7 @@ function single_listing_post_content() {
 		if ( get_post_meta( $post->ID, '_listing_hide_price', true ) == 1 ) {
 			$listing_meta .= (get_post_meta( $post->ID, '_listing_price_alt', true )) ? sprintf( '<li class="listing-price">%s</li>', get_post_meta( $post->ID, '_listing_price_alt', true ) ) : '';
 		} else {
-			$listing_meta .= sprintf( '<li class="listing-price">%s %s %s</li>', '<span class="currency-symbol">' . $options['wp_listings_currency_symbol'] . '</span>', get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wp_listings_display_currency_code'] ) && $options['wp_listings_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wp_listings_currency_code'] . '</span>' : '' );
+			$listing_meta .= sprintf( '<li class="listing-price">%s %s %s</li>', '<span class="currency-symbol">' . $options['wplpro_currency_symbol'] . '</span>', get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wplpro_display_currency_code'] ) && $options['wplpro_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>' : '' );
 		}
 
 		if ( '' != wplpro_get_property_types() ) {
@@ -103,11 +103,11 @@ function single_listing_post_content() {
 
 				if ( get_post_meta( $post->ID, '_listing_disclaimer', true ) ) {
 					echo '<p class="wp-listings-disclaimer">' . get_post_meta( $post->ID, '_listing_disclaimer', true ) . '</p>';
-				} elseif ( $options['wp_listings_global_disclaimer'] != '' && $options['wp_listings_global_disclaimer'] != null ) {
-					echo '<p class="wp-listings-disclaimer">' . $options['wp_listings_global_disclaimer'] . '</p>';
+				} elseif ( $options['wplpro_global_disclaimer'] != '' && $options['wplpro_global_disclaimer'] != null ) {
+					echo '<p class="wp-listings-disclaimer">' . $options['wplpro_global_disclaimer'] . '</p>';
 				}
 
-				if ( class_exists( 'Idx_Broker_Plugin' ) && $options['wp_listings_display_idx_link'] == true && get_post_meta( $post->ID, '_listing_details_url', true ) ) {
+				if ( class_exists( 'Idx_Broker_Plugin' ) && $options['wplpro_display_idx_link'] == true && get_post_meta( $post->ID, '_listing_details_url', true ) ) {
 					echo '<a href="' . get_post_meta( $post->ID, '_listing_details_url', true ) . '" title="' . get_post_meta( $post->ID, '_listing_mls', true ) . '">View full listing details</a>';
 				}
 				?>
@@ -125,9 +125,9 @@ function single_listing_post_content() {
 				if ( get_post_meta( $post->ID, '_listing_hide_price', true ) == 1 ) {
 					echo (get_post_meta( $post->ID, '_listing_price_alt', true )) ? '<tr class="wp_listings_listing_price"><td class="label">' . __( 'Price:', 'wp-listings-pro' ) . '</td><td>' . get_post_meta( $post->ID, '_listing_price_alt', true ) . '</td></tr>' : '';
 				} elseif ( get_post_meta( $post->ID, '_listing_price', true ) ) {
-					echo '<tr class="wp_listings_listing_price"><td class="label">' . __( 'Price:', 'wp-listings-pro' ) . '</td><td><span class="currency-symbol">' . $options['wp_listings_currency_symbol'] . '</span>';
+					echo '<tr class="wp_listings_listing_price"><td class="label">' . __( 'Price:', 'wp-listings-pro' ) . '</td><td><span class="currency-symbol">' . $options['wplpro_currency_symbol'] . '</span>';
 					echo get_post_meta( $post->ID, '_listing_price', true ) . ' ';
-					echo (isset( $options['wp_listings_display_currency_code'] ) && $options['wp_listings_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wp_listings_currency_code'] . '</span>' : '';
+					echo (isset( $options['wplpro_display_currency_code'] ) && $options['wplpro_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>' : '';
 					echo '</td></tr>';
 				}
 					echo '<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">';
@@ -226,7 +226,7 @@ function single_listing_post_content() {
 
 			$map_info_content = sprintf( '<p style="font-size: 14px; margin-bottom: 0;">%s<br />%s %s, %s</p>', get_post_meta( $post->ID, '_listing_address', true ), get_post_meta( $post->ID, '_listing_city', true ), get_post_meta( $post->ID, '_listing_state', true ), get_post_meta( $post->ID, '_listing_zip', true ) );
 
-			($options['wp_listings_gmaps_api_key']) ? $map_key = $options['wp_listings_gmaps_api_key'] : $map_key = '';
+			($options['wplpro_gmaps_api_key']) ? $map_key = $options['wplpro_gmaps_api_key'] : $map_key = '';
 
 			echo '<script src="https://maps.googleapis.com/maps/api/js?key=' . $map_key . '"></script>
 				<script>
@@ -289,9 +289,9 @@ function single_listing_post_content() {
 
 				echo do_shortcode( get_post_meta( $post->ID, '_listing_contact_form', true ) );
 
-			} elseif ( isset( $options['wp_listings_default_form'] ) && $options['wp_listings_default_form'] != '' ) {
+			} elseif ( isset( $options['wplpro_default_form'] ) && $options['wplpro_default_form'] != '' ) {
 
-				echo do_shortcode( $options['wp_listings_default_form'] );
+				echo do_shortcode( $options['wplpro_default_form'] );
 
 			} else {
 
@@ -338,11 +338,11 @@ function single_listing_post_content() {
 						$comments = esc_html( trim( $_POST['comments'] ) );
 					}
 
-					if ( $options['wp_listings_captcha_site_key'] != '' && $options['wp_listings_captcha_secret_key'] != '' ) {
+					if ( $options['wplpro_captcha_site_key'] != '' && $options['wplpro_captcha_secret_key'] != '' ) {
 						require_once( WP_LISTINGS_DIR . '/includes/recaptcha.php' );
 
 						// your secret key
-						$secret = $options['wp_listings_captcha_secret_key'];
+						$secret = $options['wplpro_captcha_secret_key'];
 
 						$gRecaptchaResponse = $_POST['g-recaptcha-response'];
 						$remoteIp = $_SERVER['REMOTE_ADDR'];
@@ -371,7 +371,7 @@ function single_listing_post_content() {
 							wp_mail( $emailTo, $subject, $body, $headers );
 
 							// If option is set. PUT or POST contact form data to IDX as a lead or lead note
-							if ( $options['wp_listings_idx_lead_form'] == 1 ) {
+							if ( $options['wplpro_idx_lead_form'] == 1 ) {
 								$lead_data = array(
 									'firstName' => $firstName,
 									'lastName'  => $lastName,
@@ -490,8 +490,8 @@ function single_listing_post_content() {
 						</li>
 
 						<?php
-						if ( $options['wp_listings_captcha_site_key'] != '' && $options['wp_listings_captcha_secret_key'] != '' ) {
-							echo '<div class="g-recaptcha" data-sitekey="' . $options['wp_listings_captcha_site_key'] . '"></div>';
+						if ( $options['wplpro_captcha_site_key'] != '' && $options['wplpro_captcha_secret_key'] != '' ) {
+							echo '<div class="g-recaptcha" data-sitekey="' . $options['wplpro_captcha_site_key'] . '"></div>';
 							echo '<script src="https://www.google.com/recaptcha/api.js"></script>';
 						} else {
 							echo '<li>
@@ -548,8 +548,8 @@ if ( function_exists( 'equity' ) ) {
 	$options = get_option( 'wplpro_plugin_settings' );
 
 	get_header();
-	if ( isset( $options['wp_listings_custom_wrapper'] ) && isset( $options['wp_listings_start_wrapper'] ) && $options['wp_listings_start_wrapper'] != '' ) {
-		echo $options['wp_listings_start_wrapper'];
+	if ( isset( $options['wplpro_custom_wrapper'] ) && isset( $options['wplpro_start_wrapper'] ) && $options['wplpro_start_wrapper'] != '' ) {
+		echo $options['wplpro_start_wrapper'];
 	} else {
 		echo '<div id="primary" class="content-area container inner">
 			<div id="content" class="site-content" role="main">';
@@ -590,8 +590,8 @@ if ( function_exists( 'equity' ) ) {
 	}
 		endwhile;
 
-	if ( isset( $options['wp_listings_custom_wrapper'] ) && isset( $options['wp_listings_end_wrapper'] ) && $options['wp_listings_end_wrapper'] != '' ) {
-		echo $options['wp_listings_end_wrapper'];
+	if ( isset( $options['wplpro_custom_wrapper'] ) && isset( $options['wplpro_end_wrapper'] ) && $options['wplpro_end_wrapper'] != '' ) {
+		echo $options['wplpro_end_wrapper'];
 	} else {
 		echo '</div><!-- #content -->
 		</div><!-- #primary -->';

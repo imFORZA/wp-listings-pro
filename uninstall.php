@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) { exit();
 
 $settings = get_option( 'wplpro_plugin_settings' );
 
-if ( $settings['wp_listings_uninstall_delete'] == true ) {
+if ( $settings['wplpro_uninstall_delete'] == true ) {
 
 	wp_listings_delete_listings();
 
@@ -16,7 +16,7 @@ if ( $settings['wp_listings_uninstall_delete'] == true ) {
 	delete_site_option( 'widget_listings-search' );
 
 	// Delete cron job
-	wp_clear_scheduled_hook( 'wp_listings_idx_update' );
+	wp_clear_scheduled_hook( 'wplpro_idx_update' );
 
 }
 
