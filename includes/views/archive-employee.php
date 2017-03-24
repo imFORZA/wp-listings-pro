@@ -52,7 +52,7 @@ function archive_employee_loop() {
 		printf( '<p><a class="fn" href="%s" itemprop="name">%s</a></p>', get_permalink(), get_the_title() );
 
 		echo wplpro_employee_archive_details();
-		if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wp_listings_init' ) ) {
+		if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wplpro_init' ) ) {
 
 			$has_listings = wplpro_has_listings( $post_id );
 			if ( ! empty( $has_listings ) ) {
@@ -106,8 +106,8 @@ if ( function_exists( 'equity' ) ) {
 } else {
 
 	get_header();
-	if ( $options['impress_agents_custom_wrapper'] && $options['impress_agents_start_wrapper'] ) {
-		echo $options['impress_agents_start_wrapper'];
+	if ( $options['wplpro_custom_wrapper'] && $options['wplpro_start_wrapper'] ) {
+		echo $options['wplpro_start_wrapper'];
 	} else {
 		echo '<div id="primary" class="content-area container inner">
 		<div id="content" class="site-content" role="main">';
@@ -139,8 +139,8 @@ if ( function_exists( 'equity' ) ) {
 
 	endif;
 
-	if ( $options['impress_agents_custom_wrapper'] && $options['impress_agents_end_wrapper'] ) {
-		echo $options['impress_agents_end_wrapper'];
+	if ( $options['wplpro_custom_wrapper'] && $options['wplpro_end_wrapper'] ) {
+		echo $options['wplpro_end_wrapper'];
 	} else {
 		echo '</div><!-- #content -->
 	</div><!-- #primary -->';

@@ -445,7 +445,7 @@ function wplpro_employee_archive_details() {
 		$output .= sprintf( '<p><a class="email" itemprop="email" href="mailto:%s">%s</a></p>', antispambot( $email ), antispambot( $email ) );
 	}
 
-	if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wp_listings_init' ) ) {
+	if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wplpro_init' ) ) {
 		$listings = wplpro_get_connected_posts_of_type( 'agents_to_listings' );
 		if ( ! empty( $listings ) ) {
 			echo '<p><a class="agent-listings-link" href="' . get_permalink() . '#agent-listings">View My Listings</a></p>';

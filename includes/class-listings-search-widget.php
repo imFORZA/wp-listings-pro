@@ -20,9 +20,9 @@ class WP_Listings_Search_Widget extends WP_Widget {
 			'button_text'	=> __( 'Search Listings', 'wp-listings-pro' ),
 		) );
 
-		global $_wp_listings_taxonomies;
+		global $_wplpro_taxonomies;
 
-		$listings_taxonomies = $_wp_listings_taxonomies->get_taxonomies();
+		$listings_taxonomies = $_wplpro_taxonomies->get_taxonomies();
 
 		extract( $args );
 
@@ -72,9 +72,9 @@ class WP_Listings_Search_Widget extends WP_Widget {
 			'button_text'	=> __( 'Search Listings', 'wp-listings-pro' ),
 		) );
 
-		global $_wp_listings_taxonomies;
+		global $_wplpro_taxonomies;
 
-		$listings_taxonomies = $_wp_listings_taxonomies->get_taxonomies();
+		$listings_taxonomies = $_wplpro_taxonomies->get_taxonomies();
 		$new_widget = empty( $instance );
 
 		printf( '<p><label for="%s">%s</label><input type="text" id="%s" name="%s" value="%s" style="%s" /></p>', $this->get_field_id( 'title' ), __( 'Title:', 'wp-listings-pro' ), $this->get_field_id( 'title' ), $this->get_field_name( 'title' ), esc_attr( $instance['title'] ), 'width: 95%;' );

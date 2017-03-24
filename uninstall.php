@@ -6,12 +6,12 @@ $settings = get_option( 'wplpro_plugin_settings' );
 
 if ( $settings['wplpro_uninstall_delete'] == true ) {
 
-	wp_listings_delete_listings();
+	wplpro_delete_listings();
 
 	// Delete our Options
 	delete_site_option( 'wplpro_plugin_settings' );
-	delete_site_option( 'wp_listings_idx_featured_listing_wp_options' );
-	delete_site_option( 'wp_listings_taxonomies' );
+	delete_site_option( 'wplpro_idx_featured_listing_wp_options' );
+	delete_site_option( 'wplpro_taxonomies' );
 	delete_site_option( 'widget_wplistings-featured-listings' );
 	delete_site_option( 'widget_listings-search' );
 
@@ -21,7 +21,7 @@ if ( $settings['wplpro_uninstall_delete'] == true ) {
 }
 
 /* Find and Delete all Listings */
-function wp_listings_delete_listings() {
+function wplpro_delete_listings() {
 		global $wpdb;
 
 		// Get all Listings

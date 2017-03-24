@@ -10,7 +10,7 @@
 class WP_Listings {
 
 	var $settings_page = 'wp-listings-settings';
-	var $settings_field = 'wp_listings_taxonomies';
+	var $settings_field = 'wplpro_taxonomies';
 	var $menu_page = 'register-taxonomies';
 
 	var $options;

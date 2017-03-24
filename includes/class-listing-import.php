@@ -71,7 +71,7 @@ class WPL_Idx_Listing {
 			$properties = $_idx_api->client_properties( 'featured?disclaimers=true' );
 
 			// Load WP options
-			$idx_featured_listing_wp_options = get_option( 'wp_listings_idx_featured_listing_wp_options' );
+			$idx_featured_listing_wp_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
 			$wpl_options = get_option( 'wplpro_plugin_settings' );
 			update_option( 'wp_listings_import_progress', true );
 
@@ -171,7 +171,7 @@ class WPL_Idx_Listing {
 			}
 
 			// Lastly update our options
-			update_option( 'wp_listings_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
+			update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 			delete_option( 'wp_listings_import_progress' );
 			return $idx_featured_listing_wp_options;
 		}
@@ -191,7 +191,7 @@ class WPL_Idx_Listing {
 		$properties = $_idx_api->client_properties( 'featured?disclaimers=true' );
 
 		// Load WP options
-		$idx_featured_listing_wp_options = get_option( 'wp_listings_idx_featured_listing_wp_options' );
+		$idx_featured_listing_wp_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
 		$wpl_options = get_option( 'wplpro_plugin_settings' );
 
 		foreach ( $properties as $prop ) {
@@ -248,7 +248,7 @@ class WPL_Idx_Listing {
 			}
 		}
 
-		update_option( 'wp_listings_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
+		update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 
 	}
 
@@ -500,7 +500,7 @@ function wp_listings_idx_listing_delete_all() {
 		echo 'error';
 	} else {
 		// Get listings
-		$idx_featured_listing_wp_options = get_option( 'wp_listings_idx_featured_listing_wp_options' );
+		$idx_featured_listing_wp_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
 
 		foreach ( $idx_featured_listing_wp_options as $prop ) {
 			if ( isset( $prop['post_id'] ) ) {
@@ -522,7 +522,7 @@ function wp_listings_idx_listing_setting_page() {
 	if ( get_option( 'wp_listings_import_progress' ) == true ) {
 		add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_import_progress', 'Your listings are being imported in the background. This notice will dismiss when all selected listings have been imported.', 'updated' );
 	}
-	$idx_featured_listing_wp_options = get_option( 'wp_listings_idx_featured_listing_wp_options' );
+	$idx_featured_listing_wp_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
 
 	?>
 			<h1>Import IDX Listings</h1>

@@ -1,15 +1,15 @@
 <?php
 /**
- * This file contains the WP_Listings_Taxonomies class.
+ * This file contains the wplpro_taxonomies class.
  */
 
 /**
  * This class handles all the aspects of displaying, creating, and editing the
  * user-created taxonomies for the "Listings" post-type.
  */
-class WP_Listings_Taxonomies {
+class wplpro_taxonomies {
 
-	var $settings_field = 'wp_listings_taxonomies';
+	var $settings_field = 'wplpro_taxonomies';
 	var $menu_page = 'register-taxonomies';
 	var $reorder_page = 'reorder-taxonomies';
 
@@ -624,7 +624,7 @@ class WP_Listings_Taxonomies {
 	 * Reorder taxonomies
 	 */
 	function tax_reorder() {
-		$wp_listings_taxes = get_option( 'wp_listings_taxonomies' );
+		$wp_listings_taxes = get_option( 'wplpro_taxonomies' );
 
 		if ( $_POST ) {
 			$new_order = $_POST['wp_listings_taxonomy'];
@@ -635,7 +635,7 @@ class WP_Listings_Taxonomies {
 				}
 			}
 			$wp_listings_taxes = $wp_listings_taxes_reordered;
-			update_option( 'wp_listings_taxonomies', $wp_listings_taxes_reordered );
+			update_option( 'wplpro_taxonomies', $wp_listings_taxes_reordered );
 
 		}?>
 	<h2><?php _e( 'Reorder Taxonomies', 'wp-listings-pro' ); ?></h2>

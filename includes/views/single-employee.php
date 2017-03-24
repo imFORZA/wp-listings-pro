@@ -34,7 +34,7 @@ function single_employee_post_content() {
 		<?php the_content(); ?>
 	</div><!-- .agent-bio -->
 
-	<?php if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wp_listings_init' ) ) {
+	<?php if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wplpro_init' ) ) {
 		echo'
 		<div class="connected-agent-listings">';
 		wplpro_connected_listings_markup();
@@ -79,8 +79,8 @@ if ( function_exists( 'equity' ) ) {
 
 	get_header();
 
-	if ( $options['impress_agents_custom_wrapper'] && $options['impress_agents_start_wrapper'] ) {
-		echo $options['impress_agents_start_wrapper'];
+	if ( $options['wplpro_custom_wrapper'] && $options['wplpro_start_wrapper'] ) {
+		echo $options['wplpro_start_wrapper'];
 	} else {
 		echo '<div id="primary" class="content-area container inner">
 		<div id="content" class="site-content" role="main">';
@@ -113,8 +113,8 @@ if ( function_exists( 'equity' ) ) {
 	}
 	endwhile;
 
-	if ( $options['impress_agents_custom_wrapper'] && $options['impress_agents_end_wrapper'] ) {
-		echo $options['impress_agents_end_wrapper'];
+	if ( $options['wplpro_custom_wrapper'] && $options['wplpro_end_wrapper'] ) {
+		echo $options['wplpro_end_wrapper'];
 	} else {
 		echo '</div><!-- #content -->
 	</div><!-- #primary -->';

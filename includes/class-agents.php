@@ -83,7 +83,7 @@ class IMPress_Agents {
 	 * Registers the option to load the stylesheet
 	 */
 	function register_settings() {
-		register_setting( 'impress_agents_options', 'plugin_impress_agents_settings' );
+		register_setting( 'wplpro_options', 'plugin_impress_agents_settings' );
 	}
 
 	/**
@@ -92,11 +92,11 @@ class IMPress_Agents {
 	function add_options() {
 
 		$new_options = array(
-			'impress_agents_archive_posts_num' => 9,
-			'impress_agents_slug' => 'employees',
+			'wplpro_archive_posts_num' => 9,
+			'wplpro_slug' => 'employees',
 		);
 
-		if ( empty( $this->options['impress_agents_slug'] ) && empty( $this->options['impress_agents_archive_posts_num'] ) ) {
+		if ( empty( $this->options['wplpro_slug'] ) && empty( $this->options['wplpro_archive_posts_num'] ) ) {
 			add_option( 'plugin_impress_agents_settings', $new_options );
 		}
 
@@ -149,7 +149,7 @@ class IMPress_Agents {
 				'menu_icon'		=> 'dashicons-groups',
 				'has_archive'	=> true,
 				'supports'		=> array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown' ),
-				'rewrite'		=> array( 'slug' => $this->options['impress_agents_slug'], 'feeds' => true, 'with_front' => false ),
+				'rewrite'		=> array( 'slug' => $this->options['wplpro_slug'], 'feeds' => true, 'with_front' => false ),
 			)
 		);
 
