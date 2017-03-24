@@ -259,7 +259,7 @@ function wplpro_jetpack_sitemap() {
  * @return mixed  the image with html markup or the image id
  */
 function wplpro_term_image( $term_id, $html = true, $size = 'full' ) {
-	$image_id = get_term_meta( $term_id, 'wpl_term_image', true );
+	$image_id = get_term_meta( $term_id, 'wplpro_term_image', true );
 	return $image_id && $html ? wp_get_attachment_image( $image_id, $size, false, array( 'class' => 'wp-listings-term-image' ) ) : $image_id;
 }
 // /**

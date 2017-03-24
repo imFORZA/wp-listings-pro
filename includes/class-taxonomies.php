@@ -450,7 +450,7 @@ class WP_Listings_Taxonomies {
 	 * @return [type] [description]
 	 */
 	function register_term_meta() {
-		register_meta( 'term', 'wpl_term_image', 'wp_listings_sanitize_term_image' );
+		register_meta( 'term', 'wplpro_term_image', 'wp_listings_sanitize_term_image' );
 	}
 
 	/**
@@ -458,8 +458,8 @@ class WP_Listings_Taxonomies {
 	 *
 	 * @return [type] [description]
 	 */
-	function wp_listings_sanitize_term_image( $wpl_term_image ) {
-		return $wpl_term_image;
+	function wp_listings_sanitize_term_image( $wplpro_term_image ) {
+		return $wplpro_term_image;
 	}
 
 	/**
@@ -469,7 +469,7 @@ class WP_Listings_Taxonomies {
 	 * @uses  wp_get_attachment_image to return image id wrapped in markup
 	 */
 	function wp_listings_get_term_image( $term_id, $html = true ) {
-		$image_id = get_term_meta( $term_id, 'wpl_term_image', true );
+		$image_id = get_term_meta( $term_id, 'wplpro_term_image', true );
 		return $image_id && $html ? wp_get_attachment_image( $image_id, 'thumbnail' ) : $image_id;
 	}
 
@@ -480,7 +480,7 @@ class WP_Listings_Taxonomies {
 	 */
 	function wp_listings_save_term_image( $term_id ) {
 
-	    if ( ! isset( $_POST['wpl_term_image_nonce'] ) || ! wp_verify_nonce( $_POST['wpl_term_image_nonce'], basename( __FILE__ ) ) ) {
+	    if ( ! isset( $_POST['wplpro_term_image_nonce'] ) || ! wp_verify_nonce( $_POST['wplpro_term_image_nonce'], basename( __FILE__ ) ) ) {
 	        return;
 		}
 
@@ -488,10 +488,10 @@ class WP_Listings_Taxonomies {
 	    $new_image = isset( $_POST['wpl-term-image'] ) ? $_POST['wpl-term-image'] : '';
 
 	    if ( $old_image && '' === $new_image ) {
-	        delete_term_meta( $term_id, 'wpl_term_image' );
+	        delete_term_meta( $term_id, 'wplpro_term_image' );
 
 	    } elseif ( $old_image !== $new_image ) {
-	        update_term_meta( $term_id, 'wpl_term_image', $new_image );
+	        update_term_meta( $term_id, 'wplpro_term_image', $new_image );
 		}
 
 	    return $term_id;
@@ -504,7 +504,7 @@ class WP_Listings_Taxonomies {
 
 	function wp_listings_edit_term_columns( $columns ) {
 
-	    $columns['wpl_term_image'] = __( 'Image', 'wp-listings-pro' );
+	    $columns['wplpro_term_image'] = __( 'Image', 'wp-listings-pro' );
 
 	    return $columns;
 	}
@@ -514,7 +514,7 @@ class WP_Listings_Taxonomies {
 	 */
 	function wp_listings_manage_term_custom_column( $out, $column, $term_id ) {
 
-	    if ( 'wpl_term_image' === $column ) {
+	    if ( 'wplpro_term_image' === $column ) {
 
 	        $image_id = $this->wp_listings_get_term_image( $term_id, false );
 
@@ -577,7 +577,7 @@ class WP_Listings_Taxonomies {
 
 	    $image_id = '';
 
-	    wp_nonce_field( basename( __FILE__ ), 'wpl_term_image_nonce' ); ?>
+	    wp_nonce_field( basename( __FILE__ ), 'wplpro_term_image_nonce' ); ?>
 
 	    <div class="form-field wpl-term-image-wrap">
 	        <label for="wpl-term-image"><?php _e( 'Image', 'wp-listings-pro' ); ?></label>
@@ -607,7 +607,7 @@ class WP_Listings_Taxonomies {
 	    <tr class="form-field wpl-term-image-wrap">
 	        <th scope="row"><label for="wpl-term-image"><?php _e( 'Image', 'wp-listings-pro' ); ?></label></th>
 	        <td>
-	            <?php wp_nonce_field( basename( __FILE__ ), 'wpl_term_image_nonce' ); ?>
+	            <?php wp_nonce_field( basename( __FILE__ ), 'wplpro_term_image_nonce' ); ?>
 	            <!-- Begin term image -->
 				<p>
 					<input type="hidden" name="wpl-term-image" id="wpl-term-image" value="<?php echo esc_attr( $image_id ); ?>" />

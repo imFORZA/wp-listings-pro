@@ -98,7 +98,7 @@ jQuery(document).ready(function($) {
 	 */
 
 	/* Prepare the variable that holds our custom media manager. */
-	var wpl_term_image_frame;
+	var wplpro_term_image_frame;
 
 	/* When the 'set term image' link is clicked. */
 	jQuery( '.wpl-add-media' ).click(
@@ -109,25 +109,25 @@ jQuery(document).ready(function($) {
 			j.preventDefault();
 
 			/* If the frame already exists, open it. */
-			if ( wpl_term_image_frame ) {
-				wpl_term_image_frame.open();
+			if ( wplpro_term_image_frame ) {
+				wplpro_term_image_frame.open();
 				return;
 			}
 
 			/* Creates a custom media frame. */
-			wpl_term_image_frame = wp.media.frames.wpl_term_image_frame = wp.media(
+			wplpro_term_image_frame = wp.media.frames.wplpro_term_image_frame = wp.media(
 				{
 					className: 'media-frame',            // Custom CSS class name
 					frame:     'select',                 // Frame type (post, select)
 					multiple:  false,                   // Allow selection of multiple images
-					title:     wpl_term_image.title, // Custom frame title
+					title:     wplpro_term_image.title, // Custom frame title
 
 					library: {
 						type: 'image' // Media types allowed
 					},
 
 					button: {
-						text:  wpl_term_image.button // Custom insert button text
+						text:  wplpro_term_image.button // Custom insert button text
 					}
 				}
 			);
@@ -136,19 +136,19 @@ jQuery(document).ready(function($) {
 			 * The following handles the image data and sending it back to the meta box once an
 			 * an image has been selected via the media frame.
 			 */
-			wpl_term_image_frame.on( 'select',
+			wplpro_term_image_frame.on( 'select',
 
 				function() {
 
 					/* Construct a JSON representation of the model. */
-					var media_attachment = wpl_term_image_frame.state().get( 'selection' ).toJSON();
+					var media_attachment = wplpro_term_image_frame.state().get( 'selection' ).toJSON();
 
 					/* If the custom term image size is available, use it. */
 					/* Note the 'width' is contrained by $content_width. */
-					if ( media_attachment[0].sizes.wpl_term_image ) {
-						var wpl_media_url    = media_attachment[0].sizes.wpl_term_image.url;
-						var wpl_media_width  = media_attachment[0].sizes.wpl_term_image.width;
-						var wpl_media_height = media_attachment[0].sizes.wpl_term_image.height;
+					if ( media_attachment[0].sizes.wplpro_term_image ) {
+						var wpl_media_url    = media_attachment[0].sizes.wplpro_term_image.url;
+						var wpl_media_width  = media_attachment[0].sizes.wplpro_term_image.width;
+						var wpl_media_height = media_attachment[0].sizes.wplpro_term_image.height;
 					}
 
 					/* Else, use the full size b/c it will always be available. */
@@ -170,28 +170,28 @@ jQuery(document).ready(function($) {
 					 * we're using a custom image size. If not, the error wplcking is good
 					 * on the PHP side once the data is saved.
 					 */
-					if ( wpl_term_image.min_width > media_attachment[0].sizes.full.width && wpl_term_image.min_height > wpl_media_height ) {
-						wpl_errors = wpl_term_image.min_width_height_error;
+					if ( wplpro_term_image.min_width > media_attachment[0].sizes.full.width && wplpro_term_image.min_height > wpl_media_height ) {
+						wpl_errors = wplpro_term_image.min_width_height_error;
 					}
 
-					else if ( wpl_term_image.max_width < wpl_media_width && wpl_term_image.max_height < wpl_media_height ) {
-						wpl_errors = wpl_term_image.max_width_height_error;
+					else if ( wplpro_term_image.max_width < wpl_media_width && wplpro_term_image.max_height < wpl_media_height ) {
+						wpl_errors = wplpro_term_image.max_width_height_error;
 					}
 
-					else if ( wpl_term_image.min_width > media_attachment[0].sizes.full.width ) {
-						wpl_errors = wpl_term_image.min_width_error;
+					else if ( wplpro_term_image.min_width > media_attachment[0].sizes.full.width ) {
+						wpl_errors = wplpro_term_image.min_width_error;
 					}
 
-					else if ( wpl_term_image.min_height > wpl_media_height ) {
-						wpl_errors = wpl_term_image.min_height_error;
+					else if ( wplpro_term_image.min_height > wpl_media_height ) {
+						wpl_errors = wplpro_term_image.min_height_error;
 					}
 
-					else if ( wpl_term_image.max_width < wpl_media_width ) {
-						wpl_errors = wpl_term_image.max_width_error;
+					else if ( wplpro_term_image.max_width < wpl_media_width ) {
+						wpl_errors = wplpro_term_image.max_width_error;
 					}
 
-					else if ( wpl_term_image.max_height < wpl_media_height ) {
-						wpl_errors = wpl_term_image.max_height_error;
+					else if ( wplpro_term_image.max_height < wpl_media_height ) {
+						wpl_errors = wplpro_term_image.max_height_error;
 					}
 
 					/* If there are error strings, show them. */
@@ -222,7 +222,7 @@ jQuery(document).ready(function($) {
 			);
 
 			/* Open up the frame. */
-			wpl_term_image_frame.open();
+			wplpro_term_image_frame.open();
 		}
 	);
 

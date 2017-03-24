@@ -4,9 +4,9 @@
  * Adds shortcode to display post meta
  */
 
-add_shortcode( 'listings', 'wp_listings_shortcode' );
+add_shortcode( 'listings', 'wplpro_shortcode' );
 
-function wp_listings_shortcode( $atts, $content = null ) {
+function wplpro_shortcode( $atts, $content = null ) {
 	extract(shortcode_atts(array(
 		'id'       => '',
 		'taxonomy' => '',
@@ -119,14 +119,14 @@ function wp_listings_shortcode( $atts, $content = null ) {
 
 }
 
-add_shortcode( 'wp_listings_meta', 'wp_listings_meta_shortcode' );
+add_shortcode( 'wp_listings_meta', 'wplpro_meta_shortcode' );
 /**
  * Returns meta data for listings
  *
  * @param  array $atts meta key
  * @return string meta value wrapped in span
  */
-function wp_listings_meta_shortcode( $atts ) {
+function wplpro_meta_shortcode( $atts ) {
 	extract(shortcode_atts(array(
 		'key' => '',
 	), $atts ) );
@@ -140,9 +140,9 @@ function wp_listings_meta_shortcode( $atts ) {
  * Adds shortcode to display agent profiles
  */
 
-add_shortcode( 'employee_profiles', 'impa_profile_shortcode' );
+add_shortcode( 'employee_profiles', 'wplpro_profile_shortcode' );
 
-function impa_profile_shortcode( $atts, $content = null ) {
+function wplpro_profile_shortcode( $atts, $content = null ) {
 	extract(shortcode_atts(array(
 		'id'   => '',
 		'orderby' => 'menu_order',

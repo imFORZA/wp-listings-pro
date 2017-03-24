@@ -252,7 +252,7 @@ function wp_listings_init() {
 		);
 
 		/* Pass custom variables to the script. */
-		wp_localize_script( 'wp-listings-admin', 'wpl_term_image', $localize_script );
+		wp_localize_script( 'wp-listings-admin', 'wplpro_term_image', $localize_script );
 
 		wp_enqueue_media();
 
