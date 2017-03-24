@@ -54,10 +54,10 @@ echo '<div style="width: 90%; float: left">';
 	//echo print_r($stuff, true);
 	//echo $stuff[0]->ID; // yields 10. NEAT.
 	foreach($stuff as $agent){
-	  printf('<input type="checkbox" name="wp_listings[_employee_responsibility_' . $agent->ID . ']" %s />',checked( get_post_meta( $post->ID, '_employee_responsibility_' . $agent->ID , true ), 1, 0 ) );
+	  	printf('<input type="checkbox" name="wp_listings[_employee_responsibility_' . $agent->ID . ']" %s />',checked( get_post_meta( $post->ID, '_employee_responsibility_' . $agent->ID , true ), 1, 0 ) );
 
 		echo get_post_meta($agent->ID, '_employee_last_name', true) . ", " . get_post_meta($agent->ID, '_employee_first_name', true);
-		echo "<br>";
+		echo "<br>";		
 	}
 echo '</p></div>';
 

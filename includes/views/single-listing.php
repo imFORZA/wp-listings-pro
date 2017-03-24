@@ -582,7 +582,7 @@ if ( function_exists( 'equity' ) ) {
 
 	<?php
 	// Previous/next post navigation.
-	wp_listings_post_nav();
+	wplpro_post_nav();
 
 	// If comments are open or we have at least one comment, load up the comment template.
 	if ( comments_open() || get_comments_number() ) {

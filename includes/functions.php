@@ -184,24 +184,7 @@ function wplpro_get_locations( $post_id = null ) {
 	}
 }
 
-function wplpro_post_number( $query ) {
 
-	if ( ! $query->is_main_query() || is_admin() || ! is_post_type_archive( 'listing' ) ) {
-		return;
-	}
-
-	$options = get_option( 'wplpro_plugin_settings' );
-
-	$archive_posts_num = $options['wp_listings_archive_posts_num'];
-
-	if ( empty( $archive_posts_num ) ) {
-		$archive_posts_num = '9';
-	}
-
-	$query->query_vars['posts_per_page'] = $archive_posts_num;
-
-}
-add_action( 'pre_get_posts', 'wplpro_post_number' );
 
 /**
  * Add Listings to "At a glance" Dashboard widget
@@ -209,7 +192,7 @@ add_action( 'pre_get_posts', 'wplpro_post_number' );
 add_filter( 'dashboard_glance_items', 'wplpro_glance_items', 10, 1 );
 function wplpro_glance_items( $items = array() ) {
 
-	$post_types = array( 'listing' );
+	$post_types = array( 'listing', 'employee' );
 
 	foreach ( $post_types as $type ) {
 
@@ -236,6 +219,7 @@ function wplpro_glance_items( $items = array() ) {
 
 	return $items;
 }
+
 
 /**
  * Better Jetpack Related Posts Support for Listings
@@ -278,6 +262,18 @@ function wplpro_term_image( $term_id, $html = true, $size = 'full' ) {
 	$image_id = get_term_meta( $term_id, 'wpl_term_image', true );
 	return $image_id && $html ? wp_get_attachment_image( $image_id, $size, false, array( 'class' => 'wp-listings-term-image' ) ) : $image_id;
 }
+// /**
+//  * Function to return term image for use on front end
+//  *
+//  * @param  num     $term_id the id of the term
+//  * @param  boolean $html    use html wrapper with wp_get_attachment_image
+//  * @return mixed  the image with html markup or the image id
+//  */
+// function wplpro_term_image( $term_id, $html = true, $size = 'full' ) {
+// 	$image_id = get_term_meta( $term_id, 'impa_term_image', true );
+// 	return $image_id && $html ? wp_get_attachment_image( $image_id, $size, false, array( 'class' => 'impress-agents-term-image' ) ) : $image_id;
+// }
+
 
 
 
@@ -524,7 +520,7 @@ function wplpro_get_job_types( $post_id = null ) {
 /**
  * Displays the office of a employee
  */
-function impress_agents_get_offices( $post_id = null ) {
+function wplpro_get_offices( $post_id = null ) {
 
 	if ( null == $post_id ) {
 		global $post;
@@ -542,15 +538,15 @@ function impress_agents_get_offices( $post_id = null ) {
 	}
 }
 
-function impress_agents_post_number( $query ) {
+function wplpro_post_number( $query ) {
 
-	if ( ! $query->is_main_query() || is_admin() || ! is_post_type_archive( 'employee' ) ) {
+	if ( ! $query->is_main_query() || is_admin() || ! is_post_type_archive( 'employee' ) || ! is_post_type_archive( 'listing' ) ) {
 		return;
 	}
 
-	$options = get_option( 'plugin_impress_agents_settings' );
+	$options = get_option( 'wplpro_plugin_settings' );
 
-	$archive_posts_num = $options['impress_agents_archive_posts_num'];
+	$archive_posts_num = $options['wp_listings_archive_posts_num'];
 
 	if ( empty( $archive_posts_num ) ) {
 		$archive_posts_num = '9';
@@ -559,41 +555,9 @@ function impress_agents_post_number( $query ) {
 	$query->query_vars['posts_per_page'] = $archive_posts_num;
 
 }
-add_action( 'pre_get_posts', 'impress_agents_post_number' );
+add_action( 'pre_get_posts', 'wplpro_post_number' );
 
-/**
- * Add Employees to "At a glance" Dashboard widget
- */
-add_filter( 'dashboard_glance_items', 'impress_agents_glance_items', 10, 1 );
-function impress_agents_glance_items( $items = array() ) {
 
-	$post_types = array( 'employee' );
-
-	foreach ( $post_types as $type ) {
-
-		if ( ! post_type_exists( $type ) ) { continue;
-		}
-
-		$num_posts = wp_count_posts( $type );
-
-		if ( $num_posts ) {
-
-			$published = intval( $num_posts->publish );
-			$post_type = get_post_type_object( $type );
-
-			$text = _n( '%s ' . $post_type->labels->singular_name, '%s ' . $post_type->labels->name, $published, 'wp-listings-pro' );
-			$text = sprintf( $text, number_format_i18n( $published ) );
-
-			if ( current_user_can( $post_type->cap->edit_posts ) ) {
-				$items[] = sprintf( '<a class="%1$s-count" href="edit.php?post_type=%1$s">%2$s</a>', $type, $text ) . "\n";
-			} else {
-				$items[] = sprintf( '<span class="%1$s-count">%2$s</span>', $type, $text ) . "\n";
-			}
-		}
-	}
-
-	return $items;
-}
 
 /**
  * Add Employees to Jetpack Omnisearch
@@ -603,14 +567,3 @@ if ( class_exists( 'Jetpack_Omnisearch_Posts' ) ) {
 }
 
 
-/**
- * Function to return term image for use on front end
- *
- * @param  num     $term_id the id of the term
- * @param  boolean $html    use html wrapper with wp_get_attachment_image
- * @return mixed  the image with html markup or the image id
- */
-function impress_agents_term_image( $term_id, $html = true, $size = 'full' ) {
-	$image_id = get_term_meta( $term_id, 'impa_term_image', true );
-	return $image_id && $html ? wp_get_attachment_image( $image_id, $size, false, array( 'class' => 'impress-agents-term-image' ) ) : $image_id;
-}

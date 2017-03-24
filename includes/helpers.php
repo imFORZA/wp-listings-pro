@@ -6,7 +6,7 @@
  * Adds the taxonomy title and a list of the terms associated with that taxonomy
  * used in custom post type templates.
  */
-function wp_listings_list_terms( $taxonomy ) {
+function wplpro_list_terms( $taxonomy ) {
 	$the_tax_object = get_taxonomy( $taxonomy );
 	$terms = get_terms( $taxonomy );
 	$term_list = '';
@@ -45,7 +45,7 @@ function wplpro_is_taxonomy_of( $post_type ) {
  *
  * @since 0.1.0
  */
-function wp_listings_post_nav() {
+function wplpro_post_nav() {
 	// Don't print empty markup if there's nowhere to navigate.
 	$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
 	$next     = get_adjacent_post( false, '', false );
@@ -70,6 +70,32 @@ function wp_listings_post_nav() {
 	</nav><!-- .navigation -->
 	<?php
 }
+function impress_agents_post_nav() {
+	// Don't print empty markup if there's nowhere to navigate.
+	$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
+	$next     = get_adjacent_post( false, '', false );
+
+	if ( ! $next && ! $previous ) {
+		return;
+	}
+
+	?>
+	<nav class="navigation employee-navigation" role="navigation">
+		<h1 class="screen-reader-text"><?php _e( 'Agents navigation', 'wp-listings-pro' ); ?></h1>
+		<div class="nav-links">
+			<?php
+			if ( is_attachment() ) :
+				previous_post_link( '%link', __( '<span class="meta-nav">Published In</span>%title', 'wp-listings-pro' ) );
+			else :
+				previous_post_link( '%link', __( '<span class="meta-nav">Previous Agent</span>%title', 'wp-listings-pro' ) );
+				next_post_link( '%link', __( '<span class="meta-nav">Next Agent</span>%title', 'wp-listings-pro' ) );
+			endif;
+			?>
+		</div><!-- .nav-links -->
+	</nav><!-- .navigation -->
+	<?php
+}
+
 
 
 /**
@@ -209,37 +235,6 @@ function impress_agents_list_terms( $taxonomy ) {
 }
 
 
-
-/**
- * Display navigation to next/previous employee when applicable.
- *
- * @since 0.1.0
- */
-function impress_agents_post_nav() {
-	// Don't print empty markup if there's nowhere to navigate.
-	$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
-	$next     = get_adjacent_post( false, '', false );
-
-	if ( ! $next && ! $previous ) {
-		return;
-	}
-
-	?>
-	<nav class="navigation employee-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Agents navigation', 'wp-listings-pro' ); ?></h1>
-		<div class="nav-links">
-			<?php
-			if ( is_attachment() ) :
-				previous_post_link( '%link', __( '<span class="meta-nav">Published In</span>%title', 'wp-listings-pro' ) );
-			else :
-				previous_post_link( '%link', __( '<span class="meta-nav">Previous Agent</span>%title', 'wp-listings-pro' ) );
-				next_post_link( '%link', __( '<span class="meta-nav">Next Agent</span>%title', 'wp-listings-pro' ) );
-			endif;
-			?>
-		</div><!-- .nav-links -->
-	</nav><!-- .navigation -->
-	<?php
-}
 
 
 /**
