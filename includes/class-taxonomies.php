@@ -9,8 +9,34 @@
  */
 class wplpro_taxonomies {
 
+	/**
+	 * Settings_field
+	 *
+	 * (default value: 'wplpro_taxonomies')
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $settings_field = 'wplpro_taxonomies';
+
+	/**
+	 * Menu_page
+	 *
+	 * (default value: 'register-taxonomies')
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $menu_page = 'register-taxonomies';
+
+	/**
+	 * Reorder_page
+	 *
+	 * (default value: 'reorder-taxonomies')
+	 *
+	 * @var string
+	 * @access public
+	 */
 	var $reorder_page = 'reorder-taxonomies';
 
 	/**
@@ -135,14 +161,14 @@ class wplpro_taxonomies {
 	 * Create_taxonomy function.
 	 *
 	 * @access public
-	 * @param array $args (default: array())
+	 * @param array $args (default: array()).
 	 * @return void
 	 */
 	function create_taxonomy( $args = array() ) {
 
-		/**** VERIFY THE NONCE ****/
+		/**** VERIFY THE NONCE. ****/
 
-		/** No empty fields */
+		/** No empty fields. */
 		if ( ! isset( $args['id'] ) || empty( $args['id'] ) ) {
 			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
@@ -182,10 +208,10 @@ class wplpro_taxonomies {
 
 		$options = get_option( $this->settings_field );
 
-		/** Update the options */
+		/** Update the options. */
 		update_option( $this->settings_field, wp_parse_args( $tax, $options ) );
 
-		/** Flush rewrite rules */
+		/** Flush rewrite rules. */
 		$this->register_taxonomies();
 		flush_rewrite_rules();
 
@@ -195,7 +221,7 @@ class wplpro_taxonomies {
 	 * Delete_taxonomy function.
 	 *
 	 * @access public
-	 * @param string $id (default: '')
+	 * @param string $id (default: '').
 	 * @return void
 	 */
 	function delete_taxonomy( $id = '' ) {
@@ -284,23 +310,23 @@ class wplpro_taxonomies {
 	 */
 	function notices() {
 
-		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] != $this->menu_page ) {
+		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] !== $this->menu_page ) {
 			return;
 		}
 
 		$format = '<div id="message" class="updated"><p><strong>%s</strong></p></div>';
 
-		if ( isset( $_REQUEST['created'] ) && 'true' == $_REQUEST['created'] ) {
+		if ( isset( $_REQUEST['created'] ) && 'true' === $_REQUEST['created'] ) {
 			printf( $format, __( 'New taxonomy successfully created!', 'wp-listings-pro' ) );
 			return;
 		}
 
-		if ( isset( $_REQUEST['edited'] ) && 'true' == $_REQUEST['edited'] ) {
+		if ( isset( $_REQUEST['edited'] ) && 'true' === $_REQUEST['edited'] ) {
 			printf( $format, __( 'Taxonomy successfully edited!', 'wp-listings-pro' ) );
 			return;
 		}
 
-		if ( isset( $_REQUEST['deleted'] ) && 'true' == $_REQUEST['deleted'] ) {
+		if ( isset( $_REQUEST['deleted'] ) && 'true' === $_REQUEST['deleted'] ) {
 			printf( $format, __( 'Taxonomy successfully deleted.', 'wp-listings-pro' ) );
 			return;
 		}
@@ -620,7 +646,7 @@ class wplpro_taxonomies {
 		$taxonomies  = array( 'property-types', 'status', 'locations' );
 		$q_vars    = &$query->query_vars;
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( $pagenow === 'edit.php' && isset( $q_vars['post_type'] ) && $q_vars['post_type'] === $post_type && isset( $q_vars[ $taxonomy ] ) && is_numeric( $q_vars[ $taxonomy ] ) && $q_vars[ $taxonomy ] != 0 ) {
+			if ( $pagenow === 'edit.php' && isset( $q_vars['post_type'] ) && $q_vars['post_type'] === $post_type && isset( $q_vars[ $taxonomy ] ) && is_numeric( $q_vars[ $taxonomy ] ) && $q_vars[ $taxonomy ] !== 0 ) {
 				$term = get_term_by( 'id', $q_vars[ $taxonomy ], $taxonomy );
 				$q_vars[ $taxonomy ] = $term->slug;
 			}
@@ -637,13 +663,13 @@ class wplpro_taxonomies {
 	    wp_nonce_field( basename( __FILE__ ), 'wplpro_term_image_nonce' ); ?>
 
 	    <div class="form-field wpl-term-image-wrap">
-	        <label for="wpl-term-image"><?php _e( 'Image', 'wp-listings-pro' ); ?></label>
+	        <label for="wpl-term-image"><?php esc_html_e( 'Image', 'wp-listings-pro' ); ?></label>
 	        <!-- Begin term image -->
 			<p>
 				<input type="hidden" name="wpl-term-image" id="wpl-term-image" value="<?php echo esc_attr( $image_id ); ?>" />
 				<a href="#" class="wpl-add-media wpl-add-media-img"><img class="wpl-term-image-url" src="" style="max-width: 100%; max-height: 200px; height: auto; display: block;" /></a>
-				<a href="#" class="wpl-add-media wpl-add-media-text"><?php _e( 'Set term image', 'wp-listings-pro' ); ?></a>
-				<a href="#" class="wpl-remove-media"><?php _e( 'Remove term image', 'wp-listings-pro' ); ?></a>
+				<a href="#" class="wpl-add-media wpl-add-media-text"><?php esc_html_e( 'Set term image', 'wp-listings-pro' ); ?></a>
+				<a href="#" class="wpl-remove-media"><?php esc_html_e( 'Remove term image', 'wp-listings-pro' ); ?></a>
 			</p>
 			<!-- End term image -->
 	    </div>
@@ -695,9 +721,9 @@ class wplpro_taxonomies {
 			update_option( 'wplpro_taxonomies', $wp_listings_taxes_reordered );
 
 		}?>
-	<h2><?php _e( 'Reorder Taxonomies', 'wp-listings-pro' ); ?></h2>
+	<h2><?php esc_html_e( 'Reorder Taxonomies', 'wp-listings-pro' ); ?></h2>
 	<div id="col-container">
-		<div class="updated"><?php _e( 'Note: This will only allow you to reorder user-created taxonomies. Default taxonomies cannot be reordered (Status, Locations, Property Types, Features).', 'wp-listings-pro' ); ?> </div>
+		<div class="updated"><?php esc_html_e( 'Note: This will only allow you to reorder user-created taxonomies. Default taxonomies cannot be reordered (Status, Locations, Property Types, Features).', 'wp-listings-pro' ); ?> </div>
 		<style>
 #sortable{list-style-type:none;margin:10px 0;padding:0}#sortable li .item{-moz-border-radius:6px 6px 6px 6px;border:1px solid #e6e6e6;font-weight:bold;height:auto;line-height:35px;overflow:hidden;padding-left:10px;position:relative;text-shadow:0 1px 0 white;width:auto;word-wrap:break-word;cursor:move;background:none repeat-x scroll left top #dfdfdf;-moz-box-shadow:2px 2px 3px #888;-webkit-box-shadow:2px 2px 3px #888;box-shadow:2px 2px 3px #888}#sortable li span{position:absolute;margin-left:-1.3em}.ui-state-highlight{background:#e6e6e6;border:1px #666 dashed}.wplistings-submit{padding:5px 10px}.wplistings-submit:hover{background:#eaf2fa;font-weight:bold}
 		</style>
@@ -709,7 +735,7 @@ class wplpro_taxonomies {
 		</script>
 		<div id="col-left">
 		<div class="col-wrap">
-	    <p><?php _e( 'Drag and Drop to reorder', 'wp-listings-pro' ); ?></p>
+	    <p><?php esc_html_e( 'Drag and Drop to reorder', 'wp-listings-pro' ); ?></p>
 		<form method="post">
 		<ul id="sortable">
 	    	<?php foreach ( $wp_listings_taxes as $wp_listings_tax_key => $wp_listings_tax_value ) { ?>
@@ -993,17 +1019,17 @@ class IMPress_Agents_Taxonomies {
 
 		$format = '<div id="message" class="updated"><p><strong>%s</strong></p></div>';
 
-		if ( isset( $_REQUEST['created'] ) && 'true' == $_REQUEST['created'] ) {
+		if ( isset( $_REQUEST['created'] ) && 'true' === $_REQUEST['created'] ) {
 			printf( $format, __( 'New taxonomy successfully created!', 'wp-listings-pro' ) );
 			return;
 		}
 
-		if ( isset( $_REQUEST['edited'] ) && 'true' == $_REQUEST['edited'] ) {
+		if ( isset( $_REQUEST['edited'] ) && 'true' === $_REQUEST['edited'] ) {
 			printf( $format, __( 'Taxonomy successfully edited!', 'wp-listings-pro' ) );
 			return;
 		}
 
-		if ( isset( $_REQUEST['deleted'] ) && 'true' == $_REQUEST['deleted'] ) {
+		if ( isset( $_REQUEST['deleted'] ) && 'true' === $_REQUEST['deleted'] ) {
 			printf( $format, __( 'Taxonomy successfully deleted.', 'wp-listings-pro' ) );
 			return;
 		}
@@ -1198,7 +1224,7 @@ class IMPress_Agents_Taxonomies {
 		$post_type = 'employee';
 		$taxonomies  = array( 'job-types', 'offices' );
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( $typenow == $post_type ) {
+			if ( $typenow === $post_type ) {
 				$selected      = isset( $_GET[ $taxonomy ] ) ? $_GET[ $taxonomy ] : '';
 				$info_taxonomy = get_taxonomy( $taxonomy );
 				wp_dropdown_categories(array(
@@ -1223,7 +1249,7 @@ class IMPress_Agents_Taxonomies {
 		$taxonomies  = array( 'job-types', 'offices' );
 		$q_vars    = &$query->query_vars;
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( $pagenow === 'edit.php' && isset( $q_vars['post_type'] ) && $q_vars['post_type'] === $post_type && isset( $q_vars[ $taxonomy ] ) && is_numeric( $q_vars[ $taxonomy ] ) && $q_vars[ $taxonomy ] !== 0 ) {
+			if ( 'edit.php' === $pagenow && isset( $q_vars['post_type'] ) && $q_vars['post_type'] === $post_type && isset( $q_vars[ $taxonomy ] ) && is_numeric( $q_vars[ $taxonomy ] ) && 0 !== $q_vars[ $taxonomy ] ) {
 				$term = get_term_by( 'id', $q_vars[ $taxonomy ], $taxonomy );
 				$q_vars[ $taxonomy ] = $term->slug;
 			}
@@ -1231,7 +1257,11 @@ class IMPress_Agents_Taxonomies {
 	}
 
 	/**
-	 * Field for adding a new image on a term
+	 * Field for adding a new image on a term.
+	 *
+	 * @access public
+	 * @param mixed $term Term.
+	 * @return void
 	 */
 	function impress_agents_new_term_image_field( $term ) {
 
@@ -1240,13 +1270,13 @@ class IMPress_Agents_Taxonomies {
 	    wp_nonce_field( basename( __FILE__ ), 'impa_term_image_nonce' ); ?>
 
 	    <div class="form-field impa-term-image-wrap">
-	        <label for="impa-term-image"><?php _e( 'Image', 'wp-listings-pro' ); ?></label>
+	        <label for="impa-term-image"><?php esc_html_e( 'Image', 'wp-listings-pro' ); ?></label>
 	        <!-- Begin term image -->
 			<p>
 				<input type="hidden" name="impa-term-image" id="impa-term-image" value="<?php echo esc_attr( $image_id ); ?>" />
 				<a href="#" class="impa-add-media impa-add-media-img"><img class="impa-term-image-url" src="" style="max-width: 100%; max-height: 200px; height: auto; display: block;" /></a>
-				<a href="#" class="impa-add-media impa-add-media-text"><?php _e( 'Set term image', 'wp-listings-pro' ); ?></a>
-				<a href="#" class="impa-remove-media"><?php _e( 'Remove term image', 'wp-listings-pro' ); ?></a>
+				<a href="#" class="impa-add-media impa-add-media-text"><?php esc_html_e( 'Set term image', 'wp-listings-pro' ); ?></a>
+				<a href="#" class="impa-remove-media"><?php esc_html_e( 'Remove term image', 'wp-listings-pro' ); ?></a>
 			</p>
 			<!-- End term image -->
 	    </div>
@@ -1265,15 +1295,15 @@ class IMPress_Agents_Taxonomies {
 		} ?>
 
 	    <tr class="form-field impa-term-image-wrap">
-	        <th scope="row"><label for="impa-term-image"><?php _e( 'Image', 'wp-listings-pro' ); ?></label></th>
+	        <th scope="row"><label for="impa-term-image"><?php esc_html_e( 'Image', 'wp-listings-pro' ); ?></label></th>
 	        <td>
 	            <?php wp_nonce_field( basename( __FILE__ ), 'impa_term_image_nonce' ); ?>
 	            <!-- Begin term image -->
 				<p>
 					<input type="hidden" name="impa-term-image" id="impa-term-image" value="<?php echo esc_attr( $image_id ); ?>" />
 					<a href="#" class="impa-add-media impa-add-media-img"><img class="impa-term-image-url" src="<?php echo esc_url( $image_url ); ?>" style="max-width: 100%; max-height: 200px; height: auto; display: block;" /></a>
-					<a href="#" class="impa-add-media impa-add-media-text"><?php _e( 'Set term image', 'wp-listings-pro' ); ?></a>
-					<a href="#" class="impa-remove-media"><?php _e( 'Remove term image', 'wp-listings-pro' ); ?></a>
+					<a href="#" class="impa-add-media impa-add-media-text"><?php esc_html_e( 'Set term image', 'wp-listings-pro' ); ?></a>
+					<a href="#" class="impa-remove-media"><?php esc_html_e( 'Remove term image', 'wp-listings-pro' ); ?></a>
 				</p>
 				<!-- End term image -->
 	        </td>
