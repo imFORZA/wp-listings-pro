@@ -26,7 +26,7 @@ jQuery(document).ready(function($) {
 				id: id
 			},
 			success: function( result ) {
-				if( result == 'success' ) {
+				if( result === 'success' ) {
 					post.fadeOut( function(){
 						post.remove();
 						grid.masonry('layout');
