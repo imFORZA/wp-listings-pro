@@ -6,7 +6,9 @@
  * @since 0.1.0
  */
 class WP_Listings_Featured_Listings_Widget extends WP_Widget {
-
+	/**
+	 * [__construct description]
+	 */
 	function __construct() {
 		$widget_ops  = array( 'classname' => 'wplistings-featured-listings clearfix', 'description' => __( 'Display grid-style featured listings', 'wp-listings-pro' ), 'customize_selective_refresh' => true );
 		$control_ops = array( 'width' => 300, 'height' => 350 );
@@ -51,7 +53,12 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 
 		return $column_class;
 	}
-
+	/**
+	 * [widget description]
+	 * @param  [type]  $args     [description]
+	 * @param  [type]  $instance [description]
+	 * @return {[type]           [description]
+	 */
 	function widget( $args, $instance ) {
 
 		extract( $args );
@@ -159,7 +166,11 @@ endif;
 
 		return $instance;
 	}
-
+	/**
+	 * [form description]
+	 * @param  [type]  $instance [description]
+	 * @return {[type]           [description]
+	 */
 	function form( $instance ) {
 
 		$instance = wp_parse_args( $instance, array(
