@@ -13,15 +13,24 @@
  * @since 0.1.0
  */
 
+/**
+ * [__construct description]
+ */
 class Single_Listing_Template {
 
+	/**
+	 * [__construct description]
+	 */
 	function __construct() {
 
 		add_action( 'admin_menu', array( $this, 'wplistings_add_metabox' ) );
 		add_action( 'save_post', array( $this, 'metabox_save' ), 1, 2 );
 
 	}
-
+	/**
+	 * [get_listing_templates description]
+	 * @return {[type] [description]
+	 */
 	function get_listing_templates() {
 
 		$templates = wp_get_theme()->get_files( 'php', 1 );
@@ -42,7 +51,10 @@ class Single_Listing_Template {
 		return $listing_templates;
 
 	}
-
+	/**
+	 * [listing_templates_dropdown description]
+	 * @return {[type] [description]
+	 */
 	function listing_templates_dropdown() {
 
 		global $post;
@@ -57,11 +69,18 @@ class Single_Listing_Template {
 		}
 
 	}
-
+	/**
+	 * [wplistings_add_metabox description]
+	 * @param [type] $post [description]
+	 */
 	function wplistings_add_metabox( $post ) {
 		add_meta_box( 'wplistings_listing_templates', __( 'Single Listing Template', 'wplistings' ), array( $this, 'listing_template_metabox' ), 'listing', 'side', 'high' );
 	}
-
+	/**
+	 * [listing_template_metabox description]
+	 * @param  [type]  $post [description]
+	 * @return {[type]       [description]
+	 */
 	function listing_template_metabox( $post ) {
 
 		?>
@@ -76,7 +95,12 @@ class Single_Listing_Template {
 		<?php
 
 	}
-
+	/**
+	 * [metabox_save description]
+	 * @param  [type]  $post_id [description]
+	 * @param  [type]  $post    [description]
+	 * @return {[type]          [description]
+	 */
 	function metabox_save( $post_id, $post ) {
 
 		/*
