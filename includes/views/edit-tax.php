@@ -4,7 +4,7 @@ $options = get_option( $this->settings_field );
 if ( array_key_exists( $_REQUEST['id'], (array) $options ) ) {
 	$taxonomy = stripslashes_deep( $options[ $_REQUEST['id'] ] );
 } else {
-	wp_die( __( "Nice try, partner. But that taxonomy doesn't exist or can't be edited. Click back and try again.", 'wp-listings-pro' ) );
+	wp_die( esc_html_e( "Nice try, partner. But that taxonomy doesn't exist or can't be edited. Click back and try again.", 'wp-listings-pro' ) );
 }
 ?>
 
@@ -24,7 +24,7 @@ if ( array_key_exists( $_REQUEST['id'], (array) $options ) ) {
 	</tr>
 
 	<tr class="form-field">
-		<th scope="row" valign="top"><label for="wp_listings_taxonomy[name]"><?php _e( 'Plural Name', 'wp-listings-pro' ); ?></label></th>
+		<th scope="row" valign="top"><label for="wp_listings_taxonomy[name]"><?php esc_html_e( 'Plural Name', 'wp-listings-pro' ); ?></label></th>
 		<td><input name="wp_listings_taxonomy[name]" id="wp_listings_taxonomy[name]" type="text" value="<?php echo esc_html( $taxonomy['labels']['name'] ); ?>" size="40" />
 		<p class="description"><?php esc_html_e( 'Example: "Property Types" or "Locations"', 'wp-listings-pro' ); ?></p></td>
 	</tr>
