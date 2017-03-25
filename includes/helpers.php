@@ -56,7 +56,7 @@ function wplpro_post_nav_listing() {
 
 	?>
 	<nav class="navigation listing-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Listing navigation', 'wp-listings-pro' ); ?></h1>
+		<h1 class="screen-reader-text"><?php esc_html_e( 'Listing navigation', 'wp-listings-pro' ); ?></h1>
 		<div class="nav-links">
 			<?php
 			if ( is_attachment() ) :
@@ -87,7 +87,7 @@ function wplpro_post_nav_employee() {
 
 	?>
 	<nav class="navigation employee-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Agents navigation', 'wp-listings-pro' ); ?></h1>
+		<h1 class="screen-reader-text"><?php esc_html_e( 'Agents navigation', 'wp-listings-pro' ); ?></h1>
 		<div class="nav-links">
 			<?php
 			if ( is_attachment() ) :
@@ -145,11 +145,11 @@ function wplpro_paging_nav_listing() {
 
 	?>
 	<nav class="navigation archive-listing-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Listings navigation', 'wp-listings-pro' ); ?></h1>
+		<h1 class="screen-reader-text"><?php esc_html_e( 'Listings navigation', 'wp-listings-pro' ); ?></h1>
 		<div class="pagination loop-pagination">
 			<?php echo $links; ?>
-		</div><!-- .pagination -->
-	</nav><!-- .navigation -->
+		</div><!-- .pagination. -->
+	</nav><!-- .navigation. -->
 	<?php
 	endif;
 }
@@ -229,15 +229,15 @@ function wplpro_get_additional_image_sizes() {
 
 
 /*
- * function to set column classes based on parameter
+ * function to set column classes based on parameter.
  */
 function get_column_class( $columns ) {
 	$column_class = '';
 
-	// Max of six columns
+	// Max of six columns.
 	$columns = ( $columns > 6 ) ? 6 : (int) $columns;
 
-	// column class
+	// column class.
 	switch ( $columns ) {
 		case 0:
 		case 1:
@@ -269,10 +269,10 @@ function get_column_class( $columns ) {
 
 
 /**
- * Returns an array of posts of connected $type
+ * Returns an array of posts of connected $type.
  *
- * @param string $type the connected_type
- * @return array|bool array of posts if any else false
+ * @param string $type the connected_type.
+ * @return array|bool array of posts if any else false.
  */
 function wplpro_get_connected_posts_of_type( $type ) {
 
@@ -290,12 +290,12 @@ function wplpro_get_connected_posts_of_type( $type ) {
 }
 
 /**
- * Returns an array of posts of connected $type using the $post object
- * instead of get_queried_object()
+ * Returns an array of posts of connected $type using the $post object.
+ * instead of get_queried_object().
  *
- * @param string $type the connected_type
- * @param  int    $post the post id
- * @return array|bool array of posts if any else false
+ * @param string $type the connected_type.
+ * @param  int    $post the post id.
+ * @return array|bool array of posts if any else false.
  */
 function wplpro_get_connected_posts_of_type_archive( $type, $post ) {
 
@@ -340,11 +340,11 @@ function wplpro_connected_listings_markup() {
 
 		$count++;
 
-		if ( 4 == $count ) {
+		if ( 4 === $count ) {
 			$count = 1;
 		}
 
-		$class = ($count == 1) ? ' first' : '';
+		$class = ($count === 1) ? ' first' : '';
 
 		echo '
 		<div class="one-third ', $class, ' connected-listings" itemscope itemtype="http://schema.org/Offer">
@@ -393,7 +393,7 @@ function wplpro_connected_agents_markup() {
 
 		setup_postdata( $profile );
 
-		$post = $profile;
+		$post = $profile; // YIKES!!!!!!!
 		$thumb_id = get_post_thumbnail_id();
 		$thumb_url = wp_get_attachment_image_src( $thumb_id, 'agent-profile-photo', true );
 
