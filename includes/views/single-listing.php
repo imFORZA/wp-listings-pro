@@ -10,7 +10,7 @@ add_action( 'wp_enqueue_scripts', 'enqueue_single_listing_scripts' );
 
 
 /**
- * enqueue_single_listing_scripts function.
+ * Enqueue_single_listing_scripts function.
  *
  * @access public
  * @return void
@@ -121,11 +121,11 @@ function single_listing_post_content() {
 					echo '<p class="wp-listings-disclaimer">' . $options['wplpro_global_disclaimer'] . '</p>';
 				}
 
-				if ( class_exists( 'Idx_Broker_Plugin' ) && $options['wplpro_display_idx_link'] == true && get_post_meta( $post->ID, '_listing_details_url', true ) ) {
+				if ( class_exists( 'Idx_Broker_Plugin' ) && true === $options['wplpro_display_idx_link'] && get_post_meta( $post->ID, '_listing_details_url', true ) ) {
 					echo '<a href="' . get_post_meta( $post->ID, '_listing_details_url', true ) . '" title="' . get_post_meta( $post->ID, '_listing_mls', true ) . '">View full listing details</a>';
 				}
 				?>
-			</div><!-- #listing-description -->
+			</div><!-- #listing-description. -->
 
 			<div id="listing-details">
 				<?php
@@ -136,12 +136,12 @@ function single_listing_post_content() {
 					echo '<table class="listing-details">';
 
 					echo '<tbody class="left">';
-				if ( get_post_meta( $post->ID, '_listing_hide_price', true ) == 1 ) {
+				if ( get_post_meta( $post->ID, '_listing_hide_price', true ) === 1 ) {
 					echo (get_post_meta( $post->ID, '_listing_price_alt', true )) ? '<tr class="wp_listings_listing_price"><td class="label">' . __( 'Price:', 'wp-listings-pro' ) . '</td><td>' . get_post_meta( $post->ID, '_listing_price_alt', true ) . '</td></tr>' : '';
 				} elseif ( get_post_meta( $post->ID, '_listing_price', true ) ) {
 					echo '<tr class="wp_listings_listing_price"><td class="label">' . __( 'Price:', 'wp-listings-pro' ) . '</td><td><span class="currency-symbol">' . $options['wplpro_currency_symbol'] . '</span>';
 					echo get_post_meta( $post->ID, '_listing_price', true ) . ' ';
-					echo (isset( $options['wplpro_display_currency_code'] ) && $options['wplpro_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>' : '';
+					echo ( isset( $options['wplpro_display_currency_code'] ) && $options['wplpro_display_currency_code'] === 1 ) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>' : '';
 					echo '</td></tr>';
 				}
 					echo '<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">';
