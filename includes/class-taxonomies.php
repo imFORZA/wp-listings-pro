@@ -46,6 +46,12 @@ class wplpro_taxonomies {
 
 	}
 
+	/**
+	 * Register_settings function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function register_settings() {
 
 		register_setting( $this->settings_field, $this->settings_field );
@@ -53,6 +59,12 @@ class wplpro_taxonomies {
 
 	}
 
+	/**
+	 * Settings_init function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function settings_init() {
 
 		add_submenu_page( 'edit.php?post_type=listing', __( 'Register Taxonomies', 'wp-listings-pro' ), __( 'Register Taxonomies', 'wp-listings-pro' ), 'manage_options', $this->menu_page, array( &$this, 'admin' ) );
@@ -60,38 +72,56 @@ class wplpro_taxonomies {
 
 	}
 
+	/**
+	 * Actions function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function actions() {
 
-		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] != $this->menu_page ) {
+		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] !== $this->menu_page ) {
 			return;
 		}
 
 		/** This section handles the data if a new taxonomy is created */
-		if ( isset( $_REQUEST['action'] ) && 'create' == $_REQUEST['action'] ) {
+		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] ) {
 			$this->create_taxonomy( $_POST['wp_listings_taxonomy'] );
 		}
 
 		/** This section handles the data if a taxonomy is deleted */
-		if ( isset( $_REQUEST['action'] ) && 'delete' == $_REQUEST['action'] ) {
+		if ( isset( $_REQUEST['action'] ) && 'delete' === $_REQUEST['action'] ) {
 			$this->delete_taxonomy( $_REQUEST['id'] );
 		}
 
 		/** This section handles the data if a taxonomy is being edited */
-		if ( isset( $_REQUEST['action'] ) && 'edit' == $_REQUEST['action'] ) {
+		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] ) {
 			$this->edit_taxonomy( $_POST['wp_listings_taxonomy'] );
 		}
 
 	}
 
+	/**
+	 * Tax_reorder_enqueue function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function tax_reorder_enqueue() {
 		wp_enqueue_script( 'jquery-ui-sortable' );
 	}
 
+	/**
+	 * Admin function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function admin() {
 
 		echo '<div class="wrap">';
 
-		if ( isset( $_REQUEST['view'] ) && 'edit' == $_REQUEST['view'] ) {
+		if ( isset( $_REQUEST['view'] ) && 'edit' === $_REQUEST['view'] ) {
 			require( dirname( __FILE__ ) . '/views/edit-tax.php' );
 		} else {
 			require( dirname( __FILE__ ) . '/views/create-tax.php' );
@@ -101,6 +131,13 @@ class wplpro_taxonomies {
 
 	}
 
+	/**
+	 * Create_taxonomy function.
+	 *
+	 * @access public
+	 * @param array $args (default: array())
+	 * @return void
+	 */
 	function create_taxonomy( $args = array() ) {
 
 		/**** VERIFY THE NONCE ****/
@@ -154,6 +191,13 @@ class wplpro_taxonomies {
 
 	}
 
+	/**
+	 * Delete_taxonomy function.
+	 *
+	 * @access public
+	 * @param string $id (default: '')
+	 * @return void
+	 */
 	function delete_taxonomy( $id = '' ) {
 
 		/**** VERIFY THE NONCE ****/
@@ -177,6 +221,13 @@ class wplpro_taxonomies {
 
 	}
 
+	/**
+	 * Edit_taxonomy function.
+	 *
+	 * @access public
+	 * @param array $args (default: array())
+	 * @return void
+	 */
 	function edit_taxonomy( $args = array() ) {
 
 		/**** VERIFY THE NONCE ****/
@@ -225,6 +276,12 @@ class wplpro_taxonomies {
 
 	}
 
+	/**
+	 * Notices function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function notices() {
 
 		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] != $this->menu_page ) {
@@ -538,7 +595,7 @@ class wplpro_taxonomies {
 		$post_type = 'listing';
 		$taxonomies  = array( 'property-types', 'status', 'locations' );
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( $typenow == $post_type ) {
+			if ( $typenow === $post_type ) {
 				$selected      = isset( $_GET[ $taxonomy ] ) ? $_GET[ $taxonomy ] : '';
 				$info_taxonomy = get_taxonomy( $taxonomy );
 				wp_dropdown_categories(array(
@@ -563,7 +620,7 @@ class wplpro_taxonomies {
 		$taxonomies  = array( 'property-types', 'status', 'locations' );
 		$q_vars    = &$query->query_vars;
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( $pagenow == 'edit.php' && isset( $q_vars['post_type'] ) && $q_vars['post_type'] == $post_type && isset( $q_vars[ $taxonomy ] ) && is_numeric( $q_vars[ $taxonomy ] ) && $q_vars[ $taxonomy ] != 0 ) {
+			if ( $pagenow === 'edit.php' && isset( $q_vars['post_type'] ) && $q_vars['post_type'] === $post_type && isset( $q_vars[ $taxonomy ] ) && is_numeric( $q_vars[ $taxonomy ] ) && $q_vars[ $taxonomy ] != 0 ) {
 				$term = get_term_by( 'id', $q_vars[ $taxonomy ], $taxonomy );
 				$q_vars[ $taxonomy ] = $term->slug;
 			}
@@ -727,34 +784,46 @@ class IMPress_Agents_Taxonomies {
 		add_submenu_page( 'edit.php?post_type=employee', __( 'Register Taxonomies', 'wp-listings-pro' ), __( 'Register Taxonomies', 'wp-listings-pro' ), 'manage_options', $this->menu_page, array( &$this, 'admin' ) );
 	}
 
+	/**
+	 * actions function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function actions() {
 
-		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] != $this->menu_page ) {
+		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] !== $this->menu_page ) {
 			return;
 		}
 
 		/** This section handles the data if a new taxonomy is created */
-		if ( isset( $_REQUEST['action'] ) && 'create' == $_REQUEST['action'] ) {
+		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] ) {
 			$this->create_taxonomy( $_POST['impress_agents_taxonomy'] );
 		}
 
 		/** This section handles the data if a taxonomy is deleted */
-		if ( isset( $_REQUEST['action'] ) && 'delete' == $_REQUEST['action'] ) {
+		if ( isset( $_REQUEST['action'] ) && 'delete' === $_REQUEST['action'] ) {
 			$this->delete_taxonomy( $_REQUEST['id'] );
 		}
 
 		/** This section handles the data if a taxonomy is being edited */
-		if ( isset( $_REQUEST['action'] ) && 'edit' == $_REQUEST['action'] ) {
+		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] ) {
 			$this->edit_taxonomy( $_POST['impress_agents_taxonomy'] );
 		}
 
 	}
 
+	/**
+	 * admin function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function admin() {
 
 		echo '<div class="wrap">';
 
-		if ( isset( $_REQUEST['view'] ) && 'edit' == $_REQUEST['view'] ) {
+		if ( isset( $_REQUEST['view'] ) && 'edit' === $_REQUEST['view'] ) {
 			require( dirname( __FILE__ ) . '/views/agents-edit-tax.php' );
 
 		} else {
@@ -765,6 +834,13 @@ class IMPress_Agents_Taxonomies {
 
 	}
 
+	/**
+	 * create_taxonomy function.
+	 *
+	 * @access public
+	 * @param array $args (default: array())
+	 * @return void
+	 */
 	function create_taxonomy( $args = array() ) {
 
 		/**** VERIFY THE NONCE ****/
@@ -818,6 +894,13 @@ class IMPress_Agents_Taxonomies {
 
 	}
 
+	/**
+	 * delete_taxonomy function.
+	 *
+	 * @access public
+	 * @param string $id (default: '')
+	 * @return void
+	 */
 	function delete_taxonomy( $id = '' ) {
 
 		/**** VERIFY THE NONCE ****/
@@ -841,6 +924,13 @@ class IMPress_Agents_Taxonomies {
 
 	}
 
+	/**
+	 * edit_taxonomy function.
+	 *
+	 * @access public
+	 * @param array $args (default: array())
+	 * @return void
+	 */
 	function edit_taxonomy( $args = array() ) {
 
 		/**** VERIFY THE NONCE ****/
@@ -889,6 +979,12 @@ class IMPress_Agents_Taxonomies {
 
 	}
 
+	/**
+	 * notices function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function notices() {
 
 		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] != $this->menu_page ) {
@@ -1127,7 +1223,7 @@ class IMPress_Agents_Taxonomies {
 		$taxonomies  = array( 'job-types', 'offices' );
 		$q_vars    = &$query->query_vars;
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( $pagenow == 'edit.php' && isset( $q_vars['post_type'] ) && $q_vars['post_type'] == $post_type && isset( $q_vars[ $taxonomy ] ) && is_numeric( $q_vars[ $taxonomy ] ) && $q_vars[ $taxonomy ] != 0 ) {
+			if ( $pagenow === 'edit.php' && isset( $q_vars['post_type'] ) && $q_vars['post_type'] === $post_type && isset( $q_vars[ $taxonomy ] ) && is_numeric( $q_vars[ $taxonomy ] ) && $q_vars[ $taxonomy ] !== 0 ) {
 				$term = get_term_by( 'id', $q_vars[ $taxonomy ], $taxonomy );
 				$q_vars[ $taxonomy ] = $term->slug;
 			}
