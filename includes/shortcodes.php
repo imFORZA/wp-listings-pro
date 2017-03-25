@@ -111,7 +111,7 @@ function wplpro_shortcode( $atts, $content = null ) {
 		$output .= '<p class="listing-address"><span class="listing-address">' . wplpro_get_address() . '</span><br />';
 		$output .= '<span class="listing-city-state-zip">' . wplpro_get_city() . ', ' . wplpro_get_state() . ' ' . get_post_meta( $post->ID, '_listing_zip', true ) . '</span></p>';
 
-		if ( '' !== get_post_meta( $post->ID, '_listing_bedrooms', true ) || '' != get_post_meta( $post->ID, '_listing_bathrooms', true ) || '' != get_post_meta( $post->ID, '_listing_sqft', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_bedrooms', true ) || '' !== get_post_meta( $post->ID, '_listing_bathrooms', true ) || '' !== get_post_meta( $post->ID, '_listing_sqft', true ) ) {
 			$output .= '<ul class="listing-beds-baths-sqft"><li class="beds">' . get_post_meta( $post->ID, '_listing_bedrooms', true ) . '<span>' . __( 'Beds', 'wp-listings-pro' ) . '</span></li> <li class="baths">' . get_post_meta( $post->ID, '_listing_bathrooms', true ) . '<span>' . __( 'Baths', 'wp-listings-pro' ) . '</span></li> <li class="sqft">' . get_post_meta( $post->ID, '_listing_sqft', true ) . '<span>' . __( 'Square Feet', 'wp-listings-pro' ) . '</span></li></ul>';
 		}
 
