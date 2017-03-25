@@ -1,6 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) { exit();
-}
+
+if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) { exit(); }
 
 $settings = get_option( 'wplpro_plugin_settings' );
 

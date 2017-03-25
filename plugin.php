@@ -1,19 +1,17 @@
 <?php
-/*
-	Plugin Name: WP Listings Pro
-	Plugin URI: http://wordpress.org/plugins/wp-listings/
-	Description: Creates a real estate listing management system. Designed to work with any theme using built-in templates.
-	Author: imFORZA
-	Author URI: https://www.imforza.com
-	Text Domain: wp-listings-pro
-
-	Version: 2.2.2
-
-	License: GNU General Public License v2.0 (or later)
-	License URI: http://www.opensource.org/licenses/gpl-license.php
-*/
-
-
+/**
+ * Plugin Name: WP Listings Pro
+ * Plugin URI: http://wordpress.org/plugins/wp-listings/
+ * Description: Creates a real estate listing management system. Designed to work with any theme using built-in templates.
+ * Author: imFORZA
+ * Author URI: https://www.imforza.com
+ * Text Domain: wp-listings-pro
+ *
+ * Version: 2.2.2
+ *
+ * License: GNU General Public License v2.0 (or later)
+ * License URI: http://www.opensource.org/licenses/gpl-license.php
+ */
 
 register_activation_hook( __FILE__, 'wplpro_activation' );
 /**
@@ -125,15 +123,15 @@ function wplpro_init() {
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_scripts' );
 
 	/**
-	 * add_wp_listings_scripts function.
+	 * Add_wp_listings_scripts function.
 	 *
 	 * @access public
 	 * @return void
 	 */
 	function add_wp_listings_scripts() {
-		wp_register_script( 'wp-listings-single', WP_LISTINGS_URL . 'assets/js/single-listing.min.js', array( 'jquery' ), null, true ); // enqueued only on single listings
-		wp_register_script( 'jquery-validate', WP_LISTINGS_URL . 'assets/js/jquery.validate.min.js', array( 'jquery' ), null, true ); // enqueued only on single listings
-		wp_register_script( 'fitvids', '//cdnjs.cloudflare.com/ajax/libs/fitvids/1.1.0/jquery.fitvids.min.js', array( 'jquery' ), null, true ); // enqueued only on single listings
+		wp_register_script( 'wp-listings-single', WP_LISTINGS_URL . 'assets/js/single-listing.min.js', array( 'jquery' ), null, true ); // Enqueued only on single listings.
+		wp_register_script( 'jquery-validate', WP_LISTINGS_URL . 'assets/js/jquery.validate.min.js', array( 'jquery' ), null, true ); // Enqueued only on single listings.
+		wp_register_script( 'fitvids', '//cdnjs.cloudflare.com/ajax/libs/fitvids/1.1.0/jquery.fitvids.min.js', array( 'jquery' ), null, true ); // Enqueued only on single listings.
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-ui-tabs', array( 'jquery' ) );
 	}
@@ -142,7 +140,7 @@ function wplpro_init() {
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_main_styles' );
 
 	/**
-	 * add_wp_listings_main_styles function.
+	 * Add_wp_listings_main_styles function.
 	 *
 	 * @access public
 	 * @return void
@@ -190,7 +188,7 @@ function wplpro_init() {
 	}
 
 	/**
-	 * impress_agents_admin_scripts_styles function.
+	 * Impress_agents_admin_scripts_styles function.
 	 *
 	 * @access public
 	 * @return void
@@ -217,7 +215,7 @@ function wplpro_init() {
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_widgets_styles' );
 
 	/**
-	 * add_wp_listings_widgets_styles function.
+	 * Add_wp_listings_widgets_styles function.
 	 *
 	 * @access public
 	 * @return void
@@ -240,7 +238,11 @@ function wplpro_init() {
 		}
 	}
 
-	/** Add admin scripts and styles */
+	/**
+	 * Add admin scripts and styles
+	 *
+	 * @return Styles CSS Styles.
+	 */
 	function wp_listings_admin_scripts_styles() {
 		wp_enqueue_style( 'wp_listings_admin_css', WP_LISTINGS_URL . 'assets/css/wp-listings-admin.css' );
 
@@ -286,11 +288,11 @@ function wplpro_init() {
 	/**
 	 * Function to add admin notices
 	 *
-	 * @param  string  $message    the error messag text
-	 * @param  boolean $error      html class - true for error false for updated
-	 * @param  string  $cap_check  required capability
-	 * @param  boolean $ignore_key ignore key
-	 * @return string              HTML of admin notice
+	 * @param  string  $message    the error messag text.
+	 * @param  boolean $error      html class - true for error false for updated.
+	 * @param  string  $cap_check  required capability.
+	 * @param  boolean $ignore_key ignore key.
+	 * @return string              HTML of admin notice.
 	 *
 	 * @since  1.3
 	 */
@@ -307,10 +309,10 @@ function wplpro_init() {
 	add_action( 'wp_ajax_wp_listings_admin_notice', 'wp_listings_admin_notice_cb' );
 
 	/**
-	 * wp_listings_admin_notice_cb function.
+	 * Wp_listings_admin_notice_cb function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return ajax call.
 	 */
 	function wp_listings_admin_notice_cb() {
 		$_wp_listings_admin = new WP_Listings_Admin_Notice;
@@ -334,10 +336,8 @@ function wp_listings_register_widgets() {
 
 }
 
-
-
 /**
- * impress_agents_migrate function.
+ * Impress_agents_migrate function.
  *
  * @access public
  * @return void
