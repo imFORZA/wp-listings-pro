@@ -31,7 +31,7 @@ function wp_listings_add_meta_to_json( $data, $post, $request ) {
 
 	$response_data = $data->get_data();
 
-	if ( $request['context'] !== 'view' || is_wp_error( $data ) ) {
+	if ( 'view' !== $request['context'] || is_wp_error( $data ) ) {
 	    return $data;
 	}
 
@@ -45,7 +45,7 @@ function wp_listings_add_meta_to_json( $data, $post, $request ) {
 		}
 	}
 
-	if ( $post->post_type == 'listing' ) {
+	if ( 'listing' === $post->post_type ) {
 	    $response_data['listing_meta'] = $listing_meta;
 	}
 
@@ -59,7 +59,7 @@ function wp_listings_add_meta_to_json( $data, $post, $request ) {
  *
  * @param array           $object Details of current post.
  * @param string          $listing_meta_key Name of field.
- * @param WP_REST_Request $request Current request
+ * @param WP_REST_Request $request Current request.
  *
  * @return mixed
  */
@@ -74,9 +74,9 @@ function wp_listings_get_listing_meta( $object, $listing_meta_key, $request ) {
 /**
  * Handler for updating listing meta key
  *
- * @param mixed  $value The value of the field
- * @param object $object The object from the response
- * @param string $listing_meta_key Name of field
+ * @param mixed  $value The value of the field.
+ * @param object $object The object from the response.
+ * @param string $listing_meta_key Name of field.
  *
  * @return bool|int
  */
@@ -89,8 +89,13 @@ function wp_listings_update_listing_meta( $value, $object, $listing_meta_key ) {
 
 }
 
+
 /**
  * Add Jetpack JSON Rest API Support
+ *
+ * @access public
+ * @param mixed $allowed_post_types Allowed Post Types.
+ * @return void
  */
 function wp_listings_allow_post_types( $allowed_post_types ) {
 	$allowed_post_types[] = 'listing';
@@ -98,8 +103,13 @@ function wp_listings_allow_post_types( $allowed_post_types ) {
 }
 add_filter( 'rest_api_allowed_post_types', 'wp_listings_allow_post_types' );
 
+
 /**
- * Add Jetpack JSON Rest API Support (Listing MetaData)
+ * Add Jetpack JSON Rest API Support (Listing MetaData).
+ *
+ * @access public
+ * @param mixed $allowed_meta_keys Allowed Meta Keys.
+ * @return void
  */
 function wp_listings_rest_api_allowed_public_metadata( $allowed_meta_keys ) {
 	// only run for REST API requests

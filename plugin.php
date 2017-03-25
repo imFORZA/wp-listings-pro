@@ -39,8 +39,6 @@ function wplpro_activation() {
 		$_impress_agents_taxonomies->register_taxonomies();
 	}
 
-
-
 	flush_rewrite_rules();
 
 	$notice_keys = array( 'wpl_notice_idx', 'wpl_listing_notice_idx', 'wpl_notice_equity' );
@@ -77,8 +75,7 @@ function wplpro_init() {
 
 	global $_wp_listings, $_wplpro_taxonomies, $_wp_listings_templates, $_impress_agents, $_impress_agents_taxonomies;
 
-
-	define( 'IMPRESS_AGENTS_URL', plugin_dir_url( __FILE__ )  );
+	define( 'IMPRESS_AGENTS_URL', plugin_dir_url( __FILE__ ) );
 	define( 'IMPRESS_AGENTS_VERSION', '1.1.3' );
 
 	define( 'WP_LISTINGS_URL', plugin_dir_url( __FILE__ ) );
@@ -87,8 +84,6 @@ function wplpro_init() {
 
 	/** Load textdomain for translation */
 	load_plugin_textdomain( 'wp-listings-pro', false, basename( dirname( __FILE__ ) ) . '/languages/' );
-
-
 
 	add_action( 'widgets_init', 'impress_agents_register_widgets' );
 
@@ -128,6 +123,13 @@ function wplpro_init() {
 
 	/** Registers and enqueues scripts for single listings */
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_scripts' );
+
+	/**
+	 * add_wp_listings_scripts function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function add_wp_listings_scripts() {
 		wp_register_script( 'wp-listings-single', WP_LISTINGS_URL . 'assets/js/single-listing.min.js', array( 'jquery' ), null, true ); // enqueued only on single listings
 		wp_register_script( 'jquery-validate', WP_LISTINGS_URL . 'assets/js/jquery.validate.min.js', array( 'jquery' ), null, true ); // enqueued only on single listings
@@ -138,6 +140,13 @@ function wplpro_init() {
 
 	/** Enqueues wp-listings.css style file if it exists and is not deregistered in settings */
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_main_styles' );
+
+	/**
+	 * add_wp_listings_main_styles function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function add_wp_listings_main_styles() {
 
 		$options = get_option( 'wplpro_plugin_settings' );
@@ -148,14 +157,12 @@ function wplpro_init() {
 			$options['wplpro_stylesheet_load'] = 0;
 		}
 
-		if ( '1' == $options['wplpro_stylesheet_load'] ) {
+		if ( '1' === $options['wplpro_stylesheet_load'] ) {
 			return;
 		}
 
-
 		wp_register_style( 'agents-css', WP_LISTINGS_URL . 'assets/css/impress-agents.min.css', '', null, 'all' );
 		wp_enqueue_style( 'agents-css' );
-
 
 		/** Register single styles but don't enqueue them */
 		wp_register_style( 'wp-listings-single', WP_LISTINGS_URL . 'assets/css/wp-listings-single.min.css', '', null, 'all' );
@@ -171,7 +178,7 @@ function wplpro_init() {
 			$options['wplpro_stylesheet_load'] = 0;
 		}
 
-		if ( '1' == $options['wplpro_stylesheet_load'] ) {
+		if ( '1' === $options['wplpro_stylesheet_load'] ) {
 			return;
 		}
 
@@ -180,11 +187,14 @@ function wplpro_init() {
 			wp_enqueue_style( 'wp_listings' );
 		}
 
-
-
 	}
 
-		/** Add admin scripts and styles */
+	/**
+	 * impress_agents_admin_scripts_styles function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function impress_agents_admin_scripts_styles() {
 		wp_enqueue_style( 'impress_agents_admin_css', WP_LISTINGS_URL . 'assets/css/impress-agents-admin.min.css' );
 
@@ -205,6 +215,13 @@ function wplpro_init() {
 
 	/** Enqueues wp-listings-widgets.css style file if it exists and is not deregistered in settings */
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_widgets_styles' );
+
+	/**
+	 * add_wp_listings_widgets_styles function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function add_wp_listings_widgets_styles() {
 
 		$options = get_option( 'wplpro_plugin_settings' );
@@ -213,7 +230,7 @@ function wplpro_init() {
 			$options['wplpro_widgets_stylesheet_load'] = 0;
 		}
 
-		if ( '1' == $options['wplpro_widgets_stylesheet_load'] ) {
+		if ( '1' === $options['wplpro_widgets_stylesheet_load'] ) {
 			return;
 		}
 
@@ -288,6 +305,13 @@ function wplpro_init() {
 	 * @since  1.3
 	 */
 	add_action( 'wp_ajax_wp_listings_admin_notice', 'wp_listings_admin_notice_cb' );
+
+	/**
+	 * wp_listings_admin_notice_cb function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function wp_listings_admin_notice_cb() {
 		$_wp_listings_admin = new WP_Listings_Admin_Notice;
 		return $_wp_listings_admin->ajax_cb();
@@ -309,8 +333,6 @@ function wp_listings_register_widgets() {
 	}
 
 }
-
-
 
 
 

@@ -6,6 +6,14 @@
 
 add_shortcode( 'listings', 'wplpro_shortcode' );
 
+/**
+ * wplpro_shortcode function.
+ *
+ * @access public
+ * @param mixed $atts
+ * @param mixed $content (default: null)
+ * @return void
+ */
 function wplpro_shortcode( $atts, $content = null ) {
 	extract(shortcode_atts(array(
 		'id'       => '',
@@ -71,31 +79,31 @@ function wplpro_shortcode( $atts, $content = null ) {
 
 	foreach ( $listings_array as $post ) : setup_postdata( $post );
 
-		$count = ( $count == $columns ) ? 1 : $count + 1;
+		$count = ( $count === $columns ) ? 1 : $count + 1;
 
-		$first_class = ( 1 == $count ) ? 'first' : '';
+		$first_class = ( 1 === $count ) ? 'first' : '';
 
 		$output .= '<div class="listing-wrap ' . get_column_class( $columns ) . ' ' . $first_class . '"><div class="listing-widget-thumb"><a href="' . get_permalink() . '" class="listing-image-link">' . get_the_post_thumbnail( $post->ID, 'listings' ) . '</a>';
 
-		if ( '' != wplpro_get_status() ) {
+		if ( '' !== wplpro_get_status() ) {
 			$output .= '<span class="listing-status ' . strtolower( str_replace( ' ', '-', wplpro_get_status() ) ) . '">' . wplpro_get_status() . '</span>';
 		}
 
 		$output .= '<div class="listing-thumb-meta">';
 
-		if ( '' != get_post_meta( $post->ID, '_listing_text', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_text', true ) ) {
 			$output .= '<span class="listing-text">' . get_post_meta( $post->ID, '_listing_text', true ) . '</span>';
-		} elseif ( '' != wplpro_get_property_types() ) {
+		} elseif ( '' !== wplpro_get_property_types() ) {
 			$output .= '<span class="listing-property-type">' . wplpro_get_property_types() . '</span>';
 		}
 
-		if ( '' != get_post_meta( $post->ID, '_listing_price', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_price', true ) ) {
 			$output .= '<span class="listing-price">' . get_post_meta( $post->ID, '_listing_price', true ) . '</span>';
 		}
 
 		$output .= '</div><!-- .listing-thumb-meta --></div><!-- .listing-widget-thumb -->';
 
-		if ( '' != get_post_meta( $post->ID, '_listing_open_house', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_open_house', true ) ) {
 			$output .= '<span class="listing-open-house">' . __( 'Open House', 'wp-listings-pro' ) . ': ' . get_post_meta( $post->ID, '_listing_open_house', true ) . '</span>';
 		}
 
@@ -103,7 +111,7 @@ function wplpro_shortcode( $atts, $content = null ) {
 		$output .= '<p class="listing-address"><span class="listing-address">' . wplpro_get_address() . '</span><br />';
 		$output .= '<span class="listing-city-state-zip">' . wplpro_get_city() . ', ' . wplpro_get_state() . ' ' . get_post_meta( $post->ID, '_listing_zip', true ) . '</span></p>';
 
-		if ( '' != get_post_meta( $post->ID, '_listing_bedrooms', true ) || '' != get_post_meta( $post->ID, '_listing_bathrooms', true ) || '' != get_post_meta( $post->ID, '_listing_sqft', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_bedrooms', true ) || '' != get_post_meta( $post->ID, '_listing_bathrooms', true ) || '' != get_post_meta( $post->ID, '_listing_sqft', true ) ) {
 			$output .= '<ul class="listing-beds-baths-sqft"><li class="beds">' . get_post_meta( $post->ID, '_listing_bedrooms', true ) . '<span>' . __( 'Beds', 'wp-listings-pro' ) . '</span></li> <li class="baths">' . get_post_meta( $post->ID, '_listing_bathrooms', true ) . '<span>' . __( 'Baths', 'wp-listings-pro' ) . '</span></li> <li class="sqft">' . get_post_meta( $post->ID, '_listing_sqft', true ) . '<span>' . __( 'Square Feet', 'wp-listings-pro' ) . '</span></li></ul>';
 		}
 
@@ -142,6 +150,14 @@ function wplpro_meta_shortcode( $atts ) {
 
 add_shortcode( 'employee_profiles', 'wplpro_profile_shortcode' );
 
+/**
+ * wplpro_profile_shortcode function.
+ *
+ * @access public
+ * @param mixed $atts
+ * @param mixed $content (default: null)
+ * @return void
+ */
 function wplpro_profile_shortcode( $atts, $content = null ) {
 	extract(shortcode_atts(array(
 		'id'   => '',
@@ -149,7 +165,7 @@ function wplpro_profile_shortcode( $atts, $content = null ) {
 		'order' => 'ASC',
 	), $atts ) );
 
-	if ( $id == '' ) {
+	if ( $id === '' ) {
 		$query_args = array(
 			'post_type'       => 'employee',
 			'posts_per_page'  => -1,
