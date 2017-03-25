@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Adds ability to reorder taxonomies after creation
  * Adapted from AgentPress Listings Taxonomy Reorder plugin by Robert Iseley (http://www.robertiseley.com)
@@ -16,6 +15,7 @@ add_action( 'admin_menu', 'wp_listings_tax_reorder_init', 20 );
 
 /**
  * [wp_listings_tax_reorder_init description]
+ *
  * @return {[type] [description]
  */
 function wp_listings_tax_reorder_init() {
@@ -25,6 +25,7 @@ function wp_listings_tax_reorder_init() {
 add_action( 'admin_enqueue_scripts', 'wp_listings_tax_reorder_enqueue' );
 /**
  * [wp_listings_tax_reorder_enqueue description]
+ *
  * @return {[type] [description]
  */
 function wp_listings_tax_reorder_enqueue() {
@@ -32,6 +33,7 @@ function wp_listings_tax_reorder_enqueue() {
 }
 /**
  * [wp_listings_tax_reorder description]
+ *
  * @return {[type] [description]
  */
 function wp_listings_tax_reorder() {
@@ -50,7 +52,7 @@ function wp_listings_tax_reorder() {
 
 	}
 	screen_icon( 'themes' ); ?>
-<h2><?php _e( 'Reorder Taxonomies', 'wp-listings-pro' ); ?></h2>
+<h2><?php esc_html_e( 'Reorder Taxonomies', 'wp-listings-pro' ); ?></h2>
 <div id="col-container">
 <style>
 	#sortable { list-style-type: none; margin: 10px 0 ; padding: 0; }
