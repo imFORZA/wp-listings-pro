@@ -4,12 +4,28 @@
  * to import listing data
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit;
-}
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+
+/**
+ * WPL_Idx_Listing class.
+ */
 class WPL_Idx_Listing {
 
+	/**
+	 * _idx
+	 *
+	 * @var mixed
+	 * @access public
+	 */
 	public $_idx;
 
+	/**
+	 * __construct function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	public function __construct() {
 	}
 
