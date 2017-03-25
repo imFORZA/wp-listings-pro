@@ -13,17 +13,17 @@ screen_icon( 'themes' ); ?>
 		<table class="widefat tag fixed" cellspacing="0">
 			<thead>
 			<tr>
-			<th scope="col" class="manage-column column-slug"><?php _e( 'ID', 'wp-listings-pro' ); ?></th>
-			<th scope="col" class="manage-column column-singular-name"><?php _e( 'Singular Name', 'wp-listings-pro' ); ?></th>
-			<th scope="col" class="manage-column column-plural-name"><?php _e( 'Plural Name', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-slug"><?php esc_html_e( 'ID', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-singular-name"><?php esc_html_e( 'Singular Name', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-plural-name"><?php esc_html_e( 'Plural Name', 'wp-listings-pro' ); ?></th>
 			</tr>
 			</thead>
 
 			<tfoot>
 			<tr>
-			<th scope="col" class="manage-column column-slug"><?php _e( 'ID', 'wp-listings-pro' ); ?></th>
-			<th scope="col" class="manage-column column-singular-name"><?php _e( 'Singular Name', 'wp-listings-pro' ); ?></th>
-			<th scope="col" class="manage-column column-plural-name"><?php _e( 'Plural Name', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-slug"><?php esc_html_e( 'ID', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-singular-name"><?php esc_html_e( 'Singular Name', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-plural-name"><?php esc_html_e( 'Plural Name', 'wp-listings-pro' ); ?></th>
 			</tr>
 			</tfoot>
 
@@ -45,7 +45,7 @@ screen_icon( 'themes' ); ?>
 					<?php if ( isset( $data['editable'] ) && 0 === $data['editable'] ) : ?>
 						<?php echo '<strong>' . esc_html( $id ) . '</strong><br /><br />'; ?>
 					<?php else : ?>
-						<?php printf( '<a class="row-title" href="%s" title="Edit %s">%s</a>', admin_url( 'admin.php?page=' . $this->menu_page . '&amp;action=edit&amp;id=' . esc_html( $id ) ), esc_html( $id ), esc_html( $id ) ); ?>
+						<?php printf( '<a class="row-title" href="%s" title="Edit %s">%s</a>', admin_url( 'admin.php?page=' . $this->menu_page . '&amp;action=edit&amp;id=' . esc_html( $id ) ), esc_html( $id ), esc_html( $id )  ); ?>
 
 						<br />
 

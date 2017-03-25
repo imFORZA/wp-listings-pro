@@ -7,10 +7,24 @@
  */
 
 add_action( 'wp_enqueue_scripts', 'enqueue_single_employee_scripts' );
+
+
+/**
+ * enqueue_single_employee_scripts function.
+ *
+ * @access public
+ * @return void
+ */
 function enqueue_single_employee_scripts() {
 	wp_enqueue_style( 'font-awesome' );
 }
 
+/**
+ * single_employee_post_content function.
+ *
+ * @access public
+ * @return void
+ */
 function single_employee_post_content() {
 	global $post;
 	?>
@@ -61,17 +75,17 @@ if ( function_exists( 'equity' ) ) {
 } elseif ( function_exists( 'genesis_init' ) ) {
 
 	remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
-	remove_action( 'genesis_entry_header', 'genesis_post_info', 12 ); // HTML5
-	remove_action( 'genesis_before_post_content', 'genesis_post_info' ); // XHTML
-	remove_action( 'genesis_entry_footer', 'genesis_post_meta' ); // HTML5
-	remove_action( 'genesis_after_post_content', 'genesis_post_meta' ); // XHTML
-	remove_action( 'genesis_after_entry', 'genesis_do_author_box_single', 8 ); // HTML5
-	remove_action( 'genesis_after_post', 'genesis_do_author_box_single' ); // XHTML
+	remove_action( 'genesis_entry_header', 'genesis_post_info', 12 ); // HTML5.
+	remove_action( 'genesis_before_post_content', 'genesis_post_info' ); // XHTML.
+	remove_action( 'genesis_entry_footer', 'genesis_post_meta' ); // HTML5.
+	remove_action( 'genesis_after_post_content', 'genesis_post_meta' ); // XHTML.
+	remove_action( 'genesis_after_entry', 'genesis_do_author_box_single', 8 ); // HTML5.
+	remove_action( 'genesis_after_post', 'genesis_do_author_box_single' ); // XHTML.
 
-	remove_action( 'genesis_entry_content', 'genesis_do_post_content' ); // HTML5
-	remove_action( 'genesis_post_content', 'genesis_do_post_content' ); // XHTML
-	add_action( 'genesis_entry_content', 'single_employee_post_content' ); // HTML5
-	add_action( 'genesis_post_content', 'single_employee_post_content' ); // XHTML
+	remove_action( 'genesis_entry_content', 'genesis_do_post_content' ); // HTML5.
+	remove_action( 'genesis_post_content', 'genesis_do_post_content' ); // XHTML.
+	add_action( 'genesis_entry_content', 'single_employee_post_content' ); // HTML5.
+	add_action( 'genesis_post_content', 'single_employee_post_content' ); // XHTML.
 
 	genesis();
 
