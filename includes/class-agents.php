@@ -103,14 +103,14 @@ class IMPress_Agents {
 	}
 
 	/**
-	 * Adds settings page and IDX Import page to admin menu
+	 * Adds settings page and IDX Import page to admin menu.
 	 */
 	function settings_init() {
 		add_submenu_page( 'edit.php?post_type=employee', __( 'Settings', 'wp-listings-pro' ), __( 'Settings', 'wp-listings-pro' ), 'manage_options', $this->settings_page, array( &$this, 'settings_page' ) );
 	}
 
 	/**
-	 * Creates display of settings page along with form fields
+	 * Creates display of settings page along with form fields.
 	 */
 	function settings_page() {
 		include( dirname( __FILE__ ) . '/views/impress-agents-settings.php' );
@@ -157,10 +157,22 @@ class IMPress_Agents {
 
 	}
 
+	/**
+	 * register_meta_boxes function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function register_meta_boxes() {
 		add_meta_box( 'employee_details_metabox', __( 'Employee Info', 'wp-listings-pro' ), array( &$this, 'employee_details_metabox' ), 'employee', 'normal', 'high' );
 	}
 
+	/**
+	 * employee_details_metabox function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function employee_details_metabox() {
 		include( dirname( __FILE__ ) . '/views/employee-details-metabox.php' );
 	}
@@ -168,51 +180,50 @@ class IMPress_Agents {
 	// Should be what gets called to save the meta boxes right?
 	function metabox_save( $post_id, $post ) {
 
-		/** Run only on employees post type save */
-		if ( 'employee' != $post->post_type ) {
+		/** Run only on employees post type save. */
+		if ( 'employee' !== $post->post_type ) {
 			return;
 		}
 
-		error_log("here"); // Good news, you were abl to figure out where the error was. Neat.
+		error_log( 'here' ); // Good news, you were abl to figure out where the error was. Neat.
 
 		if ( ! isset( $_POST['impress_agents_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['impress_agents_metabox_nonce'], 'impress_agents_metabox_save' ) ) {
 	        return $post_id;
 		}
 
-	    /** Don't try to save the data under autosave, ajax, or future post */
-    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return;
+	    /** Don't try to save the data under autosave, ajax, or future post. */
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return;
 		}
-    if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) { return;
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) { return;
 		}
-    if ( defined( 'DOING_CRON' ) && DOING_CRON ) { return;
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ) { return;
 		}
 
-	    /** Check permissions */
-    if ( ! current_user_can( 'edit_post', $post_id ) ) {
-      return;
+	    /** Check permissions. */
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			  return;
 		}
 
 		// And there's an error here.
-    $employee_details = $_POST['impress_agents'];
+		$employee_details = $_POST['impress_agents'];
 		// Fixed it.
+		/** Store the employee details custom fields */
+		foreach ( (array) $employee_details as $key => $value ) {
 
-    /** Store the employee details custom fields */
-    foreach ( (array) $employee_details as $key => $value ) {
+			$key = sanitize_key( $key );
 
-    	$key = sanitize_key( $key );
+			if ( '_employee_email' === $key ) {
+				$value = sanitize_email( $value );
+			} else {
+				$value = sanitize_text_field( $value );
+			}
 
-    	if ( $key == '_employee_email' ) {
-    		$value = sanitize_email( $value );
-    	} else {
-    		$value = sanitize_text_field( $value );
-    	}
-
-      /** Save/Update/Delete */
-      if ( $value ) {
-          update_post_meta( $post->ID, $key, $value );
-      } else {
-          delete_post_meta( $post->ID, $key );
-      }
+			  /** Save/Update/Delete. */
+			if ( $value ) {
+				  update_post_meta( $post->ID, $key, $value );
+			} else {
+				  delete_post_meta( $post->ID, $key );
+			}
 		}
 	}
 
@@ -244,7 +255,7 @@ class IMPress_Agents {
 
 		apply_filters( 'impress_agents_admin_employee_details', $admin_details = $this->employee_details['col1'] );
 
-		if ( isset( $_GET['mode'] ) && trim( $_GET['mode'] ) == 'excerpt' ) {
+		if ( isset( $_GET['mode'] ) && trim( $_GET['mode'] ) === 'excerpt' ) {
 			apply_filters( 'impress_agents_admin_extended_details', $admin_details = $this->employee_details['col1'] + $this->employee_details['col2'] );
 			$image_size = 'style="max-width: 150px;"';
 		}

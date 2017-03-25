@@ -478,6 +478,14 @@ function wp_listings_idx_create_post_cron( $listings ) {
 add_action( 'wp_listings_idx_create_post_cron_hook', array( 'WPL_Idx_Listing', 'wp_listings_idx_create_post' ) );
 
 add_action( 'admin_enqueue_scripts', 'wp_listings_idx_listing_scripts' );
+
+
+/**
+ * Wp_listings_idx_listing_scripts function.
+ *
+ * @access public
+ * @return void
+ */
 function wp_listings_idx_listing_scripts() {
 	$screen = get_current_screen();
 	if ( 'listing_page_wplistings-idx-listing' !== $screen->id ) {
