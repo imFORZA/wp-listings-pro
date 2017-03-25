@@ -13,15 +13,27 @@
  */
 
 add_action( 'admin_menu', 'wp_listings_tax_reorder_init', 20 );
+
+/**
+ * [wp_listings_tax_reorder_init description]
+ * @return {[type] [description]
+ */
 function wp_listings_tax_reorder_init() {
 	add_submenu_page( 'edit.php?post_type=listing', __( 'Reorder Taxonomies', 'wp-listings-pro' ), __( 'Reorder Taxonomies', 'wp-listings-pro' ), 'manage_options', 'wplistings-tax-reorder', 'wp_listings_tax_reorder' );
 }
 
 add_action( 'admin_enqueue_scripts', 'wp_listings_tax_reorder_enqueue' );
+/**
+ * [wp_listings_tax_reorder_enqueue description]
+ * @return {[type] [description]
+ */
 function wp_listings_tax_reorder_enqueue() {
 		wp_enqueue_script( 'jquery-ui-sortable' );
 }
-
+/**
+ * [wp_listings_tax_reorder description]
+ * @return {[type] [description]
+ */
 function wp_listings_tax_reorder() {
 	$wp_listings_taxes = get_option( 'wplpro_taxonomies' );
 
@@ -42,7 +54,7 @@ function wp_listings_tax_reorder() {
 <div id="col-container">
 <style>
 	#sortable { list-style-type: none; margin: 10px 0 ; padding: 0; }
-	#sortable li .item { 
+	#sortable li .item {
 		-moz-border-radius: 6px 6px 6px 6px;
 		border: 1px solid #E6E6E6;
 		font-weight: bold;
@@ -67,8 +79,8 @@ function wp_listings_tax_reorder() {
 	</style>
 	<script>
 	jQuery(function($) {
-		$( "#sortable" ).sortable({ placeholder: 'ui-state-highlight', forcePlaceholderSize: true});
-		$( "#sortable" ).disableSelection();
+		jQuery( "#sortable" ).sortable({ placeholder: 'ui-state-highlight', forcePlaceholderSize: true});
+		jQuery( "#sortable" ).disableSelection();
 	});
 	</script>
 	<div id="col-left">
@@ -93,5 +105,3 @@ function wp_listings_tax_reorder() {
 </div><!-- /col-container -->
 <?php
 }
-
-?>

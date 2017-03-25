@@ -1,26 +1,26 @@
 <?php screen_icon( 'themes' ); ?>
-<h2><?php _e( 'Listing Taxonomies', 'wp-listings-pro' ); ?></h2>
+<h2><?php esc_html_e( 'Listing Taxonomies', 'wp-listings-pro' ); ?></h2>
 
 <div id="col-container">
 
 	<div id="col-right">
 	<div class="col-wrap">
 
-		<h3><?php _e( 'Current Listing Taxonomies', 'wp-listings-pro' ); ?></h3>
+		<h3><?php esc_html_e( 'Current Listing Taxonomies', 'wp-listings-pro' ); ?></h3>
 		<table class="widefat tag fixed" cellspacing="0">
 			<thead>
 			<tr>
-			<th scope="col" class="manage-column column-slug"><?php _e( 'ID', 'wp-listings-pro' ); ?></th>
-			<th scope="col" class="manage-column column-singular-name"><?php _e( 'Singular Name', 'wp-listings-pro' ); ?></th>
-			<th scope="col" class="manage-column column-plural-name"><?php _e( 'Plural Name', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-slug"><?php esc_html_e( 'ID', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-singular-name"><?php esc_html_e( 'Singular Name', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-plural-name"><?php esc_html_e( 'Plural Name', 'wp-listings-pro' ); ?></th>
 			</tr>
 			</thead>
 
 			<tfoot>
 			<tr>
-			<th scope="col" class="manage-column column-slug"><?php _e( 'ID', 'wp-listings-pro' ); ?></th>
-			<th scope="col" class="manage-column column-singular-name"><?php _e( 'Singular Name', 'wp-listings-pro' ); ?></th>
-			<th scope="col" class="manage-column column-plural-name"><?php _e( 'Plural Name', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-slug"><?php esc_html_e( 'ID', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-singular-name"><?php esc_html_e( 'Singular Name', 'wp-listings-pro' ); ?></th>
+			<th scope="col" class="manage-column column-plural-name"><?php esc_html_e( 'Plural Name', 'wp-listings-pro' ); ?></th>
 			</tr>
 			</tfoot>
 
@@ -69,7 +69,7 @@
 	<div class="col-wrap">
 
 		<div class="form-wrap">
-			<h3><?php _e( 'Add New Listing Taxonomy', 'wp-listings-pro' ); ?></h3>
+			<h3><?php esc_html_e( 'Add New Listing Taxonomy', 'wp-listings-pro' ); ?></h3>
 
 			<form method="post" action="<?php echo admin_url( 'admin.php?page=register-taxonomies&amp;action=create' ); ?>">
 			<?php wp_nonce_field( 'wp_listings-action_create-taxonomy' ); ?>
@@ -77,19 +77,19 @@
 			<div class="form-field">
 				<label for="taxonomy-id"><?php _e( 'ID', 'wp-listings-pro' ); ?></label>
 				<input name="wp_listings_taxonomy[id]" id="taxonomy-id" type="text" value="" size="40" />
-				<p><?php _e( 'The unique ID is used to register the taxonomy.<br />(no spaces, underscores, or special characters)', 'wp-listings-pro' ); ?></p>
+				<p><?php esc_html_e( 'The unique ID is used to register the taxonomy.<br />(no spaces, underscores, or special characters)', 'wp-listings-pro' ); ?></p>
 			</div>
 
 			<div class="form-field form-required">
 				<label for="taxonomy-name"><?php _e( 'Plural Name', 'wp-listings-pro' ); ?></label>
 				<input name="wp_listings_taxonomy[name]" id="taxonomy-name" type="text" value="" size="40" />
-				<p><?php _e( 'Example: "Property Types" or "Locations"', 'wp-listings-pro' ); ?></p>
+				<p><?php esc_html_e( 'Example: "Property Types" or "Locations"', 'wp-listings-pro' ); ?></p>
 			</div>
 
 			<div class="form-field form-required">
-				<label for="taxonomy-singular-name"><?php _e( 'Singular Name', 'wp-listings-pro' ); ?></label>
+				<label for="taxonomy-singular-name"><?php esc_html_e( 'Singular Name', 'wp-listings-pro' ); ?></label>
 				<input name="wp_listings_taxonomy[singular_name]" id="taxonomy-singular-name" type="text" value="" size="40" />
-				<p><?php _e( 'Example: "Property Type" or "Location"', 'wp-listings-pro' ); ?></p>
+				<p><?php esc_html_e( 'Example: "Property Type" or "Location"', 'wp-listings-pro' ); ?></p>
 			</div>
 
 			<?php submit_button( __( 'Add New Taxonomy', 'wp-listings-pro' ), 'secondary' ); ?>

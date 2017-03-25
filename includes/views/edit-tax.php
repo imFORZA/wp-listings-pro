@@ -30,7 +30,7 @@ if ( array_key_exists( $_REQUEST['id'], (array) $options ) ) {
 	</tr>
 
 	<tr class="form-field">
-		<th scope="row" valign="top"><label for="wp_listings_taxonomy[singular_name]"><?php _esc_html_e( 'Singular Name', 'wp-listings-pro' ); ?></label></th>
+		<th scope="row" valign="top"><label for="wp_listings_taxonomy[singular_name]"><?php esc_html_e( 'Singular Name', 'wp-listings-pro' ); ?></label></th>
 		<td><input name="wp_listings_taxonomy[singular_name]" id="wp_listings_taxonomy[singular_name]" type="text" value="<?php echo esc_html( $taxonomy['labels']['singular_name'] ); ?>" size="40" />
 		<p class="description"><?php esc_html_e( 'Example: "Property Type" or "Location"', 'wp-listings-pro' ); ?></p></td>
 	</tr>
