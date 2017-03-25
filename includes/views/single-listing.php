@@ -40,10 +40,10 @@ function single_listing_post_content() {
 
 		<div class="listing-image-wrap">
 			<?php echo '<div itemprop="image" itemscope itemtype="http://schema.org/ImageObject">' . get_the_post_thumbnail( $post->ID, 'listings-full', array( 'class' => 'single-listing-image', 'itemprop' => 'contentUrl' ) ) . '</div>';
-			if ( '' != wplpro_get_status() ) {
+			if ( '' !== wplpro_get_status() ) {
 				printf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wplpro_get_status() ) ), wplpro_get_status() );
 			}
-			if ( '' != get_post_meta( $post->ID, '_listing_open_house', true ) ) {
+			if ( '' !== get_post_meta( $post->ID, '_listing_open_house', true ) ) {
 				printf( '<span class="listing-open-house">Open House: %s</span>', get_post_meta( $post->ID, '_listing_open_house', true ) );
 			} ?>
 		</div><!-- .listing-image-wrap -->
@@ -51,33 +51,33 @@ function single_listing_post_content() {
 		<?php
 		$listing_meta = sprintf( '<ul class="listing-meta">' );
 
-		if ( get_post_meta( $post->ID, '_listing_hide_price', true ) == 1 ) {
+		if ( get_post_meta( $post->ID, '_listing_hide_price', true ) === 1 ) {
 			$listing_meta .= (get_post_meta( $post->ID, '_listing_price_alt', true )) ? sprintf( '<li class="listing-price">%s</li>', get_post_meta( $post->ID, '_listing_price_alt', true ) ) : '';
 		} else {
-			$listing_meta .= sprintf( '<li class="listing-price">%s %s %s</li>', '<span class="currency-symbol">' . $options['wplpro_currency_symbol'] . '</span>', get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wplpro_display_currency_code'] ) && $options['wplpro_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>' : '' );
+			$listing_meta .= sprintf( '<li class="listing-price">%s %s %s</li>', '<span class="currency-symbol">' . $options['wplpro_currency_symbol'] . '</span>', get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wplpro_display_currency_code'] ) && $options['wplpro_display_currency_code'] === 1) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>' : '' );
 		}
 
-		if ( '' != wplpro_get_property_types() ) {
+		if ( '' !== wplpro_get_property_types() ) {
 			$listing_meta .= sprintf( '<li class="listing-property-type"><span class="label">Property Type: </span>%s</li>', get_the_term_list( get_the_ID(), 'property-types', '', ', ', '' ) );
 		}
 
-		if ( '' != wplpro_get_locations() ) {
+		if ( '' !== wplpro_get_locations() ) {
 			$listing_meta .= sprintf( '<li class="listing-location"><span class="label">Location: </span>%s</li>', get_the_term_list( get_the_ID(), 'locations', '', ', ', '' ) );
 		}
 
-		if ( '' != get_post_meta( $post->ID, '_listing_bedrooms', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_bedrooms', true ) ) {
 			$listing_meta .= sprintf( '<li class="listing-bedrooms"><span class="label">Beds: </span>%s</li>', get_post_meta( $post->ID, '_listing_bedrooms', true ) );
 		}
 
-		if ( '' != get_post_meta( $post->ID, '_listing_bathrooms', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_bathrooms', true ) ) {
 			$listing_meta .= sprintf( '<li class="listing-bathrooms"><span class="label">Baths: </span>%s</li>', get_post_meta( $post->ID, '_listing_bathrooms', true ) );
 		}
 
-		if ( '' != get_post_meta( $post->ID, '_listing_sqft', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_sqft', true ) ) {
 			$listing_meta .= sprintf( '<li class="listing-sqft"><span class="label">Sq Ft: </span>%s</li>', get_post_meta( $post->ID, '_listing_sqft', true ) );
 		}
 
-		if ( '' != get_post_meta( $post->ID, '_listing_lot_sqft', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_lot_sqft', true ) ) {
 			$listing_meta .= sprintf( '<li class="listing-lot-sqft"><span class="label">Lot Sq Ft: </span>%s</li>', get_post_meta( $post->ID, '_listing_lot_sqft', true ) );
 		}
 
@@ -97,15 +97,15 @@ function single_listing_post_content() {
 				<li><a href="#listing-details">Details</a></li>
 
 
-				<?php if ( get_post_meta( $post->ID, '_listing_gallery', true ) != '' ) { ?>
+				<?php if ( get_post_meta( $post->ID, '_listing_gallery', true ) !== '' ) { ?>
 					<li><a href="#listing-gallery">Photos</a></li>
 				<?php } ?>
 
-				<?php if ( get_post_meta( $post->ID, '_listing_video', true ) != '' ) { ?>
+				<?php if ( get_post_meta( $post->ID, '_listing_video', true ) !== '' ) { ?>
 					<li><a href="#listing-video">Video / Virtual Tour</a></li>
 				<?php } ?>
 
-				<?php if ( get_post_meta( $post->ID, '_listing_school_neighborhood', true ) != '' ) { ?>
+				<?php if ( get_post_meta( $post->ID, '_listing_school_neighborhood', true ) !== '' ) { ?>
 				<li><a href="#listing-school-neighborhood">Schools &amp; Neighborhood</a></li>
 				<?php } ?>
 			</ul>
@@ -117,7 +117,7 @@ function single_listing_post_content() {
 
 				if ( get_post_meta( $post->ID, '_listing_disclaimer', true ) ) {
 					echo '<p class="wp-listings-disclaimer">' . get_post_meta( $post->ID, '_listing_disclaimer', true ) . '</p>';
-				} elseif ( $options['wplpro_global_disclaimer'] != '' && $options['wplpro_global_disclaimer'] != null ) {
+				} elseif ( $options['wplpro_global_disclaimer'] !== '' && $options['wplpro_global_disclaimer'] !== null ) {
 					echo '<p class="wp-listings-disclaimer">' . $options['wplpro_global_disclaimer'] . '</p>';
 				}
 
@@ -184,22 +184,22 @@ function single_listing_post_content() {
 					echo '</tbody>';
 					echo '</table>';
 
-				if ( get_the_term_list( get_the_ID(), 'features', '<li>', '</li><li>', '</li>' ) != null ) {
+				if ( get_the_term_list( get_the_ID(), 'features', '<li>', '</li><li>', '</li>' ) !== null ) {
 					echo '<h5>' . __( 'Tagged Features:', 'wp-listings-pro' ) . '</h5><ul class="tagged-features">';
 					echo get_the_term_list( get_the_ID(), 'features', '<li>', '</li><li>', '</li>' );
 					echo '</ul><!-- .tagged-features -->';
 				}
 
-				if ( get_post_meta( $post->ID, '_listing_home_sum', true ) != '' || get_post_meta( $post->ID, '_listing_kitchen_sum', true ) != '' || get_post_meta( $post->ID, '_listing_living_room', true ) != '' || get_post_meta( $post->ID, '_listing_master_suite', true ) != '' ) { ?>
+				if ( get_post_meta( $post->ID, '_listing_home_sum', true ) !== '' || get_post_meta( $post->ID, '_listing_kitchen_sum', true ) !== '' || get_post_meta( $post->ID, '_listing_living_room', true ) !== '' || get_post_meta( $post->ID, '_listing_master_suite', true ) !== '' ) { ?>
 					<div class="additional-features">
 						<h4>Additional Features</h4>
-						<h6 class="label"><?php _e( 'Home Summary', 'wp-listings-pro' ); ?></h6>
+						<h6 class="label"><?php esc_attr_e( 'Home Summary', 'wp-listings-pro' ); ?></h6>
 						<p class="value"><?php echo do_shortcode( get_post_meta( $post->ID, '_listing_home_sum', true ) ); ?></p>
-						<h6 class="label"><?php _e( 'Kitchen Summary', 'wp-listings-pro' ); ?></h6>
+						<h6 class="label"><?php esc_attr_e( 'Kitchen Summary', 'wp-listings-pro' ); ?></h6>
 						<p class="value"><?php echo do_shortcode( get_post_meta( $post->ID, '_listing_kitchen_sum', true ) ); ?></p>
-						<h6 class="label"><?php _e( 'Living Room', 'wp-listings-pro' ); ?></h6>
+						<h6 class="label"><?php esc_attr_e( 'Living Room', 'wp-listings-pro' ); ?></h6>
 						<p class="value"><?php echo do_shortcode( get_post_meta( $post->ID, '_listing_living_room', true ) ); ?></p>
-						<h6 class="label"><?php _e( 'Master Suite', 'wp-listings-pro' ); ?></h6>
+						<h6 class="label"><?php esc_attr_e( 'Master Suite', 'wp-listings-pro' ); ?></h6>
 						<p class="value"><?php echo do_shortcode( get_post_meta( $post->ID, '_listing_master_suite', true ) ); ?></p>
 					</div><!-- .additional-features -->
 				<?php
@@ -207,13 +207,13 @@ function single_listing_post_content() {
 
 			</div><!-- #listing-details -->
 
-			<?php if ( get_post_meta( $post->ID, '_listing_gallery', true ) != '' ) { ?>
+			<?php if ( get_post_meta( $post->ID, '_listing_gallery', true ) !== '' ) { ?>
 			<div id="listing-gallery">
 				<?php echo do_shortcode( get_post_meta( $post->ID, '_listing_gallery', true ) ); ?>
 			</div><!-- #listing-gallery -->
 			<?php } ?>
 
-			<?php if ( get_post_meta( $post->ID, '_listing_video', true ) != '' ) { ?>
+			<?php if ( get_post_meta( $post->ID, '_listing_video', true ) !== '' ) { ?>
 			<div id="listing-video">
 				<div class="iframe-wrap">
 				<?php echo do_shortcode( get_post_meta( $post->ID, '_listing_video', true ) ); ?>
@@ -221,7 +221,7 @@ function single_listing_post_content() {
 			</div><!-- #listing-video -->
 			<?php } ?>
 
-			<?php if ( get_post_meta( $post->ID, '_listing_school_neighborhood', true ) != '' ) { ?>
+			<?php if ( get_post_meta( $post->ID, '_listing_school_neighborhood', true ) !== '' ) { ?>
 			<div id="listing-school-neighborhood">
 				<p>
 				<?php echo do_shortcode( get_post_meta( $post->ID, '_listing_school_neighborhood', true ) ); ?>
@@ -232,16 +232,16 @@ function single_listing_post_content() {
 		</div><!-- #listing-tabs.listing-data -->
 
 		<?php
-		if ( get_post_meta( $post->ID, '_listing_map', true ) != '' ) {
+		if ( get_post_meta( $post->ID, '_listing_map', true ) !== '' ) {
 			echo '<div id="listing-map"><h3>Location Map</h3>';
 			echo do_shortcode( get_post_meta( $post->ID, '_listing_map', true ) );
 			echo '</div><!-- .listing-map -->';
-		} elseif ( get_post_meta( $post->ID, '_listing_latitude', true ) && get_post_meta( $post->ID, '_listing_longitude', true ) && get_post_meta( $post->ID, '_listing_automap', true ) == 'y' ) {
+		} elseif ( get_post_meta( $post->ID, '_listing_latitude', true ) && get_post_meta( $post->ID, '_listing_longitude', true ) && get_post_meta( $post->ID, '_listing_automap', true ) === 'y' ) {
 
 			$map_info_content = sprintf( '<p style="font-size: 14px; margin-bottom: 0;">%s<br />%s %s, %s</p>', get_post_meta( $post->ID, '_listing_address', true ), get_post_meta( $post->ID, '_listing_city', true ), get_post_meta( $post->ID, '_listing_state', true ), get_post_meta( $post->ID, '_listing_zip', true ) );
 
 			($options['wplpro_gmaps_api_key']) ? $map_key = $options['wplpro_gmaps_api_key'] : $map_key = '';
-
+			// TODO: Enqueue Properly.
 			echo '<script src="https://maps.googleapis.com/maps/api/js?key=' . $map_key . '"></script>
 				<script>
 					function initialize() {
@@ -299,18 +299,18 @@ function single_listing_post_content() {
 
 			<?php
 
-			if ( get_post_meta( $post->ID, '_listing_contact_form', true ) != '' ) {
+			if ( get_post_meta( $post->ID, '_listing_contact_form', true ) !== '' ) {
 
 				echo do_shortcode( get_post_meta( $post->ID, '_listing_contact_form', true ) );
 
-			} elseif ( isset( $options['wplpro_default_form'] ) && $options['wplpro_default_form'] != '' ) {
+			} elseif ( isset( $options['wplpro_default_form'] ) && $options['wplpro_default_form'] !== '' ) {
 
 				echo do_shortcode( $options['wplpro_default_form'] );
 
 			} else {
 
 			}
-			}
+}
 
 			?>
 		</div><!-- .listing-contact -->
@@ -352,7 +352,7 @@ if ( function_exists( 'equity' ) ) {
 	$options = get_option( 'wplpro_plugin_settings' );
 
 	get_header();
-	if ( isset( $options['wplpro_custom_wrapper'] ) && isset( $options['wplpro_start_wrapper'] ) && $options['wplpro_start_wrapper'] != '' ) {
+	if ( isset( $options['wplpro_custom_wrapper'] ) && isset( $options['wplpro_start_wrapper'] ) && $options['wplpro_start_wrapper'] !== '' ) {
 		echo $options['wplpro_start_wrapper'];
 	} else {
 		echo '<div id="primary" class="content-area container inner">
