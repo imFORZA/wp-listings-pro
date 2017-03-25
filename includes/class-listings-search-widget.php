@@ -6,13 +6,20 @@
  * @since 0.1.0
  */
 class WP_Listings_Search_Widget extends WP_Widget {
-
+	/**
+	 * [__construct description]
+	 */
 	function __construct() {
 		$widget_ops = array( 'classname' => 'listings-search wp-listings-search', 'description' => __( 'Display listings search dropdown', 'wp-listings-pro' ), 'customize_selective_refresh' => true );
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'listings-search' );
 		parent::__construct( 'listings-search', __( 'IMPress Listings - Search', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
-
+	/**
+	 * Widget.
+	 * @param  [type]  $args     Args.
+	 * @param  [type]  $instance Instance.
+	 * @return {[type]           [description]
+	 */
 	function widget( $args, $instance ) {
 
 		$instance = wp_parse_args( (array) $instance, array(
