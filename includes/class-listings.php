@@ -174,33 +174,59 @@ class WP_Listings {
 		register_post_type( 'listing', $args );
 
 	}
-
+	/**
+	 * [register_meta_boxes description]
+	 *
+	 * @return {[type] [description]
+	 */
 	function register_meta_boxes() {
 		add_meta_box( 'listing_details_metabox', __( 'Property Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
 
 	}
-
+	/**
+	 * [listing_details_metabox description]
+	 *
+	 * @return {[type] [description]
+	 */
 	function listing_details_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-details-metabox.php' );
 	}
-
+	/**
+	 * [listing_features_metabox description]
+	 *
+	 * @return {[type] [description]
+	 */
 	function listing_features_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-features-metabox.php' );
 	}
-
+	/**
+	 * [agentevo_metabox description]
+	 *
+	 * @return {[type] [description]
+	 */
 	function agentevo_metabox() {
 		include( dirname( __FILE__ ) . '/views/agentevo-metabox.php' );
 	}
-
+	/**
+	 * [idx_metabox description]
+	 *
+	 * @return {[type] [description]
+	 */
 	function idx_metabox() {
 		include( dirname( __FILE__ ) . '/views/idx-metabox.php' );
 	}
-
+	/**
+	 * [metabox_save description]
+	 *
+	 * @param  [type] $post_id [description].
+	 * @param  [type] $post    [description].
+	 * @return {[type]         [description].
+	 */
 	function metabox_save( $post_id, $post ) {
 
 		/** Run only on listings post type save */
-		if ( 'listing' != $post->post_type ) {
+		if ( 'listing' !== $post->post_type ) {
 			return;
 		}
 
@@ -225,22 +251,21 @@ class WP_Listings {
 
 	    if ( ! isset( $property_details['_listing_hide_price'] ) ) {
 				$property_details['_listing_hide_price'] = 0;
-			}
-
+		}
 
 			// Making sure null data isn't saved, per client stuff
 			$stuff = get_posts(array(
 				'post_type'       => 'employee',
 				'posts_per_page'  => -1,
 			));
-			foreach($stuff as $agent){
-				error_log($agent->ID);
-				if( ! isset( $property_details['_employee_responsibility_' . $agent->ID])){
-					$property_details['_employee_responsibility_' . $agent->ID] = 0;
-				}else{
-					$property_details['_employee_responsibility_' . $agent->ID] = 1;
-				}
+		foreach ( $stuff as $agent ) {
+			error_log( $agent->ID );
+			if ( ! isset( $property_details[ '_employee_responsibility_' . $agent->ID ] ) ) {
+				$property_details[ '_employee_responsibility_' . $agent->ID ] = 0;
+			} else {
+				$property_details[ '_employee_responsibility_' . $agent->ID ] = 1;
 			}
+		}
 
 	    /** Store the property details custom fields */
 	    foreach ( (array) $property_details as $key => $value ) {
@@ -283,7 +308,7 @@ class WP_Listings {
 
 		apply_filters( 'wp_listings_admin_listing_details', $admin_details = $this->property_details['col1'] );
 
-		if ( isset( $_GET['mode'] ) && trim( $_GET['mode'] ) == 'excerpt' ) {
+		if ( isset( $_GET['mode'] ) && trim( $_GET['mode'] ) === 'excerpt' ) {
 			apply_filters( 'wp_listings_admin_extended_details', $admin_details = $this->property_details['col1'] + $this->property_details['col2'] );
 			$image_size = 'style="max-width: 150px;"';
 		}
@@ -312,13 +337,13 @@ class WP_Listings {
 	/**
 	 * Adds query var on saving post to show notice
 	 *
-	 * @param  [type] $post_id [description]
-	 * @param  [type] $post    [description]
-	 * @param  [type] $update  [description]
-	 * @return [type]          [description]
+	 * @param  [type] $post_id [description].
+	 * @param  [type] $post    [description].
+	 * @param  [type] $update  [description].
+	 * @return [type]          [description].
 	 */
 	function save_post( $post_id, $post, $update ) {
-		if ( 'listing' != $post->post_type ) {
+		if ( 'listing' !== $post->post_type ) {
 			return;
 		}
 
@@ -340,9 +365,9 @@ class WP_Listings {
 
 		$screen = get_current_screen();
 
-		if ( isset( $_GET['wp-listings-pro'] ) || $screen->id == 'edit-listing' ) {
+		if ( isset( $_GET['wp-listings-pro'] ) || 'edit-listing' === $screen->id ) {
 
-			if ( get_option( 'wp_listings_import_progress' ) == true ) {
+			if ( get_option( 'wp_listings_import_progress' ) === true ) {
 				echo wp_listings_admin_notice( __( '<strong>Your listings are being imported in the background. This notice will dismiss when all selected listings have been imported.</strong>', 'wp-listings-pro' ), false, 'activate_plugins', 'wpl_notice_import_progress' );
 			}
 		}
