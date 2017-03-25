@@ -277,10 +277,6 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					_e( '<h3>Maps</h3><h4>Google Maps</h4><p>Listings can be automatically mapped if they have a latitude and longitude. You will need a <a href="https://developers.google.com/maps/documentation/javascript/get-api-key">Google Maps API key</a> to use this feature. Enter your API key below.</p>', 'wp-listings-pro' );
 					_e( '<p>Browser key: <input name="wplpro_plugin_settings[wplpro_gmaps_api_key]" id="wplpro_gmaps_api_key" type="text" value="' . esc_html( $options['wplpro_gmaps_api_key'] ) . '" size="40" /></p><hr>', 'wp-listings-pro' );
 
-					_e( '<h3>Forms</h3><h4>Google Recaptcha (anti-spam)</h4><p>With the default contact form, you can choose to add Google Recaptcha to prevent spam, or use a form shortcode plugin with anti-spam protection. To use Google Recaptcha, you must first <a href="https://www.google.com/recaptcha/admin">sign up for a key</a>, then enter the site and secret key below:</p>', 'wp-listings-pro' );
-					_e( '<p>Site key: <input name="wplpro_plugin_settings[wplpro_captcha_site_key]" id="wplpro_captcha_site_key" type="text" value="' . esc_html( $options['wplpro_captcha_site_key'] ) . '" size="40" /></p>', 'wp-listings-pro' );
-					_e( '<p>Secret key: <input name="wplpro_plugin_settings[wplpro_captcha_secret_key]" id="wplpro_captcha_secret_key" type="text" value="' . esc_html( $options['wplpro_captcha_secret_key'] ) . '" size="40" /></p><hr>', 'wp-listings-pro' );
-
 					_e( '<h4>Default Form shortcode</h4><p>If you use a Contact Form plugin, you may enter the form shortcode here to display on all listings. Additionally, each listing can use a custom form. If no shortcode is entered, the template will use a default contact form:</p>', 'wp-listings-pro' );
 					_e( '<p>Form shortcode: <input name="wplpro_plugin_settings[wplpro_default_form]" id="wplpro_default_form" type="text" value="' . esc_html( $options['wplpro_default_form'] ) . '" size="40" /></p><hr>', 'wp-listings-pro' );
 
