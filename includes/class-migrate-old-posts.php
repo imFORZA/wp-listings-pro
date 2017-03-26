@@ -8,7 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
  * @since 1.1.0
  */
 class IMPress_Agents_Migrate {
-
+	/**
+	 * [__construct description]
+	 */
 	public function __construct() {
 		$post_info = get_posts( array(
 			'post_type' => 'aeprofiles',
@@ -20,7 +22,11 @@ class IMPress_Agents_Migrate {
 		}
 		$this->update_post_type( $post_info );
 	}
-
+	/**
+	 * [update_post_type description]
+	 * @param  [type]  $post_info [description]
+	 * @return {[type]            [description]
+	 */
 	public function update_post_type( $post_info ) {
 		$meta_keys = array(
 			'_agent_title' 		  => '_employee_title',

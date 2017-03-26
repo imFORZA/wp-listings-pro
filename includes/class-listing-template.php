@@ -29,6 +29,7 @@ class Single_Listing_Template {
 	}
 	/**
 	 * [get_listing_templates description]
+	 *
 	 * @return {[type] [description]
 	 */
 	function get_listing_templates() {
@@ -53,6 +54,7 @@ class Single_Listing_Template {
 	}
 	/**
 	 * [listing_templates_dropdown description]
+	 *
 	 * @return {[type] [description]
 	 */
 	function listing_templates_dropdown() {
@@ -63,46 +65,48 @@ class Single_Listing_Template {
 
 		/** Loop through templates, make them options */
 		foreach ( (array) $listing_templates as $template_file => $template_name ) {
-			$selected = ( $template_file == get_post_meta( $post->ID, '_wp_post_template', true ) ) ? ' selected="selected"' : '';
+			$selected = ( $template_file === get_post_meta( $post->ID, '_wp_post_template', true ) ) ? ' selected="selected"' : '';
 			$opt = '<option value="' . esc_attr( $template_file ) . '"' . $selected . '>' . esc_html( $template_name ) . '</option>';
 			echo $opt;
 		}
 
 	}
 	/**
-	 * [wplistings_add_metabox description]
-	 * @param [type] $post [description]
+	 * [wplistings_add_metabox description].
+	 *
+	 * @param [type] $post [description].
 	 */
 	function wplistings_add_metabox( $post ) {
 		add_meta_box( 'wplistings_listing_templates', __( 'Single Listing Template', 'wplistings' ), array( $this, 'listing_template_metabox' ), 'listing', 'side', 'high' );
 	}
 	/**
-	 * [listing_template_metabox description]
-	 * @param  [type]  $post [description]
-	 * @return {[type]       [description]
+	 * [listing_template_metabox description].
+	 *
+	 * @param  [type] $post Post.
+	 * @return {[type]       [description].
 	 */
 	function listing_template_metabox( $post ) {
 
 		?>
 		<input type="hidden" name="wplistings_single_noncename" id="wplistings_single_noncename" value="<?php echo wp_create_nonce( plugin_basename( __FILE__ ) ); ?>" />
 
-		<label class="hidden" for="listing_template"><?php  _e( 'Listing Template', 'wp-listings-pro' ); ?></label><br />
+		<label class="hidden" for="listing_template"><?php  esc_html_e( 'Listing Template', 'wp-listings-pro' ); ?></label><br />
 		<select name="_wp_post_template" id="listing_template" class="dropdown">
-			<option value=""><?php _e( 'Default', 'wp-listings-pro' ); ?></option>
+			<option value=""><?php esc_html_e( 'Default', 'wp-listings-pro' ); ?></option>
 			<?php $this->listing_templates_dropdown(); ?>
 		</select><br /><br />
-		<p><?php _e( 'You can use custom templates for single listings that might have additional features or custom layouts by adding them to your theme directory. If so, you will see them above.', 'wp-listings-pro' ); ?></p>
+		<p><?php esc_html_e( 'You can use custom templates for single listings that might have additional features or custom layouts by adding them to your theme directory. If so, you will see them above.', 'wp-listings-pro' ); ?></p>
 		<?php
 
 	}
 	/**
 	 * [metabox_save description]
-	 * @param  [type]  $post_id [description]
-	 * @param  [type]  $post    [description]
-	 * @return {[type]          [description]
+	 *
+	 * @param  [type] $post_id [description].
+	 * @param  [type] $post    [description].
+	 * @return {[type]          [description].
 	 */
 	function metabox_save( $post_id, $post ) {
-
 		/*
 		 * Verify this came from our screen and with proper authorization,
 		 * because save_post can be triggered at other times
@@ -112,7 +116,7 @@ class Single_Listing_Template {
 		}
 
 		/** Is the user allowed to edit the post or page? */
-		if ( 'listing' == $_POST['post_type'] ) {
+		if ( 'listing' === $_POST['post_type'] ) {
 			if ( ! current_user_can( 'edit_page', $post->ID ) ) {
 				return $post->ID;
 			} elseif ( ! current_user_can( 'edit_post', $post->ID ) ) {
@@ -128,7 +132,7 @@ class Single_Listing_Template {
 		/** Add values of $mydata as custom fields */
 		foreach ( $mydata as $key => $value ) {
 			/** Don't store custom data twice */
-			if ( 'revision' == $post->post_type ) {
+			if ( 'revision' === $post->post_type ) {
 				return;
 			}
 

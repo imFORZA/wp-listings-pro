@@ -16,8 +16,9 @@ class WP_Listings_Search_Widget extends WP_Widget {
 	}
 	/**
 	 * Widget.
-	 * @param  [type]  $args     Args.
-	 * @param  [type]  $instance Instance.
+	 *
+	 * @param  [type] $args     Args.
+	 * @param  [type] $instance Instance.
 	 * @return {[type]           [description]
 	 */
 	function widget( $args, $instance ) {
@@ -52,7 +53,7 @@ class WP_Listings_Search_Widget extends WP_Widget {
 
 			$current = ! empty( $wp_query->query_vars[ $tax ] ) ? $wp_query->query_vars[ $tax ] : '';
 			echo "<select name='$tax' id='$tax' class='wp-listings-taxonomy'>\n\t";
-			echo '<option value="" ' . selected( $current == '', true, false ) . ">{$data['labels']['name']}</option>\n";
+			echo '<option value="" ' . selected( '' === $current, true, false ) . ">{$data['labels']['name']}</option>\n";
 			foreach ( (array) $terms as $term ) {
 				echo "\t<option value='{$term->slug}' " . selected( $current, $term->slug, false ) . ">{$term->name}</option>\n";
 			}
@@ -67,11 +68,22 @@ class WP_Listings_Search_Widget extends WP_Widget {
 		echo $after_widget;
 
 	}
-
+	/**
+	 * [update description]
+	 *
+	 * @param  [type] $new_instance [description].
+	 * @param  [type] $old_instance [description].
+	 * @return {[type]               [description].
+	 */
 	function update( $new_instance, $old_instance ) {
 		return $new_instance;
 	}
-
+	/**
+	 * [form description]
+	 *
+	 * @param  [type] $instance [description].
+	 * @return {[type]           [description].
+	 */
 	function form( $instance ) {
 
 		$instance = wp_parse_args( (array) $instance, array(
@@ -86,7 +98,7 @@ class WP_Listings_Search_Widget extends WP_Widget {
 
 		printf( '<p><label for="%s">%s</label><input type="text" id="%s" name="%s" value="%s" style="%s" /></p>', $this->get_field_id( 'title' ), __( 'Title:', 'wp-listings-pro' ), $this->get_field_id( 'title' ), $this->get_field_name( 'title' ), esc_attr( $instance['title'] ), 'width: 95%;' );
 		?>
-		<h5><?php _e( 'Include these taxonomies in the search widget', 'wp-listings-pro' ); ?></h5>
+		<h5><?php esc_html_e( 'Include these taxonomies in the search widget', 'wp-listings-pro' ); ?></h5>
 		<?php
 		foreach ( (array) $listings_taxonomies as $tax => $data ) {
 			$terms = get_terms( $tax );

@@ -8,11 +8,21 @@
  * UI to display the Listing-specific data on the admin screens.
  */
 class WP_Listings {
-
+	/**
+	 * [__construct description]
+	 */
 	var $settings_page = 'wp-listings-settings';
+	/**
+	 * [__construct description]
+	 */
 	var $settings_field = 'wplpro_taxonomies';
+	/**
+	 * [__construct description]
+	 */
 	var $menu_page = 'register-taxonomies';
-
+	/**
+	 * [__construct description]
+	 */
 	var $options;
 
 	/**
