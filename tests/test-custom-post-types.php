@@ -9,7 +9,7 @@ class Test_WPLPRO_CustomPostTypes extends WP_UnitTestCase {
 
 
 	/**
-	 * test_custom_post_type_creation function.
+	 * Test for Employee Post Type.
 	 *
 	 * @access public
 	 * @return void
@@ -19,7 +19,7 @@ class Test_WPLPRO_CustomPostTypes extends WP_UnitTestCase {
   	}
 
   	/**
-  	 * test_listing_post_type_creation function.
+  	 * Test for Listing Post Type.
   	 *
   	 * @access public
   	 * @return void
