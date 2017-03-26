@@ -11,7 +11,8 @@
     "stevegrunwell/wp-enforcer": "^0.4.1"
   },
    "require-dev": {
-   "codeclimate/php-test-reporter": "dev-master"
+   "codeclimate/php-test-reporter": "dev-master",
+   "phpunit/phpunit": "3.7.*"
   },
   "post-install-cmd": [
     "wp-enforcer"
