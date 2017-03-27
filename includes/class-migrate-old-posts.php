@@ -1,6 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit;
-}
+/**
+ * WP Rest API Support.
+ *
+ * @package WP-Listings-Pro
+ */
+
+// No Direct Access.
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Migrate Posts from Genesis Agent Profiles to IMPress Agents
@@ -8,8 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
  * @since 1.1.0
  */
 class IMPress_Agents_Migrate {
+
 	/**
-	 * [__construct description]
+	 * __construct function.
+	 *
+	 * @access public
+	 * @return void
 	 */
 	public function __construct() {
 		$post_info = get_posts( array(
@@ -22,11 +32,13 @@ class IMPress_Agents_Migrate {
 		}
 		$this->update_post_type( $post_info );
 	}
+
 	/**
-	 * [update_post_type description]
+	 * Update Post Type.
 	 *
-	 * @param  [type] $post_info [description]
-	 * @return {[type]            [description]
+	 * @access public
+	 * @param mixed $post_info Post Info.
+	 * @return void
 	 */
 	public function update_post_type( $post_info ) {
 		$meta_keys = array(
