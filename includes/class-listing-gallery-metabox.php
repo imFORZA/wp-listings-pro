@@ -102,11 +102,11 @@ class WPLPRO_Meta_Box_Listing_Images {
 // 	 * @param WP_Post $post
 // 	 */
 // 	public static function output( $post = null, $ok = null) {
-// 		?>
-<!--  		<div id="listing_videos_container">
-
- 			<ul class="listing_videos"> -->
- 				<?php
+// 					? >
+//<!--  		<div id="listing_videos_container">
+//
+// 			<ul class="listing_videos"> -->
+// 					< ?php
 // 					error_log(get_post_meta( $post->ID, '_listing_video_gallery', true));
 // 					if ( metadata_exists( 'post', $post->ID, '_listing_video_gallery' ) ) {
 // 						$listing_video_gallery = get_post_meta( $post->ID, '_listing_video_gallery', true );
@@ -154,20 +154,20 @@ class WPLPRO_Meta_Box_Listing_Images {
 // 						// }
 //
 // 					}
-// 				?>
-<!-- // 			</ul>
-
- 			<input type="hidden" id="listing_video_gallery" name="listing_video_gallery" value="<?php// echo esc_attr( $listing_video_gallery ); ?>" />
-
- 		</div>
- 		<p class="add_listing_videos hide-if-no-js">
-		<a href="#" data-choose="<?php //esc_attr_e( 'Add videos to listing gallery', 'wp-listings-pro' ); ?>" data-update="<?php //esc_attr_e( 'Adda to gallery', 'wp-listings-pro' ); ?>" data-delete="<?php //esc_attr_e( 'Delete video', 'wp-listings-pro' ); ?>" data-text="<?php //esc_attr_e( 'Delete', 'wp-listings-pro' ); ?>"><?php //_e( 'Add listing gallery videos', 'wp-listings-pro' ); ?></a>
-		</p>
-  -->
-		<!-- This works -->
- 		<!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js"></script> -->
- 		<!-- TODO: Turn it into a registered and then enqueued script with PROPER LINKING -->
- 		<?php
+// 				? >
+// <!-- // 			</ul>
+//
+//  			<input type="hidden" id="listing_video_gallery" name="listing_video_gallery" value="<?php// echo esc_attr( $listing_video_gallery ); ? >" />
+//
+//  		</div>
+//  		<p class="add_listing_videos hide-if-no-js">
+		// <a href="#" data-choose="< ?php //esc_attr_e( 'Add videos to listing gallery', 'wp-listings-pro' ); ? >" data-update="< ?php //esc_attr_e( 'Adda to gallery', 'wp-listings-pro' ); ? >" data-delete="< ?php //esc_attr_e( 'Delete video', 'wp-listings-pro' ); ? >" data-text="< ?php //esc_attr_e( 'Delete', 'wp-listings-pro' ); ? >">< ?php //_e( 'Add listing gallery videos', 'wp-listings-pro' ); ? ></a>
+		// </p>
+  // -->
+	// 	<!-- This works -->
+ // 		<!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js"></script> -->
+ // 		<!-- TODO: Turn it into a registered and then enqueued script with PROPER LINKING -->
+ // 		< ?php
 // 		wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js', array('jquery'), null, true );
 // 	}
 //
