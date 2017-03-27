@@ -42,7 +42,14 @@ jQuery('.add_listing_images').on('click', 'a', function(event){
           attachment = attachment.toJSON();
 
           if ( attachment.id ) {
+							var el = attachment.url.split(".")[attachment.url.split(".").length-1];
+							console.log(el);
+							if(el != "png" && el != "jpg" && el != "jpeg" && el != "gif" && el != "svg"){
+								alert("Only files ending with a .png, .jpg, .jpeg, .gif, or .svg are accepted in this field.");
+								return;
+							}
               attachment_ids   = attachment_ids ? attachment_ids + ',' + attachment.id : attachment.id;
+							console.log(attachment.url);
               var attachment_image = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
 
               $product_images.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_image + '" /><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
