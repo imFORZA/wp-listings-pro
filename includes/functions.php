@@ -1,5 +1,11 @@
 <?php
 /**
+ * Functions.
+ *
+ * @package WP-Listings-Pro
+ */
+
+/**
  * Holds miscellaneous functions for use in the WP Listings plugin
  */
 add_image_size( 'listings-full', 1060, 9999, false );
@@ -9,10 +15,10 @@ add_filter( 'template_include', 'wplpro_template_include' );
 
 
 /**
- * wplpro_template_include function.
+ * Template Support.
  *
  * @access public
- * @param mixed $template
+ * @param mixed $template Template.
  * @return void
  */
 function wplpro_template_include( $template ) {
@@ -74,6 +80,10 @@ function wplpro_template_include( $template ) {
 
 /**
  * Controls output of default state for the state custom field if there is one set
+ *
+ * @access public
+ * @param mixed $post_id (default: null) Post ID.
+ * @return void
  */
 function wplpro_get_state( $post_id = null ) {
 	$options = get_option( 'wplpro_plugin_settings' );
@@ -97,8 +107,13 @@ function wplpro_get_state( $post_id = null ) {
 
 	return $state;
 }
+
 /**
  * Controls output of city name
+ *
+ * @access public
+ * @param mixed $post_id (default: null) Post ID.
+ * @return void
  */
 function wplpro_get_city( $post_id = null ) {
 	if ( null === $post_id ) {
@@ -113,8 +128,13 @@ function wplpro_get_city( $post_id = null ) {
 
 	return $city;
 }
+
 /**
  * Controls output of address
+ *
+ * @access public
+ * @param mixed $post_id (default: null) Post ID.
+ * @return void
  */
 function wplpro_get_address( $post_id = null ) {
 	if ( null === $post_id ) {
@@ -129,8 +149,14 @@ function wplpro_get_address( $post_id = null ) {
 
 	return $address;
 }
+
 /**
  * Displays the status (active, pending, sold, for rent) of a listing
+ *
+ * @access public
+ * @param mixed $post_id (default: null) Post ID.
+ * @param int $single (default: 0) Single.
+ * @return void
  */
 function wplpro_get_status( $post_id = null, $single = 0 ) {
 	if ( null === $post_id ) {
@@ -156,8 +182,13 @@ function wplpro_get_status( $post_id = null, $single = 0 ) {
 
 	return $status;
 }
+
 /**
- * Displays the property type (residential, condo, comemrcial, etc) of a listing
+ * Displays the property type (residential, condo, comemrcial, etc) of a listing.
+ *
+ * @access public
+ * @param mixed $post_id (default: null) Post ID.
+ * @return void
  */
 function wplpro_get_property_types( $post_id = null ) {
 	if ( null === $post_id ) {
@@ -174,8 +205,13 @@ function wplpro_get_property_types( $post_id = null ) {
 		return $type->name;
 	}
 }
+
 /**
- * Displays the location term of a listing
+ * Displays the location term of a listing.
+ *
+ * @access public
+ * @param mixed $post_id (default: null) Post ID.
+ * @return void
  */
 function wplpro_get_locations( $post_id = null ) {
 	if ( null === $post_id ) {
@@ -193,19 +229,17 @@ function wplpro_get_locations( $post_id = null ) {
 	}
 }
 
-
-
 /**
- * Add Listings to "At a glance" Dashboard widget
+ * Add Listings to "At a glance" Dashboard widget.
  */
 add_filter( 'dashboard_glance_items', 'wplpro_glance_items', 10, 1 );
 
 
 /**
- * wplpro_glance_items function.
+ * Glance Items.
  *
  * @access public
- * @param array $items (default: array())
+ * @param array $items (default: array()) Items.
  * @return void
  */
 function wplpro_glance_items( $items = array() ) {
@@ -238,9 +272,12 @@ function wplpro_glance_items( $items = array() ) {
 	return $items;
 }
 
-
 /**
  * Better Jetpack Related Posts Support for Listings
+ *
+ * @access public
+ * @param mixed $headline Headline
+ * @return void
  */
 function wplpro_jetpack_relatedposts( $headline ) {
 	if ( is_singular( 'listing' ) ) {
@@ -264,39 +301,43 @@ if ( class_exists( 'Jetpack_Omnisearch_Posts' ) ) {
  * Add Listings to Jetpack sitemap
  */
 add_filter( 'jetpack_sitemap_post_types', 'wplpro_jetpack_sitemap' );
+
+
+/**
+ * Add Listings to Jetpack sitemap
+ *
+ * @access public
+ * @return void
+ */
 function wplpro_jetpack_sitemap() {
 	$post_types = array( 'listing', 'employee' );
 	return $post_types;
 }
 
 /**
- * Function to return term image for use on front end
+ * Function to return term image for use on front end.
  *
- * @param  num     $term_id the id of the term
- * @param  boolean $html    use html wrapper with wp_get_attachment_image
- * @return mixed  the image with html markup or the image id
+ * @param  num     $term_id the id of the term.
+ * @param  boolean $html    use html wrapper with wp_get_attachment_image.
+ * @return mixed  the image with html markup or the image id.
  */
 function wplpro_term_image( $term_id, $html = true, $size = 'full' ) {
 	$image_id = get_term_meta( $term_id, 'wplpro_term_image', true );
 	return $image_id && $html ? wp_get_attachment_image( $image_id, $size, false, array( 'class' => 'wp-listings-term-image' ) ) : $image_id;
 }
-// /**
-// * Function to return term image for use on front end
-// *
-// * @param  num     $term_id the id of the term
-// * @param  boolean $html    use html wrapper with wp_get_attachment_image
-// * @return mixed  the image with html markup or the image id
-// */
-// function wplpro_term_image( $term_id, $html = true, $size = 'full' ) {
-// $image_id = get_term_meta( $term_id, 'impa_term_image', true );
-// return $image_id && $html ? wp_get_attachment_image( $image_id, $size, false, array( 'class' => 'impress-agents-term-image' ) ) : $image_id;
-// }
+
 /**
  * Holds miscellaneous functions for use in the IMPress Agents plugin
  */
 add_action( 'pre_get_posts', 'wplpro_change_sort_order' );
+
+
 /**
  * Add pagination and sort by menu order for employee archives
+ *
+ * @access public
+ * @param mixed $query Query.
+ * @return void
  */
 function wplpro_change_sort_order( $query ) {
 
@@ -310,8 +351,13 @@ function wplpro_change_sort_order( $query ) {
 }
 
 add_action( 'p2p_init', 'wplpro_employee_connection_types' );
+
+
 /**
- * Connects employee post type to listing post type
+ * Connects employee post type to listing post type.
+ *
+ * @access public
+ * @return void
  */
 function wplpro_employee_connection_types() {
 
@@ -334,10 +380,10 @@ add_filter( 'template_include', 'wplpro_template_include_employee' );
 
 
 /**
- * wplpro_template_include_employee function.
+ * Employee Templates.
  *
  * @access public
- * @param mixed $template
+ * @param mixed $template Template.
  * @return void
  */
 function wplpro_template_include_employee( $template ) {
@@ -384,7 +430,7 @@ function wplpro_template_include_employee( $template ) {
 }
 
 /**
- * wplpro_employee_details function.
+ * Employee Details.
  *
  * @access public
  * @return void
