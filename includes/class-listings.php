@@ -95,6 +95,8 @@ class WP_Listings {
 		add_action( 'admin_init', array( &$this, 'add_options' ) );
 		add_action( 'admin_menu', array( &$this, 'settings_init' ), 15 );
 
+		add_action( 'listing_gallery_meta', 'WPLPRO_Meta_Box_Listing_Images::save', 20, 2 );
+
 	}
 
 	/**
@@ -179,7 +181,7 @@ class WP_Listings {
 		add_meta_box( 'listing_details_metabox', __( 'Listing Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
 
-		add_meta_box( 'wplpro-listing-images', __( 'Photo Gallery', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_listing_Images::output', 'listing', 'normal', 'high' );
+		add_meta_box( 'wplpro-listing-images', __( 'Photo Gallery', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Images::output', 'listing', 'normal', 'high' );
 
 	}
 

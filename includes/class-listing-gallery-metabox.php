@@ -12,24 +12,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * WPLPRO_Meta_Box_listing_Images Class.
  */
-class WPLPRO_Meta_Box_listing_Images {
+class WPLPRO_Meta_Box_Listing_Images {
 
 	/**
 	 * Output the metabox.
 	 *
 	 * @param WP_Post $post
 	 */
-	public static function output( $post ) {
+	public static function output( $post = null, $ok = null) {
+   	error_log("I'm in");
 		?>
+
 		<div id="listing_images_container">
-			<!-- This works -->
-			<script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js"></script>
-			<!-- This doesn't -->
-			<?php wp_enqueue_script( '../assets/js/media-gallery.js' );
-				error_log('cmon');
-			?>
+
 			<ul class="listing_images">
 				<?php
+					error_log("We're here");
 					if ( metadata_exists( 'post', $post->ID, '_listing_image_gallery' ) ) {
 						$listing_image_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
 					} else {
@@ -42,6 +40,7 @@ class WPLPRO_Meta_Box_listing_Images {
 					$updated_gallery_ids = array();
 
 					if ( ! empty( $attachments ) ) {
+						error_log("not empty");
 						foreach ( $attachments as $attachment_id ) {
 							$attachment = wp_get_attachment_image( $attachment_id, 'thumbnail' );
 
@@ -76,6 +75,10 @@ class WPLPRO_Meta_Box_listing_Images {
 		<p class="add_listing_images hide-if-no-js">
 			<a href="#" data-choose="<?php esc_attr_e( 'Add images to listing gallery', 'wp-listings-pro' ); ?>" data-update="<?php esc_attr_e( 'Add to gallery', 'wp-listings-pro' ); ?>" data-delete="<?php esc_attr_e( 'Delete image', 'wp-listings-pro' ); ?>" data-text="<?php esc_attr_e( 'Delete', 'wp-listings-pro' ); ?>"><?php _e( 'Add listing gallery images', 'wp-listings-pro' ); ?></a>
 		</p>
+
+		<!-- This works -->
+		<script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js"></script>
+		<!-- TODO: Turn it into a registered and then enqueued script -->
 		<?php
 	}
 

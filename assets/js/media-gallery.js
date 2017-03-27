@@ -1,7 +1,9 @@
 console.log("here");
 
 // Thus far, it loads the wordpress media renderer, and it allows you to add/remove photos
-// 
+//
+//
+jQuery('.add_listing_images').on('click', 'a', function(event){console.log("i'm in");});
 function renderMediaUploader() {
     'use strict';
 
