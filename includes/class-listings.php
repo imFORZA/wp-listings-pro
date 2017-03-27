@@ -96,6 +96,7 @@ class WP_Listings {
 		add_action( 'admin_menu', array( &$this, 'settings_init' ), 15 );
 
 		add_action( 'save_post', 'WPLPRO_Meta_Box_Listing_Images::save', 20, 2 );
+		// add_action( 'save_post', 'WPLPRO_Meta_Box_Listing_Videos::save', 20, 2 );
 
 	}
 
@@ -182,7 +183,7 @@ class WP_Listings {
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
 
 		add_meta_box( 'wplpro-listing-images', __( 'Photo Gallery', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Images::output', 'listing', 'normal', 'high' );
-
+		// add_meta_box( 'wplpro-listing-videos', __( 'Video Gallery', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Videos::output', 'listing', 'normal', 'high' );
 	}
 
 	function listing_details_metabox() {
