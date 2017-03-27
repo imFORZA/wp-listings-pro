@@ -24,7 +24,8 @@ class IMPress_Agents_Migrate {
 	}
 	/**
 	 * [update_post_type description]
-	 * @param  [type]  $post_info [description]
+	 *
+	 * @param  [type] $post_info [description]
 	 * @return {[type]            [description]
 	 */
 	public function update_post_type( $post_info ) {

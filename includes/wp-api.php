@@ -1,7 +1,9 @@
 <?php
-/*
- * Contains functions for enabling and interacting with the WP REST API
- */
+	/**
+	 * WP Rest API Support.
+	 *
+ @package WP-Listings-Pro
+	 */
 
 /**
  * Add the listing meta field keys to WP 4.4+ REST API responses for GET and POST
@@ -9,6 +11,14 @@
 if ( function_exists( 'register_rest_field' ) ) {
 	add_action( 'rest_api_init', 'wp_listings_register_listing_meta' );
 }
+
+
+/**
+ * Register Listing Meta.
+ *
+ * @access public
+ * @return void
+ */
 function wp_listings_register_listing_meta() {
 
 	$allowed_meta_keys = allowed_meta_keys();
@@ -24,9 +34,19 @@ function wp_listings_register_listing_meta() {
 	}
 }
 /**
- * Another method for adding listing meta field keys to WP 4.4+ REST API responses for GET
+ * Another method for adding listing meta field keys to WP 4.4+ REST API responses for GET.
  */
 add_filter( 'rest_prepare_listing', 'wp_listings_add_meta_to_json', 10, 3 );
+
+/**
+ * Add Meta to JSON.
+ *
+ * @access public
+ * @param mixed $data Data.
+ * @param mixed $post Post.
+ * @param mixed $request Request.
+ * @return $data Data.
+ */
 function wp_listings_add_meta_to_json( $data, $post, $request ) {
 
 	$response_data = $data->get_data();
@@ -95,7 +115,7 @@ function wp_listings_update_listing_meta( $value, $object, $listing_meta_key ) {
  *
  * @access public
  * @param mixed $allowed_post_types Allowed Post Types.
- * @return void
+ * @return $allowed_post_types Allowed Post Types.
  */
 function wp_listings_allow_post_types( $allowed_post_types ) {
 	$allowed_post_types[] = 'listing';
@@ -112,7 +132,7 @@ add_filter( 'rest_api_allowed_post_types', 'wp_listings_allow_post_types' );
  * @return void
  */
 function wp_listings_rest_api_allowed_public_metadata( $allowed_meta_keys ) {
-	// only run for REST API requests
+	// Only run for REST API requests.
 	if ( ! defined( 'REST_API_REQUEST' ) || ! REST_API_REQUEST ) {
 		return;
 	}
@@ -124,9 +144,9 @@ function wp_listings_rest_api_allowed_public_metadata( $allowed_meta_keys ) {
 add_filter( 'rest_api_allowed_public_metadata', 'wp_listings_rest_api_allowed_public_metadata' );
 
 /**
- * Keep an array of allowed meta fields for the listing via the api methods
+ * Keep an array of allowed meta fields for the listing via the api methods.
  *
- * @return allowed_meta_keys the post meta keys
+ * @return allowed_meta_keys the post meta keys.
  */
 function allowed_meta_keys() {
 	apply_filters('wp_listings_allowed_api_meta_keys', $allowed_meta_keys = array(
@@ -163,7 +183,7 @@ function allowed_meta_keys() {
 	    '_listing_master_suite',
 	    '_listing_school_neighborhood',
 
-	    // IDX
+	    // IDX.
 	    '_listing_proptype',
 	    '_listing_condo',
 	    '_listing_financial',

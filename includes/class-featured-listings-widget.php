@@ -55,8 +55,9 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 	}
 	/**
 	 * [widget description]
-	 * @param  [type]  $args     [description]
-	 * @param  [type]  $instance [description]
+	 *
+	 * @param  [type] $args     [description]
+	 * @param  [type] $instance [description]
 	 * @return {[type]           [description]
 	 */
 	function widget( $args, $instance ) {
@@ -168,7 +169,8 @@ endif;
 	}
 	/**
 	 * [form description]
-	 * @param  [type]  $instance [description]
+	 *
+	 * @param  [type] $instance [description]
 	 * @return {[type]           [description]
 	 */
 	function form( $instance ) {
