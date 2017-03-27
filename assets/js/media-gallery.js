@@ -1,6 +1,8 @@
 console.log("here");
+
+// Thus far, it loads the wordpress media renderer, and it allows you to add/remove photos
+// 
 function renderMediaUploader() {
-    console.log("here2");
     'use strict';
 
     var file_frame, image_data;

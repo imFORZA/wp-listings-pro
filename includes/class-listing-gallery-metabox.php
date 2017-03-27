@@ -54,7 +54,7 @@ class WPLPRO_Meta_Box_listing_Images {
 							echo '<li class="image" data-attachment_id="' . esc_attr( $attachment_id ) . '">
 								' . $attachment . '
 								<ul class="actions">
-									<li><a href="#" class="delete tips" data-tip="' . esc_attr__( 'Delete image', 'wp-listings-pro' ) . '">' . __( 'Delete', 'wp-listings-pro' ) . '</a></li>
+									<li><a href="#" onclick="console.log(\'cmon\')" class="delete tips" data-tip="' . esc_attr__( 'Delete image', 'wp-listings-pro' ) . '">' . __( 'Delete', 'wp-listings-pro' ) . '</a></li>
 								</ul>
 							</li>';
 
