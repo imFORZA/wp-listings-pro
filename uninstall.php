@@ -1,4 +1,9 @@
 <?php
+/**
+ * Uninstall
+ *
+ @package WP-Listings-Pro
+ */
 
 if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) { exit(); }
 
@@ -20,7 +25,12 @@ if ( true === $settings['wplpro_uninstall_delete'] ) {
 
 }
 
-/* Find and Delete all Listings. */
+/**
+ * Find and Delete all Listings.
+ *
+ * @access public
+ * @return void
+ */
 function wplpro_delete_listings() {
 		global $wpdb;
 

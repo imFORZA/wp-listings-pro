@@ -1,5 +1,11 @@
 <?php
 /**
+ * Main Plugin File.
+ *
+ @package WP-Listings-Pro
+ */
+
+/**
  * Plugin Name: WP Listings Pro
  * Plugin URI: http://wordpress.org/plugins/wp-listings/
  * Description: Creates a real estate listing management system. Designed to work with any theme using built-in templates.
@@ -241,7 +247,8 @@ function wplpro_init() {
 	/**
 	 * Add admin scripts and styles
 	 *
-	 * @return Styles CSS Styles.
+	 * @access public
+	 * @return void
 	 */
 	function wp_listings_admin_scripts_styles() {
 		wp_enqueue_style( 'wp_listings_admin_css', WP_LISTINGS_URL . 'assets/css/wp-listings-admin.css' );
