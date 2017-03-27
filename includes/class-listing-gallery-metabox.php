@@ -22,6 +22,12 @@ class WPLPRO_Meta_Box_listing_Images {
 	public static function output( $post ) {
 		?>
 		<div id="listing_images_container">
+			<!-- This works -->
+			<script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js"></script>
+			<!-- This doesn't -->
+			<?php wp_enqueue_script( '../assets/js/media-gallery.js' );
+				error_log('cmon');
+			?>
 			<ul class="listing_images">
 				<?php
 					if ( metadata_exists( 'post', $post->ID, '_listing_image_gallery' ) ) {
