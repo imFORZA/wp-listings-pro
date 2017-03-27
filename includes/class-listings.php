@@ -95,7 +95,7 @@ class WP_Listings {
 		add_action( 'admin_init', array( &$this, 'add_options' ) );
 		add_action( 'admin_menu', array( &$this, 'settings_init' ), 15 );
 
-		add_action( 'listing_gallery_meta', 'WPLPRO_Meta_Box_Listing_Images::save', 20, 2 );
+		add_action( 'save_post', 'WPLPRO_Meta_Box_Listing_Images::save', 20, 2 );
 
 	}
 
