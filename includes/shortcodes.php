@@ -1,20 +1,26 @@
 <?php
 /**
+ * Support Shortcodes
+ *
+ * @package WP-Listings-Pro
+ */
+
+/**
  * Adds shortcode to display listings
  * Adds shortcode to display post meta
  */
-
 add_shortcode( 'listings', 'wplpro_shortcode' );
 
 /**
- * wplpro_shortcode function.
+ * WPL Pro Shortcode.
  *
  * @access public
- * @param mixed $atts
- * @param mixed $content (default: null)
- * @return void
+ * @param mixed $atts ATTS.
+ * @param mixed $content (default: null) Content.
+ * @return Shortcode.
  */
 function wplpro_shortcode( $atts, $content = null ) {
+
 	extract(shortcode_atts(array(
 		'id'       => '',
 		'taxonomy' => '',
@@ -23,23 +29,17 @@ function wplpro_shortcode( $atts, $content = null ) {
 		'columns'  => '',
 	), $atts ) );
 
-	/**
-	 * if limit is empty set to all
-	 */
+	 // If limit is empty set to all.
 	if ( ! $limit ) {
 		$limit = -1;
 	}
 
-	/**
-	 * if columns is empty set to 0
-	 */
+	// If columns is empty set to 0.
 	if ( ! $columns ) {
 		$columns = 0;
 	}
 
-	/*
-	 * query args based on parameters
-	 */
+	// Query args based on parameters.
 	$query_args = array(
 		'post_type'       => 'listing',
 		'posts_per_page'  => $limit,
@@ -66,9 +66,7 @@ function wplpro_shortcode( $atts, $content = null ) {
 		);
 	}
 
-	/*
-	 * start loop
-	 */
+	// Start Loop.
 	global $post;
 
 	$listings_array = get_posts( $query_args );
@@ -128,11 +126,12 @@ function wplpro_shortcode( $atts, $content = null ) {
 }
 
 add_shortcode( 'wp_listings_meta', 'wplpro_meta_shortcode' );
+
 /**
  * Returns meta data for listings
  *
- * @param  array $atts meta key
- * @return string meta value wrapped in span
+ * @param  array $atts meta key.
+ * @return string meta value wrapped in span.
  */
 function wplpro_meta_shortcode( $atts ) {
 	extract(shortcode_atts(array(
@@ -145,18 +144,17 @@ function wplpro_meta_shortcode( $atts ) {
 
 
 /**
- * Adds shortcode to display agent profiles
+ * Adds shortcode to display agent profiles.
  */
-
 add_shortcode( 'employee_profiles', 'wplpro_profile_shortcode' );
 
 /**
- * wplpro_profile_shortcode function.
+ * Profile Shortcode.
  *
  * @access public
- * @param mixed $atts
- * @param mixed $content (default: null)
- * @return void
+ * @param mixed $atts ATTS.
+ * @param mixed $content (default: null) Content.
+ * @return Profile Shortcode.
  */
 function wplpro_profile_shortcode( $atts, $content = null ) {
 	extract(shortcode_atts(array(
@@ -165,7 +163,7 @@ function wplpro_profile_shortcode( $atts, $content = null ) {
 		'order' => 'ASC',
 	), $atts ) );
 
-	if ( $id === '' ) {
+	if ( '' === $id ) {
 		$query_args = array(
 			'post_type'       => 'employee',
 			'posts_per_page'  => -1,
@@ -199,7 +197,7 @@ function wplpro_profile_shortcode( $atts, $content = null ) {
 		if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wplpro_init' ) ) {
 			$has_listings = wplpro_has_listings( $post->ID );
 			if ( ! empty( $has_listings ) ) {
-			    echo '<p><a class="agent-listings-link" href="' . get_permalink() . '#agent-listings">View My Listings</a></p>';
+			    echo '<p><a class="agent-listings-link" href="' . esc_url( get_permalink() ) . '#agent-listings">View My Listings</a></p>';
 			}
 		}
 
