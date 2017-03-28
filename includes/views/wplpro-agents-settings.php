@@ -48,7 +48,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 
 					_e( '<h3>Include CSS?</h3>', 'wp-listings-pro' );
-					_e( '<p>Here you can deregister the IMPress Agents CSS files and move to your theme\'s css file for ease of customization</p>', 'wp-listings-pro' );
+					_e( '<p>Here you can deregister the Agents CSS files and move to your theme\'s css file for ease of customization</p>', 'wp-listings-pro' );
 					_e( '<p><input name="plugin_wplpro_agents_settings[wplpro_stylesheet_load]" id="wplpro_stylesheet_load" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_stylesheet_load'], false ) . ' /> Deregister IMPress Agents main CSS (wplpro-agents.css)?</p>', 'wplpro-agents' );
 
 					_e( "<h3>Default Number of Posts</h3><p>The default number of posts displayed on a employee archive page is 9. Here you can set a custom number. Enter <span style='color: #f00;font-weight: 700;'>-1</span> to display all employee posts.<br /><em>If you have more than 20-30 posts, it's not recommended to show all or your page will load slow.</em></p>", 'wp-listings-pro' );

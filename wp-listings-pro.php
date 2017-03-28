@@ -363,7 +363,7 @@ function wplpro_agents_migrate() {
 }
 
 /**
- * Register Widgets that will be used in the IMPress Agents plugin
+ * Register Widgets that will be used for Agents
  *
  * @since 0.9.0
  */
