@@ -98,7 +98,7 @@ function wplpro_init() {
 		add_action( 'wp_loaded', 'impress_agents_migrate' );
 	}
 
-	/** Includes */
+	/** Includes. */
 	require_once( dirname( __FILE__ ) . '/includes/helpers.php' );
 	require_once( dirname( __FILE__ ) . '/includes/functions.php' );
 	require_once( dirname( __FILE__ ) . '/includes/shortcodes.php' );
@@ -106,14 +106,17 @@ function wplpro_init() {
 	require_once( dirname( __FILE__ ) . '/includes/class-listing-import.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-taxonomies.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-listing-template.php' );
-	require_once( dirname( __FILE__ ) . '/includes/class-listings-search-widget.php' );
-	require_once( dirname( __FILE__ ) . '/includes/class-featured-listings-widget.php' );
+
 	require_once( dirname( __FILE__ ) . '/includes/class-admin-notice.php' );
 	require_once( dirname( __FILE__ ) . '/includes/wp-api.php' );
 
+	require_once( dirname( __FILE__ ) . '/includes/widgets/class-listings-search-widget.php' );
+	require_once( dirname( __FILE__ ) . '/includes/widgets/class-featured-listings-widget.php' );
+	require_once( dirname( __FILE__ ) . '/includes/widgets/class-employee-widget.php' );
+
 	require_once( dirname( __FILE__ ) . '/includes/class-agents.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-agent-import.php' );
-	require_once( dirname( __FILE__ ) . '/includes/class-employee-widget.php' );
+
 	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
 
 	/** Instantiate */
