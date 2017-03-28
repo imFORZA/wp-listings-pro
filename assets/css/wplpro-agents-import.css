@@ -4,29 +4,29 @@ img.agent {
   vertical-align: middle;
   border: 1px solid #ccc; }
 
-#impa-idx-agent-import li {
+#wplpro-idx-agent-import li {
   background: #efefef;
   padding: 10px;
   margin: 0 0.5em 2em 0;
   border: 1px solid #CFCCCC;
   overflow: hidden; }
 
-#impa-idx-agent-import .idx-agent:hover li {
+#wplpro-idx-agent-import .idx-agent:hover li {
   background: #99D9ED; }
 
-#impa-idx-agent-import li p {
+#wplpro-idx-agent-import li p {
   font-size: 12px;
   margin: 0 0 0 0.5rem;
   float: left;
   display: block; }
 
-#impa-idx-agent-import li p .agent-name {
+#wplpro-idx-agent-import li p .agent-name {
   font-size: 16px; }
 
-#impa-idx-agent-import li .controls {
+#wplpro-idx-agent-import li .controls {
   float: right; }
 
-#impa-idx-agent-import li span.imported {
+#wplpro-idx-agent-import li span.imported {
   font-size: 0.8em;
   line-height: 3em;
   text-align: left;
@@ -36,16 +36,16 @@ img.agent {
   padding: 0 6px;
   clear: left; }
 
-#impa-idx-agent-import li.selected,
-#impa-idx-agent-import li.imported {
+#wplpro-idx-agent-import li.selected,
+#wplpro-idx-agent-import li.imported {
   background: #00A0D2;
   color: white; }
 
-#impa-idx-agent-import li input[type="checkbox"] {
+#wplpro-idx-agent-import li input[type="checkbox"] {
   background: #00A0D2;
   display: none; }
 
-#impa-idx-agent-import li input[type="checkbox"]:checked + p + div:before {
+#wplpro-idx-agent-import li input[type="checkbox"]:checked + p + div:before {
   font-family: 'dashicons';
   font-size: 2em;
   line-height: 1;
@@ -56,7 +56,7 @@ img.agent {
   margin-top: 3px;
   position: absolute; }
 
-#impa-idx-agent-import .delete-post {
+#wplpro-idx-agent-import .delete-post {
   font-size: 0.7em;
   font-weight: 700;
   line-height: 2.8;
@@ -71,13 +71,13 @@ img.agent {
   padding: 2px 10px 2px 0;
   border-radius: 15px; }
 
-#impa-idx-agent-import .delete-post:hover,
-#impa-idx-agent-import .delete-post:active,
-#impa-idx-agent-import .delete-post:hover:before,
-#impa-idx-agent-import .delete-post:active:before {
+#wplpro-idx-agent-import .delete-post:hover,
+#wplpro-idx-agent-import .delete-post:active,
+#wplpro-idx-agent-import .delete-post:hover:before,
+#wplpro-idx-agent-import .delete-post:active:before {
   color: #c33030; }
 
-#impa-idx-agent-import .delete-post:before {
+#wplpro-idx-agent-import .delete-post:before {
   font-family: 'dashicons';
   font-size: 1.8em;
   line-height: 1.5;
@@ -91,8 +91,8 @@ img.agent {
 .grid {
   width: 100%; }
 
-#impa-idx-agent-import .grid-sizer,
-#impa-idx-agent-import .grid-item {
+#wplpro-idx-agent-import .grid-sizer,
+#wplpro-idx-agent-import .grid-item {
   width: 48%; }
 
 /**

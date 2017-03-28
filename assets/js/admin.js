@@ -236,47 +236,47 @@ jQuery(document).ready(function($) {
 	/* === Begin term image JS. === */
 
 	/* If the <img> source has a value, show it.  Otherwise, hide. */
-	if ( jQuery( '.impa-term-image-url' ).attr( 'src' ) ) {
-		jQuery( '.impa-term-image-url' ).show();
+	if ( jQuery( '.wplpro-term-image-url' ).attr( 'src' ) ) {
+		jQuery( '.wplpro-term-image-url' ).show();
 	} else {
-		jQuery( '.impa-term-image-url' ).hide();
+		jQuery( '.wplpro-term-image-url' ).hide();
 	}
 
 	/* If there's a value for the term image input. */
-	if ( jQuery( 'input#impa-term-image' ).val() ) {
+	if ( jQuery( 'input#wplpro-term-image' ).val() ) {
 
 		/* Hide the 'set term image' link. */
-		jQuery( '.impa-add-media-text' ).hide();
+		jQuery( '.wplpro-add-media-text' ).hide();
 
 		/* Show the 'remove term image' link, the image. */
-		jQuery( '.impa-remove-media, .impa-term-image-url' ).show();
+		jQuery( '.wplpro-remove-media, .wplpro-term-image-url' ).show();
 	}
 
 	/* Else, if there's not a value for the term image input. */
 	else {
 
 		/* Show the 'set term image' link. */
-		jQuery( '.impa-add-media-text' ).show();
+		jQuery( '.wplpro-add-media-text' ).show();
 
 		/* Hide the 'remove term image' link, the image. */
-		jQuery( '.impa-remove-media, .impa-term-image-url' ).hide();
+		jQuery( '.wplpro-remove-media, .wplpro-term-image-url' ).hide();
 	}
 
 	/* When the 'remove term image' link is clicked. */
-	jQuery( '.impa-remove-media' ).click(
+	jQuery( '.wplpro-remove-media' ).click(
 		function( j ) {
 
 			/* Prevent the default link behavior. */
 			j.preventDefault();
 
 			/* Set the term image input value to nothing. */
-			jQuery( '#impa-term-image' ).val( '' );
+			jQuery( '#wplpro-term-image' ).val( '' );
 
 			/* Show the 'set term image' link. */
-			jQuery( '.impa-add-media-text' ).show();
+			jQuery( '.wplpro-add-media-text' ).show();
 
 			/* Hide the 'remove term image' link, the image. */
-			jQuery( '.impa-remove-media, .impa-term-image-url, .impa-errors' ).hide();
+			jQuery( '.wplpro-remove-media, .wplpro-term-image-url, .wplpro-errors' ).hide();
 		}
 	);
 
@@ -294,7 +294,7 @@ jQuery(document).ready(function($) {
 	var impa_term_image_frame;
 
 	/* When the 'set term image' link is clicked. */
-	jQuery( '.impa-add-media' ).click(
+	jQuery( '.wplpro-add-media' ).click(
 
 		function( j ) {
 
@@ -389,28 +389,28 @@ jQuery(document).ready(function($) {
 
 					/* If there are error strings, show them. */
 					if ( impa_errors ) {
-						jQuery( '.impa-errors p' ).text( impa_errors );
-						jQuery( '.impa-errors' ).show();
+						jQuery( '.wplpro-errors p' ).text( impa_errors );
+						jQuery( '.wplpro-errors' ).show();
 					}
 
 					/* If no error strings, make sure the errors <div> is hidden. */
 					else {
-						jQuery( '.impa-errors' ).hide();
+						jQuery( '.wplpro-errors' ).hide();
 					}
 
 					/* === End image dimensions error impacks. === */
 
 					/* Add the image attachment ID to our hidden form field. */
-					jQuery( '#impa-term-image').val( media_attachment[0].id );
+					jQuery( '#wplpro-term-image').val( media_attachment[0].id );
 
 					/* Change the 'src' attribute so the image will display in the meta box. */
-					jQuery( '.impa-term-image-url' ).attr( 'src', impa_media_url );
+					jQuery( '.wplpro-term-image-url' ).attr( 'src', impa_media_url );
 
 					/* Hides the add image link. */
-					jQuery( '.impa-add-media-text' ).hide();
+					jQuery( '.wplpro-add-media-text' ).hide();
 
 					/* Displays the term image and remove image link. */
-					jQuery( '.impa-term-image-url, .impa-remove-media' ).show();
+					jQuery( '.wplpro-term-image-url, .wplpro-remove-media' ).show();
 				}
 			);
 

@@ -73,7 +73,7 @@ function wplpro_shortcode( $atts, $content = null ) {
 
 	$count = 0;
 
-	$output = '<div class="wp-listings-shortcode">';
+	$output = '<div class="wplpro-shortcode">';
 
 	foreach ( $listings_array as $post ) : setup_postdata( $post );
 

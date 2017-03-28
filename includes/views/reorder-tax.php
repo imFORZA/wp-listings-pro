@@ -7,7 +7,7 @@
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @package WP Listings
+ * @package WP-Listings-Pro
  * @since 0.1.0
  */
 
@@ -76,8 +76,8 @@ function wp_listings_tax_reorder() {
 	}
 	#sortable li span { position: absolute; margin-left: -1.3em; }
 	.ui-state-highlight { background: #E6E6E6; border: 1px #666 dashed; }
-	.wplistings-submit { padding: 5px 10px; }
-	.wplistings-submit:hover { background: #eaf2fa; font-weight: bold;}
+	.wplpro-submit { padding: 5px 10px; }
+	.wplpro-submit:hover { background: #eaf2fa; font-weight: bold;}
 	</style>
 	<script>
 	jQuery(function($) {

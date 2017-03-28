@@ -329,7 +329,7 @@ function wplpro_term_image( $term_id, $html = true, $size = 'full' ) {
 }
 
 /**
- * Holds miscellaneous functions for use in the IMPress Agents plugin
+ * Holds miscellaneous functions for use with Agents.
  */
 add_action( 'pre_get_posts', 'wplpro_change_sort_order' );
 
@@ -475,7 +475,7 @@ function wplpro_employee_details() {
 
 	if ( get_post_meta( $post->ID, '_employee_city', true ) !== '' || get_post_meta( $post->ID, '_employee_address', true ) !== '' || get_post_meta( $post->ID, '_employee_state', true ) !== '' || get_post_meta( $post->ID, '_employee_zip', true ) !== '' ) {
 
-		$address = '<p class="adr" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">';
+		$address = '<p class="adr" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">';
 
 		if ( get_post_meta( $post->ID, '_employee_address', true ) !== '' ) {
 			$address .= '<span class="street-address" itemprop="streetAddress">' . get_post_meta( $post->ID, '_employee_address', true ) . '</span><br />';

@@ -2,9 +2,9 @@
 /**
  * The template for displaying Listing Archive pages
  *
- * @link http://codex.wordpress.org/Template_Hierarchy
+ * @link https://codex.wordpress.org/Template_Hierarchy
  *
- * @package WP Listings
+ * @package WP-Listings-Pro
  * @since 0.1.0
  */
 

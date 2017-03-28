@@ -9,7 +9,7 @@
  * License: GNU General Public License v2.0
  * License URI: http://www.opensource.org/licenses/gpl-license.php
  *
- * @package WP Listings
+ * @package WP-Listings-Pro
  * @since 0.1.0
  */
 

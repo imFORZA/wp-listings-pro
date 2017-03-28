@@ -4,7 +4,7 @@ img.listing {
   vertical-align: middle;
   border: 1px solid #ccc; }
 
-#wplistings-idx-listing-import li {
+#wplpro-idx-listing-import li {
   list-style-type: none;
   text-align: center;
   background: #efefef;
@@ -13,19 +13,19 @@ img.listing {
   border: 1px solid #CFCCCC;
   overflow: hidden; }
 
-#wplistings-idx-listing-import .idx-listing:hover li {
+#wplpro-idx-listing-import .idx-listing:hover li {
   background: #97c58b; }
 
-#wplistings-idx-listing-import li p {
+#wplpro-idx-listing-import li p {
   font-size: 12px; }
 
-#wplistings-idx-listing-import li p span.price {
+#wplpro-idx-listing-import li p span.price {
   font-size: 14px; }
 
-#wplistings-idx-listing-import li p span.mls {
+#wplpro-idx-listing-import li p span.mls {
   font-size: 11px; }
 
-#wplistings-idx-listing-import li span.imported {
+#wplpro-idx-listing-import li span.imported {
   font-size: 0.8em;
   line-height: 3em;
   text-align: left;
@@ -36,21 +36,21 @@ img.listing {
   background-color: #fff;
   padding: 0 6px; }
 
-#wplistings-idx-listing-import li span.imported i {
+#wplpro-idx-listing-import li span.imported i {
   width: 35px;
   font-size: 3em;
   margin-left: -10px; }
 
-#wplistings-idx-listing-import li.selected,
-#wplistings-idx-listing-import li.imported {
+#wplpro-idx-listing-import li.selected,
+#wplpro-idx-listing-import li.imported {
   background: #64b450;
   color: white; }
 
-#wplistings-idx-listing-import li input[type="checkbox"] {
+#wplpro-idx-listing-import li input[type="checkbox"] {
   background: #64b450;
   display: none; }
 
-#wplistings-idx-listing-import li input[type="checkbox"]:checked + p:before {
+#wplpro-idx-listing-import li input[type="checkbox"]:checked + p:before {
   font-family: 'dashicons';
   font-size: 2em;
   line-height: 1;
@@ -59,7 +59,7 @@ img.listing {
   text-align: left;
   margin-top: -7px; }
 
-#wplistings-idx-listing-import .delete-post {
+#wplpro-idx-listing-import .delete-post {
   font-size: 0.7em;
   font-weight: 700;
   line-height: 2.8;
@@ -73,13 +73,13 @@ img.listing {
   padding: 2px 10px 2px 0;
   border-radius: 15px; }
 
-#wplistings-idx-listing-import .delete-post:hover,
-#wplistings-idx-listing-import .delete-post:active,
-#wplistings-idx-listing-import .delete-post:hover:before,
-#wplistings-idx-listing-import .delete-post:active:before {
+#wplpro-idx-listing-import .delete-post:hover,
+#wplpro-idx-listing-import .delete-post:active,
+#wplpro-idx-listing-import .delete-post:hover:before,
+#wplpro-idx-listing-import .delete-post:active:before {
   color: #c33030; }
 
-#wplistings-idx-listing-import .delete-post:before {
+#wplpro-idx-listing-import .delete-post:before {
   font-family: 'dashicons';
   font-size: 1.8em;
   line-height: 1.5;
@@ -89,7 +89,7 @@ img.listing {
   width: 25px;
   margin-left: -3px; }
 
-#wplistings-idx-listing-import .delete-all {
+#wplpro-idx-listing-import .delete-all {
   color: red;
   float: right;
   margin-right: 40px; }

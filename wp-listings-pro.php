@@ -27,9 +27,11 @@ register_activation_hook( __FILE__, 'wplpro_activation' );
  */
 function wplpro_activation() {
 
+	wplpro_init();
+
 	/** Flush rewrite rules */
 	if ( ! post_type_exists( 'listing' ) ) {
-		wplpro_init();
+
 		global $_wp_listings, $_wplpro_taxonomies, $_wp_listings_templates;
 		$_wp_listings->create_post_type();
 		$_wplpro_taxonomies->register_taxonomies();
@@ -37,10 +39,9 @@ function wplpro_activation() {
 
 	/** Flush rewrite rules */
 	if ( ! post_type_exists( 'employee' ) ) {
-		wplpro_init();
-		global $_impress_agents, $_impress_agents_taxonomies;
-		$_impress_agents->create_post_type();
-		$_impress_agents_taxonomies->register_taxonomies();
+		global $_wplpro_agents, $_wplpro_agents_taxonomies;
+		$_wplpro_agents->create_post_type();
+		$_wplpro_agents_taxonomies->register_taxonomies();
 	}
 
 	flush_rewrite_rules();
@@ -70,7 +71,7 @@ function wplpro_deactivation() {
 add_action( 'after_setup_theme', 'wplpro_init' );
 
 /**
- * Initialize IMPress Listings.
+ * Initialize Listings.
  *
  * Include the libraries, define global variables, instantiate the classes.
  *
@@ -78,10 +79,10 @@ add_action( 'after_setup_theme', 'wplpro_init' );
  */
 function wplpro_init() {
 
-	global $_wp_listings, $_wplpro_taxonomies, $_wp_listings_templates, $_impress_agents, $_impress_agents_taxonomies;
+	global $_wp_listings, $_wplpro_taxonomies, $_wp_listings_templates, $_wplpro_agents, $_wplpro_agents_taxonomies;
 
-	define( 'IMPRESS_AGENTS_URL', plugin_dir_url( __FILE__ ) );
-	define( 'IMPRESS_AGENTS_VERSION', '1.1.3' );
+	define( 'wplpro_AGENTS_URL', plugin_dir_url( __FILE__ ) );
+	define( 'wplpro_AGENTS_VERSION', '1.1.3' );
 
 	define( 'WP_LISTINGS_URL', plugin_dir_url( __FILE__ ) );
 	define( 'WP_LISTINGS_DIR', plugin_dir_path( __FILE__ ) );
@@ -90,13 +91,13 @@ function wplpro_init() {
 	/** Load textdomain for translation */
 	load_plugin_textdomain( 'wp-listings-pro', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 
-	add_action( 'widgets_init', 'impress_agents_register_widgets' );
+	add_action( 'widgets_init', 'wplpro_agents_register_widgets' );
 
 	/** Make sure is_plugin_active() can be called */
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 	if ( is_plugin_active( 'genesis-agent-profiles/plugin.php' ) ) {
-		add_action( 'wp_loaded', 'impress_agents_migrate' );
+		add_action( 'wp_loaded', 'wplpro_agents_migrate' );
 	}
 
 	/** Includes. */
@@ -123,16 +124,15 @@ function wplpro_init() {
 	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
 
 	/** Instantiate */
-	$_impress_agents = new IMPress_Agents;
-	$_impress_agents_taxonomies = new IMPress_Agents_Taxonomies;
+	$_wplpro_agents = new wplpro_Agents;
+	$_wplpro_agents_taxonomies = new WPLPRO_Agents_Taxonomies;
 
 	/** Add theme support for post thumbnails if it does not exist */
 	if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 		add_theme_support( 'post-thumbnails' );
 	}
 
-	/** Registers and enqueues scripts for single listings */
-	add_action( 'wp_enqueue_scripts', 'add_wp_listings_scripts' );
+
 
 	/**
 	 * Add_wp_listings_scripts function.
@@ -140,13 +140,16 @@ function wplpro_init() {
 	 * @access public
 	 * @return void
 	 */
-	function add_wp_listings_scripts() {
+	function wplpro_add_scripts() {
 		wp_register_script( 'wp-listings-single', WP_LISTINGS_URL . 'assets/js/single-listing.min.js', array( 'jquery' ), null, true ); // Enqueued only on single listings.
 		wp_register_script( 'jquery-validate', WP_LISTINGS_URL . 'assets/js/jquery.validate.min.js', array( 'jquery' ), null, true ); // Enqueued only on single listings.
 		wp_register_script( 'fitvids', '//cdnjs.cloudflare.com/ajax/libs/fitvids/1.1.0/jquery.fitvids.min.js', array( 'jquery' ), null, true ); // Enqueued only on single listings.
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-ui-tabs', array( 'jquery' ) );
 	}
+
+	/** Registers and enqueues scripts for single listings. */
+	add_action( 'wp_enqueue_scripts', 'wplpro_add_scripts' );
 
 	/** Enqueues wp-listings.css style file if it exists and is not deregistered in settings */
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_main_styles' );
@@ -161,7 +164,7 @@ function wplpro_init() {
 
 		$options = get_option( 'wplpro_plugin_settings' );
 
-		$options = get_option( 'plugin_impress_agents_settings' );
+		$options = get_option( 'wplpro_agents_settings' );
 
 		if ( ! isset( $options['wplpro_stylesheet_load'] ) ) {
 			$options['wplpro_stylesheet_load'] = 0;
@@ -171,7 +174,7 @@ function wplpro_init() {
 			return;
 		}
 
-		wp_register_style( 'agents-css', WP_LISTINGS_URL . 'assets/css/impress-agents.min.css', '', null, 'all' );
+		wp_register_style( 'agents-css', WP_LISTINGS_URL . 'assets/css/wplpro-agents.min.css', '', null, 'all' );
 		wp_enqueue_style( 'agents-css' );
 
 		/** Register single styles but don't enqueue them */
@@ -200,15 +203,15 @@ function wplpro_init() {
 	}
 
 	/**
-	 * Impress_agents_admin_scripts_styles function.
+	 * wplpro_agents_admin_scripts_styles function.
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function impress_agents_admin_scripts_styles() {
-		wp_enqueue_style( 'impress_agents_admin_css', WP_LISTINGS_URL . 'assets/css/impress-agents-admin.min.css' );
+	function wplpro_agents_admin_scripts_styles() {
+		wp_enqueue_style( 'wplpro_agents_admin_css', WP_LISTINGS_URL . 'assets/css/wplpro-agents-admin.min.css' );
 
-		wp_enqueue_script( 'impress-agents-admin', WP_LISTINGS_URL . 'assets/js/admin.min.js', 'media-views' );
+		wp_enqueue_script( 'wplpro-agents-admin', WP_LISTINGS_URL . 'assets/js/admin.min.js', 'media-views' );
 
 		$localize_script = array(
 			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
@@ -216,12 +219,12 @@ function wplpro_init() {
 		);
 
 		/* Pass custom variables to the script. */
-		wp_localize_script( 'impress-agents-admin', 'impa_term_image', $localize_script );
+		wp_localize_script( 'wplpro-agents-admin', 'impa_term_image', $localize_script );
 
 		wp_enqueue_media();
 
 	}
-	add_action( 'admin_enqueue_scripts', 'impress_agents_admin_scripts_styles' );
+	add_action( 'admin_enqueue_scripts', 'wplpro_agents_admin_scripts_styles' );
 
 	/** Enqueues wp-listings-widgets.css style file if it exists and is not deregistered in settings */
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_widgets_styles' );
@@ -350,23 +353,23 @@ function wp_listings_register_widgets() {
 }
 
 /**
- * Impress_agents_migrate function.
+ * wplpro_agents_migrate function.
  *
  * @access public
  * @return void
  */
-function impress_agents_migrate() {
-	new IMPress_Agents_Migrate();
+function wplpro_agents_migrate() {
+	new wplpro_Agents_Migrate();
 }
 
 /**
- * Register Widgets that will be used in the IMPress Agents plugin
+ * Register Widgets that will be used for Agents
  *
  * @since 0.9.0
  */
-function impress_agents_register_widgets() {
+function wplpro_agents_register_widgets() {
 
-	$widgets = array( 'IMPress_Agents_Widget' );
+	$widgets = array( 'wplpro_Agents_Widget' );
 
 	foreach ( (array) $widgets as $widget ) {
 		register_widget( $widget );
