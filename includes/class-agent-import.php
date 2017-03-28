@@ -74,7 +74,7 @@ class wplpro_Agents_Import {
 
 			// Load WP options.
 			$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_wp_options' );
-			$impa_options = get_option( 'plugin_wplpro_agents_settings' );
+			$impa_options = get_option( 'wplpro_agents_settings' );
 
 			foreach ( $agents as $agent ) {
 
@@ -159,7 +159,7 @@ class wplpro_Agents_Import {
 
 		// Load WP options.
 		$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_wp_options' );
-		$impa_options = get_option( 'plugin_wplpro_agents_settings' );
+		$impa_options = get_option( 'wplpro_agents_settings' );
 
 		foreach ( $agents as $agent ) {
 			foreach ( $agent as $a ) {

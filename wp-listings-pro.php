@@ -125,7 +125,7 @@ function wplpro_init() {
 
 	/** Instantiate */
 	$_wplpro_agents = new wplpro_Agents;
-	$_wplpro_agents_taxonomies = new wplpro_Agents_Taxonomies;
+	$_wplpro_agents_taxonomies = new WPLPRO_Agents_Taxonomies;
 
 	/** Add theme support for post thumbnails if it does not exist */
 	if ( ! current_theme_supports( 'post-thumbnails' ) ) {
@@ -164,7 +164,7 @@ function wplpro_init() {
 
 		$options = get_option( 'wplpro_plugin_settings' );
 
-		$options = get_option( 'plugin_wplpro_agents_settings' );
+		$options = get_option( 'wplpro_agents_settings' );
 
 		if ( ! isset( $options['wplpro_stylesheet_load'] ) ) {
 			$options['wplpro_stylesheet_load'] = 0;

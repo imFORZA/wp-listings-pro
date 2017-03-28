@@ -31,7 +31,7 @@ class wplpro_Agents {
 	 */
 	function __construct() {
 
-		$this->options = get_option( 'plugin_wplpro_agents_settings' );
+		$this->options = get_option( 'wplpro_agents_settings' );
 
 		$this->employee_details = apply_filters( 'wplpro_agents_employee_details', array(
 			'col1' => array(
@@ -83,7 +83,7 @@ class wplpro_Agents {
 	 * Registers the option to load the stylesheet
 	 */
 	function register_settings() {
-		register_setting( 'wplpro_options', 'plugin_wplpro_agents_settings' );
+		register_setting( 'wplpro_options', 'wplpro_agents_settings' );
 	}
 
 	/**
@@ -97,7 +97,7 @@ class wplpro_Agents {
 		);
 
 		if ( empty( $this->options['wplpro_slug'] ) && empty( $this->options['wplpro_archive_posts_num'] ) ) {
-			add_option( 'plugin_wplpro_agents_settings', $new_options );
+			add_option( 'wplpro_agents_settings', $new_options );
 		}
 
 	}

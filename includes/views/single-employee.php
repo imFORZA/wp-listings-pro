@@ -60,7 +60,7 @@ function single_employee_post_content() {
 <?php
 }
 
-$options = get_option( 'plugin_wplpro_agents_settings' );
+$options = get_option( 'wplpro_agents_settings' );
 
 if ( function_exists( 'equity' ) ) {
 

@@ -763,7 +763,7 @@ class wplpro_taxonomies {
  * This class handles all the aspects of displaying, creating, and editing the
  * user-created taxonomies for the "Employees" post-type.
  */
-class wplpro_Agents_Taxonomies {
+class WPLPro_Agents_Taxonomies {
 
 	var $settings_field = 'wplpro_agents_taxonomies';
 	var $menu_page = 'wplpro-agents-taxonomies';
