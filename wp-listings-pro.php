@@ -37,7 +37,7 @@ function wplpro_activation() {
 
 	/** Flush rewrite rules */
 	if ( ! post_type_exists( 'employee' ) ) {
-		impress_agents_init();
+		wplpro_init();
 		global $_impress_agents, $_impress_agents_taxonomies;
 		$_impress_agents->create_post_type();
 		$_impress_agents_taxonomies->register_taxonomies();
@@ -68,6 +68,7 @@ function wplpro_deactivation() {
 }
 
 add_action( 'after_setup_theme', 'wplpro_init' );
+
 /**
  * Initialize IMPress Listings.
  *
@@ -99,11 +100,13 @@ function wplpro_init() {
 	}
 
 	/** Includes. */
+	require_once( dirname( __FILE__ ) . '/includes/class-listings.php' );
+	require_once( dirname( __FILE__ ) . '/includes/class-agents.php' );
+
 	require_once( dirname( __FILE__ ) . '/includes/helpers.php' );
 	require_once( dirname( __FILE__ ) . '/includes/functions.php' );
 	require_once( dirname( __FILE__ ) . '/includes/shortcodes.php' );
-	require_once( dirname( __FILE__ ) . '/includes/class-listings.php' );
-	require_once( dirname( __FILE__ ) . '/includes/class-listing-import.php' );
+
 	require_once( dirname( __FILE__ ) . '/includes/class-taxonomies.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-listing-template.php' );
 
@@ -114,7 +117,7 @@ function wplpro_init() {
 	require_once( dirname( __FILE__ ) . '/includes/widgets/class-featured-listings-widget.php' );
 	require_once( dirname( __FILE__ ) . '/includes/widgets/class-employee-widget.php' );
 
-	require_once( dirname( __FILE__ ) . '/includes/class-agents.php' );
+	require_once( dirname( __FILE__ ) . '/includes/class-listing-import.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-agent-import.php' );
 
 	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
