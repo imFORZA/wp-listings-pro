@@ -2,10 +2,11 @@
 /**
  * This file contains the methods for interacting with the IDX API
  * to import agent data
+ *
+ * @package WP-Listing-Pro
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 
 /**
  * IMPress_Agents_Import class.
@@ -30,14 +31,14 @@ class IMPress_Agents_Import {
 	}
 
 	/**
-	 * in_array function.
+	 * In_array function.
 	 *
 	 * @access public
 	 * @static
 	 * @param mixed $needle Needle.
 	 * @param mixed $haystack Haystack.
 	 * @param bool  $strict (default: false) Strict.
-	 * @return void
+	 * @return bool True or False.
 	 */
 	public static function in_array( $needle, $haystack, $strict = false ) {
 		if ( ! $haystack ) { return false;
@@ -53,8 +54,8 @@ class IMPress_Agents_Import {
 	/**
 	 * Creates a post of employee type using post data from options page.
 	 *
-	 * @param  array $agentIDs agentID of the property
-	 * @return [type] $featured [description]
+	 * @param  array $agentIDs agentID of the property.
+	 * @return [type] $featured Featured.
 	 */
 	public static function impress_agents_idx_create_post( $agentIDs ) {
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
@@ -178,11 +179,13 @@ class IMPress_Agents_Import {
 	}
 
 	/**
-	 * Change post status
+	 * Change post status.
 	 *
-	 * @param  [type] $post_id [description].
-	 * @param  [type] $status  [description].
-	 * @return [type]          [description].
+	 * @access public
+	 * @static
+	 * @param mixed $post_id Post ID.
+	 * @param mixed $status Status.
+	 * @return void
 	 */
 	public static function impress_agents_idx_change_post_status( $post_id, $status ) {
 	    $current_post = get_post( $post_id, 'ARRAY_A' );
@@ -191,12 +194,15 @@ class IMPress_Agents_Import {
 	}
 
 	/**
-	 * Inserts post meta based on property data
-	 * API fields are mapped to post meta fields
-	 * prefixed with _employee_ and lowercased
+	 * Inserts post meta based on property data API fields are mapped to post meta fields prefixed with _employee_ and lowercased.
 	 *
-	 * @param  [type] $id  [description].
-	 * @return [type]      [description].
+	 * @access public
+	 * @static
+	 * @param mixed $id ID.
+	 * @param mixed $idx_agent_data IDX Agent Data.
+	 * @param bool  $update (default: false) Update.
+	 * @param bool  $update_image (default: true) Update Image.
+	 * @return void
 	 */
 	public static function impress_agents_idx_insert_post_meta( $id, $idx_agent_data, $update = false, $update_image = true ) {
 
@@ -298,16 +304,15 @@ class IMPress_Agents_Import {
 
 
 /**
- * Admin settings page
- * Outputs cleints/agents api data to import
- * Enqueues scripts for display
- * Deletes post and post thumbnail via ajax
+ * Admin settings page.
+ * Outputs cleints/agents api data to import.
+ * Enqueues scripts for display. Deletes post and post thumbnail via ajax.
  */
 add_action( 'admin_menu', 'impress_agents_idx_agent_register_menu_page' );
 
 
 /**
- * impress_agents_idx_agent_register_menu_page function.
+ * Impress Agents register menu page.
  *
  * @access public
  * @return void
@@ -318,7 +323,7 @@ function impress_agents_idx_agent_register_menu_page() {
 }
 
 /**
- * impress_agents_idx_agent_register_settings function.
+ * Impress_agents_idx_agent_register_settings function.
  *
  * @access public
  * @return void
@@ -331,7 +336,7 @@ add_action( 'admin_enqueue_scripts', 'impress_agents_idx_agent_scripts' );
 
 
 /**
- * impress_agents_idx_agent_scripts function.
+ * Impress_agents_idx_agent_scripts function.
  *
  * @access public
  * @return void
@@ -457,17 +462,17 @@ function impress_agents_idx_agent_setting_page() {
 
 					printf('<div class="grid-item post"><label for="%s" class="idx-agent"><li class="%s agent"><img class="agent" src="%s"><input type="checkbox" id="%s" class="checkbox" name="impress_agents_idx_agent_options[]" value="%s" %s /><p><span class="agent-name">%s</span><br/><span class="agent-title">%s</span><br/><span class="agent-phone">%s</span><br/><span class="agent-id">Agent ID: %s</span></p><div class="controls">%s %s</div></li></label></div>',
 						$a['agentID'],
-						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] === 'publish' ? 'imported' : '') : '',
+						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ( 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ? 'imported' : '') : '',
 						isset( $a['agentPhotoURL'] ) && $a['agentPhotoURL'] !== '' ? $a['agentPhotoURL'] : IMPRESS_AGENTS_URL . '../assets/images/impress-agents-nophoto.png',
 						$a['agentID'],
 						$a['agentID'],
-						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] === 'publish' ? 'checked' : '') : '',
+						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ( 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ? 'checked' : '') : '',
 						$a['agentDisplayName'],
 						$a['agentTitle'],
 						isset( $a['agentContactPhone'] ) ? $a['agentContactPhone'] : '',
 						$a['agentID'],
-						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] === 'publish' ? "<span class='imported'>Imported</span>" : '') : '',
-						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] === 'publish' ? $delete_agent : '') : ''
+						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ( 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ? "<span class='imported'>Imported</span>" : '') : '',
+						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ( 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ? $delete_agent : '') : ''
 					);
 
 				}
