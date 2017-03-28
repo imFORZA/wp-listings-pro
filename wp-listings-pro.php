@@ -226,7 +226,7 @@ function wplpro_init() {
 	}
 	add_action( 'admin_enqueue_scripts', 'wplpro_agents_admin_scripts_styles' );
 
-	/** Enqueues wp-listings-widgets.css style file if it exists and is not deregistered in settings */
+	/** Enqueues wp-listings-widgets.css style file if it exists and is not deregistered in settings. */
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_widgets_styles' );
 
 	/**
