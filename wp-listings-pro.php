@@ -2,7 +2,7 @@
 /**
  * Main Plugin File.
  *
- @package WP-Listings-Pro
+ * @package WP-Listings-Pro
  */
 
 /**
