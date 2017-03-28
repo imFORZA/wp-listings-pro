@@ -91,7 +91,6 @@ function wplpro_init() {
 	/** Load textdomain for translation */
 	load_plugin_textdomain( 'wp-listings-pro', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 
-	add_action( 'widgets_init', 'wplpro_agents_register_widgets' );
 
 	/** Make sure is_plugin_active() can be called */
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
@@ -344,11 +343,19 @@ function wplpro_init() {
  */
 function wp_listings_register_widgets() {
 
-	$widgets = array( 'WP_Listings_Featured_Listings_Widget', 'WP_Listings_Search_Widget' );
+	$listing_widgets = array( 'WP_Listings_Featured_Listings_Widget', 'WP_Listings_Search_Widget' );
 
-	foreach ( (array) $widgets as $widget ) {
-		register_widget( $widget );
+	$agent_widgets = array( 'wplpro_Agents_Widget' );
+
+	foreach ( (array) $listing_widgets as $listing_widget ) {
+		register_widget( $listing_widget );
 	}
+
+
+	foreach ( (array) $agent_widgets as $agent_widget ) {
+		register_widget( $agent_widget );
+	}
+
 
 }
 
@@ -362,17 +369,3 @@ function wplpro_agents_migrate() {
 	new wplpro_Agents_Migrate();
 }
 
-/**
- * Register Widgets that will be used for Agents
- *
- * @since 0.9.0
- */
-function wplpro_agents_register_widgets() {
-
-	$widgets = array( 'wplpro_Agents_Widget' );
-
-	foreach ( (array) $widgets as $widget ) {
-		register_widget( $widget );
-	}
-
-}
