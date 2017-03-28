@@ -19,7 +19,7 @@ add_filter( 'template_include', 'wplpro_template_include' );
  *
  * @access public
  * @param mixed $template Template.
- * @return void
+ * @return Templates.
  */
 function wplpro_template_include( $template ) {
 
@@ -54,7 +54,7 @@ function wplpro_template_include( $template ) {
 		}
 	}
 
-	if ( is_single() && $post_type === get_post_type() ) {
+	if ( is_single() && get_post_type() === $post_type ) {
 
 		global $post;
 
@@ -83,7 +83,7 @@ function wplpro_template_include( $template ) {
  *
  * @access public
  * @param mixed $post_id (default: null) Post ID.
- * @return void
+ * @return State.
  */
 function wplpro_get_state( $post_id = null ) {
 	$options = get_option( 'wplpro_plugin_settings' );
@@ -113,7 +113,7 @@ function wplpro_get_state( $post_id = null ) {
  *
  * @access public
  * @param mixed $post_id (default: null) Post ID.
- * @return void
+ * @return City.
  */
 function wplpro_get_city( $post_id = null ) {
 	if ( null === $post_id ) {
@@ -134,7 +134,7 @@ function wplpro_get_city( $post_id = null ) {
  *
  * @access public
  * @param mixed $post_id (default: null) Post ID.
- * @return void
+ * @return Address.
  */
 function wplpro_get_address( $post_id = null ) {
 	if ( null === $post_id ) {
@@ -155,7 +155,7 @@ function wplpro_get_address( $post_id = null ) {
  *
  * @access public
  * @param mixed $post_id (default: null) Post ID.
- * @param int $single (default: 0) Single.
+ * @param int   $single (default: 0) Single.
  * @return void
  */
 function wplpro_get_status( $post_id = null, $single = 0 ) {
@@ -171,9 +171,9 @@ function wplpro_get_status( $post_id = null, $single = 0 ) {
 
 	$status = null;
 	foreach ( $listing_status as $term ) {
-		if ( $term->name !== 'Featured' ) {
+		if ( 'Featured' !== $term->name ) {
 			$status .= $term->name;
-			if ( $single === 0 ) {
+			if ( 0 === $single ) {
 				return $status;
 			}
 			$status .= '<br />';
@@ -240,7 +240,7 @@ add_filter( 'dashboard_glance_items', 'wplpro_glance_items', 10, 1 );
  *
  * @access public
  * @param array $items (default: array()) Items.
- * @return void
+ * @return Items.
  */
 function wplpro_glance_items( $items = array() ) {
 
@@ -276,8 +276,8 @@ function wplpro_glance_items( $items = array() ) {
  * Better Jetpack Related Posts Support for Listings
  *
  * @access public
- * @param mixed $headline Headline
- * @return void
+ * @param mixed $headline Headline.
+ * @return Headline.
  */
 function wplpro_jetpack_relatedposts( $headline ) {
 	if ( is_singular( 'listing' ) ) {
@@ -317,9 +317,11 @@ function wplpro_jetpack_sitemap() {
 /**
  * Function to return term image for use on front end.
  *
- * @param  num     $term_id the id of the term.
- * @param  boolean $html    use html wrapper with wp_get_attachment_image.
- * @return mixed  the image with html markup or the image id.
+ * @access public
+ * @param mixed  $term_id Term ID.
+ * @param bool   $html (default: true) HTML.
+ * @param string $size (default: 'full') Size.
+ * @return void
  */
 function wplpro_term_image( $term_id, $html = true, $size = 'full' ) {
 	$image_id = get_term_meta( $term_id, 'wplpro_term_image', true );
@@ -384,7 +386,7 @@ add_filter( 'template_include', 'wplpro_template_include_employee' );
  *
  * @access public
  * @param mixed $template Template.
- * @return void
+ * @return Templates.
  */
 function wplpro_template_include_employee( $template ) {
 
@@ -419,7 +421,7 @@ function wplpro_template_include_employee( $template ) {
 		}
 	}
 
-	if ( is_single() && $post_type === get_post_type() ) {
+	if ( is_single() && get_post_type() === $post_type ) {
 		if ( file_exists( get_stylesheet_directory() . '/single-' . $post_type . '.php' ) ) {
 			return $template;
 		} else { return dirname( __FILE__ ) . '/views/single-' . $post_type . '.php';
@@ -583,7 +585,11 @@ function wplpro_employee_social() {
 }
 
 /**
- * Displays the job type of a employee
+ * Displays the job type of a employee.
+ *
+ * @access public
+ * @param mixed $post_id (default: null) Post ID.
+ * @return Job Types.
  */
 function wplpro_get_job_types( $post_id = null ) {
 
