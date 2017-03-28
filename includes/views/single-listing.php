@@ -2,7 +2,7 @@
 /**
  * The Template for displaying all single listing posts
  *
- * @package WP Listings
+ * @package WP-Listings-Pro
  * @since 0.1.0
  */
 
@@ -36,10 +36,10 @@ function single_listing_post_content() {
 
 	?>
 
-	<div itemscope itemtype="http://schema.org/SingleFamilyResidence" class="entry-content wplistings-single-listing">
+	<div itemscope itemtype="https://schema.org/SingleFamilyResidence" class="entry-content wplistings-single-listing">
 
 		<div class="listing-image-wrap">
-			<?php echo '<div itemprop="image" itemscope itemtype="http://schema.org/ImageObject">' . get_the_post_thumbnail( $post->ID, 'listings-full', array( 'class' => 'single-listing-image', 'itemprop' => 'contentUrl' ) ) . '</div>';
+			<?php echo '<div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">' . get_the_post_thumbnail( $post->ID, 'listings-full', array( 'class' => 'single-listing-image', 'itemprop' => 'contentUrl' ) ) . '</div>';
 			if ( '' !== wplpro_get_status() ) {
 				printf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wplpro_get_status() ) ), wplpro_get_status() );
 			}
@@ -285,7 +285,7 @@ function single_listing_post_content() {
 				aeprofiles_connected_agents_markup();
 				echo '</div></div><!-- .listing-agent -->';
 			}
-		} elseif ( function_exists( '_p2p_init' ) && function_exists( 'impress_agents_init' ) ) {
+		} elseif ( function_exists( '_p2p_init' ) && function_exists( 'wplpro_agents_init' ) ) {
 			if ( wplpro_has_listings( $post->ID ) ) {
 				echo'<div id="listing-agent">
 					<div class="connected-agents">';

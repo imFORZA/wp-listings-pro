@@ -352,7 +352,7 @@ function wplpro_connected_listings_markup() {
 		$class = ($count === 1) ? ' first' : '';
 
 		echo '
-		<div class="one-third ', $class, ' connected-listings" itemscope itemtype="http://schema.org/Offer">
+		<div class="one-third ', $class, ' connected-listings" itemscope itemtype="https://schema.org/Offer">
 			<a href="', get_permalink( $listing->ID ), '"><img src="', $thumb_url[0], '" alt="', get_the_title(), ' photo" class="attachment-agent-profile-photo wp-post-image" itemprop="image" /></a>
 			<h4 itemprop="itemOffered"><a class="listing-title" href="', get_permalink( $listing->ID ), '" itemprop="url">', get_the_title( $listing->ID ), '</a></h4>
 			<p class="listing-price"><span class="label-price">Price: </span><span itemprop="price">', get_post_meta( $listing->ID, '_listing_price', true ), '</span></p>

@@ -12,7 +12,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 ?>
 <div id="icon-options-general" class="icon32"></div>
 <div class="wrap">
-	<h1><?php esc_html_e( 'IMPress Listings Settings', 'wp-listings-pro' ); ?></h1>
+	<h1><?php esc_html_e( 'Listings Settings', 'wp-listings-pro' ); ?></h1>
 	<hr>
 	<div id="poststuff" class="metabox-holder has-right-sidebar">
 		<div id="side-info-column" class="inner-sidebar">

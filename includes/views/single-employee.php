@@ -2,7 +2,7 @@
 /**
  * The Template for displaying all single employee posts
  *
- * @package IMPress Agents
+ * @package WP-Listings-Pro
  * @since 0.9.0
  */
 
@@ -29,9 +29,9 @@ function single_employee_post_content() {
 	global $post;
 	?>
 
-	<div itemscope class="entry-content impa-single-employee">
+	<div itemscope class="entry-content wplpro-single-employee">
 
-	<div class="agent-wrap" itemscope itemtype="http://schema.org/Person">
+	<div class="agent-wrap" itemscope itemtype="https://schema.org/Person">
 		<?php
 			$thumb_id = get_post_thumbnail_id();
 			$thumb_url = wp_get_attachment_image_src( $thumb_id, 'employee-full', true );
@@ -60,7 +60,7 @@ function single_employee_post_content() {
 <?php
 }
 
-$options = get_option( 'plugin_impress_agents_settings' );
+$options = get_option( 'plugin_wplpro_agents_settings' );
 
 if ( function_exists( 'equity' ) ) {
 

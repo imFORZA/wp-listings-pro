@@ -5,18 +5,18 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 
 /**
- * This file contains the IMPress_Agents class.
+ * This file contains the wplpro_Agents class.
  */
 
 /**
  * This class handles the creation of the "Employees" post type, and creates a
  * UI to display the Employee-specific data on the admin screens.
  */
-class IMPress_Agents {
+class wplpro_Agents {
 
-	var $settings_page = 'impress-agents-settings';
-	var $settings_field = 'impress_agents_taxonomies';
-	var $menu_page = 'impress-agents-taxonomies';
+	var $settings_page = 'wplpro-agents-settings';
+	var $settings_field = 'wplpro_agents_taxonomies';
+	var $menu_page = 'wplpro-agents-taxonomies';
 
 	var $options;
 
@@ -31,9 +31,9 @@ class IMPress_Agents {
 	 */
 	function __construct() {
 
-		$this->options = get_option( 'plugin_impress_agents_settings' );
+		$this->options = get_option( 'plugin_wplpro_agents_settings' );
 
-		$this->employee_details = apply_filters( 'impress_agents_employee_details', array(
+		$this->employee_details = apply_filters( 'wplpro_agents_employee_details', array(
 			'col1' => array(
 				__( 'First Name:', 'wp-listings-pro' ) 		=> '_employee_first_name',
 				__( 'Last Name:', 'wp-listings-pro' ) 		=> '_employee_last_name',
@@ -54,7 +54,7 @@ class IMPress_Agents {
 			),
 		) );
 
-		$this->employee_social = apply_filters( 'impress_agents_employee_social', array(
+		$this->employee_social = apply_filters( 'wplpro_agents_employee_social', array(
 				__( 'Facebook URL:', 'wp-listings-pro' ) 	=> '_employee_facebook',
 				__( 'Twitter URL:', 'wp-listings-pro' )		=> '_employee_twitter',
 				__( 'LinkedIn URL:', 'wp-listings-pro' )		=> '_employee_linkedin',
@@ -83,7 +83,7 @@ class IMPress_Agents {
 	 * Registers the option to load the stylesheet
 	 */
 	function register_settings() {
-		register_setting( 'wplpro_options', 'plugin_impress_agents_settings' );
+		register_setting( 'wplpro_options', 'plugin_wplpro_agents_settings' );
 	}
 
 	/**
@@ -97,7 +97,7 @@ class IMPress_Agents {
 		);
 
 		if ( empty( $this->options['wplpro_slug'] ) && empty( $this->options['wplpro_archive_posts_num'] ) ) {
-			add_option( 'plugin_impress_agents_settings', $new_options );
+			add_option( 'plugin_wplpro_agents_settings', $new_options );
 		}
 
 	}
@@ -113,7 +113,7 @@ class IMPress_Agents {
 	 * Creates display of settings page along with form fields.
 	 */
 	function settings_page() {
-		include( dirname( __FILE__ ) . '/views/impress-agents-settings.php' );
+		include( dirname( __FILE__ ) . '/views/wplpro-agents-settings.php' );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class IMPress_Agents {
 	 */
 	function create_post_type() {
 
-		$args = apply_filters( 'impress_agents_post_type_args',
+		$args = apply_filters( 'wplpro_agents_post_type_args',
 			array(
 				'labels' => array(
 					'name'					=> __( 'Employees', 'wp-listings-pro' ),
@@ -187,7 +187,7 @@ class IMPress_Agents {
 
 		error_log( 'here' ); // Good news, you were abl to figure out where the error was. Neat.
 
-		if ( ! isset( $_POST['impress_agents_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['impress_agents_metabox_nonce'], 'impress_agents_metabox_save' ) ) {
+		if ( ! isset( $_POST['wplpro_agents_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['wplpro_agents_metabox_nonce'], 'wplpro_agents_metabox_save' ) ) {
 	        return $post_id;
 		}
 
@@ -205,7 +205,7 @@ class IMPress_Agents {
 		}
 
 		// And there's an error here.
-		$employee_details = $_POST['impress_agents'];
+		$employee_details = $_POST['wplpro_agents'];
 		// Fixed it.
 		/** Store the employee details custom fields */
 		foreach ( (array) $employee_details as $key => $value ) {
@@ -253,10 +253,10 @@ class IMPress_Agents {
 
 		$image_size = 'style="max-width: 115px;"';
 
-		apply_filters( 'impress_agents_admin_employee_details', $admin_details = $this->employee_details['col1'] );
+		apply_filters( 'wplpro_agents_admin_employee_details', $admin_details = $this->employee_details['col1'] );
 
 		if ( isset( $_GET['mode'] ) && trim( $_GET['mode'] ) === 'excerpt' ) {
-			apply_filters( 'impress_agents_admin_extended_details', $admin_details = $this->employee_details['col1'] + $this->employee_details['col2'] );
+			apply_filters( 'wplpro_agents_admin_extended_details', $admin_details = $this->employee_details['col1'] + $this->employee_details['col2'] );
 			$image_size = 'style="max-width: 150px;"';
 		}
 

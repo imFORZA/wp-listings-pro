@@ -8,7 +8,7 @@
 /**
  * This widget creates a search form which uses listings' taxonomy for search fields.
  *
- * @package WP Listings
+ * @package WP-Listings-Pro
  * @since 0.1.0
  */
 class WP_Listings_Search_Widget extends WP_Widget {

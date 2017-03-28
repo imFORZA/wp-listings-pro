@@ -8,7 +8,7 @@
 /**
  * This widget displays listings, based on user input, in any widget area.
  *
- * @package WP Listings
+ * @package WP-Listings-Pro
  * @since 0.1.0
  */
 class WP_Listings_Featured_Listings_Widget extends WP_Widget {

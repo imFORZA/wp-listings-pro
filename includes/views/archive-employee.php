@@ -2,9 +2,9 @@
 /**
  * The template for displaying Employee Archive pages
  *
- * @link http://codex.wordpress.org/Template_Hierarchy
+ * @link https://codex.wordpress.org/Template_Hierarchy
  *
- * @package IMPress Agents
+ * @package WP-Listings-Pro
  * @since 0.9.0
  */
 
@@ -44,7 +44,7 @@ function archive_employee_loop() {
 
 	?>
 
-	<div <?php post_class( $class ); ?> itemscope itemtype="http://schema.org/Person">
+	<div <?php post_class( $class ); ?> itemscope itemtype="https://schema.org/Person">
 	<?php echo '<a href="' . get_permalink() . '"><img src="' . $thumb_url[0] . '" alt="' . get_the_title() . ' photo" class="attachment-employee-thumbnail wp-post-image" itemprop="image" /></a>'; ?>
 		<div class="agent-details vcard">
 		<?php

@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
  * @since 0.9.0
  * @author Agent Evolution
  */
-class IMPress_Agents_Widget extends WP_Widget {
+class wplpro_Agents_Widget extends WP_Widget {
 
 	function __construct() {
 		$widget_ops = array( 'classname' => 'featured-employee', 'description' => __( 'Display a featured employee or employees contact info.', 'wp-listings-pro' ), 'customize_selective_refresh' => true );

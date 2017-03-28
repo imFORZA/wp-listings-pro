@@ -725,7 +725,7 @@ class wplpro_taxonomies {
 	<div id="col-container">
 		<div class="updated"><?php esc_html_e( 'Note: This will only allow you to reorder user-created taxonomies. Default taxonomies cannot be reordered (Status, Locations, Property Types, Features).', 'wp-listings-pro' ); ?> </div>
 		<style>
-#sortable{list-style-type:none;margin:10px 0;padding:0}#sortable li .item{-moz-border-radius:6px 6px 6px 6px;border:1px solid #e6e6e6;font-weight:bold;height:auto;line-height:35px;overflow:hidden;padding-left:10px;position:relative;text-shadow:0 1px 0 white;width:auto;word-wrap:break-word;cursor:move;background:none repeat-x scroll left top #dfdfdf;-moz-box-shadow:2px 2px 3px #888;-webkit-box-shadow:2px 2px 3px #888;box-shadow:2px 2px 3px #888}#sortable li span{position:absolute;margin-left:-1.3em}.ui-state-highlight{background:#e6e6e6;border:1px #666 dashed}.wplistings-submit{padding:5px 10px}.wplistings-submit:hover{background:#eaf2fa;font-weight:bold}
+#sortable{list-style-type:none;margin:10px 0;padding:0}#sortable li .item{-moz-border-radius:6px 6px 6px 6px;border:1px solid #e6e6e6;font-weight:bold;height:auto;line-height:35px;overflow:hidden;padding-left:10px;position:relative;text-shadow:0 1px 0 white;width:auto;word-wrap:break-word;cursor:move;background:none repeat-x scroll left top #dfdfdf;-moz-box-shadow:2px 2px 3px #888;-webkit-box-shadow:2px 2px 3px #888;box-shadow:2px 2px 3px #888}#sortable li span{position:absolute;margin-left:-1.3em}.ui-state-highlight{background:#e6e6e6;border:1px #666 dashed}.wplpro-submit{padding:5px 10px}.wplpro-submit:hover{background:#eaf2fa;font-weight:bold}
 		</style>
 		<script>
 		jQuery(function($) {
@@ -763,10 +763,10 @@ class wplpro_taxonomies {
  * This class handles all the aspects of displaying, creating, and editing the
  * user-created taxonomies for the "Employees" post-type.
  */
-class IMPress_Agents_Taxonomies {
+class wplpro_Agents_Taxonomies {
 
-	var $settings_field = 'impress_agents_taxonomies';
-	var $menu_page = 'impress-agents-taxonomies';
+	var $settings_field = 'wplpro_agents_taxonomies';
+	var $menu_page = 'wplpro-agents-taxonomies';
 
 	/**
 	 * Construct Method.
@@ -784,17 +784,17 @@ class IMPress_Agents_Taxonomies {
 			add_action( 'init', array( $this, 'register_term_meta' ), 17 );
 
 			foreach ( (array) $this->get_taxonomies() as $slug => $data ) {
-				add_action( "{$slug}_add_form_fields", array( $this, 'impress_agents_new_term_image_field' ) );
-				add_action( "{$slug}_edit_form_fields", array( $this, 'impress_agents_edit_term_image_field' ) );
-				add_action( "create_{$slug}", array( $this, 'impress_agents_save_term_image' ) );
-				add_action( "edit_{$slug}", array( $this, 'impress_agents_save_term_image' ) );
-				add_filter( "manage_edit-{$slug}_columns", array( $this, 'impress_agents_edit_term_columns' ) );
-				add_action( "manage_{$slug}_custom_column", array( $this, 'impress_agents_manage_term_custom_column' ), 10, 3 );
+				add_action( "{$slug}_add_form_fields", array( $this, 'wplpro_agents_new_term_image_field' ) );
+				add_action( "{$slug}_edit_form_fields", array( $this, 'wplpro_agents_edit_term_image_field' ) );
+				add_action( "create_{$slug}", array( $this, 'wplpro_agents_save_term_image' ) );
+				add_action( "edit_{$slug}", array( $this, 'wplpro_agents_save_term_image' ) );
+				add_filter( "manage_edit-{$slug}_columns", array( $this, 'wplpro_agents_edit_term_columns' ) );
+				add_action( "manage_{$slug}_custom_column", array( $this, 'wplpro_agents_manage_term_custom_column' ), 10, 3 );
 			}
 		}
 
-		add_action( 'restrict_manage_posts', array( $this, 'impress_agents_filter_post_type_by_taxonomy' ) );
-		add_filter( 'parse_query', array( $this, 'impress_agents_convert_id_to_term_in_query' ) );
+		add_action( 'restrict_manage_posts', array( $this, 'wplpro_agents_filter_post_type_by_taxonomy' ) );
+		add_filter( 'parse_query', array( $this, 'wplpro_agents_convert_id_to_term_in_query' ) );
 
 	}
 
@@ -824,7 +824,7 @@ class IMPress_Agents_Taxonomies {
 
 		/** This section handles the data if a new taxonomy is created */
 		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] ) {
-			$this->create_taxonomy( $_POST['impress_agents_taxonomy'] );
+			$this->create_taxonomy( $_POST['wplpro_agents_taxonomy'] );
 		}
 
 		/** This section handles the data if a taxonomy is deleted */
@@ -834,7 +834,7 @@ class IMPress_Agents_Taxonomies {
 
 		/** This section handles the data if a taxonomy is being edited */
 		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] ) {
-			$this->edit_taxonomy( $_POST['impress_agents_taxonomy'] );
+			$this->edit_taxonomy( $_POST['wplpro_agents_taxonomy'] );
 		}
 
 	}
@@ -1136,7 +1136,7 @@ class IMPress_Agents_Taxonomies {
 	 * @return [type] [description]
 	 */
 	function register_term_meta() {
-		register_meta( 'term', 'impa_term_image', 'impress_agents_sanitize_term_image' );
+		register_meta( 'term', 'impa_term_image', 'wplpro_agents_sanitize_term_image' );
 	}
 
 	/**
@@ -1144,7 +1144,7 @@ class IMPress_Agents_Taxonomies {
 	 *
 	 * @return [type] [description]
 	 */
-	function impress_agents_sanitize_term_image( $impa_term_image ) {
+	function wplpro_agents_sanitize_term_image( $impa_term_image ) {
 		return $impa_term_image;
 	}
 
@@ -1154,7 +1154,7 @@ class IMPress_Agents_Taxonomies {
 	 * @param  $html bool whether to use html wrapper
 	 * @uses  wp_get_attachment_image to return image id wrapped in markup
 	 */
-	function impress_agents_get_term_image( $term_id, $html = true ) {
+	function wplpro_agents_get_term_image( $term_id, $html = true ) {
 		$image_id = get_term_meta( $term_id, 'impa_term_image', true );
 		return $image_id && $html ? wp_get_attachment_image( $image_id, 'thumbnail' ) : $image_id;
 	}
@@ -1164,14 +1164,14 @@ class IMPress_Agents_Taxonomies {
 	 *
 	 * @param  string $term_id term slug
 	 */
-	function impress_agents_save_term_image( $term_id ) {
+	function wplpro_agents_save_term_image( $term_id ) {
 
 	    if ( ! isset( $_POST['impa_term_image_nonce'] ) || ! wp_verify_nonce( $_POST['impa_term_image_nonce'], basename( __FILE__ ) ) ) {
 	        return;
 		}
 
-	    $old_image = $this->impress_agents_get_term_image( $term_id );
-	    $new_image = isset( $_POST['impa-term-image'] ) ? $_POST['impa-term-image'] : '';
+	    $old_image = $this->wplpro_agents_get_term_image( $term_id );
+	    $new_image = isset( $_POST['wplpro-term-image'] ) ? $_POST['wplpro-term-image'] : '';
 
 	    if ( $old_image && '' === $new_image ) {
 	        delete_term_meta( $term_id, 'impa_term_image' );
@@ -1188,7 +1188,7 @@ class IMPress_Agents_Taxonomies {
 	 * Filter the edit term columns
 	 */
 
-	function impress_agents_edit_term_columns( $columns ) {
+	function wplpro_agents_edit_term_columns( $columns ) {
 
 	    $columns['impa_term_image'] = __( 'Image', 'wp-listings-pro' );
 
@@ -1198,17 +1198,17 @@ class IMPress_Agents_Taxonomies {
 	/**
 	 * Display the new column
 	 */
-	function impress_agents_manage_term_custom_column( $out, $column, $term_id ) {
+	function wplpro_agents_manage_term_custom_column( $out, $column, $term_id ) {
 
 	    if ( 'impa_term_image' === $column ) {
 
-	        $image_id = $this->impress_agents_get_term_image( $term_id, false );
+	        $image_id = $this->wplpro_agents_get_term_image( $term_id, false );
 
 	        if ( ! $image_id ) {
 	        	return $out;
 			}
 
-	        $image_markup = wp_get_attachment_image( $image_id, 'thumbnail', true, array( 'class' => 'impa-term-image' ) );
+	        $image_markup = wp_get_attachment_image( $image_id, 'thumbnail', true, array( 'class' => 'wplpro-term-image' ) );
 
 	        $out = $image_markup;
 	    }
@@ -1219,7 +1219,7 @@ class IMPress_Agents_Taxonomies {
 	/**
 	 * Display a custom taxonomy dropdown in admin
 	 */
-	function impress_agents_filter_post_type_by_taxonomy() {
+	function wplpro_agents_filter_post_type_by_taxonomy() {
 		global $typenow;
 		$post_type = 'employee';
 		$taxonomies  = array( 'job-types', 'offices' );
@@ -1243,7 +1243,7 @@ class IMPress_Agents_Taxonomies {
 	/**
 	 * Filter posts by taxonomy in admin
 	 */
-	function impress_agents_convert_id_to_term_in_query( $query ) {
+	function wplpro_agents_convert_id_to_term_in_query( $query ) {
 		global $pagenow;
 		$post_type = 'employee';
 		$taxonomies  = array( 'job-types', 'offices' );
@@ -1263,20 +1263,20 @@ class IMPress_Agents_Taxonomies {
 	 * @param mixed $term Term.
 	 * @return void
 	 */
-	function impress_agents_new_term_image_field( $term ) {
+	function wplpro_agents_new_term_image_field( $term ) {
 
 	    $image_id = '';
 
 	    wp_nonce_field( basename( __FILE__ ), 'impa_term_image_nonce' ); ?>
 
-	    <div class="form-field impa-term-image-wrap">
-	        <label for="impa-term-image"><?php esc_html_e( 'Image', 'wp-listings-pro' ); ?></label>
+	    <div class="form-field wplpro-term-image-wrap">
+	        <label for="wplpro-term-image"><?php esc_html_e( 'Image', 'wp-listings-pro' ); ?></label>
 	        <!-- Begin term image -->
 			<p>
-				<input type="hidden" name="impa-term-image" id="impa-term-image" value="<?php echo esc_attr( $image_id ); ?>" />
-				<a href="#" class="impa-add-media impa-add-media-img"><img class="impa-term-image-url" src="" style="max-width: 100%; max-height: 200px; height: auto; display: block;" /></a>
-				<a href="#" class="impa-add-media impa-add-media-text"><?php esc_html_e( 'Set term image', 'wp-listings-pro' ); ?></a>
-				<a href="#" class="impa-remove-media"><?php esc_html_e( 'Remove term image', 'wp-listings-pro' ); ?></a>
+				<input type="hidden" name="wplpro-term-image" id="wplpro-term-image" value="<?php echo esc_attr( $image_id ); ?>" />
+				<a href="#" class="wplpro-add-media wplpro-add-media-img"><img class="wplpro-term-image-url" src="" style="max-width: 100%; max-height: 200px; height: auto; display: block;" /></a>
+				<a href="#" class="wplpro-add-media wplpro-add-media-text"><?php esc_html_e( 'Set term image', 'wp-listings-pro' ); ?></a>
+				<a href="#" class="wplpro-remove-media"><?php esc_html_e( 'Remove term image', 'wp-listings-pro' ); ?></a>
 			</p>
 			<!-- End term image -->
 	    </div>
@@ -1285,25 +1285,25 @@ class IMPress_Agents_Taxonomies {
 	/**
 	 * Field for editing an image on a term
 	 */
-	function impress_agents_edit_term_image_field( $term ) {
+	function wplpro_agents_edit_term_image_field( $term ) {
 
-	    $image_id = $this->impress_agents_get_term_image( $term->term_id, false );
+	    $image_id = $this->wplpro_agents_get_term_image( $term->term_id, false );
 	    $image_url = wp_get_attachment_url( $image_id );
 
 	    if ( ! $image_url ) {
 	    	$image_url = '';
 		} ?>
 
-	    <tr class="form-field impa-term-image-wrap">
-	        <th scope="row"><label for="impa-term-image"><?php esc_html_e( 'Image', 'wp-listings-pro' ); ?></label></th>
+	    <tr class="form-field wplpro-term-image-wrap">
+	        <th scope="row"><label for="wplpro-term-image"><?php esc_html_e( 'Image', 'wp-listings-pro' ); ?></label></th>
 	        <td>
 	            <?php wp_nonce_field( basename( __FILE__ ), 'impa_term_image_nonce' ); ?>
 	            <!-- Begin term image -->
 				<p>
-					<input type="hidden" name="impa-term-image" id="impa-term-image" value="<?php echo esc_attr( $image_id ); ?>" />
-					<a href="#" class="impa-add-media impa-add-media-img"><img class="impa-term-image-url" src="<?php echo esc_url( $image_url ); ?>" style="max-width: 100%; max-height: 200px; height: auto; display: block;" /></a>
-					<a href="#" class="impa-add-media impa-add-media-text"><?php esc_html_e( 'Set term image', 'wp-listings-pro' ); ?></a>
-					<a href="#" class="impa-remove-media"><?php esc_html_e( 'Remove term image', 'wp-listings-pro' ); ?></a>
+					<input type="hidden" name="wplpro-term-image" id="wplpro-term-image" value="<?php echo esc_attr( $image_id ); ?>" />
+					<a href="#" class="wplpro-add-media wplpro-add-media-img"><img class="wplpro-term-image-url" src="<?php echo esc_url( $image_url ); ?>" style="max-width: 100%; max-height: 200px; height: auto; display: block;" /></a>
+					<a href="#" class="wplpro-add-media wplpro-add-media-text"><?php esc_html_e( 'Set term image', 'wp-listings-pro' ); ?></a>
+					<a href="#" class="wplpro-remove-media"><?php esc_html_e( 'Remove term image', 'wp-listings-pro' ); ?></a>
 				</p>
 				<!-- End term image -->
 	        </td>
