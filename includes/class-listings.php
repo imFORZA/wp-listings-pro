@@ -1,6 +1,8 @@
 <?php
 /**
- * This file contains the WP_Listings class.
+ * Listings Class
+ *
+ * @package WP-Listings-Pro
  */
 
 /**

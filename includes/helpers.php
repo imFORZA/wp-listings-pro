@@ -1,4 +1,9 @@
 <?php
+/**
+ * Helpers
+ *
+ * @package WP-Listings-Pro
+ */
 
 /**
  * Lists all the terms of a given taxonomy

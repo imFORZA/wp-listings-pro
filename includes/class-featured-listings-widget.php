@@ -1,18 +1,25 @@
 <?php
 /**
+ * Featured Listings Widget.
+ *
+ * @package WP-Listings-Pro
+ */
+
+/**
  * This widget displays listings, based on user input, in any widget area.
  *
  * @package WP Listings
  * @since 0.1.0
  */
 class WP_Listings_Featured_Listings_Widget extends WP_Widget {
+
 	/**
 	 * [__construct description]
 	 */
 	function __construct() {
 		$widget_ops  = array( 'classname' => 'wplistings-featured-listings clearfix', 'description' => __( 'Display grid-style featured listings', 'wp-listings-pro' ), 'customize_selective_refresh' => true );
 		$control_ops = array( 'width' => 300, 'height' => 350 );
-		parent::__construct( 'wplistings-featured-listings', __( 'IMPress Listings - Featured Listings', 'wp-listings-pro' ), $widget_ops, $control_ops );
+		parent::__construct( 'wplistings-featured-listings', __( 'WP Listings Pro - Listings Showcase', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
 
 	/**
@@ -56,9 +63,9 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 	/**
 	 * [widget description]
 	 *
-	 * @param  [type] $args     [description]
-	 * @param  [type] $instance [description]
-	 * @return {[type]           [description]
+	 * @param  [type] $args     [description].
+	 * @param  [type] $instance [description].
+	 * @return {[type]           [description].
 	 */
 	function widget( $args, $instance ) {
 
@@ -84,7 +91,7 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 				'paged'				=> get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
 			);
 
-		if ( ! empty( $instance['posts_term'] ) && count( $posts_term ) == 2 ) {
+		if ( ! empty( $instance['posts_term'] ) && count( $posts_term ) === 2 ) {
 			$query_args[ $posts_term['0'] ] = $posts_term['1'];
 		}
 
@@ -96,31 +103,31 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 
 		if ( $wp_listings_widget_query->have_posts() ) : while ( $wp_listings_widget_query->have_posts() ) : $wp_listings_widget_query->the_post();
 
-				$count = ( $count == $instance['number_columns'] ) ? 1 : $count + 1;
+				$count = ( $count === $instance['number_columns'] ) ? 1 : $count + 1;
 
-				$first_class = ( 1 == $count && 1 == $instance['use_columns'] ) ? ' first' : '';
+				$first_class = ( 1 === $count && 1 === $instance['use_columns'] ) ? ' first' : '';
 
 				$loop = sprintf( '<div class="listing-widget-thumb"><a href="%s" class="listing-image-link">%s</a>', get_permalink(), get_the_post_thumbnail( $post->ID, $instance['image_size'] ) );
 
-				if ( '' != wplpro_get_status() ) {
+				if ( '' !== wplpro_get_status() ) {
 					$loop .= sprintf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wplpro_get_status() ) ), wplpro_get_status() );
 				}
 
 				$loop .= sprintf( '<div class="listing-thumb-meta">' );
 
-				if ( '' != get_post_meta( $post->ID, '_listing_text', true ) ) {
+				if ( '' !== get_post_meta( $post->ID, '_listing_text', true ) ) {
 					$loop .= sprintf( '<span class="listing-text">%s</span>', get_post_meta( $post->ID, '_listing_text', true ) );
-				} elseif ( '' != wplpro_get_property_types() ) {
+				} elseif ( '' !== wplpro_get_property_types() ) {
 					$loop .= sprintf( '<span class="listing-property-type">%s</span>', wplpro_get_property_types() );
 				}
 
-				if ( '' != get_post_meta( $post->ID, '_listing_price', true ) ) {
-					$loop .= sprintf( '<span class="listing-price"><span class="currency-symbol">%s</span>%s %s</span>', $options['wplpro_currency_symbol'], get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wplpro_display_currency_code'] ) && $options['wplpro_display_currency_code'] == 1) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>': '' );
+				if ( '' !== get_post_meta( $post->ID, '_listing_price', true ) ) {
+					$loop .= sprintf( '<span class="listing-price"><span class="currency-symbol">%s</span>%s %s</span>', $options['wplpro_currency_symbol'], get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wplpro_display_currency_code'] ) && $options['wplpro_display_currency_code'] === 1) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>': '' );
 				}
 
 				$loop .= sprintf( '</div><!-- .listing-thumb-meta --></div><!-- .listing-widget-thumb -->' );
 
-				if ( '' != get_post_meta( $post->ID, '_listing_open_house', true ) ) {
+				if ( '' !== get_post_meta( $post->ID, '_listing_open_house', true ) ) {
 					$loop .= sprintf( '<span class="listing-open-house">Open House: %s</span>', get_post_meta( $post->ID, '_listing_open_house', true ) );
 				}
 
@@ -128,7 +135,7 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 				$loop .= sprintf( '<p class="listing-address"><span class="listing-address">%s</span><br />', wplpro_get_address() );
 				$loop .= sprintf( '<span class="listing-city-state-zip">%s, %s %s</span></p>', wplpro_get_city(), wplpro_get_state(), get_post_meta( $post->ID, '_listing_zip', true ) );
 
-				if ( '' != get_post_meta( $post->ID, '_listing_bedrooms', true ) || '' != get_post_meta( $post->ID, '_listing_bathrooms', true ) || '' != get_post_meta( $post->ID, '_listing_sqft', true ) ) {
+				if ( '' !== get_post_meta( $post->ID, '_listing_bedrooms', true ) || '' !== get_post_meta( $post->ID, '_listing_bathrooms', true ) || '' !== get_post_meta( $post->ID, '_listing_sqft', true ) ) {
 					$loop .= sprintf( '<ul class="listing-beds-baths-sqft"><li class="beds">%s<span>Beds</span></li> <li class="baths">%s<span>Baths</span></li> <li class="sqft">%s<span>Sq ft</span></li></ul>', get_post_meta( $post->ID, '_listing_bedrooms', true ), get_post_meta( $post->ID, '_listing_bathrooms', true ), get_post_meta( $post->ID, '_listing_sqft', true ) );
 				}
 
@@ -136,7 +143,7 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 
 				$loop .= sprintf( '<a href="%s" class="button btn-primary more-link">%s</a>', get_permalink(), __( 'View Listing', 'wp-listings-pro' ) );
 
-				/** wrap in div with possible column class, and output */
+				/** Wrap in div with possible column class, and output. */
 				printf( '<div class="listing %s post-%s"><div class="listing-wrap">%s</div></div>', $column_class . $first_class, $post->ID, apply_filters( 'wp_listings_featured_listings_widget_loop', $loop ) );
 
 			endwhile;
@@ -168,10 +175,10 @@ endif;
 		return $instance;
 	}
 	/**
-	 * [form description]
+	 * Form.
 	 *
-	 * @param  [type] $instance [description]
-	 * @return {[type]           [description]
+	 * @param  [type] $instance [description].
+	 * @return {[type]           [description].
 	 */
 	function form( $instance ) {
 
@@ -187,7 +194,7 @@ endif;
 		printf(
 			'<p><label for="%s">%s</label><input type="text" id="%s" name="%s" value="%s" style="%s" /></p>',
 			$this->get_field_id( 'title' ),
-			__( 'Title:', 'wp-listings-pro' ),
+			esc_html_e( 'Title:', 'wp-listings-pro' ),
 			$this->get_field_id( 'title' ),
 			$this->get_field_name( 'title' ),
 			esc_attr( $instance['title'] ),
@@ -195,7 +202,7 @@ endif;
 		); ?>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'image_size' ); ?>"><?php _e( 'Image Size', 'wp-listings-pro' ); ?>:</label>
+			<label for="<?php echo $this->get_field_id( 'image_size' ); ?>"><?php esc_html_e( 'Image Size', 'wp-listings-pro' ); ?>:</label>
 			<select id="<?php echo $this->get_field_id( 'image_size' ); ?>" class="wp-listings-image-size-selector" name="<?php echo $this->get_field_name( 'image_size' ); ?>">
 				<option value="thumbnail">thumbnail (<?php echo absint( get_option( 'thumbnail_size_w' ) ); ?>x<?php echo absint( get_option( 'thumbnail_size_h' ) ); ?>)</option>
 				<?php
@@ -210,7 +217,7 @@ endif;
 		<?php
 		printf(
 			'<p>%s <input type="text" name="%s" value="%s" size="3" /></p>',
-			__( 'How many results should be returned?', 'wp-listings-pro' ),
+			esc_html_e( 'How many results should be returned?', 'wp-listings-pro' ),
 			$this->get_field_name( 'posts_per_page' ),
 			esc_attr( $instance['posts_per_page'] )
 		);
@@ -258,4 +265,4 @@ endif;
 
 		<?php
 	}
-} // EOF
+} // EOF.
