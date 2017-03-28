@@ -4,20 +4,46 @@
  * to import agent data
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit;
-}
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+
+/**
+ * IMPress_Agents_Import class.
+ */
 class IMPress_Agents_Import {
 
+	/**
+	 * _idx
+	 *
+	 * @var mixed
+	 * @access public
+	 */
 	public $_idx;
 
+	/**
+	 * __construct function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	public function __construct() {
 	}
 
+	/**
+	 * in_array function.
+	 *
+	 * @access public
+	 * @static
+	 * @param mixed $needle
+	 * @param mixed $haystack
+	 * @param bool  $strict (default: false)
+	 * @return void
+	 */
 	public static function in_array( $needle, $haystack, $strict = false ) {
 		if ( ! $haystack ) { return false;
 		}
 		foreach ( $haystack as $item ) {
-			if ( ($strict ? $item === $needle : $item == $needle) || (is_array( $item ) && self::in_array( $needle, $item, $strict )) ) {
+			if ( ($strict ? $item === $needle : $item === $needle) || ( is_array( $item ) && self::in_array( $needle, $item, $strict ) ) ) {
 				return true;
 			}
 		}
@@ -33,7 +59,7 @@ class IMPress_Agents_Import {
 	public static function impress_agents_idx_create_post( $agentIDs ) {
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 
-			// Load IDX Broker API Class and retrieve agents
+			// Load IDX Broker API Class and retrieve agents.
 			$_idx_api = new \IDX\Idx_Api();
 			$agents = $_idx_api->idx_api(
 				'agents',
@@ -45,7 +71,7 @@ class IMPress_Agents_Import {
 				$json_decode_type = true
 			);
 
-			// Load WP options
+			// Load WP options.
 			$idx_agent_wp_options = get_option( 'impress_agents_idx_agent_wp_options' );
 			$impa_options = get_option( 'plugin_impress_agents_settings' );
 
@@ -81,26 +107,26 @@ class IMPress_Agents_Import {
 							$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
 							self::impress_agents_idx_insert_post_meta( $add_post, $a );
 						}
-					} elseif ( in_array( $a['agentID'], $agentIDs ) && $idx_agent_wp_options[ $a['agentID'] ]['status'] != 'publish' ) {
+					} elseif ( in_array( $a['agentID'], $agentIDs ) && $idx_agent_wp_options[ $a['agentID'] ]['status'] !== 'publish' ) {
 						self::impress_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'publish' );
 						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
-					} elseif ( ! in_array( $a['agentID'], $agentIDs ) && $idx_agent_wp_options[ $a['agentID'] ]['status'] == 'publish' ) {
+					} elseif ( ! in_array( $a['agentID'], $agentIDs ) && $idx_agent_wp_options[ $a['agentID'] ]['status'] === 'publish' ) {
 
-						// change to draft or delete agent if the post exists but is not in the agent array based on settings
-						if ( isset( $impa_options['impress_agents_idx_remove'] ) && $impa_options['impress_agents_idx_remove'] == 'remove-draft' ) {
+						// change to draft or delete agent if the post exists but is not in the agent array based on settings.
+						if ( isset( $impa_options['impress_agents_idx_remove'] ) && $impa_options['impress_agents_idx_remove'] === 'remove-draft' ) {
 
-							// Change to draft
+							// Change to draft.
 							self::impress_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'draft' );
 							$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'draft';
-						} elseif ( isset( $impa_options['impress_agents_idx_remove'] ) && $impa_options['impress_agents_idx_remove'] == 'remove-delete' ) {
+						} elseif ( isset( $impa_options['impress_agents_idx_remove'] ) && $impa_options['impress_agents_idx_remove'] === 'remove-delete' ) {
 
 							$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'deleted';
 
-							// Delete featured image
+							// Delete featured image.
 							$post_featured_image_id = get_post_thumbnail_id( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
 							wp_delete_attachment( $post_featured_image_id );
 
-							// Delete post
+							// Delete post.
 							wp_delete_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
 						}
 					}
@@ -118,7 +144,7 @@ class IMPress_Agents_Import {
 	 */
 	public static function impress_agents_update_post() {
 
-		// Load IDX Broker API Class and retrieve agents
+		// Load IDX Broker API Class and retrieve agents.
 		$_idx_api = new \IDX\Idx_Api();
 		$agents = $_idx_api->idx_api(
 			'agents',
@@ -130,7 +156,7 @@ class IMPress_Agents_Import {
 			$json_decode_type = true
 		);
 
-		// Load WP options
+		// Load WP options.
 		$idx_agent_wp_options = get_option( 'impress_agents_idx_agent_wp_options' );
 		$impa_options = get_option( 'plugin_impress_agents_settings' );
 
@@ -139,7 +165,7 @@ class IMPress_Agents_Import {
 
 				if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 					// Update agent data
-					if ( ! isset( $impa_options['impress_agents_idx_update'] ) || isset( $impa_options['impress_agents_idx_update'] ) && $impa_options['impress_agents_idx_update'] != 'update-none' ) {
+					if ( ! isset( $impa_options['impress_agents_idx_update'] ) || isset( $impa_options['impress_agents_idx_update'] ) && $impa_options['impress_agents_idx_update'] !== 'update-none' ) {
 						self::impress_agents_idx_insert_post_meta( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], $a, true, false );
 					}
 					$idx_agent_wp_options[ $a['agentID'] ]['updated'] = date( 'm/d/Y h:i:sa' );
@@ -154,9 +180,9 @@ class IMPress_Agents_Import {
 	/**
 	 * Change post status
 	 *
-	 * @param  [type] $post_id [description]
-	 * @param  [type] $status  [description]
-	 * @return [type]          [description]
+	 * @param  [type] $post_id [description].
+	 * @param  [type] $status  [description].
+	 * @return [type]          [description].
 	 */
 	public static function impress_agents_idx_change_post_status( $post_id, $status ) {
 	    $current_post = get_post( $post_id, 'ARRAY_A' );
@@ -169,8 +195,8 @@ class IMPress_Agents_Import {
 	 * API fields are mapped to post meta fields
 	 * prefixed with _employee_ and lowercased
 	 *
-	 * @param  [type] $id  [description]
-	 * @return [type]      [description]
+	 * @param  [type] $id  [description].
+	 * @return [type]      [description].
 	 */
 	public static function impress_agents_idx_insert_post_meta( $id, $idx_agent_data, $update = false, $update_image = true ) {
 
@@ -178,22 +204,22 @@ class IMPress_Agents_Import {
 		wp_set_object_terms( $id, $idx_agent_data['agentTitle'], 'job-types' );
 
 		// Add post meta for existing fields
-		if ( get_post_meta( $id, '_employee_title' ) == false ) { update_post_meta( $id, '_employee_title', $idx_agent_data['agentTitle'] ); }
-		if ( get_post_meta( $id, '_employee_first_name' ) == false ) { update_post_meta( $id, '_employee_first_name', $idx_agent_data['agentFirstName'] ); }
-		if ( get_post_meta( $id, '_employee_last_name' ) == false ) { update_post_meta( $id, '_employee_last_name', $idx_agent_data['agentLastName'] ); }
-		if ( get_post_meta( $id, '_employee_agent_id' ) == false ) { update_post_meta( $id, '_employee_agent_id', $idx_agent_data['agentID'] ); }
-		if ( get_post_meta( $id, '_employee_phone' ) == false ) { update_post_meta( $id, '_employee_phone', $idx_agent_data['agentContactPhone'] ); }
-		if ( get_post_meta( $id, '_employee_mobile' ) == false ) { update_post_meta( $id, '_employee_mobile', $idx_agent_data['agentCellPhone'] ); }
-		if ( get_post_meta( $id, '_employee_email' ) == false ) { update_post_meta( $id, '_employee_email', $idx_agent_data['agentEmail'] ); }
-		if ( get_post_meta( $id, '_employee_website' ) == false ) { update_post_meta( $id, '_employee_website', $idx_agent_data['agentURL'] ); }
-		if ( get_post_meta( $id, '_employee_address' ) == false ) { update_post_meta( $id, '_employee_address', $idx_agent_data['address'] ); }
-		if ( get_post_meta( $id, '_employee_city' ) == false ) { update_post_meta( $id, '_employee_city', $idx_agent_data['city'] ); }
-		if ( get_post_meta( $id, '_employee_state' ) == false ) { update_post_meta( $id, '_employee_state', $idx_agent_data['stateProvince'] ); }
-		if ( get_post_meta( $id, '_employee_zip' ) == false ) { update_post_meta( $id, '_employee_zip', $idx_agent_data['zipCode'] ); }
+		if ( get_post_meta( $id, '_employee_title' ) === false ) { update_post_meta( $id, '_employee_title', $idx_agent_data['agentTitle'] ); }
+		if ( get_post_meta( $id, '_employee_first_name' ) === false ) { update_post_meta( $id, '_employee_first_name', $idx_agent_data['agentFirstName'] ); }
+		if ( get_post_meta( $id, '_employee_last_name' ) === false ) { update_post_meta( $id, '_employee_last_name', $idx_agent_data['agentLastName'] ); }
+		if ( get_post_meta( $id, '_employee_agent_id' ) === false ) { update_post_meta( $id, '_employee_agent_id', $idx_agent_data['agentID'] ); }
+		if ( get_post_meta( $id, '_employee_phone' ) === false ) { update_post_meta( $id, '_employee_phone', $idx_agent_data['agentContactPhone'] ); }
+		if ( get_post_meta( $id, '_employee_mobile' ) === false ) { update_post_meta( $id, '_employee_mobile', $idx_agent_data['agentCellPhone'] ); }
+		if ( get_post_meta( $id, '_employee_email' ) === false ) { update_post_meta( $id, '_employee_email', $idx_agent_data['agentEmail'] ); }
+		if ( get_post_meta( $id, '_employee_website' ) === false ) { update_post_meta( $id, '_employee_website', $idx_agent_data['agentURL'] ); }
+		if ( get_post_meta( $id, '_employee_address' ) === false ) { update_post_meta( $id, '_employee_address', $idx_agent_data['address'] ); }
+		if ( get_post_meta( $id, '_employee_city' ) === false ) { update_post_meta( $id, '_employee_city', $idx_agent_data['city'] ); }
+		if ( get_post_meta( $id, '_employee_state' ) === false ) { update_post_meta( $id, '_employee_state', $idx_agent_data['stateProvince'] ); }
+		if ( get_post_meta( $id, '_employee_zip' ) === false ) { update_post_meta( $id, '_employee_zip', $idx_agent_data['zipCode'] ); }
 
 		foreach ( $idx_agent_data as $metakey => $metavalue ) {
-			if ( isset( $metavalue ) && ! is_array( $metavalue ) && $metavalue != '' ) {
-				if ( get_post_meta( $id, '_employee_' . strtolower( $metakey ) ) == false ) {
+			if ( isset( $metavalue ) && ! is_array( $metavalue ) && $metavalue !== '' ) {
+				if ( get_post_meta( $id, '_employee_' . strtolower( $metakey ) ) === false ) {
 					update_post_meta( $id, '_employee_' . strtolower( $metakey ), $metavalue );
 				}
 			} elseif ( isset( $metavalue ) && is_array( $metavalue ) ) {
@@ -210,38 +236,38 @@ class IMPress_Agents_Import {
 		}
 
 		/**
-		 * Pull featured image if it's not an update or update image is set to true
+		 * Pull featured image if it's not an update or update image is set to true.
 		 */
 		$featured_image = $idx_agent_data['agentPhotoURL'];
 
-		if ( isset( $featured_image ) && $featured_image != null ) {
-			if ( $update == false || $update_image == true ) {
-				// Delete previously attached image
+		if ( isset( $featured_image ) && $featured_image !== null ) {
+			if ( $update == false || $update_image === true ) {
+				// Delete previously attached image.
 				$post_featured_image_id = get_post_thumbnail_id( $id );
 				wp_delete_attachment( $post_featured_image_id );
 
-				// Add Featured Image to Post
-				$image_url  = $featured_image; // Define the image URL here
-				$upload_dir = wp_upload_dir(); // Set upload folder
-				$image_data = file_get_contents( $image_url ); // Get image data
-				$filename   = basename( sanitize_file_name( strtolower( $idx_agent_data['agentDisplayName'] ) ) . '.jpg' ); // Create image file name
+				// Add Featured Image to Post.
+				$image_url  = $featured_image; // Define the image URL here.
+				$upload_dir = wp_upload_dir(); // Set upload folder.
+				$image_data = file_get_contents( $image_url ); // Get image data.
+				$filename   = basename( sanitize_file_name( strtolower( $idx_agent_data['agentDisplayName'] ) ) . '.jpg' ); // Create image file name.
 
-				// Check folder permission and define file location
+				// Check folder permission and define file location.
 				if ( wp_mkdir_p( $upload_dir['path'] ) ) {
 					$file = $upload_dir['path'] . '/' . $filename;
 				} else {
 					$file = $upload_dir['basedir'] . '/' . $filename;
 				}
 
-				// Create the image file on the server
+				// Create the image file on the server.
 				if ( ! file_exists( $file ) ) {
 					file_put_contents( $file, $image_data );
 				}
 
-				// Check image file type
+				// Check image file type.
 				$wp_filetype = wp_check_filetype( $filename, null );
 
-				// Set attachment data
+				// Set attachment data.
 				$attachment = array(
 					'post_mime_type' => $wp_filetype['type'],
 					'post_title'     => $idx_agent_data['agentDisplayName'] . ' - ' . $idx_agent_data['agentID'],
@@ -278,19 +304,41 @@ class IMPress_Agents_Import {
  * Deletes post and post thumbnail via ajax
  */
 add_action( 'admin_menu', 'impress_agents_idx_agent_register_menu_page' );
+
+
+/**
+ * impress_agents_idx_agent_register_menu_page function.
+ *
+ * @access public
+ * @return void
+ */
 function impress_agents_idx_agent_register_menu_page() {
 	add_submenu_page( 'edit.php?post_type=employee', __( 'Import Agents', 'wp-listings-pro' ), __( 'Import Agents', 'wp-listings-pro' ), 'manage_options', 'impa-idx-agent', 'impress_agents_idx_agent_setting_page' );
 	add_action( 'admin_init', 'impress_agents_idx_agent_register_settings' );
 }
 
+/**
+ * impress_agents_idx_agent_register_settings function.
+ *
+ * @access public
+ * @return void
+ */
 function impress_agents_idx_agent_register_settings() {
 	register_setting( 'impress_agents_idx_agent_settings_group', 'impress_agents_idx_agent_options', array( 'IMPress_Agents_Import', 'impress_agents_idx_create_post' ) );
 }
 
 add_action( 'admin_enqueue_scripts', 'impress_agents_idx_agent_scripts' );
+
+
+/**
+ * impress_agents_idx_agent_scripts function.
+ *
+ * @access public
+ * @return void
+ */
 function impress_agents_idx_agent_scripts() {
 	$screen = get_current_screen();
-	if ( $screen->id != 'employee_page_impa-idx-agent' ) {
+	if ( 'employee_page_impa-idx-agent' !== $screen->id ) {
 		return;
 	}
 
@@ -301,10 +349,18 @@ function impress_agents_idx_agent_scripts() {
 	wp_enqueue_style( 'impress_agents_idx_agent_style', IMPRESS_AGENTS_URL . '../assets/css/impress-agents-import.min.css' );
 }
 add_action( 'wp_ajax_impa_idx_agent_delete', 'impa_idx_agent_delete' );
+
+
+/**
+ * impa_idx_agent_delete function.
+ *
+ * @access public
+ * @return void
+ */
 function impa_idx_agent_delete() {
 
 	$permission = check_ajax_referer( 'impa_idx_agent_delete_nonce', 'nonce', false );
-	if ( $permission == false ) {
+	if ( false === $permission ) {
 		echo 'error';
 	} else {
 		// Delete featured image
@@ -318,6 +374,12 @@ function impa_idx_agent_delete() {
 	die();
 }
 
+/**
+ * impress_agents_idx_agent_setting_page function.
+ *
+ * @access public
+ * @return void
+ */
 function impress_agents_idx_agent_setting_page() {
 	?>
 			<h1>Import Agents</h1>
@@ -395,17 +457,17 @@ function impress_agents_idx_agent_setting_page() {
 
 					printf('<div class="grid-item post"><label for="%s" class="idx-agent"><li class="%s agent"><img class="agent" src="%s"><input type="checkbox" id="%s" class="checkbox" name="impress_agents_idx_agent_options[]" value="%s" %s /><p><span class="agent-name">%s</span><br/><span class="agent-title">%s</span><br/><span class="agent-phone">%s</span><br/><span class="agent-id">Agent ID: %s</span></p><div class="controls">%s %s</div></li></label></div>',
 						$a['agentID'],
-						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] == 'publish' ? 'imported' : '') : '',
-						isset( $a['agentPhotoURL'] ) && $a['agentPhotoURL'] != '' ? $a['agentPhotoURL'] : IMPRESS_AGENTS_URL . '../assets/images/impress-agents-nophoto.png',
+						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] === 'publish' ? 'imported' : '') : '',
+						isset( $a['agentPhotoURL'] ) && $a['agentPhotoURL'] !== '' ? $a['agentPhotoURL'] : IMPRESS_AGENTS_URL . '../assets/images/impress-agents-nophoto.png',
 						$a['agentID'],
 						$a['agentID'],
-						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] == 'publish' ? 'checked' : '') : '',
+						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] === 'publish' ? 'checked' : '') : '',
 						$a['agentDisplayName'],
 						$a['agentTitle'],
 						isset( $a['agentContactPhone'] ) ? $a['agentContactPhone'] : '',
 						$a['agentID'],
-						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] == 'publish' ? "<span class='imported'>Imported</span>" : '') : '',
-						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] == 'publish' ? $delete_agent : '') : ''
+						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] === 'publish' ? "<span class='imported'>Imported</span>" : '') : '',
+						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ($idx_agent_wp_options[ $a['agentID'] ]['status'] === 'publish' ? $delete_agent : '') : ''
 					);
 
 				}
@@ -426,6 +488,14 @@ function impress_agents_idx_agent_setting_page() {
 if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 	add_action( 'admin_init', 'impress_agents_idx_update_schedule' );
 }
+
+
+/**
+ * impress_agents_idx_update_schedule function.
+ *
+ * @access public
+ * @return void
+ */
 function impress_agents_idx_update_schedule() {
 	if ( ! wp_next_scheduled( 'impress_agents_idx_update' ) ) {
 		wp_schedule_event( time(), 'daily', 'impress_agents_idx_update' );
