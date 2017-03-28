@@ -14,7 +14,10 @@
 class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 
 	/**
-	 * [__construct description]
+	 * __construct function.
+	 *
+	 * @access public
+	 * @return void
 	 */
 	function __construct() {
 		$widget_ops  = array( 'classname' => 'wplistings-featured-listings clearfix', 'description' => __( 'Display grid-style featured listings', 'wp-listings-pro' ), 'customize_selective_refresh' => true );
@@ -23,19 +26,20 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Returns the column class
+	 * Get Column Classes.
 	 *
-	 * @param int $number_columns
-	 * @param int $number_items
+	 * @access public
+	 * @param mixed $number_columns # of Columns.
+	 * @return Column Classes.
 	 */
 	function get_column_class( $number_columns ) {
 
 		$column_class = '';
 
-		// Max of six columns
+		// Max of six columns.
 		$number_columns = ( $number_columns > 6 ) ? 6 : (int) $number_columns;
 
-		// column class
+		// Column class.
 		switch ( $number_columns ) {
 			case 0:
 			case 1:
@@ -60,12 +64,14 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 
 		return $column_class;
 	}
+
 	/**
-	 * [widget description]
+	 * Output Widget.
 	 *
-	 * @param  [type] $args     [description].
-	 * @param  [type] $instance [description].
-	 * @return {[type]           [description].
+	 * @access public
+	 * @param mixed $args Arguments.
+	 * @param mixed $instance Instance.
+	 * @return void
 	 */
 	function widget( $args, $instance ) {
 
@@ -174,11 +180,13 @@ endif;
 
 		return $instance;
 	}
+
 	/**
 	 * Form.
 	 *
-	 * @param  [type] $instance [description].
-	 * @return {[type]           [description].
+	 * @access public
+	 * @param mixed $instance Instance.
+	 * @return void
 	 */
 	function form( $instance ) {
 
