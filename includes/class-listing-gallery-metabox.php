@@ -167,7 +167,7 @@ class WPLPRO_Meta_Box_Listing_Images {
 	// 	<!-- This works -->
  // 		<!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js"></script> -->
  // 		<!-- TODO: Turn it into a registered and then enqueued script with PROPER LINKING -->
- // 		< ?php
+ // 		< ? 	php
 // 		wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js', array('jquery'), null, true );
 // 	}
 //
