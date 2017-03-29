@@ -29,8 +29,6 @@ class wplpro_taxonomies {
 	 */
 	var $menu_page = 'register-taxonomies';
 
-
-
 	/**
 	 * Construct Method.
 	 */
