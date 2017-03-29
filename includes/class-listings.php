@@ -107,6 +107,8 @@ class WP_Listings {
 		add_action( 'admin_init', array( &$this, 'add_options' ) );
 		add_action( 'admin_menu', array( &$this, 'settings_init' ), 15 );
 
+		add_action( 'save_post', 'WPLPRO_Meta_Box_Listing_Images::save', 20, 2 );
+		add_action( 'save_post', 'WPLPRO_Meta_Box_Listing_Docs::save', 20, 2 );
 	}
 
 	/**
@@ -179,7 +181,7 @@ class WP_Listings {
 				'menu_icon'		=> 'dashicons-admin-home',
 				'has_archive'	=> true,
 				'supports'		=> array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown' ),
-				'rewrite'		=> array( 'slug' => $this->options['wplpro_listings_slug'], 'feeds' => true, 'with_front' => false ),
+				//'rewrite'		=> array( 'slug' => $this->options['wplpro_listings_slug'], 'feeds' => true, 'with_front' => false ),
 			)
 		);
 
@@ -194,6 +196,9 @@ class WP_Listings {
 	function register_meta_boxes() {
 		add_meta_box( 'listing_details_metabox', __( 'Property Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
+
+		add_meta_box( 'wplpro-listing-images', __( 'Photo Gallery', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Images::output', 'listing', 'normal', 'high' );
+		add_meta_box( 'wplpro-listing-docs', __( 'Documents', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Docs::output', 'listing', 'normal', 'high' );
 
 	}
 	/**

@@ -121,6 +121,7 @@ function wplpro_init() {
 	require_once( dirname( __FILE__ ) . '/includes/widgets/class-featured-listings-widget.php' );
 	require_once( dirname( __FILE__ ) . '/includes/widgets/class-employee-widget.php' );
 
+	require_once( dirname( __FILE__ ) . '/includes/class-listing-gallery-metabox.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-listing-import.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-agent-import.php' );
 
@@ -225,6 +226,7 @@ function wplpro_init() {
 		wp_enqueue_style( 'wplpro_agents_admin_css', WPLPRO_URL . 'assets/css/wplpro-agents-admin.min.css' );
 
 		wp_enqueue_script( 'wplpro-agents-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
+
 
 		$localize_script = array(
 			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
@@ -379,4 +381,3 @@ function wp_listings_register_widgets() {
 function wplpro_agents_migrate() {
 	new WPLPRO_Agents_Migrate();
 }
-
