@@ -126,12 +126,19 @@ class WP_Listings {
 		$new_options = array(
 			'wplpro_archive_posts_num' => 9,
 			'wplpro_listings_slug' => 'listings',
+			'wplpro_archive_agent_num' => 9,
+			'wplpro_employee_slug' => 'employees',
 		);
 
 		if ( empty( $this->options['wplpro_listings_slug'] ) && empty( $this->options['wplpro_archive_posts_num'] ) ) {
 			add_option( 'wplpro_plugin_settings', $new_options );
 		}
 
+
+
+		if ( empty( $this->options['wplpro_employee_slug'] ) && empty( $this->options['wplpro_archive_agent_num'] ) ) {
+			add_option( 'wplpro_plugin_settings', $new_options );
+		}
 	}
 
 	/**

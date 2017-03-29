@@ -73,33 +73,11 @@ class WPLPRO_Agents {
 		add_action( 'save_post', array( $this, 'metabox_save' ), 1, 2 );
 
 
-		add_action( 'admin_init', array( &$this, 'add_options' ) );
 
 
-	}
-
-	/**
-	 * Registers the option to load the stylesheet
-	 */
-	function register_settings() {
-		register_setting( 'wplpro_options', 'wplpro_agents_settings' );
-	}
-
-	/**
-	 * Sets default slug and default post number in options
-	 */
-	function add_options() {
-
-		$new_options = array(
-			'wplpro_archive_posts_num' => 9,
-			'wplpro_slug' => 'employees',
-		);
-
-		if ( empty( $this->options['wplpro_slug'] ) && empty( $this->options['wplpro_archive_posts_num'] ) ) {
-			add_option( 'wplpro_agents_settings', $new_options );
-		}
 
 	}
+
 
 
 	/**
