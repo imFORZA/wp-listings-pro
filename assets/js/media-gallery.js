@@ -1,19 +1,19 @@
-var product_gallery_frame;
+var listing_image_gallery_frame;
 var $image_gallery_ids  = jQuery( '#listing_image_gallery' );
-var $product_images     = jQuery( '#listing_images_container' ).find( 'ul.listing_images' );
+var $listing_images     = jQuery( '#listing_images_container' ).find( 'ul.listing_images' );
 jQuery('.add_listing_images').on('click', 'a', function(event){
   var $el = jQuery( this );
 
   event.preventDefault();
 
   // If the media frame already exists, reopen it.
-  if ( product_gallery_frame ) {
-      product_gallery_frame.open();
+  if ( listing_image_gallery_frame ) {
+      listing_image_gallery_frame.open();
       return;
   }
 
   // Create the media frame.
-  product_gallery_frame = wp.media.frames.product_gallery = wp.media({
+  listing_image_gallery_frame = wp.media.frames.listing_image_gallery = wp.media({
       // Set the title of the modal.
       title: $el.data( 'choose' ),
       button: {
@@ -28,9 +28,9 @@ jQuery('.add_listing_images').on('click', 'a', function(event){
       ]
   });
   // When an image is selected, run a callback.
-  product_gallery_frame.on( 'select', function() {
+  listing_image_gallery_frame.on( 'select', function() {
       console.log("selected");
-      var selection = product_gallery_frame.state().get( 'selection' );
+      var selection = listing_image_gallery_frame.state().get( 'selection' );
       var attachment_ids = $image_gallery_ids.val();
 
       selection.map( function( attachment ) {
@@ -48,7 +48,7 @@ jQuery('.add_listing_images').on('click', 'a', function(event){
 							console.log(attachment.url);
               var attachment_image = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
 
-              $product_images.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_image + '" /><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
+              $listing_images.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_image + '" /><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
           }
       });
 
@@ -56,7 +56,7 @@ jQuery('.add_listing_images').on('click', 'a', function(event){
   });
 
   // Finally, open the modal.
-  product_gallery_frame.open();
+  listing_image_gallery_frame.open();
 });
 
 jQuery( '#listing_images_container' ).find( 'ul.listing_images' ).sortable({
@@ -107,20 +107,20 @@ jQuery( '#listing_images_container' ).on( 'click', 'a.delete', function() {
 });
 
 // var $video_gallery_ids  = jQuery( '#listing_video_gallery' );
-// var $product_videos     = jQuery( '#listing_videos_container' ).find( 'ul.listing_videos' );
+// var $listing_videos     = jQuery( '#listing_videos_container' ).find( 'ul.listing_videos' );
 // jQuery('.add_listing_videos').on('click', 'a', function(event){
 //   var $el = jQuery( this );
 //
 //   event.preventDefault();
 //
 //   // If the media frame already exists, reopen it.
-//   if ( product_gallery_frame ) {
-//       product_gallery_frame.open();
+//   if ( listing_gallery_frame ) {
+//       listing_gallery_frame.open();
 //       return;
 //   }
 //
 //   // Create the media frame.
-//   product_gallery_frame = wp.media.frames.product_gallery = wp.media({
+//   listing_gallery_frame = wp.media.frames.listing_gallery = wp.media({
 //       // Set the title of the modal.
 //       title: $el.data( 'choose' ),
 //       button: {
@@ -135,9 +135,9 @@ jQuery( '#listing_images_container' ).on( 'click', 'a.delete', function() {
 //       ]
 //   });
 //   // When an video is selected, run a callback.
-//   product_gallery_frame.on( 'select', function() {
+//   listing_gallery_frame.on( 'select', function() {
 //       console.log("selected");
-//       var selection = product_gallery_frame.state().get( 'selection' );
+//       var selection = listing_gallery_frame.state().get( 'selection' );
 //       var attachment_ids = $video_gallery_ids.val();
 //
 //       selection.map( function( attachment ) {
@@ -155,7 +155,7 @@ jQuery( '#listing_images_container' ).on( 'click', 'a.delete', function() {
 // 							console.log(attachment.url);
 //               var attachment_video = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
 //
-//               $product_videos.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_video + '" /><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
+//               $listing_videos.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_video + '" /><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
 //           }
 //       });
 //
@@ -163,7 +163,7 @@ jQuery( '#listing_images_container' ).on( 'click', 'a.delete', function() {
 //   });
 //
 //   // Finally, open the modal.
-//   product_gallery_frame.open();
+//   listing_gallery_frame.open();
 // });
 //
 // jQuery( '#listing_videos_container' ).find( 'ul.listing_videos' ).sortable({
@@ -213,22 +213,22 @@ jQuery( '#listing_images_container' ).on( 'click', 'a.delete', function() {
 // 	return false;
 // });
 
-
+var listing_doc_gallery_frame;
 var $doc_gallery_ids  = jQuery( '#listing_doc_gallery' );
-var $product_docs     = jQuery( '#listing_docs_container' ).find( 'ul.listing_docs' );
+var $listing_docs     = jQuery( '#listing_docs_container' ).find( 'ul.listing_docs' );
 jQuery('.add_listing_docs').on('click', 'a', function(event){
   var $el = jQuery( this );
 
   event.preventDefault();
 
   // If the media frame already exists, reopen it.
-  if ( product_gallery_frame ) {
-      product_gallery_frame.open();
+  if ( listing_doc_gallery_frame ) {
+      listing_doc_gallery_frame.open();
       return;
   }
 
   // Create the media frame.
-  product_gallery_frame = wp.media.frames.product_gallery = wp.media({
+  listing_doc_gallery_frame = wp.media.frames.listing_doc_gallery = wp.media({
       // Set the title of the modal.
       title: $el.data( 'choose' ),
       button: {
@@ -243,9 +243,9 @@ jQuery('.add_listing_docs').on('click', 'a', function(event){
       ]
   });
   // When an doc is selected, run a callback.
-  product_gallery_frame.on( 'select', function() {
+  listing_doc_gallery_frame.on( 'select', function() {
       console.log("selected");
-      var selection = product_gallery_frame.state().get( 'selection' );
+      var selection = listing_doc_gallery_frame.state().get( 'selection' );
       var attachment_ids = $doc_gallery_ids.val();
 
       selection.map( function( attachment ) {
@@ -263,7 +263,7 @@ jQuery('.add_listing_docs').on('click', 'a', function(event){
 							console.log(attachment.url);
               var attachment_doc = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
 
-              $product_docs.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_doc + '" /><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
+              $listing_docs.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_doc + '" /><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
           }
       });
 
@@ -271,7 +271,7 @@ jQuery('.add_listing_docs').on('click', 'a', function(event){
   });
 
   // Finally, open the modal.
-  product_gallery_frame.open();
+  listing_doc_gallery_frame.open();
 });
 
 jQuery( '#listing_docs_container' ).find( 'ul.listing_docs' ).sortable({
