@@ -309,7 +309,7 @@ function wplpro_init() {
 	}
 	add_action( 'admin_enqueue_scripts', 'wp_listings_admin_scripts_styles' );
 
-	/** Instantiate */
+	/** Instantiate. */
 	$_wp_listings = new WP_Listings;
 	$_wplpro_taxonomies = new wplpro_taxonomies;
 
@@ -332,7 +332,7 @@ function wplpro_init() {
 	}
 
 	/**
-	 * Admin notice AJAX callback
+	 * Admin notice AJAX callback.
 	 *
 	 * @since  1.3
 	 */
@@ -352,7 +352,7 @@ function wplpro_init() {
 }
 
 /**
- * Register Widgets that will be used in the WP Listings plugin
+ * Register Widgets that will be used in the WP Listings plugin.
  *
  * @since 0.1.0
  */
