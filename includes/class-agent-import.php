@@ -434,13 +434,13 @@ function wplpro_agents_idx_agent_setting_page() {
 			settings_fields( 'wplpro_agents_idx_agent_settings_group' );
 			do_settings_sections( 'wplpro_agents_idx_agent_settings_group' );
 
-			// No agents found
+			// No agents found.
 			if ( ! $agents ) {
 				echo 'No agents found.';
 				return;
 			}
 
-			// Loop through agents
+			// Loop through agents.
 			foreach ( $agents as $agent ) {
 				foreach ( $agent as $a ) {
 
