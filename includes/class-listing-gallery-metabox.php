@@ -242,30 +242,6 @@ class WPLPRO_Meta_Box_Listing_Images {
 
  							echo '<li class="image" data-attachment_id="' . esc_attr( $attachment_id ) . '">
 							' .  $attachment . '
-							<style>
-								.image .filename{
-									-webkit-font-smoothing: subpixel-antialiased;
-									font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-									font-size: 12px;
-									user-select: none;
-									color: #444;
-									cursor: pointer;
-									display: block;
-									outline: 0;
-									position: absolute;
-							    left: 0;
-							    right: 0;
-							    bottom: 0;
-							    overflow: hidden;
-							    max-height: 100%;
-							    word-wrap: break-word;
-							    text-align: center;
-							    font-weight: 600;
-							    background: rgba(255,255,255,.8);
-							    -webkit-box-shadow: inset 0 0 0 1px rgba(0,0,0,.15);
-							    box-shadow: inset 0 0 0 1px rgba(0,0,0,.15);
-								}
-							</style>
 							<div class="filename"><div>' .
 								get_the_title($attachment_id) . '.' . $attachment_filetype
 							. ' </div></div>
