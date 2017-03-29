@@ -92,6 +92,7 @@ function wplpro_init() {
 	/** Make sure is_plugin_active() can be called. */
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
+	// Check for Genesis Agent Profiles Plugin.
 	if ( is_plugin_active( 'genesis-agent-profiles/plugin.php' ) ) {
 		add_action( 'wp_loaded', 'wplpro_agents_migrate' );
 	}
