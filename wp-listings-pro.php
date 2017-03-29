@@ -51,6 +51,9 @@ function wplpro_activation() {
 	foreach ( $notice_keys as $notice ) {
 		delete_user_meta( get_current_user_id(), $notice );
 	}
+
+	// Welcome Page Transient max age is 60 seconds.
+    set_transient( '_welcome_redirect_wplpro', true, 60 );
 }
 
 register_deactivation_hook( __FILE__, 'wplpro_deactivation' );
@@ -67,6 +70,8 @@ function wplpro_deactivation() {
 	foreach ( $notice_keys as $notice ) {
 		delete_user_meta( get_current_user_id(), $notice );
 	}
+
+	delete_transient( '_welcome_redirect_wplpro' );
 }
 
 add_action( 'after_setup_theme', 'wplpro_init' );
@@ -101,6 +106,7 @@ function wplpro_init() {
 	require_once( dirname( __FILE__ ) . '/includes/class-listings.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-agents.php' );
 
+
 	require_once( dirname( __FILE__ ) . '/includes/helpers.php' );
 	require_once( dirname( __FILE__ ) . '/includes/functions.php' );
 	require_once( dirname( __FILE__ ) . '/includes/shortcodes.php' );
@@ -119,6 +125,18 @@ function wplpro_init() {
 	require_once( dirname( __FILE__ ) . '/includes/class-agent-import.php' );
 
 	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
+
+
+
+
+
+
+    require_once( dirname( __FILE__ ) . '/welcome/welcome-logic.php' );
+
+
+
+
+
 
 	/** Instantiate */
 	$_wplpro_agents = new WPLPRO_Agents;
