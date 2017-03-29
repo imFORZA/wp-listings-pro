@@ -250,7 +250,7 @@ jQuery('.add_listing_docs').on('click', 'a', function(event){
 
       selection.map( function( attachment ) {
           attachment = attachment.toJSON();
-
+					console.log(attachment);
           if ( attachment.id ) {
 							var el = attachment.url.split(".")[attachment.url.split(".").length-1].toLowerCase();
 							console.log(el);
@@ -260,10 +260,15 @@ jQuery('.add_listing_docs').on('click', 'a', function(event){
 								return;
 							}
               attachment_ids   = attachment_ids ? attachment_ids + ',' + attachment.id : attachment.id;
-							console.log(attachment.url);
-              var attachment_doc = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
+              //var attachment_doc = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
+							var attachment_doc;
+							if(el == "xls" || el == "xlsx"){
+								attachment_doc = "/wp-includes/images/media/spreadsheet.png";
+							}else{
+								attachment_doc = "/wp-includes/images/media/document.png";
+							}
 
-              $listing_docs.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_doc + '" /><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
+              $listing_docs.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_doc + '" /><div class="filename"><div>' + attachment.filename + '</div></div><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
           }
       });
 
