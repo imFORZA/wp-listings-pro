@@ -212,22 +212,7 @@ class WP_Listings {
 	function listing_features_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-features-metabox.php' );
 	}
-	/**
-	 * [agentevo_metabox description]
-	 *
-	 * @return {[type] [description]
-	 */
-	function agentevo_metabox() {
-		include( dirname( __FILE__ ) . '/views/agentevo-metabox.php' );
-	}
-	/**
-	 * [idx_metabox description]
-	 *
-	 * @return {[type] [description]
-	 */
-	function idx_metabox() {
-		include( dirname( __FILE__ ) . '/views/idx-metabox.php' );
-	}
+
 	/**
 	 * [metabox_save description]
 	 *
