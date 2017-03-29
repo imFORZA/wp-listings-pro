@@ -104,7 +104,7 @@ function wplpro_init() {
 	require_once( dirname( __FILE__ ) . '/includes/shortcodes.php' );
 
 	require_once( dirname( __FILE__ ) . '/includes/class-taxonomies.php' );
-	require_once( dirname( __FILE__ ) . '/includes/class-listing-template.php' );
+
 
 	require_once( dirname( __FILE__ ) . '/includes/class-admin-notice.php' );
 	require_once( dirname( __FILE__ ) . '/includes/wp-api.php' );
@@ -290,7 +290,6 @@ function wplpro_init() {
 	/** Instantiate */
 	$_wp_listings = new WP_Listings;
 	$_wplpro_taxonomies = new wplpro_taxonomies;
-	$_wp_listings_templates = new Single_Listing_Template;
 
 	add_action( 'widgets_init', 'wp_listings_register_widgets' );
 
