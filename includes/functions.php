@@ -32,7 +32,7 @@ function wplpro_template_include( $template ) {
 			$template = get_stylesheet_directory() . '/search-' . $post_type . '.php';
 			return $template;
 		} else {
-			return dirname( __FILE__ ) . '/views/archive-' . $post_type . '.php';
+			return WPLPRO_DIR . '/templates/archive-' . $post_type . '.php';
 		}
 	}
 	if ( wplpro_is_taxonomy_of( $post_type ) ) {
@@ -41,7 +41,7 @@ function wplpro_template_include( $template ) {
 		} elseif ( file_exists( get_stylesheet_directory() . '/archive-' . $post_type . '.php' ) ) {
 			return get_stylesheet_directory() . '/archive-' . $post_type . '.php';
 		} else {
-			return dirname( __FILE__ ) . '/views/archive-' . $post_type . '.php';
+			return WPLPRO_DIR . '/templates/archive-' . $post_type . '.php';
 		}
 	}
 
@@ -50,7 +50,7 @@ function wplpro_template_include( $template ) {
 			$template = get_stylesheet_directory() . '/archive-' . $post_type . '.php';
 			return $template;
 		} else {
-			return dirname( __FILE__ ) . '/views/archive-' . $post_type . '.php';
+			return WPLPRO_DIR . '/templates/archive-' . $post_type . '.php';
 		}
 	}
 
@@ -60,13 +60,13 @@ function wplpro_template_include( $template ) {
 
 		$custom_template = get_post_meta( $post->ID, '_wp_post_template', true );
 
-		/** Prevent directory traversal */
+		/** Prevent directory traversal. */
 		$custom_template = str_replace( '..', '', $custom_template );
 
 		if ( ! $custom_template ) {
 			if ( file_exists( get_stylesheet_directory() . '/single-' . $post_type . '.php' ) ) {
 				return $template;
-			} else { return dirname( __FILE__ ) . '/views/single-' . $post_type . '.php';
+			} else { return WPLPRO_DIR . '/templates/single-' . $post_type . '.php';
 			}
 		} elseif ( file_exists( get_stylesheet_directory() . "/{$custom_template}" ) ) {
 				$template = get_stylesheet_directory() . "/{$custom_template}";
@@ -399,7 +399,7 @@ function wplpro_template_include_employee( $template ) {
 			$template = get_stylesheet_directory() . '/search-' . $post_type . '.php';
 			return $template;
 		} else {
-			return dirname( __FILE__ ) . '/views/archive-' . $post_type . '.php';
+			return WPLPRO_DIR . '/templates/archive-' . $post_type . '.php';
 		}
 	}
 	if ( wplpro_is_taxonomy_of( $post_type ) ) {
@@ -408,7 +408,7 @@ function wplpro_template_include_employee( $template ) {
 		} elseif ( file_exists( get_stylesheet_directory() . '/archive-' . $post_type . '.php' ) ) {
 			return get_stylesheet_directory() . '/archive-' . $post_type . '.php';
 		} else {
-			return dirname( __FILE__ ) . '/views/archive-' . $post_type . '.php';
+			return WPLPRO_DIR . '/templates/archive-' . $post_type . '.php';
 		}
 	}
 
@@ -417,14 +417,14 @@ function wplpro_template_include_employee( $template ) {
 			$template = get_stylesheet_directory() . '/archive-' . $post_type . '.php';
 			return $template;
 		} else {
-			return dirname( __FILE__ ) . '/views/archive-' . $post_type . '.php';
+			return WPLPRO_DIR . '/templates/archive-' . $post_type . '.php';
 		}
 	}
 
 	if ( is_single() && get_post_type() === $post_type ) {
 		if ( file_exists( get_stylesheet_directory() . '/single-' . $post_type . '.php' ) ) {
 			return $template;
-		} else { return dirname( __FILE__ ) . '/views/single-' . $post_type . '.php';
+		} else { return WPLPRO_DIR . '/templates/single-' . $post_type . '.php';
 		}
 	}
 
@@ -610,7 +610,7 @@ function wplpro_get_job_types( $post_id = null ) {
 }
 
 /**
- * Displays the office of a employee
+ * Displays the office of a employee.
  */
 function wplpro_get_offices( $post_id = null ) {
 
@@ -631,10 +631,10 @@ function wplpro_get_offices( $post_id = null ) {
 }
 
 /**
- * wplpro_post_number function.
+ * WPLPRO Post Number.
  *
  * @access public
- * @param mixed $query
+ * @param mixed $query Query.
  * @return void
  */
 function wplpro_post_number( $query ) {
@@ -659,7 +659,7 @@ add_action( 'pre_get_posts', 'wplpro_post_number' );
 
 
 /**
- * Add Employees to Jetpack Omnisearch
+ * Add Employees to Jetpack Omnisearch.
  */
 if ( class_exists( 'Jetpack_Omnisearch_Posts' ) ) {
 	new Jetpack_Omnisearch_Posts( 'employee' );
