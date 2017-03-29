@@ -59,7 +59,7 @@ function wplpro_welcome_page() {
   $wplpro_sub_menu = add_submenu_page(
       'plugins.php', // The slug name for the parent menu (or the file name of a standard WordPress admin page).
       __( 'Welcome to WP Listings Pro', 'wp-listings-pro' ), // The text to be displayed in the title tags of the page when the menu is selected.
-      __( 'Welcome', 'wp-listings-pro' ), // The text to be used for the menu.
+      __( 'WP Listing Pro', 'wp-listings-pro' ), // The text to be used for the menu.
       'read', // The capability required for this menu to be displayed to the user.
       'wplpro_welcome_page', // The slug name to refer to this menu by (should be unique for this menu).
       'wplpro_welcome_page_content' // The function to be called to output the content for this page.
