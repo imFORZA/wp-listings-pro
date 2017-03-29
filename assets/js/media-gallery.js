@@ -56,7 +56,7 @@ function foobar_gallery_popup(listing_gallery_frame, link, gallery_id, listing_i
               // Formatting errors in preparation for eventually turning these blocks into a function.
               var s = check_types($image_types, el);
               if(s != true){
-                alert(s);
+                wrong_filetype(s);
                 return;
               }
               attachment_ids   = attachment_ids ? attachment_ids + ',' + attachment.id : attachment.id;
@@ -69,7 +69,7 @@ function foobar_gallery_popup(listing_gallery_frame, link, gallery_id, listing_i
               // Formatting errors in preparation for eventually turning these blocks into a function.
               var s = check_types($image_types, el);
               if(s != true){
-                alert(s);
+                wrong_filetype(s);
                 return;
               }
 
@@ -139,6 +139,12 @@ function foobar_gallery_popup(listing_gallery_frame, link, gallery_id, listing_i
 
   	return false;
   });
+}
+
+function wrong_filetype(s){
+	jQuery('.wrong-filetype').remove();
+	jQuery('<div class="notice notice-error wrong-filetype"><h2>' + s + '</h2></div>').insertAfter( jQuery(".wp-header-end") );
+	jQuery("html, body").animate({ scrollTop: 0}, "fast");
 }
 
 function check_types(types, el){
