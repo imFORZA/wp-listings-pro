@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Settings page */
 .js #idx_metabox .handlediv,
 #idx_metabox h2.hndle {
@@ -6,6 +7,221 @@
 .js #equity_metabox .handlediv,
 #equity_metabox h2.hndle {
   display: none; }
+
+/* listing gallery */
+#wplpro-listing-images .inside {
+  margin: 0;
+  padding: 0; }
+  #wplpro-listing-images .inside .add_listing_images {
+    padding: 0 12px 12px; }
+  #wplpro-listing-images .inside #listing_images_container {
+    padding: 0 0 0 9px; }
+    #wplpro-listing-images .inside #listing_images_container ul {
+      *zoom: 1;
+      margin: 0;
+      padding: 0; }
+      #wplpro-listing-images .inside #listing_images_container ul:before, #wplpro-listing-images .inside #listing_images_container ul:after {
+        content: " ";
+        display: table; }
+      #wplpro-listing-images .inside #listing_images_container ul:after {
+        clear: both; }
+      #wplpro-listing-images .inside #listing_images_container ul li.image,
+      #wplpro-listing-images .inside #listing_images_container ul li.add,
+      #wplpro-listing-images .inside #listing_images_container ul li.wc-metabox-sortable-placeholder {
+        width: 80px;
+        float: left;
+        cursor: move;
+        border: 1px solid #d5d5d5;
+        margin: 9px 9px 0 0;
+        background: #f7f7f7;
+        border-radius: 2px;
+        position: relative;
+        box-sizing: border-box; }
+        #wplpro-listing-images .inside #listing_images_container ul li.image img,
+        #wplpro-listing-images .inside #listing_images_container ul li.add img,
+        #wplpro-listing-images .inside #listing_images_container ul li.wc-metabox-sortable-placeholder img {
+          width: 100%;
+          height: auto;
+          display: block; }
+      #wplpro-listing-images .inside #listing_images_container ul li.wc-metabox-sortable-placeholder {
+        border: 3px dashed #dddddd;
+        position: relative; }
+        #wplpro-listing-images .inside #listing_images_container ul li.wc-metabox-sortable-placeholder:after {
+          font-family: 'Dashicons';
+          speak: none;
+          font-weight: normal;
+          font-variant: normal;
+          text-transform: none;
+          line-height: 1;
+          -webkit-font-smoothing: antialiased;
+          margin: 0;
+          text-indent: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          content: "";
+          font-size: 2.618em;
+          line-height: 72px;
+          color: #ddd; }
+      #wplpro-listing-images .inside #listing_images_container ul ul.actions {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        padding: 2px;
+        display: none; }
+        #wplpro-listing-images .inside #listing_images_container ul ul.actions li {
+          float: right;
+          margin: 0 0 0 2px; }
+          #wplpro-listing-images .inside #listing_images_container ul ul.actions li a {
+            width: 1em;
+            height: 1em;
+            margin: 0;
+            height: 0;
+            display: block;
+            overflow: hidden; }
+            #wplpro-listing-images .inside #listing_images_container ul ul.actions li a.tips {
+              cursor: pointer; }
+          #wplpro-listing-images .inside #listing_images_container ul ul.actions li a.delete {
+            display: block;
+            text-indent: -99999px;
+            position: relative;
+            height: 1em;
+            width: 1em;
+            font-size: 1.4em; }
+            #wplpro-listing-images .inside #listing_images_container ul ul.actions li a.delete:before {
+              font-family: 'Dashicons';
+              speak: none;
+              font-weight: normal;
+              font-variant: normal;
+              text-transform: none;
+              line-height: 1;
+              -webkit-font-smoothing: antialiased;
+              margin: 0;
+              text-indent: 0;
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              text-align: center;
+              content: "";
+              color: #999; }
+            #wplpro-listing-images .inside #listing_images_container ul ul.actions li a.delete:hover:before {
+              color: red; }
+      #wplpro-listing-images .inside #listing_images_container ul li:hover ul.actions {
+        display: block; }
+
+#wplpro-listing-docs .inside {
+  margin: 0;
+  padding: 0; }
+  #wplpro-listing-docs .inside .add_listing_docs {
+    padding: 0 12px 12px; }
+  #wplpro-listing-docs .inside #listing_docs_container {
+    padding: 0 0 0 9px; }
+    #wplpro-listing-docs .inside #listing_docs_container ul {
+      *zoom: 1;
+      margin: 0;
+      padding: 0; }
+      #wplpro-listing-docs .inside #listing_docs_container ul:before, #wplpro-listing-docs .inside #listing_docs_container ul:after {
+        content: " ";
+        display: table; }
+      #wplpro-listing-docs .inside #listing_docs_container ul:after {
+        clear: both; }
+      #wplpro-listing-docs .inside #listing_docs_container ul li.image,
+      #wplpro-listing-docs .inside #listing_docs_container ul li.add,
+      #wplpro-listing-docs .inside #listing_docs_container ul li.wc-metabox-sortable-placeholder {
+        width: 110px;
+        height: 110px;
+        float: left;
+        cursor: move;
+        border: 1px solid #d5d5d5;
+        margin: 9px 9px 0 0;
+        background: #f7f7f7;
+        border-radius: 2px;
+        position: relative;
+        box-sizing: border-box; }
+        #wplpro-listing-docs .inside #listing_docs_container ul li.image img,
+        #wplpro-listing-docs .inside #listing_docs_container ul li.add img,
+        #wplpro-listing-docs .inside #listing_docs_container ul li.wc-metabox-sortable-placeholder img {
+          width: 40%;
+          margin: 22px 33px;
+          height: 60%;
+          display: block; }
+      #wplpro-listing-docs .inside #listing_docs_container ul li.image {
+        margin: 22px 33px 0 0; }
+      #wplpro-listing-docs .inside #listing_docs_container ul li.wc-metabox-sortable-placeholder {
+        border: 3px dashed #dddddd;
+        position: relative; }
+        #wplpro-listing-docs .inside #listing_docs_container ul li.wc-metabox-sortable-placeholder:after {
+          font-family: 'Dashicons';
+          speak: none;
+          font-weight: normal;
+          font-variant: normal;
+          text-transform: none;
+          line-height: 1;
+          -webkit-font-smoothing: antialiased;
+          margin: 0;
+          text-indent: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          content: "";
+          font-size: 2.618em;
+          line-height: 72px;
+          color: #ddd; }
+      #wplpro-listing-docs .inside #listing_docs_container ul ul.actions {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        padding: 2px;
+        display: none; }
+        #wplpro-listing-docs .inside #listing_docs_container ul ul.actions li {
+          float: right;
+          margin: 0 0 0 2px; }
+          #wplpro-listing-docs .inside #listing_docs_container ul ul.actions li a {
+            width: 1em;
+            height: 1em;
+            margin: 0;
+            height: 0;
+            display: block;
+            overflow: hidden; }
+            #wplpro-listing-docs .inside #listing_docs_container ul ul.actions li a.tips {
+              cursor: pointer; }
+          #wplpro-listing-docs .inside #listing_docs_container ul ul.actions li a.delete {
+            display: block;
+            text-indent: -99999px;
+            position: relative;
+            height: 1em;
+            width: 1em;
+            font-size: 1.4em; }
+            #wplpro-listing-docs .inside #listing_docs_container ul ul.actions li a.delete:before {
+              font-family: 'Dashicons';
+              speak: none;
+              font-weight: normal;
+              font-variant: normal;
+              text-transform: none;
+              line-height: 1;
+              -webkit-font-smoothing: antialiased;
+              margin: 0;
+              text-indent: 0;
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              text-align: center;
+              content: "";
+              color: #999; }
+            #wplpro-listing-docs .inside #listing_docs_container ul ul.actions li a.delete:hover:before {
+              color: red; }
+      #wplpro-listing-docs .inside #listing_docs_container ul li:hover ul.actions {
+        display: block; }
 
 .idx-import-option {
   width: 30%;
