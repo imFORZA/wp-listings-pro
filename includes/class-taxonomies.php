@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * This file contains the wplpro_taxonomies class.
  */
@@ -29,15 +29,7 @@ class wplpro_taxonomies {
 	 */
 	var $menu_page = 'register-taxonomies';
 
-	/**
-	 * Reorder_page
-	 *
-	 * (default value: 'reorder-taxonomies')
-	 *
-	 * @var string
-	 * @access public
-	 */
-	var $reorder_page = 'reorder-taxonomies';
+
 
 	/**
 	 * Construct Method.
@@ -48,7 +40,7 @@ class wplpro_taxonomies {
 		add_action( 'admin_menu', array( &$this, 'settings_init' ), 15 );
 		add_action( 'admin_init', array( &$this, 'actions' ) );
 		add_action( 'admin_notices', array( &$this, 'notices' ) );
-		add_action( 'admin_enqueue_scripts', array( &$this, 'tax_reorder_enqueue' ) );
+		// add_action( 'admin_enqueue_scripts', array( &$this, 'tax_reorder_enqueue' ) );
 
 		add_action( 'init', array( &$this, 'register_taxonomies' ), 15 );
 		add_action( 'init', array( $this, 'create_terms' ), 16 );
@@ -94,7 +86,6 @@ class wplpro_taxonomies {
 	function settings_init() {
 
 		add_submenu_page( 'edit.php?post_type=listing', __( 'Register Taxonomies', 'wp-listings-pro' ), __( 'Register Taxonomies', 'wp-listings-pro' ), 'manage_options', $this->menu_page, array( &$this, 'admin' ) );
-		add_submenu_page( 'edit.php?post_type=listing', __( 'Reorder Taxonomies', 'wp-listings-pro' ), __( 'Reorder Taxonomies', 'wp-listings-pro' ), 'manage_options', $this->reorder_page, array( &$this, 'tax_reorder' ) );
 
 	}
 
@@ -127,15 +118,6 @@ class wplpro_taxonomies {
 
 	}
 
-	/**
-	 * Tax_reorder_enqueue function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function tax_reorder_enqueue() {
-		wp_enqueue_script( 'jquery-ui-sortable' );
-	}
 
 	/**
 	 * Admin function.
@@ -703,57 +685,6 @@ class wplpro_taxonomies {
 	    </tr>
 	<?php }
 
-	/**
-	 * Reorder taxonomies
-	 */
-	function tax_reorder() {
-		$wp_listings_taxes = get_option( 'wplpro_taxonomies' );
-
-		if ( $_POST ) {
-			$new_order = $_POST['wp_listings_taxonomy'];
-			$wp_listings_taxes_reordered = array();
-			foreach ( $new_order as $tax ) {
-				if ( $wp_listings_taxes[ $tax ] ) {
-					$wp_listings_taxes_reordered[ $tax ] = $wp_listings_taxes[ $tax ];
-				}
-			}
-			$wp_listings_taxes = $wp_listings_taxes_reordered;
-			update_option( 'wplpro_taxonomies', $wp_listings_taxes_reordered );
-
-		}?>
-	<h2><?php esc_html_e( 'Reorder Taxonomies', 'wp-listings-pro' ); ?></h2>
-	<div id="col-container">
-		<div class="updated"><?php esc_html_e( 'Note: This will only allow you to reorder user-created taxonomies. Default taxonomies cannot be reordered (Status, Locations, Property Types, Features).', 'wp-listings-pro' ); ?> </div>
-		<style>
-#sortable{list-style-type:none;margin:10px 0;padding:0}#sortable li .item{-moz-border-radius:6px 6px 6px 6px;border:1px solid #e6e6e6;font-weight:bold;height:auto;line-height:35px;overflow:hidden;padding-left:10px;position:relative;text-shadow:0 1px 0 white;width:auto;word-wrap:break-word;cursor:move;background:none repeat-x scroll left top #dfdfdf;-moz-box-shadow:2px 2px 3px #888;-webkit-box-shadow:2px 2px 3px #888;box-shadow:2px 2px 3px #888}#sortable li span{position:absolute;margin-left:-1.3em}.ui-state-highlight{background:#e6e6e6;border:1px #666 dashed}.wplpro-submit{padding:5px 10px}.wplpro-submit:hover{background:#eaf2fa;font-weight:bold}
-		</style>
-		<script>
-		jQuery(function($) {
-			jQuery( "#sortable" ).sortable({ placeholder: 'ui-state-highlight', forcePlaceholderSize: true});
-			jQuery( "#sortable" ).disableSelection();
-		});
-		</script>
-		<div id="col-left">
-		<div class="col-wrap">
-	    <p><?php esc_html_e( 'Drag and Drop to reorder', 'wp-listings-pro' ); ?></p>
-		<form method="post">
-		<ul id="sortable">
-	    	<?php foreach ( $wp_listings_taxes as $wp_listings_tax_key => $wp_listings_tax_value ) { ?>
-	        	<li class="ui-state-default">
-	            	<div class="item">
-						<?php echo $wp_listings_tax_value['labels']['name']; ?><input type="hidden" id="wp_listings_taxonomy[]" name="wp_listings_taxonomy[]" value="<?php echo $wp_listings_tax_key; ?>" />
-	                </div>
-	            </li>
-	        <?php } ?>
-		</ul>
-	    <input class="wplistings-submit" type="submit" value="Save" />
-		</form>
-		</div>
-		</div><!-- /col-left -->
-
-	</div><!-- /col-container -->
-	<?php
-	}
 
 }
 
