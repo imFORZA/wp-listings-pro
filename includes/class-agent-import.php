@@ -347,11 +347,11 @@ function wplpro_agents_idx_agent_scripts() {
 		return;
 	}
 
-	wp_enqueue_script( 'wplpro_agents_idx_agent_delete_script', wplpro_AGENTS_URL . '../assets/js/admin-agent-import.min.js', array( 'jquery' ), true );
+	wp_enqueue_script( 'wplpro_agents_idx_agent_delete_script', WPLPRO_URL . '../assets/js/admin-agent-import.min.js', array( 'jquery' ), true );
 	wp_enqueue_script( 'jquery-masonry' );
 	wp_enqueue_script( 'images-loaded', 'https://unpkg.com/imagesloaded@4.1/imagesloaded.pkgd.min.js' );
 	wp_localize_script( 'wplpro_agents_idx_agent_delete_script', 'DeleteAgentAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-	wp_enqueue_style( 'wplpro_agents_idx_agent_style', wplpro_AGENTS_URL . '../assets/css/wplpro-agents-import.min.css' );
+	wp_enqueue_style( 'wplpro_agents_idx_agent_style', WPLPRO_URL . '../assets/css/wplpro-agents-import.min.css' );
 }
 add_action( 'wp_ajax_impa_idx_agent_delete', 'impa_idx_agent_delete' );
 
@@ -463,7 +463,7 @@ function wplpro_agents_idx_agent_setting_page() {
 					printf('<div class="grid-item post"><label for="%s" class="idx-agent"><li class="%s agent"><img class="agent" src="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_agents_idx_agent_options[]" value="%s" %s /><p><span class="agent-name">%s</span><br/><span class="agent-title">%s</span><br/><span class="agent-phone">%s</span><br/><span class="agent-id">Agent ID: %s</span></p><div class="controls">%s %s</div></li></label></div>',
 						$a['agentID'],
 						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ( 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ? 'imported' : '') : '',
-						isset( $a['agentPhotoURL'] ) && $a['agentPhotoURL'] !== '' ? $a['agentPhotoURL'] : wplpro_AGENTS_URL . '../assets/images/wplpro-agents-nophoto.png',
+						isset( $a['agentPhotoURL'] ) && $a['agentPhotoURL'] !== '' ? $a['agentPhotoURL'] : WPLPRO_URL . '../assets/images/wplpro-agents-nophoto.png',
 						$a['agentID'],
 						$a['agentID'],
 						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ( 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ? 'checked' : '') : '',
