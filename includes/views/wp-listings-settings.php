@@ -1,7 +1,6 @@
 <?php
 
 
-
 if ( isset( $_GET['settings-updated'] ) ) { ?>
 	<div id="message" class="updated">
 		<p><strong><?php esc_html_e( 'Settings saved.', 'wp-listings-pro' ); ?></strong></p>
@@ -12,7 +11,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 ?>
 <div id="icon-options-general" class="icon32"></div>
 <div class="wrap">
-	<h1><?php esc_html_e( 'Listings Settings', 'wp-listings-pro' ); ?></h1>
+	<h1><?php esc_html_e( 'WPL Pro', 'wp-listings-pro' ); ?></h1>
 	<hr>
 	<div id="poststuff" class="metabox-holder has-right-sidebar">
 		<div id="side-info-column" class="inner-sidebar">
@@ -76,6 +75,11 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					_e( '<p><input name="wplpro_plugin_settings[wplpro_stylesheet_load]" id="wplpro_stylesheet_load" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_stylesheet_load'], false ) . ' /> Deregister WP Listings main CSS (wp-listings.css)?</p>', 'wp-listings-pro' );
 
 					_e( '<p><input name="wplpro_plugin_settings[wplpro_widgets_stylesheet_load]" id="wplpro_widgets_stylesheet_load" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_widgets_stylesheet_load'], false ) . ' /> Deregister WP Listings widgets CSS (wp-listings-widgets.css)?</p><hr>', 'wp-listings-pro' );
+
+
+
+					_e( '<p>Here you can deregister the Agents CSS files and move to your theme\'s css file for ease of customization</p>', 'wp-listings-pro' );
+					_e( '<p><input name="wplpro_agents_settings[wplpro_stylesheet_load]" id="wplpro_stylesheet_load" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_stylesheet_load'], false ) . ' /> Deregister Agents main CSS (wplpro-agents.css)?</p>', 'wplpro-agents' );
 
 
 					_e( '<h3>Default State</h3><p>You can enter a default state that will automatically be output on template pages and widgets that show the state. When you are create a listing and leave the state field empty, the default entered below will be shown. You can override the default on each listing by entering a value into the state field.</p>', 'wp-listings-pro' );
@@ -271,6 +275,14 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					_e( "<h3>Default Number of Posts</h3><p>The default number of posts displayed on a listing archive page is 9. Here you can set a custom number. Enter <span style='color: #f00;font-weight: 700;'>-1</span> to display all listing posts.<br /><em>If you have more than 20-30 posts, it's not recommended to show all or your page will load slow.</em></p>", 'wp-listings-pro' );
 					_e( '<p>Number of posts on listing archive page: <input name="wplpro_plugin_settings[wplpro_archive_posts_num]" id="wplpro_archive_posts_num" type="text" value="' . $options['wplpro_archive_posts_num'] . '" size="1" /></p><hr>', 'wp-listings-pro' );
 
+
+
+							_e( "<h3>Default Number of Posts</h3><p>The default number of posts displayed on a employee archive page is 9. Here you can set a custom number. Enter <span style='color: #f00;font-weight: 700;'>-1</span> to display all employee posts.<br /><em>If you have more than 20-30 posts, it's not recommended to show all or your page will load slow.</em></p>", 'wp-listings-pro' );
+				    _e( '<p>Number of posts on employee archive page: <input name="wplpro_agents_settings[wplpro_archive_posts_num]" id="wplpro_archive_posts_num" type="text" value="' . $options['wplpro_archive_posts_num'] . '" size="1" /></p><hr>', 'wplpro-agents' );
+
+
+
+
 					_e( '<h3>Default Disclaimer</h3><p>Optionally enter a disclaimer to show on single listings. This can be overridden on individual listings.</p>', 'wp-listings-pro' );
 					_e( '<p><textarea name="wplpro_plugin_settings[wplpro_global_disclaimer]" id="wplpro_global_disclaimer" type="text" value="' . esc_html( $options['wplpro_global_disclaimer'] ) . '" rows="4" style="width: 80%">' . esc_html( $options['wplpro_global_disclaimer'] ) . '</textarea></p><hr>', 'wp-listings-pro' );
 
@@ -293,6 +305,11 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 					_e( '<h3>Listings slug</h3><p>Optionally change the slug of the listing post type<br /><input type="text" name="wplpro_plugin_settings[wplpro_listings_slug]" value="' . $options['wplpro_listings_slug'] . '" /></p>', 'wp-listings-pro' );
 					_e( "<em>Don't forget to <a href='../wp-admin/options-permalink.php'>reset your permalinks</a> if you change the slug!</em></p>", 'wp-listings-pro' );
+
+
+
+					_e( '<h3>Agent slug</h3><p>Optionally change the slug of the employee post type<br /><input type="text" name="wplpro_agents_settings[wplpro_slug]" value="' . $options['wplpro_slug'] . '" /></p>', 'wplpro-agents' );
+					_e( "<em>Don't forget to <a href='../wp-admin/options-permalink.php'>reset your permalinks</a> if you change the slug!</em></p>", 'wplpro-agents' );
 
 
 						_e( '<hr style="margin: 25px 0;"><h3>IDX Imported Listings</h3><p>These settings apply to any imported IDX listings. Imported listings are updated via the latest API response twice daily.</p>', 'wp-listings-pro' );

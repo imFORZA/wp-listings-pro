@@ -138,7 +138,7 @@ class WP_Listings {
 	 * Adds settings page and IDX Import page to admin menu
 	 */
 	function settings_init() {
-		add_submenu_page( 'edit.php?post_type=listing', __( 'Settings', 'wp-listings-pro' ), __( 'Settings', 'wp-listings-pro' ), 'manage_options', $this->settings_page, array( &$this, 'settings_page' ) );
+		add_submenu_page( 'options-general.php', __( 'WPL PRO', 'wp-listings-pro' ), __( 'WPL PRO', 'wp-listings-pro' ), 'manage_options', $this->settings_page, array( &$this, 'settings_page' ) );
 	}
 
 	/**
