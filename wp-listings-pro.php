@@ -226,7 +226,7 @@ function wplpro_init() {
 		wp_enqueue_style( 'wplpro_agents_admin_css', WPLPRO_URL . 'assets/css/wplpro-agents-admin.min.css' );
 
 		wp_enqueue_script( 'wplpro-agents-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
-
+		wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js', array('jquery'), null, true );
 
 		$localize_script = array(
 			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
