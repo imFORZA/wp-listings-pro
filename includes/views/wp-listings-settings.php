@@ -294,7 +294,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					_e( '<h3>Listings slug</h3><p>Optionally change the slug of the listing post type<br /><input type="text" name="wplpro_plugin_settings[wplpro_listings_slug]" value="' . $options['wplpro_listings_slug'] . '" /></p>', 'wp-listings-pro' );
 					_e( "<em>Don't forget to <a href='../wp-admin/options-permalink.php'>reset your permalinks</a> if you change the slug!</em></p>", 'wp-listings-pro' );
 
-					if ( class_exists( 'Idx_Broker_Plugin' ) ) {
+
 						_e( '<hr style="margin: 25px 0;"><h3>IDX Imported Listings</h3><p>These settings apply to any imported IDX listings. Imported listings are updated via the latest API response twice daily.</p>', 'wp-listings-pro' );
 						_e( '<h2>Update Listings</h2>', 'wp-listings-pro' );
 						_e( '<div class="idx-import-option update-all"><label><h4>Update All</h4> <span class="dashicons dashicons-update"></span><input name="wplpro_plugin_settings[wplpro_idx_update]" id="wplpro_idx_update" type="radio" value="update-all" class="code" ' . checked( 'update-all', $options['wplpro_idx_update'], false ) . ' /> <p>Update all imported fields including gallery and featured image. <br /><em>* Excludes Post Title and Post Content</em></p></label></div>', 'wp-listings-pro' );
@@ -311,7 +311,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 						_e( '<p><input name="wplpro_plugin_settings[wplpro_display_idx_link]" id="wplpro_display_idx_link" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_display_idx_link'], false ) . ' /> Display a link to IDX Broker details page?</p><hr style="clear: both;">', 'wp-listings-pro' );
 
 
-					}
+
 
 					_e( '<h3>Delete data on uninstall?</h3>', 'wp-listings-pro' );
 					_e( '<p>Checking this option will delete <strong>all</strong> plugin data when uninstalling the plugin.</p>', 'wp-listings-pro' );
