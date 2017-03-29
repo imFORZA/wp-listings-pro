@@ -234,7 +234,7 @@ function wplpro_init() {
 		);
 
 		/* Pass custom variables to the script. */
-		wp_localize_script( 'wplpro-agents-admin', 'impa_term_image', $localize_script );
+		wp_localize_script( 'wplpro-agents-admin', 'wpmlpro_term_image', $localize_script );
 
 		wp_enqueue_media();
 

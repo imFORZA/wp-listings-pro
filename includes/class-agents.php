@@ -14,7 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  */
 class WPLPRO_Agents {
 
-	var $settings_page = 'wplpro-agents-settings';
 	var $settings_field = 'wplpro_agents_taxonomies';
 	var $menu_page = 'wplpro-agents-taxonomies';
 
@@ -73,48 +72,13 @@ class WPLPRO_Agents {
 		add_action( 'admin_menu', array( $this, 'register_meta_boxes' ), 5 );
 		add_action( 'save_post', array( $this, 'metabox_save' ), 1, 2 );
 
-		add_action( 'admin_init', array( &$this, 'register_settings' ) );
-		add_action( 'admin_init', array( &$this, 'add_options' ) );
-		add_action( 'admin_menu', array( &$this, 'settings_init' ), 15 );
+
+
+
 
 	}
 
-	/**
-	 * Registers the option to load the stylesheet
-	 */
-	function register_settings() {
-		register_setting( 'wplpro_options', 'wplpro_agents_settings' );
-	}
 
-	/**
-	 * Sets default slug and default post number in options
-	 */
-	function add_options() {
-
-		$new_options = array(
-			'wplpro_archive_posts_num' => 9,
-			'wplpro_slug' => 'employees',
-		);
-
-		if ( empty( $this->options['wplpro_slug'] ) && empty( $this->options['wplpro_archive_posts_num'] ) ) {
-			add_option( 'wplpro_agents_settings', $new_options );
-		}
-
-	}
-
-	/**
-	 * Adds settings page and IDX Import page to admin menu.
-	 */
-	function settings_init() {
-		add_submenu_page( 'edit.php?post_type=employee', __( 'Settings', 'wp-listings-pro' ), __( 'Settings', 'wp-listings-pro' ), 'manage_options', $this->settings_page, array( &$this, 'settings_page' ) );
-	}
-
-	/**
-	 * Creates display of settings page along with form fields.
-	 */
-	function settings_page() {
-		include( dirname( __FILE__ ) . '/views/wplpro-agents-settings.php' );
-	}
 
 	/**
 	 * Creates our "Employee" post type.
