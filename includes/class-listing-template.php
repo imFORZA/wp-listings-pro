@@ -124,7 +124,7 @@ class Single_Listing_Template {
 			}
 		}
 
-		/** OK, we're authenticated: we need to find and save the data */
+		/** OK, we're authenticated: we need to find and save the data. */
 
 		/** Put the data into an array to make it easier to loop though and save */
 		$mydata['_wp_post_template'] = $_POST['_wp_post_template'];
@@ -136,16 +136,16 @@ class Single_Listing_Template {
 				return;
 			}
 
-			/** If $value is an array, make it a CSV (unlikely) */
+			/** If $value is an array, make it a CSV (unlikely). */
 			$value = implode( ',', (array) $value );
 
-			/** Update the data if it exists, or add it if it doesn't */
+			/** Update the data if it exists, or add it if it doesn't. */
 			if ( get_post_meta( $post->ID, $key, false ) ) {
 				update_post_meta( $post->ID, $key, $value );
 			} else { add_post_meta( $post->ID, $key, $value );
 			}
 
-			/** Delete if blank */
+			/** Delete if blank. */
 			if ( ! $value ) {
 				delete_post_meta( $post->ID, $key );
 			}

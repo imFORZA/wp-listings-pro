@@ -29,7 +29,7 @@ function wplpro_activation() {
 
 	wplpro_init();
 
-	/** Flush rewrite rules */
+	/** Flush rewrite rules. */
 	if ( ! post_type_exists( 'listing' ) ) {
 
 		global $_wp_listings, $_wplpro_taxonomies, $_wp_listings_templates;
@@ -37,7 +37,7 @@ function wplpro_activation() {
 		$_wplpro_taxonomies->register_taxonomies();
 	}
 
-	/** Flush rewrite rules */
+	/** Flush rewrite rules. */
 	if ( ! post_type_exists( 'employee' ) ) {
 		global $_wplpro_agents, $_wplpro_agents_taxonomies;
 		$_wplpro_agents->create_post_type();
@@ -85,10 +85,8 @@ function wplpro_init() {
 	define( 'WPLPRO_DIR', plugin_dir_path( __FILE__ ) );
 	define( 'WPLPRO_VERSION', '3.0.0' );
 
-
 	/** Load textdomain for translation. */
 	load_plugin_textdomain( 'wp-listings-pro', false, basename( dirname( __FILE__ ) ) . '/languages/' );
-
 
 	/** Make sure is_plugin_active() can be called. */
 	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
@@ -129,8 +127,6 @@ function wplpro_init() {
 		add_theme_support( 'post-thumbnails' );
 	}
 
-
-
 	/**
 	 * Add_wp_listings_scripts function.
 	 *
@@ -148,7 +144,7 @@ function wplpro_init() {
 	/** Registers and enqueues scripts for single listings. */
 	add_action( 'wp_enqueue_scripts', 'wplpro_add_scripts' );
 
-	/** Enqueues wp-listings.css style file if it exists and is not deregistered in settings */
+	/** Enqueues wp-listings.css style file if it exists and is not deregistered in settings. */
 	add_action( 'wp_enqueue_scripts', 'add_wp_listings_main_styles' );
 
 	/**
@@ -174,14 +170,14 @@ function wplpro_init() {
 		wp_register_style( 'agents-css', WPLPRO_URL . 'assets/css/wplpro-agents.min.css', '', null, 'all' );
 		wp_enqueue_style( 'agents-css' );
 
-		/** Register single styles but don't enqueue them */
+		/** Register single styles but don't enqueue them. */
 		wp_register_style( 'wp-listings-single', WPLPRO_URL . 'assets/css/wp-listings-single.min.css', '', null, 'all' );
 
-		/** Register Font Awesome icons but don't enqueue them */
+		/** Register Font Awesome icons but don't enqueue them. */
 		wp_register_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', '', null, 'all' );
 		wp_enqueue_style( 'font-awesome' );
 
-		/** Register Properticons but don't enqueue them */
+		/** Register Properticons but don't enqueue them. */
 		wp_register_style( 'properticons', 'https://s3.amazonaws.com/properticons/css/properticons.css', '', null, 'all' );
 
 		if ( ! isset( $options['wplpro_stylesheet_load'] ) ) {
@@ -200,7 +196,7 @@ function wplpro_init() {
 	}
 
 	/**
-	 * wplpro_agents_admin_scripts_styles function.
+	 * WPLPRO Admin Scripts & Styles.
 	 *
 	 * @access public
 	 * @return void
@@ -349,16 +345,14 @@ function wp_listings_register_widgets() {
 		register_widget( $listing_widget );
 	}
 
-
 	foreach ( (array) $agent_widgets as $agent_widget ) {
 		register_widget( $agent_widget );
 	}
 
-
 }
 
 /**
- * wplpro_agents_migrate function.
+ * WPLPRO Agents Migrate.
  *
  * @access public
  * @return void
