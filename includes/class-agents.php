@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * This class handles the creation of the "Employees" post type, and creates a
  * UI to display the Employee-specific data on the admin screens.
  */
-class wplpro_Agents {
+class WPLPRO_Agents {
 
 	var $settings_page = 'wplpro-agents-settings';
 	var $settings_field = 'wplpro_agents_taxonomies';
