@@ -73,7 +73,7 @@ function wplpro_shortcode( $atts, $content = null ) {
 
 	$count = 0;
 
-	$output = '<div class="wplpro-shortcode">';
+	$output = '<div class="wplpro wplpro-shortcode">';
 
 	foreach ( $listings_array as $post ) : setup_postdata( $post );
 
@@ -157,6 +157,7 @@ add_shortcode( 'employee_profiles', 'wplpro_profile_shortcode' );
  * @return Profile Shortcode.
  */
 function wplpro_profile_shortcode( $atts, $content = null ) {
+
 	extract(shortcode_atts(array(
 		'id'   => '',
 		'orderby' => 'menu_order',
