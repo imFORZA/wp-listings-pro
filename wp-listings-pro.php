@@ -20,6 +20,7 @@
  */
 
 register_activation_hook( __FILE__, 'wplpro_activation' );
+
 /**
  * This function runs on plugin activation. It flushes the rewrite rules to prevent 404's
  *
@@ -357,6 +358,6 @@ function wp_listings_register_widgets() {
  * @return void
  */
 function wplpro_agents_migrate() {
-	new wplpro_Agents_Migrate();
+	new WPLPRO_Agents_Migrate();
 }
 
