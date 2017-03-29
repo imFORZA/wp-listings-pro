@@ -120,7 +120,7 @@ function wplpro_init() {
 	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
 
 	/** Instantiate */
-	$_wplpro_agents = new wplpro_Agents;
+	$_wplpro_agents = new WPLPRO_Agents;
 	$_wplpro_agents_taxonomies = new WPLPRO_Agents_Taxonomies;
 
 	/** Add theme support for post thumbnails if it does not exist */

@@ -9,7 +9,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
- * Migrate Posts from Genesis Agent Profiles to WPL Pro Agents
+ * Migrate Posts from Genesis Agent Profiles to WPL Pro Agents.
  *
  * @since 1.1.0
  */
