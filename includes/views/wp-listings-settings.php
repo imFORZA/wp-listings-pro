@@ -24,9 +24,9 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 				<?php $options = get_option( 'wplpro_plugin_settings' );
 
 				$defaults = array(
-					'wplpro_stylesheet_load'			=> 0,
-					'wplpro_widgets_stylesheet_load'	=> 0,
-					'wplpro_default_state'				=> '',
+					'disable_css'				=> 0,
+					'disable_fontawesome'		=> 0,
+					'disable_properticons'		=> 0,
 					'wplpro_currency_symbol'			=> '',
 					'wplpro_currency_code'				=> '',
 					'wplpro_display_currency_code'		=> 0,
@@ -34,8 +34,6 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					'wplpro_global_disclaimer'			=> '',
 					'wplpro_listings_slug'				=> 'listings',
 					'wplpro_gmaps_api_key'				=> '',
-					'wplpro_captcha_site_key'			=> '',
-					'wplpro_captcha_secret_key'			=> '',
 					'wplpro_default_form'				=> '',
 					'wplpro_custom_wrapper'				=> 0,
 					'wplpro_start_wrapper'				=> '',
@@ -70,20 +68,20 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					settings_fields( 'wp_listings_options' );
 
 
-					_e( '<h3>Include CSS?</h3>', 'wp-listings-pro' );
-					_e( '<p>Here you can deregister the WP Listings CSS files and move to your theme\'s css file for ease of customization</p>', 'wp-listings-pro' );
-					_e( '<p><input name="wplpro_plugin_settings[wplpro_stylesheet_load]" id="wplpro_stylesheet_load" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_stylesheet_load'], false ) . ' /> Deregister WP Listings main CSS (wp-listings.css)?</p>', 'wp-listings-pro' );
+					echo '<h3>';
+					esc_html_e( 'Disable CSS and/or Javascript:', 'wp-listings-pro' );
+					echo '</h3>';
 
-					_e( '<p><input name="wplpro_plugin_settings[wplpro_widgets_stylesheet_load]" id="wplpro_widgets_stylesheet_load" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_widgets_stylesheet_load'], false ) . ' /> Deregister WP Listings widgets CSS (wp-listings-widgets.css)?</p><hr>', 'wp-listings-pro' );
+					_e( 'There may be times you may want to disable the CSS provided by WP Listings Pro.', 'wp-listings-pro' );
+					_e( '<p><input name="wplpro_plugin_settings[disable_css]" id="wplpro-disable-css" type="checkbox" value="1" class="code" ' . checked( 1, $options['disable_css'], false ) . ' /> Disable WP Listings Pro CSS?</p>', 'wp-listings-pro' );
+
+					_e( '<p><input name="wplpro_plugin_settings[disable_fontawesome]" id="wplpro-disable-fontawesome" type="checkbox" value="1" class="code" ' . checked( 1, $options['disable_fontawesome'], false ) . ' /> Disable FontAwesome CSS?</p>', 'wp-listings-pro' );
+
+					_e( '<p><input name="wplpro_plugin_settings[disable_properticons]" id="wplpro-disable-properticons" type="checkbox" value="1" class="code" ' . checked( 1, $options['disable_properticons'], false ) . ' /> Disable Properticons CSS?</p>', 'wp-listings-pro' );
+
+					echo '<hr>';
 
 
-
-					_e( '<p>Here you can deregister the Agents CSS files and move to your theme\'s css file for ease of customization</p>', 'wp-listings-pro' );
-					_e( '<p><input name="wplpro_plugin_settings[agent_stylesheet_load]" id="agent_stylesheet_load" type="checkbox" value="1" class="code" ' . checked( 1, $options['agent_stylesheet_load'], false ) . ' /> Deregister Agents main CSS (wplpro-agents.css)?</p>', 'wplpro-agents' );
-
-
-					_e( '<h3>Default State</h3><p>You can enter a default state that will automatically be output on template pages and widgets that show the state. When you are create a listing and leave the state field empty, the default entered below will be shown. You can override the default on each listing by entering a value into the state field.</p>', 'wp-listings-pro' );
-					echo '<p>Default State: <input name="wplpro_plugin_settings[wplpro_default_state]" id="wplpro_default_state" type="text" value="' . $options['wplpro_default_state'] . '" size="1" /></p><hr>';
 
 					_e( '<h3>Default Currency</h3><p>Select a default currency symbol and optional currency code to display on listings.</p>', 'wp-listings-pro' );
 					_e( '<p>Currency Symbol: ', 'wp-listings-pro' );
@@ -272,14 +270,13 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 					_e( '<p><input name="wplpro_plugin_settings[wplpro_display_currency_code]" id="wplpro_display_currency_code" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_display_currency_code'], 0 ) . ' /> Display currency code?</p><hr>', 'wp-listings-pro' );
 
-					_e( "<h3>Default Number of Posts</h3><p>The default number of posts displayed on a listing archive page is 9. Here you can set a custom number. Enter <span style='color: #f00;font-weight: 700;'>-1</span> to display all listing posts.<br /><em>If you have more than 20-30 posts, it's not recommended to show all or your page will load slow.</em></p>", 'wp-listings-pro' );
-					_e( '<p>Number of posts on listing archive page: <input name="wplpro_plugin_settings[wplpro_archive_posts_num]" id="wplpro_archive_posts_num" type="text" value="' . $options['wplpro_archive_posts_num'] . '" size="1" /></p><hr>', 'wp-listings-pro' );
+					echo '<h3>' . __('Archive Settings:', 'wp-listings-pro') . '</h3>';
 
+					_e( '<p>Total Number of Listings to display on Listing Archives: <input name="wplpro_plugin_settings[wplpro_archive_posts_num]" id="wplpro_archive_posts_num" type="text" value="' . $options['wplpro_archive_posts_num'] . '" size="1" /></p>', 'wp-listings-pro' );
 
+				    _e( '<p>Total Number of Employees to display on Employee Archives: <input name="wplpro_plugin_settings[wplpro_archive_agent_num]" id="wplpro_archive_posts_num" type="text" value="' . $options['wplpro_archive_agent_num'] . '" size="1" /></p>', 'wplpro-agents' );
 
-							_e( "<h3>Default Number of Posts</h3><p>The default number of posts displayed on a employee archive page is 9. Here you can set a custom number. Enter <span style='color: #f00;font-weight: 700;'>-1</span> to display all employee posts.<br /><em>If you have more than 20-30 posts, it's not recommended to show all or your page will load slow.</em></p>", 'wp-listings-pro' );
-				    _e( '<p>Number of posts on employee archive page: <input name="wplpro_plugin_settings[wplpro_archive_agent_num]" id="wplpro_archive_posts_num" type="text" value="' . $options['wplpro_archive_agent_num'] . '" size="1" /></p><hr>', 'wplpro-agents' );
-
+					echo '<hr>';
 
 
 					_e( '<h3>Default Disclaimer</h3><p>Optionally enter a disclaimer to show on single listings. This can be overridden on individual listings.</p>', 'wp-listings-pro' );
