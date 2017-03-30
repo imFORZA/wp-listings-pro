@@ -656,13 +656,9 @@ function wplpro_post_number( $query ) {
 }
 add_action( 'pre_get_posts', 'wplpro_post_number' );
 
-
-
 /**
  * Add Employees to Jetpack Omnisearch.
  */
 if ( class_exists( 'Jetpack_Omnisearch_Posts' ) ) {
 	new Jetpack_Omnisearch_Posts( 'employee' );
 }
-
-

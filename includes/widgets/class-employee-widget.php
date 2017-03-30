@@ -9,17 +9,35 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
  */
 class wplpro_Agents_Widget extends WP_Widget {
 
+	/**
+	 * __construct function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function __construct() {
-		$widget_ops = array( 'classname' => 'featured-employee', 'description' => __( 'Display a featured employee or employees contact info.', 'wp-listings-pro' ), 'customize_selective_refresh' => true );
+		$widget_ops = array(
+			'classname' => 'featured-employee',
+			'description' => __( 'Display a featured employee or employees contact info.', 'wp-listings-pro' ),
+			'customize_selective_refresh' => true
+		);
 		$control_ops = array( 'width' => 300, 'height' => 350 );
-		parent::__construct( 'featured-employee', __( 'WP Listings Pro - Agents', 'wp-listings-pro' ), $widget_ops, $control_ops );
+		parent::__construct( 'wplpro_employee', __( 'WP Listings Pro - Employee', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
 
+	/**
+	 * Widget.
+	 *
+	 * @access public
+	 * @param mixed $args Arguments.
+	 * @param mixed $instance Instance.
+	 * @return void
+	 */
 	function widget( $args, $instance ) {
 
 		global $post;
 
-		/** defaults */
+		/** Defaults. */
 		$instance = wp_parse_args( $instance, array(
 			'post_id'	=> '',
 			'title' => '',
@@ -83,6 +101,14 @@ class wplpro_Agents_Widget extends WP_Widget {
 
 	}
 
+	/**
+	 * Update.
+	 *
+	 * @access public
+	 * @param mixed $new_instance New Instance.
+	 * @param mixed $old_instance Old Instance.
+	 * @return void
+	 */
 	function update( $new_instance, $old_instance ) {
 		$instance = array();
 		$instance['title'] = strip_tags( $new_instance['title'] );
@@ -91,6 +117,13 @@ class wplpro_Agents_Widget extends WP_Widget {
 		return $new_instance;
 	}
 
+	/**
+	 * Form.
+	 *
+	 * @access public
+	 * @param mixed $instance Instance.
+	 * @return void
+	 */
 	function form( $instance ) {
 
 		$instance = wp_parse_args( $instance, array(

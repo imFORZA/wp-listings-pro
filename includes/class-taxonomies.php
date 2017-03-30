@@ -497,7 +497,17 @@ class wplpro_taxonomies {
 		}
 
 		/** Default terms for property-type */
-		$property_type_terms = apply_filters( 'wp_listings_default_property_type_terms', array( 'Residential' => 'residential', 'Condo' => 'condo', 'Townhome' => 'townhome', 'Commercial' => 'commercial' ) );
+		$property_type_terms = apply_filters( 'wp_listings_default_property_type_terms', array(
+		'Residential' => 'resi',
+		'Residential Lease' => 'rlse',
+		'Residential Income' => 'rinc',
+		'Mobile Home' => 'mobi',
+		'Land' => 'land',
+		'Farm Land' => 'farm',
+		'Commercial' => 'coms',
+		'Commerical Lease' => 'coml',
+		'Business Opportunity' => 'buso'
+		) );
 		foreach ( $property_type_terms as $term => $slug ) {
 			if ( term_exists( $term, 'property-types' ) ) {
 				continue;
@@ -1065,7 +1075,7 @@ class WPLPro_Agents_Taxonomies {
 	 * @return [type] [description]
 	 */
 	function register_term_meta() {
-		register_meta( 'term', 'impa_term_image', 'wplpro_agents_sanitize_term_image' );
+		register_meta( 'term', 'wpmlpro_term_image', 'wplpro_agents_sanitize_term_image' );
 	}
 
 	/**
@@ -1073,8 +1083,8 @@ class WPLPro_Agents_Taxonomies {
 	 *
 	 * @return [type] [description]
 	 */
-	function wplpro_agents_sanitize_term_image( $impa_term_image ) {
-		return $impa_term_image;
+	function wplpro_agents_sanitize_term_image( $wpmlpro_term_image ) {
+		return $wpmlpro_term_image;
 	}
 
 	/**
@@ -1084,7 +1094,7 @@ class WPLPro_Agents_Taxonomies {
 	 * @uses  wp_get_attachment_image to return image id wrapped in markup
 	 */
 	function wplpro_agents_get_term_image( $term_id, $html = true ) {
-		$image_id = get_term_meta( $term_id, 'impa_term_image', true );
+		$image_id = get_term_meta( $term_id, 'wpmlpro_term_image', true );
 		return $image_id && $html ? wp_get_attachment_image( $image_id, 'thumbnail' ) : $image_id;
 	}
 
@@ -1095,7 +1105,7 @@ class WPLPro_Agents_Taxonomies {
 	 */
 	function wplpro_agents_save_term_image( $term_id ) {
 
-	    if ( ! isset( $_POST['impa_term_image_nonce'] ) || ! wp_verify_nonce( $_POST['impa_term_image_nonce'], basename( __FILE__ ) ) ) {
+	    if ( ! isset( $_POST['wpmlpro_term_image_nonce'] ) || ! wp_verify_nonce( $_POST['wpmlpro_term_image_nonce'], basename( __FILE__ ) ) ) {
 	        return;
 		}
 
@@ -1103,10 +1113,10 @@ class WPLPro_Agents_Taxonomies {
 	    $new_image = isset( $_POST['wplpro-term-image'] ) ? $_POST['wplpro-term-image'] : '';
 
 	    if ( $old_image && '' === $new_image ) {
-	        delete_term_meta( $term_id, 'impa_term_image' );
+	        delete_term_meta( $term_id, 'wpmlpro_term_image' );
 
 	    } elseif ( $old_image !== $new_image ) {
-	        update_term_meta( $term_id, 'impa_term_image', $new_image );
+	        update_term_meta( $term_id, 'wpmlpro_term_image', $new_image );
 		}
 
 	    return $term_id;
@@ -1119,7 +1129,7 @@ class WPLPro_Agents_Taxonomies {
 
 	function wplpro_agents_edit_term_columns( $columns ) {
 
-	    $columns['impa_term_image'] = __( 'Image', 'wp-listings-pro' );
+	    $columns['wpmlpro_term_image'] = __( 'Image', 'wp-listings-pro' );
 
 	    return $columns;
 	}
@@ -1129,7 +1139,7 @@ class WPLPro_Agents_Taxonomies {
 	 */
 	function wplpro_agents_manage_term_custom_column( $out, $column, $term_id ) {
 
-	    if ( 'impa_term_image' === $column ) {
+	    if ( 'wpmlpro_term_image' === $column ) {
 
 	        $image_id = $this->wplpro_agents_get_term_image( $term_id, false );
 
@@ -1196,7 +1206,7 @@ class WPLPro_Agents_Taxonomies {
 
 	    $image_id = '';
 
-	    wp_nonce_field( basename( __FILE__ ), 'impa_term_image_nonce' ); ?>
+	    wp_nonce_field( basename( __FILE__ ), 'wpmlpro_term_image_nonce' ); ?>
 
 	    <div class="form-field wplpro-term-image-wrap">
 	        <label for="wplpro-term-image"><?php esc_html_e( 'Image', 'wp-listings-pro' ); ?></label>
@@ -1226,7 +1236,7 @@ class WPLPro_Agents_Taxonomies {
 	    <tr class="form-field wplpro-term-image-wrap">
 	        <th scope="row"><label for="wplpro-term-image"><?php esc_html_e( 'Image', 'wp-listings-pro' ); ?></label></th>
 	        <td>
-	            <?php wp_nonce_field( basename( __FILE__ ), 'impa_term_image_nonce' ); ?>
+	            <?php wp_nonce_field( basename( __FILE__ ), 'wpmlpro_term_image_nonce' ); ?>
 	            <!-- Begin term image -->
 				<p>
 					<input type="hidden" name="wplpro-term-image" id="wplpro-term-image" value="<?php echo esc_attr( $image_id ); ?>" />

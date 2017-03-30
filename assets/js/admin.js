@@ -291,7 +291,7 @@ jQuery(document).ready(function($) {
 	 */
 
 	/* Prepare the variable that holds our custom media manager. */
-	var impa_term_image_frame;
+	var wpmlpro_term_image_frame;
 
 	/* When the 'set term image' link is clicked. */
 	jQuery( '.wplpro-add-media' ).click(
@@ -302,25 +302,25 @@ jQuery(document).ready(function($) {
 			j.preventDefault();
 
 			/* If the frame already exists, open it. */
-			if ( impa_term_image_frame ) {
-				impa_term_image_frame.open();
+			if ( wpmlpro_term_image_frame ) {
+				wpmlpro_term_image_frame.open();
 				return;
 			}
 
 			/* Creates a custom media frame. */
-			impa_term_image_frame = wp.media.frames.impa_term_image_frame = wp.media(
+			wpmlpro_term_image_frame = wp.media.frames.wpmlpro_term_image_frame = wp.media(
 				{
 					className: 'media-frame',            // Custom CSS class name
 					frame:     'select',                 // Frame type (post, select)
 					multiple:  false,                   // Allow selection of multiple images
-					title:     impa_term_image.title, // Custom frame title
+					title:     wpmlpro_term_image.title, // Custom frame title
 
 					library: {
 						type: 'image' // Media types allowed
 					},
 
 					button: {
-						text:  impa_term_image.button // Custom insert button text
+						text:  wpmlpro_term_image.button // Custom insert button text
 					}
 				}
 			);
@@ -329,19 +329,19 @@ jQuery(document).ready(function($) {
 			 * The following handles the image data and sending it back to the meta box once an
 			 * an image has been selected via the media frame.
 			 */
-			impa_term_image_frame.on( 'select',
+			wpmlpro_term_image_frame.on( 'select',
 
 				function() {
 
 					/* Construct a JSON representation of the model. */
-					var media_attachment = impa_term_image_frame.state().get( 'selection' ).toJSON();
+					var media_attachment = wpmlpro_term_image_frame.state().get( 'selection' ).toJSON();
 
 					/* If the custom term image size is available, use it. */
 					/* Note the 'width' is contrained by $content_width. */
-					if ( media_attachment[0].sizes.impa_term_image ) {
-						var impa_media_url    = media_attachment[0].sizes.impa_term_image.url;
-						var impa_media_width  = media_attachment[0].sizes.impa_term_image.width;
-						var impa_media_height = media_attachment[0].sizes.impa_term_image.height;
+					if ( media_attachment[0].sizes.wpmlpro_term_image ) {
+						var impa_media_url    = media_attachment[0].sizes.wpmlpro_term_image.url;
+						var impa_media_width  = media_attachment[0].sizes.wpmlpro_term_image.width;
+						var impa_media_height = media_attachment[0].sizes.wpmlpro_term_image.height;
 					}
 
 					/* Else, use the full size b/c it will always be available. */
@@ -363,28 +363,28 @@ jQuery(document).ready(function($) {
 					 * we're using a custom image size. If not, the error impacking is good
 					 * on the PHP side once the data is saved.
 					 */
-					if ( impa_term_image.min_width > media_attachment[0].sizes.full.width && impa_term_image.min_height > impa_media_height ) {
-						impa_errors = impa_term_image.min_width_height_error;
+					if ( wpmlpro_term_image.min_width > media_attachment[0].sizes.full.width && wpmlpro_term_image.min_height > impa_media_height ) {
+						impa_errors = wpmlpro_term_image.min_width_height_error;
 					}
 
-					else if ( impa_term_image.max_width < impa_media_width && impa_term_image.max_height < impa_media_height ) {
-						impa_errors = impa_term_image.max_width_height_error;
+					else if ( wpmlpro_term_image.max_width < impa_media_width && wpmlpro_term_image.max_height < impa_media_height ) {
+						impa_errors = wpmlpro_term_image.max_width_height_error;
 					}
 
-					else if ( impa_term_image.min_width > media_attachment[0].sizes.full.width ) {
-						impa_errors = impa_term_image.min_width_error;
+					else if ( wpmlpro_term_image.min_width > media_attachment[0].sizes.full.width ) {
+						impa_errors = wpmlpro_term_image.min_width_error;
 					}
 
-					else if ( impa_term_image.min_height > impa_media_height ) {
-						impa_errors = impa_term_image.min_height_error;
+					else if ( wpmlpro_term_image.min_height > impa_media_height ) {
+						impa_errors = wpmlpro_term_image.min_height_error;
 					}
 
-					else if ( impa_term_image.max_width < impa_media_width ) {
-						impa_errors = impa_term_image.max_width_error;
+					else if ( wpmlpro_term_image.max_width < impa_media_width ) {
+						impa_errors = wpmlpro_term_image.max_width_error;
 					}
 
-					else if ( impa_term_image.max_height < impa_media_height ) {
-						impa_errors = impa_term_image.max_height_error;
+					else if ( wpmlpro_term_image.max_height < impa_media_height ) {
+						impa_errors = wpmlpro_term_image.max_height_error;
 					}
 
 					/* If there are error strings, show them. */
@@ -415,7 +415,7 @@ jQuery(document).ready(function($) {
 			);
 
 			/* Open up the frame. */
-			impa_term_image_frame.open();
+			wpmlpro_term_image_frame.open();
 		}
 	);
 

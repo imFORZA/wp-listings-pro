@@ -163,7 +163,8 @@ class WPL_Idx_Listing {
 					elseif ( in_array( $prop['listingID'], $listings ) && $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] !== 'publish' ) {
 						self::wp_listings_idx_change_post_status( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'], 'publish' );
 						$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = 'publish';
-					} // Change post status or delete post based on options
+
+					} // Change post status or delete post based on options.
 					elseif ( ! in_array( $prop['listingID'], $listings ) && isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) && $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] === 'publish' ) {
 
 						// Change to draft or delete listing if the post exists but is not in the listing array based on settings.
@@ -293,7 +294,7 @@ class WPL_Idx_Listing {
 	 */
 	public static function wp_listings_idx_insert_post_meta( $id, $idx_featured_listing_data, $update = false, $update_image = true, $sold = false ) {
 
-		if ( class_exists( 'Equity_Idx_Api' ) && false === $update  || class_exists( 'Equity_Idx_Api' ) && true === $update_image ) {
+		if ( false === $update  ||true === $update_image ) {
 			$imgs = '';
 			$featured_image = $idx_featured_listing_data['image']['0']['url'];
 
@@ -343,10 +344,10 @@ class WPL_Idx_Listing {
 			update_post_meta( $id, '_listing_gallery', apply_filters( 'wp_listings_imported_gallery', $gallery = '<img src="' . $featured_image . '" alt="' . $idx_featured_listing_data['address'] . '" />' ) );
 		}
 
-		// Add post meta for Equity API fields
-		if ( class_exists( 'Equity_Idx_Api' ) ) {
+		// Add post meta for Equity API fields.
+
 			if ( false === $update || true === $update_image ) {
-				update_post_meta( $id, '_listing_gallery', apply_filters( 'wp_listings_equity_imported_gallery', $imgs ) );
+				update_post_meta( $id, '_listing_gallery',  $imgs );
 			}
 			foreach ( $idx_featured_listing_data as $metakey => $metavalue ) {
 				if ( true === $update && 'price' !== $metakey ) {
@@ -365,7 +366,7 @@ class WPL_Idx_Listing {
 						}
 					}
 				}
-			}
+
 		}
 
 		// Add disclaimers and courtesies.

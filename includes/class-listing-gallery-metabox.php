@@ -38,7 +38,6 @@ class WPLPRO_Meta_Box_Listing_Images {
 					if ( ! empty( $attachments ) ) {
 						foreach ( $attachments as $attachment_id ) {
 							$attachment = wp_get_attachment_image( $attachment_id, 'thumbnail' );
-							//error_log("attachment: " . $attachment);
 							// if attachment is empty skip
 							if ( empty( $attachment ) ) {
 								$update_meta = true;
@@ -72,12 +71,7 @@ class WPLPRO_Meta_Box_Listing_Images {
 			<a href="#" data-choose="<?php esc_attr_e( 'Add images to listing gallery', 'wp-listings-pro' ); ?>" data-update="<?php esc_attr_e( 'Add to gallery', 'wp-listings-pro' ); ?>" data-delete="<?php esc_attr_e( 'Delete image', 'wp-listings-pro' ); ?>" data-text="<?php esc_attr_e( 'Delete', 'wp-listings-pro' ); ?>"><?php _e( 'Add listing gallery images', 'wp-listings-pro' ); ?></a>
 		</p>
 
-		<!-- This works -->
-		<!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js"></script> -->
-		<!-- TODO: Turn it into a registered and then enqueued script with PROPER LINKING -->
 		<?php
-		wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js', array('jquery'), null, true );
-		// TODO: move enquement of it
 	}
 
 	/**
@@ -223,7 +217,6 @@ class WPLPRO_Meta_Box_Listing_Images {
  						foreach ( $attachments as $attachment_id ) {
 							$attachment_url = wp_get_attachment_url( $attachment_id );
 							$attachment_filetype = wp_check_filetype( $attachment_url )['ext']; // alternate is 'type', yeilds ie: "image/jpeg" instead of "jpg"
-							error_log($attachment_filetype);
 
 							if($attachment_filetype == "xls" || $attachment_filetype == "xlsx"){ // spreadsheet
 								$image_thumbnail = site_url("/wp-includes/images/media/spreadsheet.png");
@@ -232,13 +225,6 @@ class WPLPRO_Meta_Box_Listing_Images {
 							}
 
 							$attachment = sprintf('<img width="150" height="150" src="%s" class="attachment-thumbnail size-thumbnail" alt="" srcset="%s 150w, %s 100w" sizes="100vw" />', $image_thumbnail, $image_thumbnail, $image_thumbnail);
- 							//$attachment = wp_get_attachment_image( $attachment_id );
-							//error_log($attachment);
- 							// if attachment is empty skip
- 							// if ( empty( $attachment ) ) {
- 							// 	$update_meta = true;
- 							// 	continue;
- 							// }
 
  							echo '<li class="image" data-attachment_id="' . esc_attr( $attachment_id ) . '">
 							' .  $attachment . '

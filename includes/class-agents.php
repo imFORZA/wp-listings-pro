@@ -46,8 +46,8 @@ class WPLPRO_Agents {
 				__( 'License #:', 'wp-listings-pro' ) 		=> '_employee_license',
 				__( 'Agent ID:', 'wp-listings-pro' ) 		=> '_employee_agent_id',
 				__( 'Designations:', 'wp-listings-pro' ) 	=> '_employee_designations',
-				__( 'Address:', 'wp-listings-pro' ) 			=> '_employee_address',
-				__( 'City:', 'wp-listings-pro' )				=> '_employee_city',
+				__( 'Address:', 'wp-listings-pro' ) 		=> '_employee_address',
+				__( 'City:', 'wp-listings-pro' )			=> '_employee_city',
 				__( 'State:', 'wp-listings-pro' )			=> '_employee_state',
 				__( 'Zip:', 'wp-listings-pro' )				=> '_employee_zip',
 			),
@@ -71,9 +71,6 @@ class WPLPRO_Agents {
 
 		add_action( 'admin_menu', array( $this, 'register_meta_boxes' ), 5 );
 		add_action( 'save_post', array( $this, 'metabox_save' ), 1, 2 );
-
-
-
 
 
 	}

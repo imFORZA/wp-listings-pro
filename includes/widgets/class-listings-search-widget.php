@@ -20,9 +20,13 @@ class WP_Listings_Search_Widget extends WP_Widget {
 	 * @return void
 	 */
 	function __construct() {
-		$widget_ops = array( 'classname' => 'listings-search wp-listings-search', 'description' => __( 'Display listings search dropdown', 'wp-listings-pro' ), 'customize_selective_refresh' => true );
+		$widget_ops = array(
+			'classname' => 'listings-search wp-listings-search',
+			'description' => __( 'Display listings search dropdown', 'wp-listings-pro' ),
+			'customize_selective_refresh' => true
+		);
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'listings-search' );
-		parent::__construct( 'listings-search', __( 'WP Listings Pro - Search', 'wp-listings-pro' ), $widget_ops, $control_ops );
+		parent::__construct( 'wplpro_listings_search', __( 'WP Listings Pro - Search', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
 
 	/**

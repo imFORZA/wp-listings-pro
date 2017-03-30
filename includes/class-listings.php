@@ -42,6 +42,9 @@ class WP_Listings {
 		$this->property_details = apply_filters( 'wp_listings_property_details', array(
 			'col1' => array(
 			    __( 'Price:', 'wp-listings-pro' ) 					=> '_listing_price',
+			    __( 'Sold Price:', 'wp-listings-pro' ) 				=> '_listing_sold_price',
+			    __( 'Sold Date:', 'wp_listings' ) 					=> '_listing_sold_date',
+			    __( 'Rent Price:', 'wp-listings-pro' ) 				=> '_listing_rent_price',
 			    __( 'Address:', 'wp-listings-pro' )					=> '_listing_address',
 			    __( 'City:', 'wp-listings-pro' )					=> '_listing_city',
 			    __( 'County:', 'wp-listings-pro' )					=> '_listing_county',
@@ -50,6 +53,8 @@ class WP_Listings {
 			    __( 'ZIP:', 'wp-listings-pro' )						=> '_listing_zip',
 			    __( 'MLS #:', 'wp-listings-pro' ) 					=> '_listing_mls',
 				__( 'Open House Time & Date:', 'wp-listings-pro' ) 	=> '_listing_open_house',
+				__( 'Latitude:', 'wp_listings' )					=> '_listing_latitude',
+				__( 'Longitude:', 'wp_listings' )					=> '_listing_longitude',
 			),
 			'col2' => array(
 			    __( 'Year Built:', 'wp-listings-pro' ) 				=> '_listing_year_built',
@@ -61,6 +66,9 @@ class WP_Listings {
 			    __( 'Half Bathrooms:', 'wp-listings-pro' )			=> '_listing_half_bath',
 			    __( 'Garage:', 'wp-listings-pro' )					=> '_listing_garage',
 			    __( 'Pool:', 'wp-listings-pro' )					=> '_listing_pool',
+			    __( 'Constructed Area:', 'wp_listings' ) 			=> '_listing_living_space',
+			    __( 'Land Size:', 'wp_listings' ) 					=> '_listing_land_size',
+			    __( 'Currency:', 'wp_listings' ) 					=> '_listing_list_currency',
 			),
 		) );
 
@@ -89,6 +97,7 @@ class WP_Listings {
 				__( 'Rooms:', 'wp-listings-pro' )					=> '_listing_rooms',
 				__( 'Laundry:', 'wp-listings-pro' )					=> '_listing_laundry',
 				__( 'Utilities:', 'wp-listings-pro' )				=> '_listing_utilities',
+				__( 'Virtual Tour Link:', 'wp_listings' )			=> '_listing_virtualtour'
 			),
 		) );
 
