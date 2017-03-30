@@ -32,7 +32,8 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					'wplpro_display_currency_code'		=> 0,
 					'wplpro_archive_posts_num'			=> 9,
 					'wplpro_global_disclaimer'			=> '',
-					'wplpro_listings_slug'				=> 'listings',
+					'wplpro_listings_slug'				=> 'listing',
+					'wplpro_employees_slug'				=> 'employee',
 					'wplpro_gmaps_api_key'				=> '',
 					'wplpro_default_form'				=> '',
 					'wplpro_custom_wrapper'				=> 0,
@@ -299,16 +300,19 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					_e( '<p><label>Wrapper End HTML: </p><input name="wplpro_plugin_settings[wplpro_end_wrapper]" id="wplpro_end_wrapper" type="text" value="' . esc_html( $options['wplpro_end_wrapper'] ) . '" size="80" /></label><hr>', 'wp-listings-pro' );
 
 
-					_e( '<h3>Listings slug</h3><p>Optionally change the slug of the listing post type<br /><input type="text" name="wplpro_plugin_settings[wplpro_listings_slug]" value="' . $options['wplpro_listings_slug'] . '" /></p>', 'wp-listings-pro' );
-					_e( "<em>Don't forget to <a href='../wp-admin/options-permalink.php'>reset your permalinks</a> if you change the slug!</em></p>", 'wp-listings-pro' );
+					echo '<h3>' . __('Default Slugs:', 'wp-listings-pro') . '</h3>';
 
+					_e( '<p>Optionally change the slug of the listing post type<br /><input type="text" name="wplpro_plugin_settings[wplpro_listings_slug]" value="' . $options['wplpro_listings_slug'] . '" /></p>', 'wp-listings-pro' );
 
+					_e( '<p>Optionally change the slug of the employee post type<br /><input type="text" name="wplpro_plugin_settings[wplpro_employee_slug]" value="' . $options['wplpro_employee_slug'] . '" /></p>', 'wplpro-agents' );
 
-					_e( '<h3>Agent slug</h3><p>Optionally change the slug of the employee post type<br /><input type="text" name="wplpro_plugin_settings[wplpro_employee_slug]" value="' . $options['wplpro_employee_slug'] . '" /></p>', 'wplpro-agents' );
 					_e( "<em>Don't forget to <a href='../wp-admin/options-permalink.php'>reset your permalinks</a> if you change the slug!</em></p>", 'wplpro-agents' );
 
+					echo '<hr>';
 
-						_e( '<hr style="margin: 25px 0;"><h3>IDX Imported Listings</h3><p>These settings apply to any imported IDX listings. Imported listings are updated via the latest API response twice daily.</p>', 'wp-listings-pro' );
+					echo '<h3>' . __('IDX Import Settings:', 'wp-listings-pro') . '</h3>';
+
+						_e( '<p>These settings apply to any imported IDX listings. Imported listings are updated via the latest API response twice daily.</p>', 'wp-listings-pro' );
 						_e( '<h2>Update Listings</h2>', 'wp-listings-pro' );
 						_e( '<div class="idx-import-option update-all"><label><h4>Update All</h4> <span class="dashicons dashicons-update"></span><input name="wplpro_plugin_settings[wplpro_idx_update]" id="wplpro_idx_update" type="radio" value="update-all" class="code" ' . checked( 'update-all', $options['wplpro_idx_update'], false ) . ' /> <p>Update all imported fields including gallery and featured image. <br /><em>* Excludes Post Title and Post Content</em></p></label></div>', 'wp-listings-pro' );
 						_e( '<div class="idx-import-option update-noimage"><label><h4>Update Excluding Images</h4> <span class="dashicons dashicons-update"></span><input name="wplpro_plugin_settings[wplpro_idx_update]" id="wplpro_idx_update" type="radio" value="update-noimage" class="code" ' . checked( 'update-noimage', $options['wplpro_idx_update'], false ) . ' /> <p>Update all imported fields, but excluding the gallery and featured image.<br /><em>* Also excludes Post Title and Post Content</em></p></label></div>', 'wp-listings-pro' );
@@ -326,7 +330,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 
 
-					_e( '<h3>Delete data on uninstall?</h3>', 'wp-listings-pro' );
+					echo '<h3>' . __('Uninstall:', 'wp-listings-pro') . '</h3>';
 					_e( '<p>Checking this option will delete <strong>all</strong> plugin data when uninstalling the plugin.</p>', 'wp-listings-pro' );
 					_e( '<p><input name="wplpro_plugin_settings[wplpro_uninstall_delete]" id="wplpro_uninstall_delete" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_uninstall_delete'], false ) . ' /> <strong style="color: red;">Delete plugin data on uninstall</strong></p><hr>', 'wp-listings-pro' );
 
