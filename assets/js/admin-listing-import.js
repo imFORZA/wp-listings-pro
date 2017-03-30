@@ -73,9 +73,7 @@ jQuery(document).ready(function($) {
 	});
 
 
-
-
-	// make sure labels are drawn in the correct state
+	// Make sure labels are drawn in the correct state.
 	jQuery('li').each(function()
 	{
 
@@ -84,7 +82,7 @@ jQuery(document).ready(function($) {
 
 	});
 
-	// toggle label css when checkbox is clicked
+	// Toggle label css when checkbox is clicked.
 	jQuery(':checkbox').click(function(e)
 	{
 
@@ -93,7 +91,7 @@ jQuery(document).ready(function($) {
 
 	});
 
-	// Select all
+	// Select all.
 	jQuery("#selectall").change(function(){
 		jQuery(".checkbox").prop('checked', jQuery(this).prop("checked"));
 		jQuery(this).closest('li').addClass('selected');
@@ -101,7 +99,7 @@ jQuery(document).ready(function($) {
 
 	/* === End listing importer JS. === */
 
-	/* === Scrollstop event ===*/
+	/* === Scrollstop event. ===*/
 	(function(){
 
 		var special = jQuery.event.special,
