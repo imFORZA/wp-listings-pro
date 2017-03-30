@@ -180,13 +180,8 @@ function wplpro_init() {
 
 
 		if ( '1' !== $options['disable_css'] ) {
-
-		wp_register_style( 'agents-css', WPLPRO_URL . 'assets/css/wplpro-agents.min.css', '', null, 'all' );
-		wp_register_style( 'wp_listings', WPLPRO_URL . 'assets/css/wp-listings.css', '', null, 'all' );
-
-		wp_enqueue_style( 'wp_listings' );
-		wp_enqueue_style( 'agents-css' );
-
+			wp_register_style( 'wp_listings', WPLPRO_URL . 'assets/css/wp-listings-pro.css', '', null, 'all' );
+			wp_enqueue_style( 'wp_listings' );
 		}
 
 		/** Register Font Awesome icons but don't enqueue them. */
