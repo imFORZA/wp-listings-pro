@@ -10,9 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
 class wplpro_Agents_Widget extends WP_Widget {
 
 	function __construct() {
-		$widget_ops = array( 'classname' => 'featured-employee', 'description' => __( 'Display a featured employee or employees contact info.', 'wp-listings-pro' ), 'customize_selective_refresh' => true );
+		$widget_ops = array(
+			'classname' => 'featured-employee',
+			'description' => __( 'Display a featured employee or employees contact info.', 'wp-listings-pro' ),
+			'customize_selective_refresh' => true
+		);
 		$control_ops = array( 'width' => 300, 'height' => 350 );
-		parent::__construct( 'featured-employee', __( 'WP Listings Pro - Agents', 'wp-listings-pro' ), $widget_ops, $control_ops );
+		parent::__construct( 'wplpro_employee', __( 'WP Listings Pro - Employee', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
 
 	function widget( $args, $instance ) {

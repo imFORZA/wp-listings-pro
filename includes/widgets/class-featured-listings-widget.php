@@ -20,9 +20,13 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 	 * @return void
 	 */
 	function __construct() {
-		$widget_ops  = array( 'classname' => 'wplistings-featured-listings clearfix', 'description' => __( 'Display grid-style featured listings', 'wp-listings-pro' ), 'customize_selective_refresh' => true );
+		$widget_ops  = array(
+			'classname' => 'wplistings-featured-listings clearfix',
+			'description' => __( 'Display grid-style featured listings', 'wp-listings-pro' ),
+			'customize_selective_refresh' => true
+		);
 		$control_ops = array( 'width' => 300, 'height' => 350 );
-		parent::__construct( 'wplistings-featured-listings', __( 'WP Listings Pro - Listings Showcase', 'wp-listings-pro' ), $widget_ops, $control_ops );
+		parent::__construct( 'wplpro_listings_showcase', __( 'WP Listings Pro - Listings Showcase', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
 
 	/**
