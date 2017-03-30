@@ -124,7 +124,7 @@ class WP_Listings {
 	 * Registers the option to load the stylesheet
 	 */
 	function register_settings() {
-		register_setting( 'wp_listings_options', 'wplpro_plugin_settings' );
+		register_setting( 'wp_listings_options', 'wplpro_plugin_settings', 'wplpro_set_sort' );
 	}
 
 	/**

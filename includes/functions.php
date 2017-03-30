@@ -688,3 +688,14 @@ function wplpro_post_select( $select_id, $post_type, $selected = array() ) {
 	}
 	echo '</select>';
 }
+
+/**
+ * Strip all characters from price.
+ *
+ * @param  [String] $price : Price to strip.
+ * @return [String]        : Price without chars.
+ */
+function wplpro_strip_price( $price ){
+	error_log( "++++++++++++++++++++++++++++++++++sTRIP PRice+++++++++++++");
+	return sanitize_text_field( preg_replace( '/[\€$,a-zA-Z]/', '', $price ) );
+}
