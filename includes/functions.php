@@ -662,3 +662,29 @@ add_action( 'pre_get_posts', 'wplpro_post_number' );
 if ( class_exists( 'Jetpack_Omnisearch_Posts' ) ) {
 	new Jetpack_Omnisearch_Posts( 'employee' );
 }
+
+/**
+ * Generate a Multiple post select for a specific post type.
+ *
+ * @param  [String]  $select_id : id and name attribute for select field.
+ * @param  [String]  $post_type : Post type to populate.
+ * @param  [Array]   $selected  : Array of selected posts.
+ */
+function wplpro_post_select( $select_id, $post_type, $selected = array() ) {
+	// Grab posts.
+	$posts = get_posts(
+		array(
+			'post_type'=> $post_type,
+			'post_status'=> 'publish',
+			'suppress_filters' => false,
+			'posts_per_page'=> -1
+		)
+	);
+
+	// Print Select box.
+	echo '<select name="'. $select_id .'" id="'.$select_id.'" multiple="multiple" class="feed-select widefat">';
+	foreach ($posts as $post) {
+		echo '<option value="', $post->ID, '"', in_array( $post->ID, $selected ) ? ' selected="selected"' : '', '>', ( $post->ID . ' - ' . $post->post_title ), '</option>';
+	}
+	echo '</select>';
+}

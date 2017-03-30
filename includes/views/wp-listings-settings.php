@@ -331,16 +331,15 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 						_e( '<h3>Sort Listings?</h3>', 'wp-listings-pro' );
 
-						$sort_options = get_option( 'impress_pro_sort' );
 						?>
-						<label> <input type="radio" name="impress_pro_sort[enable_sort]" value="1" <?php if ( ! empty( $sort_options['enable_sort'] ) == '1' ) {  echo 'checked="checked"'; } ?>> Yes</label><br>
-						<label> <input type="radio" name="impress_pro_sort[enable_sort]" value="0" <?php if ( ! empty( $sort_options['enable_sort'] ) == '0' ) {  echo 'checked="checked"'; } ?>> No</label><br><br>
+						<label> <input type="radio" name="wplpro_plugin_settings[enable_sort]" value="1" <?php if ( ! empty( $options['enable_sort'] ) == '1' ) {  echo 'checked="checked"'; } ?>> Yes</label><br>
+						<label> <input type="radio" name="wplpro_plugin_settings[enable_sort]" value="0" <?php if ( ! empty( $options['enable_sort'] ) == '0' ) {  echo 'checked="checked"'; } ?>> No</label><br><br>
 
 						<?php
-						_e( '<h3>Sort Listings?</h3>', 'wp-listings-pro' );
+						_e( '<h3>Pin Listings?</h3>', 'wp-listings-pro' );
 
-						$selected = ( isset( $sort_options['pinned'] ) ) ? $sort_options['pinned'] : array();
-						generate_post_select( 'impress_pro_sort[pinned][]', 'listing', $selected );
+						$selected = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
+						wplpro_post_select( 'wplpro_plugin_settings[pinned][]', 'listing', $selected );
 						echo '<p class="description">' . esc_attr( 'You can select one or more listings to pin to the top of the search results', 'impresspro' ) . '</p>';
 
 					echo '<hr>';
@@ -357,16 +356,3 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 		</div>
 	</div>
 </div>
-
-<?php
-function generate_post_select( $select_id, $post_type, $selected = 0) {
-	$post_type_object = get_post_type_object($post_type);
-	$label = $post_type_object->label;
-
-	$posts = get_posts(array('post_type'=> $post_type, 'post_status'=> 'publish', 'suppress_filters' => false, 'posts_per_page'=>-1));
-	echo '<select name="'. $select_id .'" id="'.$select_id.'" multiple="multiple" class="feed-select">';
-	foreach ($posts as $post) {
-		echo '<option value="', $post->ID, '"', in_array( $post->ID, $selected ) ? ' selected="selected"' : '', '>', ( $post->ID . ' - ' . $post->post_title ), '</option>';
-	}
-	echo '</select>';
-}
