@@ -329,11 +329,24 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 						_e( '<p><input name="wplpro_plugin_settings[wplpro_display_idx_link]" id="wplpro_display_idx_link" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_display_idx_link'], false ) . ' /> Display a link to IDX Broker details page?</p><hr style="clear: both;">', 'wp-listings-pro' );
 
 
+						_e( '<h3>Sort Listings?</h3>', 'wp-listings-pro' );
 
+						?>
+						<label> <input type="radio" name="wplpro_plugin_settings[enable_sort]" value="1" <?php if ( ! empty( $options['enable_sort'] ) == '1' ) {  echo 'checked="checked"'; } ?>> Yes</label><br>
+						<label> <input type="radio" name="wplpro_plugin_settings[enable_sort]" value="0" <?php if ( ! empty( $options['enable_sort'] ) == '0' ) {  echo 'checked="checked"'; } ?>> No</label><br><br>
 
+						<?php
+						_e( '<h3>Pin Listings?</h3>', 'wp-listings-pro' );
+
+						$selected = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
+						wplpro_post_select( 'wplpro_plugin_settings[pinned][]', 'listing', $selected );
+						echo '<p class="description">' . esc_attr( 'You can select one or more listings to pin to the top of the search results', 'impresspro' ) . '</p>';
+
+					echo '<hr>';
 					echo '<h3>' . __('Uninstall:', 'wp-listings-pro') . '</h3>';
 					_e( '<p>Checking this option will delete <strong>all</strong> plugin data when uninstalling the plugin.</p>', 'wp-listings-pro' );
 					_e( '<p><input name="wplpro_plugin_settings[wplpro_uninstall_delete]" id="wplpro_uninstall_delete" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_uninstall_delete'], false ) . ' /> <strong style="color: red;">Delete plugin data on uninstall</strong></p><hr>', 'wp-listings-pro' );
+
 
 					?>
 

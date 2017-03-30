@@ -1,4 +1,6 @@
 jQuery(document).ready(function($) {
+	jQuery(".feed-select").select2();
+
 	// Save dismiss state
 	jQuery( '.notice.is-dismissible' ).on('click', '.notice-dismiss', function ( event ) {
 		event.preventDefault();
