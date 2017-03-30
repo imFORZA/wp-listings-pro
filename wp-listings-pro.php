@@ -381,3 +381,87 @@ function wp_listings_register_widgets() {
 function wplpro_agents_migrate() {
 	new WPLPRO_Agents_Migrate();
 }
+
+add_action( 'save_post', 'impressfeeds_save_post', 10, 2 );
+
+/**
+ * Save price without extra chars.
+ *
+ * @param  [int]    $post_id  : WP post ID.
+ * @param  [Object] $post   : WP post object.
+ */
+function impressfeeds_save_post( $post_id, $post ) {
+	// Check the post type .
+	if ( 'listing' === $post->post_type ) {
+		// Check if price field has been set.
+		if ( isset( $_POST['wp_listings']['_listing_price'] ) ) {
+			// Set hidden price meta_field.
+			$price = $_POST['wp_listings']['_listing_price'];
+			impressfeeds_set_hidden_price( $post_id, $price );
+		}
+	}
+}
+
+/**
+ * Set hidden price for a single listing.
+ *
+ * @param [int]    $post_id  : WP post ID.
+ * @param [string] $price    : Price string to sanitize and save.
+ * @param [array]  $posts    : Array of pinned posts.
+ */
+function impressfeeds_set_hidden_price( $post_id, $price, $posts = null ) {
+	static $pinned;
+
+	if ( ! isset( $pinned ) ) {  // Only set $pinned static var once.
+		// If posts passed in use those.
+		if ( isset( $posts ) ) {
+			$pinned = $posts;
+		} // Else grabbed pinned posts from WP options.
+		else {
+			$sort_options = get_option( 'impress_pro_sort' );
+			$pinned = ( isset( $sort_options['pinned'] ) ) ? $sort_options['pinned'] : array();
+		}
+	}
+
+	// Sanitize price.
+	$price = sanitize_text_field( preg_replace( '/[\€$,a-zA-Z]/', '', $price ) );
+
+	// If pinned set hidden price really really high so they show up on top when sorting by price.
+	if ( in_array( (int) $post_id, $pinned ) ) {
+			$price = 500000000;
+	}
+	if ( empty( $price ) ) {
+		$price = 0;
+	}
+
+	update_post_meta( $post_id, '_listing_hidden_price', $price );
+}
+
+$sort_options = get_option( 'impress_pro_sort' );
+if ( ! empty( $sort_options ) && $sort_options['enable_sort'] ) {
+	add_action( 'pre_get_posts', 'impresspro_pre_get_listings', 99999 );
+}
+
+/**
+ * Modify listing search query.
+ *
+ * @param  [Object] $query : WP query object.
+ * @return [Object]        : Modified query.
+ */
+function impresspro_pre_get_listings( $query ) {
+	// Do not modify queries in the admin.
+	if ( is_admin() || is_feed() ) {
+		return $query;
+	}
+
+	// Only modify queries for 'listing' post type.
+	if ( isset( $query->query_vars['post_type'] ) && 'listing' === $query->query_vars['post_type'] ) {
+
+		$query->set( 'orderby', 'meta_value_num' );
+		$query->set( 'meta_key', '_listing_hidden_price' );
+		$query->set( 'order', 'DESC' );
+
+	}
+
+	return $query;
+}
