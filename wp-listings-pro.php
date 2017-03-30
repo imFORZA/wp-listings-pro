@@ -30,6 +30,8 @@ function wplpro_activation() {
 
 	wplpro_init();
 
+	wplpro_setall_hidden_price();
+
 	/** Flush rewrite rules. */
 	if ( ! post_type_exists( 'listing' ) ) {
 
@@ -412,6 +414,20 @@ function wplpro_set_hidden_price( $post_id, $price, $posts = null ) {
 	}
 
 	update_post_meta( $post_id, '_listing_hidden_price', $price );
+}
+
+/**
+ * Save hidden price on all listings.
+ */
+function wplpro_setall_hidden_price() {
+	// Grab all listings.
+	$listings = get_posts( array( 'post_type' => 'listing', 'orderby' => 'post_id', 'order' => 'ASC', 'posts_per_page' => -1 ) );
+
+	// Loop and set hidden price.
+	foreach ( $listings as $listing ) {
+		$price = get_post_meta( $listing->ID, '_listing_price', true );
+		wplpro_set_hidden_price( $listing->ID, $price );
+	}
 }
 
 $options = get_option( 'wplpro_plugin_settings' );
