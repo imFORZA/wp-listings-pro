@@ -272,10 +272,11 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					_e( '<p><input name="wplpro_plugin_settings[wplpro_display_currency_code]" id="wplpro_display_currency_code" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_display_currency_code'], 0 ) . ' /> Display currency code?</p><hr>', 'wp-listings-pro' );
 
 					echo '<h3>' . __('Archive Settings:', 'wp-listings-pro') . '</h3>';
+					echo '<p>Choose how many listings and employees to display on archive pages. There is a max of 50 to prevent performance issues.</p>';
 
-					_e( '<p>Total Number of Listings to display on Listing Archives: <input name="wplpro_plugin_settings[wplpro_archive_posts_num]" id="wplpro_archive_posts_num" type="text" value="' . $options['wplpro_archive_posts_num'] . '" size="1" /></p>', 'wp-listings-pro' );
+					_e( '<p>Total Number of Listings to display on Listing Archives: <input name="wplpro_plugin_settings[wplpro_archive_posts_num]" id="wplpro_archive_posts_num" type="number" value="' . $options['wplpro_archive_posts_num'] . '" size="1" min="0" max="50" /></p>', 'wp-listings-pro' );
 
-				    _e( '<p>Total Number of Employees to display on Employee Archives: <input name="wplpro_plugin_settings[wplpro_archive_agent_num]" id="wplpro_archive_posts_num" type="text" value="' . $options['wplpro_archive_agent_num'] . '" size="1" /></p>', 'wplpro-agents' );
+				    _e( '<p>Total Number of Employees to display on Employee Archives: <input name="wplpro_plugin_settings[wplpro_archive_agent_num]" id="wplpro_archive_posts_num" type="number" value="' . $options['wplpro_archive_agent_num'] . '" size="1" min="0" max="50" /></p>', 'wplpro-agents' );
 
 					echo '<hr>';
 
