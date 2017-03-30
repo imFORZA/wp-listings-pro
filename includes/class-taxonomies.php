@@ -497,7 +497,17 @@ class wplpro_taxonomies {
 		}
 
 		/** Default terms for property-type */
-		$property_type_terms = apply_filters( 'wp_listings_default_property_type_terms', array( 'Residential' => 'residential', 'Condo' => 'condo', 'Townhome' => 'townhome', 'Commercial' => 'commercial' ) );
+		$property_type_terms = apply_filters( 'wp_listings_default_property_type_terms', array(
+		'Residential' => 'resi',
+		'Residential Lease' => 'rlse',
+		'Residential Income' => 'rinc',
+		'Mobile Home' => 'mobi',
+		'Land' => 'land',
+		'Farm Land' => 'farm',
+		'Commercial' => 'coms',
+		'Commerical Lease' => 'coml',
+		'Business Opportunity' => 'buso'
+		) );
 		foreach ( $property_type_terms as $term => $slug ) {
 			if ( term_exists( $term, 'property-types' ) ) {
 				continue;
