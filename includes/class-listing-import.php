@@ -328,6 +328,7 @@ class WPL_Idx_Listing {
 		// Add post meta for existing WPL fields
 		update_post_meta( $id, '_listing_lot_sqft', $idx_featured_listing_data['acres'] . ' acres' );
 		update_post_meta( $id, '_listing_price', $idx_featured_listing_data['listingPrice'] );
+		update_post_meta( $id, '_listing_hidden_price', wplpro_strip_price( $idx_featured_listing_data['listingPrice'] ) );
 		update_post_meta( $id, '_listing_address', $idx_featured_listing_data['address'] );
 		update_post_meta( $id, '_listing_city', $idx_featured_listing_data['cityName'] );
 		update_post_meta( $id, '_listing_county', $idx_featured_listing_data['countyName'] );
