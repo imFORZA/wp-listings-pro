@@ -7,9 +7,12 @@ jQuery(document).ready(function($) {
 		});
 	});
 
-	jQuery('.grid').masonry({
-		columnWidth: '.grid-sizer',
-		itemSelector: '.grid-item'
+	var $container = jQuery('.grid');
+	$container.imagesLoaded(function(){
+		$container.masonry({
+			columnWidth: '.grid-sizer',
+			itemSelector: '.grid-item'
+		});
 	});
 
 	jQuery(document).on( 'click', '.delete-post', function() {

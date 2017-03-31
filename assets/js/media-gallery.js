@@ -4,7 +4,7 @@ var image_gallery_id        = '#listing_image_gallery';
 var image_gallery_container = '#listing_images_container';
 var image_gallery_listing   = 'ul.listing_images';
 var image_types             = ["png", "jpg", "jpeg", "gif", "svg"];
-foobar_gallery_popup(listing_image_gallery_frame, image_gallery_link, image_gallery_id, image_gallery_container, image_gallery_listing, image_types, true);
+foobar_gallery_popup(listing_image_gallery_frame, image_gallery_link, image_gallery_id, image_gallery_container, image_gallery_listing, true, image_types);
 
 var listing_doc_gallery_frame = new Object();
 var doc_gallery_link        = '.add_listing_docs';
@@ -12,9 +12,15 @@ var doc_gallery_id          = '#listing_doc_gallery';
 var doc_gallery_container   = '#listing_docs_container';
 var doc_gallery_listing     = 'ul.listing_docs';
 var doc_types               = ["doc", "docx", "xls", "xlsx", "pdf"];
-foobar_gallery_popup(listing_doc_gallery_frame, doc_gallery_link, doc_gallery_id, doc_gallery_container, doc_gallery_listing, doc_types, false);
+foobar_gallery_popup(listing_doc_gallery_frame, doc_gallery_link, doc_gallery_id, doc_gallery_container, doc_gallery_listing, false, doc_types);
 
-function foobar_gallery_popup(listing_gallery_frame, link, gallery_id, listing_image_container, listing_image_class, $image_types = [], use_default_thumbnail = true){
+function foobar_gallery_popup(listing_gallery_frame, link, gallery_id, listing_image_container, listing_image_class, use_default_thumbnail, $image_types){
+  if($image_types == undefined){
+    $image_types = [];
+  }
+  if(use_default_thumbnail == undefined){
+    use_default_thumbnail = false;
+  }
   var $media_gallery_ids  = jQuery( gallery_id );
   var $listing_ul     = jQuery( listing_image_container ).find( listing_image_class );
   jQuery( link ).on('click', 'a', function(event){
