@@ -496,7 +496,7 @@ function wp_listings_idx_listing_scripts() {
 
 	wp_enqueue_script( 'jquery-masonry' );
 	wp_enqueue_script( 'wp_listings_idx_listing_lazyload', WPLPRO_URL . 'assets/js/jquery.lazyload.min.js', array( 'jquery' ), true );
-	wp_enqueue_script( 'wp_listings_idx_listing_delete_script', WPLPRO_URL . 'assets/js/admin-listing-import.min.js', array( 'jquery' ), true );
+	wp_enqueue_script( 'wp_listings_idx_listing_delete_script', WPLPRO_URL . 'assets/js/admin-import.js', array( 'jquery' ), true ); // should be min
 	wp_localize_script( 'wp_listings_idx_listing_delete_script', 'DeleteListingAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	wp_localize_script( 'wp_listings_idx_listing_delete_script', 'DeleteAllListingAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	wp_enqueue_style( 'wp_listings_idx_listing_style', WPLPRO_URL . 'assets/css/wp-listings-import.min.css' );
