@@ -1236,7 +1236,7 @@ class WPLPro_Agents_Taxonomies {
 	    <tr class="form-field wplpro-term-image-wrap">
 	        <th scope="row"><label for="wplpro-term-image"><?php esc_html_e( 'Image', 'wp-listings-pro' ); ?></label></th>
 	        <td>
-	            <?php wp_nonce_field( basename( __FILE__ ), 'wpmlpro_term_image_nonce' ); ?>
+	            <?php wp_nonce_field( basename( __FILE__ ), 'wplpro_term_image_nonce' ); ?>
 	            <!-- Begin term image -->
 				<p>
 					<input type="hidden" name="wplpro-term-image" id="wplpro-term-image" value="<?php echo esc_attr( $image_id ); ?>" />
