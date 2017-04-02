@@ -8,7 +8,7 @@
  * @since 0.1.0
  */
 
-function archive_listing_loop() {
+function wplpro_archive_listing_loop() {
 
 		global $post;
 
@@ -83,7 +83,7 @@ if ( function_exists( 'equity' ) ) {
 	remove_action( 'equity_entry_footer', 'equity_post_meta' );
 
 	remove_action( 'equity_loop', 'equity_do_loop' );
-	add_action( 'equity_loop', 'archive_listing_loop' );
+	add_action( 'equity_loop', 'wplpro_archive_listing_loop' );
 
 	equity();
 
@@ -96,7 +96,7 @@ if ( function_exists( 'equity' ) ) {
 	remove_action( 'genesis_after_entry', 'genesis_do_author_box_single' );
 
 	remove_action( 'genesis_loop', 'genesis_do_loop' );
-	add_action( 'genesis_loop', 'archive_listing_loop' );
+	add_action( 'genesis_loop', 'wplpro_archive_listing_loop' );
 
 	genesis();
 
@@ -126,7 +126,7 @@ if ( function_exists( 'equity' ) ) {
 
 			<?php
 
-			archive_listing_loop();
+			wplpro_archive_listing_loop();
 
 			else :
 				// If no content, include the "No posts found" template.

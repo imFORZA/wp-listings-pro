@@ -8,19 +8,40 @@
  * @since 0.9.0
  */
 
-add_action( 'wp_enqueue_scripts', 'enqueue_single_employee_scripts' );
-function enqueue_single_employee_scripts() {
+add_action( 'wp_enqueue_scripts', 'wplpro_enqueue_single_employee_scripts' );
+
+
+/**
+ * wplpro_enqueue_single_employee_scripts function.
+ *
+ * @access public
+ * @return void
+ */
+function wplpro_enqueue_single_employee_scripts() {
 	wp_enqueue_style( 'font-awesome' );
 }
 
-add_filter( 'body_class', 'add_body_class' );
+add_filter( 'body_class', 'wplpro_add_employee_body_class' );
 
-function add_body_class( $classes ) {
+/**
+ * wplpro_add_employee_body_class
+ *
+ * @access public
+ * @param mixed $classes Classes.
+ * @return void
+ */
+function wplpro_add_employee_body_class( $classes ) {
 	$classes[] = 'archive-employee';
 	return $classes;
 }
 
-function archive_employee_loop() {
+/**
+ * wplpro_archive_employee_loop function.
+ *
+ * @access public
+ * @return void
+ */
+function wplpro_archive_employee_loop() {
 
 	$class = '';
 	$i = 4;
@@ -86,7 +107,7 @@ if ( function_exists( 'equity' ) ) {
 	remove_action( 'equity_entry_footer', 'equity_post_meta' );
 
 	remove_action( 'equity_loop', 'equity_do_loop' );
-	add_action( 'equity_loop', 'archive_employee_loop' );
+	add_action( 'equity_loop', 'wplpro_archive_employee_loop' );
 
 	equity();
 
@@ -99,7 +120,7 @@ if ( function_exists( 'equity' ) ) {
 	remove_action( 'genesis_after_entry', 'genesis_do_author_box_single' );
 
 	remove_action( 'genesis_loop', 'genesis_do_loop' );
-	add_action( 'genesis_loop', 'archive_employee_loop' );
+	add_action( 'genesis_loop', 'wplpro_archive_employee_loop' );
 
 	genesis();
 
@@ -131,7 +152,7 @@ if ( function_exists( 'equity' ) ) {
 
 	<?php
 
-	archive_employee_loop();
+	wplpro_archive_employee_loop();
 
 	else :
 		// If no content, include the "No posts found" template.

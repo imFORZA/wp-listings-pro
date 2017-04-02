@@ -20,12 +20,12 @@ function enqueue_single_employee_scripts() {
 }
 
 /**
- * single_employee_post_content function.
+ * Single Employee Post Content.
  *
  * @access public
  * @return void
  */
-function single_employee_post_content() {
+function wplpro_single_employee_post_content() {
 	global $post;
 	?>
 
@@ -68,7 +68,7 @@ if ( function_exists( 'equity' ) ) {
 	remove_action( 'equity_entry_footer', 'equity_post_meta' );
 
 	remove_action( 'equity_entry_content', 'equity_do_post_content' );
-	add_action( 'equity_entry_content', 'single_employee_post_content' );
+	add_action( 'equity_entry_content', 'wplpro_single_employee_post_content' );
 
 	equity();
 
@@ -84,8 +84,8 @@ if ( function_exists( 'equity' ) ) {
 
 	remove_action( 'genesis_entry_content', 'genesis_do_post_content' ); // HTML5.
 	remove_action( 'genesis_post_content', 'genesis_do_post_content' ); // XHTML.
-	add_action( 'genesis_entry_content', 'single_employee_post_content' ); // HTML5.
-	add_action( 'genesis_post_content', 'single_employee_post_content' ); // XHTML.
+	add_action( 'genesis_entry_content', 'wplpro_single_employee_post_content' ); // HTML5.
+	add_action( 'genesis_post_content', 'wplpro_single_employee_post_content' ); // XHTML.
 
 	genesis();
 
@@ -113,7 +113,7 @@ if ( function_exists( 'equity' ) ) {
 		</header><!-- .entry-header -->
 
 
-	<?php single_employee_post_content(); ?>
+	<?php wplpro_single_employee_post_content(); ?>
 
 	</article><!-- #post-ID -->
 
