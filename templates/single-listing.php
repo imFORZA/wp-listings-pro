@@ -6,7 +6,7 @@
  * @since 0.1.0
  */
 
-add_action( 'wp_enqueue_scripts', 'enqueue_single_listing_scripts' );
+add_action( 'wp_enqueue_scripts', 'wplpro_enqueue_single_listing_scripts' );
 
 
 /**
@@ -15,7 +15,7 @@ add_action( 'wp_enqueue_scripts', 'enqueue_single_listing_scripts' );
  * @access public
  * @return void
  */
-function enqueue_single_listing_scripts() {
+function wplpro_enqueue_single_listing_scripts() {
 	wp_enqueue_style( 'wp-listings-single' );
 	wp_enqueue_style( 'font-awesome' );
 	wp_enqueue_script( 'jquery-validate', array( 'jquery' ), true, true );
@@ -24,12 +24,12 @@ function enqueue_single_listing_scripts() {
 }
 
 /**
- * single_listing_post_content function.
+ * Single Listing Post Content.
  *
  * @access public
  * @return void
  */
-function single_listing_post_content() {
+function wplpro_single_listing_post_content() {
 
 	global $post;
 	$options = get_option( 'wplpro_plugin_settings' );
@@ -326,7 +326,7 @@ if ( function_exists( 'equity' ) ) {
 	remove_action( 'equity_entry_footer', 'equity_post_meta' );
 
 	remove_action( 'equity_entry_content', 'equity_do_post_content' );
-	add_action( 'equity_entry_content', 'single_listing_post_content' );
+	add_action( 'equity_entry_content', 'wplpro_single_listing_post_content' );
 
 	equity();
 
@@ -342,8 +342,8 @@ if ( function_exists( 'equity' ) ) {
 
 	remove_action( 'genesis_entry_content', 'genesis_do_post_content' ); // HTML5
 	remove_action( 'genesis_post_content', 'genesis_do_post_content' ); // XHTML
-	add_action( 'genesis_entry_content', 'single_listing_post_content' ); // HTML5
-	add_action( 'genesis_post_content', 'single_listing_post_content' ); // XHTML
+	add_action( 'genesis_entry_content', 'wplpro_single_listing_post_content' ); // HTML5
+	add_action( 'genesis_post_content', 'wplpro_single_listing_post_content' ); // XHTML
 
 	genesis();
 
@@ -380,7 +380,7 @@ if ( function_exists( 'equity' ) ) {
 			</header><!-- .entry-header -->
 
 
-		<?php single_listing_post_content(); ?>
+		<?php wplpro_single_listing_post_content(); ?>
 
 		</article><!-- #post-ID -->
 
