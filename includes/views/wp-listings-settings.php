@@ -57,8 +57,15 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 
 				<?php
+				if ( ! isset( $options['wplpro_stylesheet_load'] ) ) {
+					$options['wplpro_stylesheet_load'] = 0;
+				}
 				if ( 1 === $options['wplpro_stylesheet_load'] ) {
 					echo '<p style="color:red; font-weight: bold;">The plugin\'s main stylesheet (wp-listings.min.css) has been deregistered<p>';
+				}
+
+				if ( ! isset( $options['wplpro_widgets_stylesheet_load'] ) ) {
+					$options['wplpro_widgets_stylesheet_load'] = 0;
 				}
 				if ( 1 === $options['wplpro_widgets_stylesheet_load'] ) {
 					echo '<p style="color:red; font-weight: bold;">The plugin\'s widget stylesheet (wp-listings-widgets.min.css) has been deregistered<p>';
