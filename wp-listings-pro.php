@@ -218,15 +218,15 @@ function wplpro_init() {
 	add_action( 'admin_enqueue_scripts', 'wplpro_agents_admin_scripts_styles' );
 
 	/** Enqueues wp-listings-widgets.css style file if it exists and is not deregistered in settings. */
-	add_action( 'wp_enqueue_scripts', 'add_wp_listings_widgets_styles' );
+	add_action( 'wp_enqueue_scripts', 'wplpro_add_widget_styles' );
 
 	/**
-	 * Add_wp_listings_widgets_styles function.
+	 * wplpro_add_widget_styles function.
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function add_wp_listings_widgets_styles() {
+	function wplpro_add_widget_styles() {
 
 		$options = get_option( 'wplpro_plugin_settings' );
 
@@ -250,7 +250,7 @@ function wplpro_init() {
 	 * @access public
 	 * @return void
 	 */
-	function wp_listings_admin_scripts_styles() {
+	function wplpro_admin_scripts_styles() {
 		wp_enqueue_style( 'wp_listings_admin_css', WPLPRO_URL . 'assets/css/wp-listings-admin.css' );
 
 		wp_enqueue_style( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css', null, null, 'screen' );
@@ -286,7 +286,7 @@ function wplpro_init() {
 		wp_enqueue_media();
 
 	}
-	add_action( 'admin_enqueue_scripts', 'wp_listings_admin_scripts_styles' );
+	add_action( 'admin_enqueue_scripts', 'wplpro_admin_scripts_styles' );
 
 	/** Instantiate. */
 	$_wp_listings = new WP_Listings;
