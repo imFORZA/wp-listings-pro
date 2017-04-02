@@ -428,6 +428,9 @@ function wplpro_setall_hidden_price() {
 }
 
 $options = get_option( 'wplpro_plugin_settings' );
+if ( ! isset( $options['enable_sort'] ) ) {
+	$options['enable_sort'] = 0;
+}
 if ( ! empty( $options ) && $options['enable_sort'] ) {
 	add_action( 'pre_get_posts', 'wplpro_pre_get_listings', 99999 );
 }
