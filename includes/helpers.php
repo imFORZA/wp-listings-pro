@@ -36,6 +36,19 @@ function wplpro_list_terms( $taxonomy ) {
 
 
 /**
+ * Get Image ID by URL.
+ *
+ * @access public
+ * @param mixed $image_url Image URL.
+ * @return void
+ */
+function wplpro_get_image_id($image_url) {
+	global $wpdb;
+	$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ));
+        return $attachment[0];
+}
+
+/**
  * Returns true if the queried taxonomy is a taxonomy of the given post type
  */
 function wplpro_is_taxonomy_of( $post_type ) {
@@ -322,7 +335,7 @@ function wplpro_get_connected_posts_of_type_archive( $type, $post ) {
 }
 
 /**
- * Outputs markup for the connected listings on single agents
+ * Outputs markup for the connected listings on single agents.
  */
 function wplpro_connected_listings_markup() {
 
