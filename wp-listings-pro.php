@@ -403,7 +403,7 @@ function wplpro_set_hidden_price( $post_id, $price, $posts = null ) {
  */
 function wplpro_setall_hidden_price() {
 	// Grab all listings.
-	$listings = get_posts( array( 'post_type' => 'listing', 'orderby' => 'post_id', 'order' => 'ASC', 'posts_per_page' => -1 ) );
+	$listings = get_posts( array( 'post_type' => 'listing', 'orderby' => 'post_id', 'order' => 'ASC', 'posts_per_page' => -1 ) ); //TODO: dont use -1 for posts_per_page.
 
 	// Loop and set hidden price.
 	foreach ( $listings as $listing ) {
