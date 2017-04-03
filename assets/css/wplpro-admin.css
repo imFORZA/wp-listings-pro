@@ -59,7 +59,7 @@
   padding: 15px; }
 
 .idx-import-option input[type=radio]:checked + p {
-  background: #fff; }
+  background: #ffffff; }
 
 /* Edit listing screen */
 #wp-_listing_gallery-media-buttons #idx-shortcode {
@@ -101,7 +101,7 @@
           height: auto;
           display: block; }
       #wplpro-listing-images .inside #listing_images_container ul li.wc-metabox-sortable-placeholder {
-        border: 3px dashed #dddddd;
+        border: 3px dashed #d5d5d5;
         position: relative; }
         #wplpro-listing-images .inside #listing_images_container ul li.wc-metabox-sortable-placeholder:after {
           font-family: 'Dashicons';
@@ -122,7 +122,7 @@
           content: "";
           font-size: 2.618em;
           line-height: 72px;
-          color: #ddd; }
+          color: #d5d5d5; }
       #wplpro-listing-images .inside #listing_images_container ul ul.actions {
         position: absolute;
         top: -8px;
@@ -165,7 +165,7 @@
               height: 100%;
               text-align: center;
               content: "";
-              color: #999; }
+              color: #999999; }
             #wplpro-listing-images .inside #listing_images_container ul ul.actions li a.delete:hover:before {
               color: red; }
       #wplpro-listing-images .inside #listing_images_container ul li:hover ul.actions {
@@ -252,7 +252,7 @@
           content: "";
           font-size: 2.618em;
           line-height: 72px;
-          color: #ddd; }
+          color: #ffffff; }
       #wplpro-listing-docs .inside #listing_docs_container ul ul.actions {
         position: absolute;
         top: -8px;
@@ -295,7 +295,7 @@
               height: 100%;
               text-align: center;
               content: "";
-              color: #999; }
+              color: #999999; }
             #wplpro-listing-docs .inside #listing_docs_container ul ul.actions li a.delete:hover:before {
               color: red; }
       #wplpro-listing-docs .inside #listing_docs_container ul li:hover ul.actions {
