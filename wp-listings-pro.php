@@ -168,7 +168,7 @@ function wplpro_init() {
 
 		$options = get_option( 'wplpro_plugin_settings' );
 
-		if ( !isset($options['disable_css'] ) ) {
+		if ( ! isset( $options['disable_css'] ) ) {
 			$options['disable_css'] = 0;
 		}
 		if ( '1' !== $options['disable_css'] ) {
@@ -177,7 +177,7 @@ function wplpro_init() {
 		}
 
 		/** Register Font Awesome icons but don't enqueue them. */
-		if ( !isset($options['disable_fontawesome'] ) ) {
+		if ( ! isset( $options['disable_fontawesome'] ) ) {
 			$options['disable_fontawesome'] = 0;
 		}
 		if ( '1' !== $options['disable_fontawesome'] ) {
@@ -186,7 +186,7 @@ function wplpro_init() {
 		}
 
 		/** Register Properticons but don't enqueue them. */
-		if ( !isset($options['disable_properticons'] ) ) {
+		if ( ! isset( $options['disable_properticons'] ) ) {
 			$options['disable_properticons'] = 0;
 		}
 		if ( '1' !== $options['disable_properticons'] ) {
@@ -204,7 +204,6 @@ function wplpro_init() {
 	 * @access public
 	 * @return void
 	 */
-
 	function wplpro_admin_scripts_styles() {
 		$localize_script = array(
 			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
@@ -235,7 +234,6 @@ function wplpro_init() {
 			'wp_version' => $wp_version,
 			'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
 		) );
-
 
 		/* Pass custom variables to the script. */
 		wp_localize_script( 'wp-listings-admin', 'wplpro_term_image', $localize_script );

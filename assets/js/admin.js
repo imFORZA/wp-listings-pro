@@ -128,7 +128,7 @@ jQuery(document).ready(function($) {
 				url: DeleteAllListingAjax.ajaxurl,
 				data: {
 					action: 'wp_listings_idx_listing_delete_all',
-					nonce: nonce,
+					nonce: nonce
 				},
 				success: function( result ) {
 					if( result === 'success' ) {
@@ -258,10 +258,10 @@ jQuery(document).ready(function($) {
  */
 function foobar_gallery_popup(listing_gallery_frame, link, gallery_id, listing_image_container, listing_image_class, use_default_thumbnail, $image_types){
 	// Checking for default parameters
-	if($image_types == undefined){
+	if($image_types === undefined){
     $image_types = [];
   }
-  if(use_default_thumbnail == undefined){
+  if(use_default_thumbnail === undefined){
     use_default_thumbnail = false;
   }
   var $media_gallery_ids  = jQuery( gallery_id );

@@ -19,7 +19,7 @@ class wplpro_Agents_Widget extends WP_Widget {
 		$widget_ops = array(
 			'classname' => 'featured-employee',
 			'description' => __( 'Display a featured employee or employees contact info.', 'wp-listings-pro' ),
-			'customize_selective_refresh' => true
+			'customize_selective_refresh' => true,
 		);
 		$control_ops = array( 'width' => 300, 'height' => 350 );
 		parent::__construct( 'wplpro_employee', __( 'WP Listings Pro - Employee', 'wp-listings-pro' ), $widget_ops, $control_ops );

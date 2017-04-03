@@ -157,14 +157,13 @@ class WPLPRO_Meta_Box_Listing_Images {
 // <p class="add_listing_videos hide-if-no-js">
 		// <a href="#" data-choose="< ?php //esc_attr_e( 'Add videos to listing gallery', 'wp-listings-pro' ); ? >" data-update="< ?php //esc_attr_e( 'Add to gallery', 'wp-listings-pro' ); ? >" data-delete="< ?php //esc_attr_e( 'Delete video', 'wp-listings-pro' ); ? >" data-text="< ?php //esc_attr_e( 'Delete', 'wp-listings-pro' ); ? >">< ?php //_e( 'Add listing gallery videos', 'wp-listings-pro' ); ? ></a>
 		// </p>
-
-  // -->
-	// 	<!-- This works -->
- // 		<!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js"></script> -->
- // 		<!-- TODO: Turn it into a registered and then enqueued script with PROPER LINKING -->
- // 		< ? 	php
-// 		wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js', array('jquery'), null, true );
-// 	}
+	// -->
+	// <!-- This works -->
+	// <!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js"></script> -->
+	// <!-- TODO: Turn it into a registered and then enqueued script with PROPER LINKING -->
+	// < ?     php
+// wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js', array('jquery'), null, true );
+// }
 //
 // **
 // * Save meta box data.
@@ -251,18 +250,18 @@ class WPLPRO_Meta_Box_Listing_Docs {
 	</ul>
 
 
-  			<input type="hidden" id="listing_doc_gallery" name="listing_doc_gallery" value="<?php echo esc_attr( $listing_doc_gallery ); ?>" />
+				<input type="hidden" id="listing_doc_gallery" name="listing_doc_gallery" value="<?php echo esc_attr( $listing_doc_gallery ); ?>" />
 
-  		</div>
-  		<p class="add_listing_docs hide-if-no-js">
- 		<a href="#" data-choose="<?php esc_attr_e( 'Add documents to listing', 'wp-listings-pro' ); ?>" data-update="<?php esc_attr_e( 'Add to listing', 'wp-listings-pro' ); ?>" data-delete="<?php esc_attr_e( 'Delete document', 'wp-listings-pro' ); ?>" data-text="<?php esc_attr_e( 'Delete', 'wp-listings-pro' ); ?>"><?php _e( 'Add listing documents', 'wp-listings-pro' ); ?></a>
- 		</p>
- 		<!-- This works -->
-  		<!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js"></script> -->
-  		<!-- TODO: Turn it into a registered and then enqueued script with PROPER LINKING -->
-  		<?php
- 		//wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js', array('jquery'), null, true );
- 	}
+			</div>
+			<p class="add_listing_docs hide-if-no-js">
+			<a href="#" data-choose="<?php esc_attr_e( 'Add documents to listing', 'wp-listings-pro' ); ?>" data-update="<?php esc_attr_e( 'Add to listing', 'wp-listings-pro' ); ?>" data-delete="<?php esc_attr_e( 'Delete document', 'wp-listings-pro' ); ?>" data-text="<?php esc_attr_e( 'Delete', 'wp-listings-pro' ); ?>"><?php _e( 'Add listing documents', 'wp-listings-pro' ); ?></a>
+			</p>
+			<!-- This works -->
+			<!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js"></script> -->
+			<!-- TODO: Turn it into a registered and then enqueued script with PROPER LINKING -->
+			<?php
+			// wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js', array('jquery'), null, true );
+	}
 
 		/**
 		 * Save meta box data.

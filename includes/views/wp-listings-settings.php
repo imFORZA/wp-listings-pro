@@ -278,7 +278,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 					_e( '<p><input name="wplpro_plugin_settings[wplpro_display_currency_code]" id="wplpro_display_currency_code" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_display_currency_code'], 0 ) . ' /> Display currency code?</p><hr>', 'wp-listings-pro' );
 
-					echo '<h3>' . __('Archive Settings:', 'wp-listings-pro') . '</h3>';
+					echo '<h3>' . __( 'Archive Settings:', 'wp-listings-pro' ) . '</h3>';
 					echo '<p>Choose how many listings and employees to display on archive pages. There is a max of 50 to prevent performance issues.</p>';
 
 					_e( '<p>Total Number of Listings to display on Listing Archives: <input name="wplpro_plugin_settings[wplpro_archive_posts_num]" id="wplpro_archive_posts_num" type="number" value="' . $options['wplpro_archive_posts_num'] . '" size="1" min="0" max="50" /></p>', 'wp-listings-pro' );
@@ -308,7 +308,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					_e( '<p><label>Wrapper End HTML: </p><input name="wplpro_plugin_settings[wplpro_end_wrapper]" id="wplpro_end_wrapper" type="text" value="' . esc_html( $options['wplpro_end_wrapper'] ) . '" size="80" /></label><hr>', 'wp-listings-pro' );
 
 
-					echo '<h3>' . __('Default Slugs:', 'wp-listings-pro') . '</h3>';
+					echo '<h3>' . __( 'Default Slugs:', 'wp-listings-pro' ) . '</h3>';
 
 					_e( '<p>Optionally change the slug of the listing post type<br /><input type="text" name="wplpro_plugin_settings[wplpro_listings_slug]" value="' . $options['wplpro_listings_slug'] . '" /></p>', 'wp-listings-pro' );
 
@@ -318,7 +318,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 					echo '<hr>';
 
-					echo '<h3>' . __('IDX Import Settings:', 'wp-listings-pro') . '</h3>';
+					echo '<h3>' . __( 'IDX Import Settings:', 'wp-listings-pro' ) . '</h3>';
 
 						_e( '<p>These settings apply to any imported IDX listings. Imported listings are updated via the latest API response twice daily.</p>', 'wp-listings-pro' );
 						_e( '<h2>Update Listings</h2>', 'wp-listings-pro' );
@@ -349,10 +349,10 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 						wplpro_post_select( 'wplpro_plugin_settings[pinned][]', 'listing', $selected );
 						echo '<p class="description">' . esc_attr( 'You can select one or more listings to pin to the top of the search results', 'impresspro' ) . '</p>';
 
-					echo '<hr>';
-					echo '<h3>' . __('Uninstall:', 'wp-listings-pro') . '</h3>';
-					_e( '<p>Checking this option will delete <strong>all</strong> plugin data when uninstalling the plugin.</p>', 'wp-listings-pro' );
-					_e( '<p><input name="wplpro_plugin_settings[wplpro_uninstall_delete]" id="wplpro_uninstall_delete" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_uninstall_delete'], false ) . ' /> <strong style="color: red;">Delete plugin data on uninstall</strong></p><hr>', 'wp-listings-pro' );
+						echo '<hr>';
+						echo '<h3>' . __( 'Uninstall:', 'wp-listings-pro' ) . '</h3>';
+						_e( '<p>Checking this option will delete <strong>all</strong> plugin data when uninstalling the plugin.</p>', 'wp-listings-pro' );
+						_e( '<p><input name="wplpro_plugin_settings[wplpro_uninstall_delete]" id="wplpro_uninstall_delete" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_uninstall_delete'], false ) . ' /> <strong style="color: red;">Delete plugin data on uninstall</strong></p><hr>', 'wp-listings-pro' );
 
 
 					?>
