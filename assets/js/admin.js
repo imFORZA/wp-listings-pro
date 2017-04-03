@@ -19,12 +19,8 @@ var doc_gallery_container   = '#listing_docs_container';
 var doc_gallery_listing     = 'ul.listing_docs';
 var doc_types               = ["doc", "docx", "xls", "xlsx", "pdf"];
 jQuery(document).ready(function($) {
-
-
 	// Instantiate the media selector tool, and attach all necessary event listeners
 	foobar_gallery_popup(listing_image_gallery_frame, image_gallery_link, image_gallery_id, image_gallery_container, image_gallery_listing, true, image_types);
-
-
 	foobar_gallery_popup(listing_doc_gallery_frame, doc_gallery_link, doc_gallery_id, doc_gallery_container, doc_gallery_listing, false, doc_types);
 
 	jQuery(".feed-select").select2();
@@ -246,8 +242,8 @@ jQuery(document).ready(function($) {
 });
 
 /**
- * Function to attach a gallery that is not at all similar to WooCommerce, given varying parameters about.
- * @param  string 				listing_gallery_frame   Global Object to attach media selector tool to, for better user performance on multiple openings of tool.
+ * Function to attach a gallery that is not at all similar to WooCommerce, given varying parameters about it and it's locations.
+ * @param  string 				listing_gallery_frame   Global Object to attach media selector tool to, for better user performance on opening and closing the tool repeatedly.
  * @param  string 				link                    HTML Class of the (<a>) element to attach the onClick event to fire the selector tool to.
  * @param  string 				gallery_id              HTML ID of the gallery to store added objects to
  * @param  string 				listing_image_container HTML ID of the container (<div>) within which everything will happen, and we will look for each element
