@@ -1,4 +1,8 @@
 @charset "UTF-8";
+#dashboard_right_now a.employee-count:before,
+#dashboard_right_now span.employee-count:before {
+  content: "\f307"; }
+
 /* Settings page */
 .js #idx_metabox .handlediv,
 #idx_metabox h2.hndle {
@@ -6,6 +10,59 @@
 
 .js #equity_metabox .handlediv,
 #equity_metabox h2.hndle {
+  display: none; }
+
+.wplpro-term-image {
+  max-width: 80px;
+  height: auto; }
+
+.js #idx_metabox .handlediv,
+#idx_metabox h2.hndle {
+  display: none; }
+
+.js #equity_metabox .handlediv,
+#equity_metabox h2.hndle {
+  display: none; }
+
+.idx-import-option {
+  width: 30%;
+  margin: 0 1%;
+  float: left;
+  text-align: center; }
+
+.idx-import-option .dashicons {
+  display: block;
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+  margin: 10px auto; }
+
+.idx-import-option.update-all .dashicons {
+  color: #46B450; }
+
+.idx-import-option.update-noimage .dashicons {
+  color: #FFB900; }
+
+.idx-import-option.update-none .dashicons {
+  color: #DC3232; }
+
+.idx-import-option.sold-keep .dashicons {
+  color: #46B450; }
+
+.idx-import-option.sold-draft .dashicons {
+  color: #00A0D2; }
+
+.idx-import-option.sold-delete .dashicons {
+  color: #DC3232; }
+
+.idx-import-option input[type=radio] + p {
+  padding: 15px; }
+
+.idx-import-option input[type=radio]:checked + p {
+  background: #fff; }
+
+/* Edit listing screen */
+#wp-_listing_gallery-media-buttons #idx-shortcode {
   display: none; }
 
 /* listing gallery */
@@ -244,53 +301,50 @@
       #wplpro-listing-docs .inside #listing_docs_container ul li:hover ul.actions {
         display: block; }
 
-.idx-import-option {
-  width: 30%;
-  margin: 0 1%;
-  float: left;
-  text-align: center; }
+/* Copied from WordPress 4.2 */
+.wp-core-ui .notice.is-dismissible {
+  padding-right: 38px;
+  position: relative; }
 
-.idx-import-option .dashicons {
+.notice-dismiss:before {
+  background: none;
+  color: #b4b9be;
+  content: '\f153';
   display: block;
-  font-size: 50px;
-  height: 50px;
-  width: 50px;
-  margin: 10px auto; }
+  font: normal 16px/20px 'dashicons';
+  speak: none;
+  height: 20px;
+  text-align: center;
+  width: 20px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
 
-.idx-import-option.update-all .dashicons {
-  color: #46B450; }
+.notice-dismiss {
+  position: absolute;
+  top: 0;
+  right: 1px;
+  border: none;
+  margin: 0;
+  padding: 9px;
+  background: none;
+  color: #b4b9be;
+  cursor: pointer; }
 
-.idx-import-option.update-noimage .dashicons {
-  color: #FFB900; }
+.notice-dismiss:hover:before,
+.notice-dismiss:active:before,
+.notice-dismiss:focus:before {
+  color: #c00; }
 
-.idx-import-option.update-none .dashicons {
-  color: #DC3232; }
+.notice-dismiss:focus {
+  outline: none;
+  -webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+  box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
 
-.idx-import-option.sold-keep .dashicons {
-  color: #46B450; }
+.ie8 .notice-dismiss:focus {
+  outline: 1px solid #5b9dd9; }
 
-.idx-import-option.sold-draft .dashicons {
-  color: #00A0D2; }
-
-.idx-import-option.sold-delete .dashicons {
-  color: #DC3232; }
-
-.idx-import-option input[type=radio] + p {
-  padding: 15px; }
-
-.idx-import-option input[type=radio]:checked + p {
-  background: #fff; }
-
-/* Dashboard widget */
-#dashboard_right_now a.listing-count:before,
-#dashboard_right_now span.listing-count:before {
-  content: "\f102"; }
-
-/* Term edit page */
-.wpl-term-image {
-  max-width: 80px;
-  height: auto; }
-
-/* Edit listing screen */
-#wp-_listing_gallery-media-buttons #idx-shortcode {
-  display: none; }
+@media screen and (max-width: 782px) {
+  .notice-dismiss {
+    padding: 13px; }
+  .wp-core-ui .notice.is-dismissible {
+    padding-right: 46px; } }

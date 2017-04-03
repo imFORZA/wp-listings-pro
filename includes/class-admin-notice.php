@@ -102,7 +102,7 @@ class WP_Listings_Admin_Notice {
 	}
 
 	/**
-	 * Enqueue JavaScript and CSS for dismiss button.
+	 * Enqueue JavaScript for dismiss button.
 	 *
 	 * @since 1.3
 	 *
@@ -110,7 +110,6 @@ class WP_Listings_Admin_Notice {
 	 */
 	public static function js_css() {
 		global $wp_version;
-		wp_enqueue_style( 'wp-listings-admin-notice', plugin_dir_url( __FILE__ ) . '/assets/css/wp-listings-admin-notice.min.css' );
 		wp_enqueue_script( 'wp-listings-admin', plugin_dir_url( __FILE__ ) . '/assets/js/admin.min.js' );
 		wp_localize_script( 'wp-listings-admin', 'wp_listings_adminL10n', array(
 			'nonce'      => wp_create_nonce( self::$nonce_action ),
