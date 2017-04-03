@@ -255,7 +255,7 @@ class WPLPRO_Agents {
 
 		switch ( $column ) {
 			case 'employee_thumbnail':
-				echo '<p><img src="' . $image[0] . '" alt="employee-thumbnail" ' . $image_size . '/></p>';
+				echo '<p><img src="' . esc_url( $image[0] ) . '" alt="employee-thumbnail" ' . esc_attr( $image_size ) . '/></p>';
 				break;
 			case 'employee_details':
 				foreach ( (array) $admin_details as $label => $key ) {
@@ -263,8 +263,8 @@ class WPLPRO_Agents {
 				}
 				break;
 			case 'employee_tags':
-				_e( '<b>Job Type:</b> ' . get_the_term_list( $post->ID, 'job-types', '', ', ', '' ) . '<br />', 'wp-listings-pro' );
-				_e( '<b>Office:</b> ' . get_the_term_list( $post->ID, 'offices', '', ', ', '' ) . '<br />', 'wp-listings-pro' );
+				echo '<b>Job Type:</b> ' . esc_attr( get_the_term_list( $post->ID, 'job-types', '', ', ', '' ), 'wp-listings-pro' ) . '<br />';
+				echo '<b>Office:</b> ' . esc_attr( get_the_term_list( $post->ID, 'offices', '', ', ', '' ), 'wp-listings-pro' ) . '<br />';
 break;
 		}
 

@@ -87,7 +87,7 @@ class WPLPRO_Meta_Box_Listing_Images {
 	 */
 	public static function save( $post_id, $post ) {
 
-		if ( ! wp_verify_nonce( $_POST['wplpro_image_gallery_metabox_nonce'], 'wplpro_image_gallery_metabox_save' ) ) {
+		if ( ! isset( $_POST['wplpro_image_gallery_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['wplpro_image_gallery_metabox_nonce'], 'wplpro_image_gallery_metabox_save' ) ) {
 			return $post_id;
 		}
 
@@ -178,7 +178,7 @@ class WPLPRO_Meta_Box_Listing_Docs {
 		 */
 	public static function save( $post_id, $post ) {
 
-		if ( ! wp_verify_nonce( $_POST['wplpro_document_gallery_metabox_nonce'], 'wplpro_document_gallery_metabox_save' ) ) {
+		if ( ! isset( $_POST['wplpro_image_gallery_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['wplpro_document_gallery_metabox_nonce'], 'wplpro_document_gallery_metabox_save' ) ) {
 			return $post_id;
 		}
 
