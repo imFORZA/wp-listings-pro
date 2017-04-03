@@ -1,27 +1,30 @@
+// Example formatting for making image media selector tool
+// Global object to attach frame to
+var listing_image_gallery_frame = new Object();
+// <a> tag to attach the onclick listener to for opening the media selector
+var image_gallery_link      = '.add_listing_images';
+// ID of sub container that holds the list (should be a form)
+var image_gallery_id        = '#listing_image_gallery';
+// <div> container to contain all events pertinent to this instance of the media selector
+var image_gallery_container = '#listing_images_container';
+// subclass for where each entity in the gallery should be stored
+var image_gallery_listing   = 'ul.listing_images';
+// Acceptable file extensions (NOTE DOES NOT CHECK ANY MORE DEEPLY THAN THE NAME OF THE FILE, IF PEOPLE RENAMED PIPEBOMB.BAT TO FRIENDLYPONIES.PNG, IT WILL BE ACCEPTED).
+var image_types             = ["png", "jpg", "jpeg", "gif", "svg"];
+
+var listing_doc_gallery_frame = new Object();
+var doc_gallery_link        = '.add_listing_docs';
+var doc_gallery_id          = '#listing_doc_gallery';
+var doc_gallery_container   = '#listing_docs_container';
+var doc_gallery_listing     = 'ul.listing_docs';
+var doc_types               = ["doc", "docx", "xls", "xlsx", "pdf"];
 jQuery(document).ready(function($) {
-	// Example formatting for making image media selector tool
-	// Global object to attach frame to
-	var listing_image_gallery_frame = new Object();
-	// <a> tag to attach the onclick listener to for opening the media selector
-	var image_gallery_link      = '.add_listing_images';
-	// ID of sub container that holds the list (should be a form)
-	var image_gallery_id        = '#listing_image_gallery';
-	// <div> container to contain all events pertinent to this instance of the media selector
-	var image_gallery_container = '#listing_images_container';
-	// subclass for where each entity in the gallery should be stored
-	var image_gallery_listing   = 'ul.listing_images';
-	// Acceptable file extensions (NOTE DOES NOT CHECK ANY MORE DEEPLY THAN THE NAME OF THE FILE, IF PEOPLE RENAMED PIPEBOMB.BAT TO FRIENDLYPONIES.PNG, IT WILL BE ACCEPTED).
-	var image_types             = ["png", "jpg", "jpeg", "gif", "svg"];
+
 
 	// Instantiate the media selector tool, and attach all necessary event listeners
 	foobar_gallery_popup(listing_image_gallery_frame, image_gallery_link, image_gallery_id, image_gallery_container, image_gallery_listing, true, image_types);
 
-	var listing_doc_gallery_frame = new Object();
-	var doc_gallery_link        = '.add_listing_docs';
-	var doc_gallery_id          = '#listing_doc_gallery';
-	var doc_gallery_container   = '#listing_docs_container';
-	var doc_gallery_listing     = 'ul.listing_docs';
-	var doc_types               = ["doc", "docx", "xls", "xlsx", "pdf"];
+
 	foobar_gallery_popup(listing_doc_gallery_frame, doc_gallery_link, doc_gallery_id, doc_gallery_container, doc_gallery_listing, false, doc_types);
 
 	jQuery(".feed-select").select2();
@@ -66,7 +69,6 @@ jQuery(document).ready(function($) {
 			});
 		});
 	});
-<<<<<<< HEAD
 
 	/* === Begin listing importer JS. === */
 

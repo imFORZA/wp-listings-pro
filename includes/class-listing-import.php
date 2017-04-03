@@ -492,10 +492,8 @@ function wp_listings_idx_listing_scripts() {
 		return;
 	}
 
-	wp_enqueue_script( 'wp_listings_idx_listing_delete_script', WPLPRO_URL . 'assets/js/admin-import.js', array( 'jquery' ), true ); // should be min
 	wp_localize_script( 'wp_listings_idx_listing_delete_script', 'DeleteListingAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	wp_localize_script( 'wp_listings_idx_listing_delete_script', 'DeleteAllListingAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-	error_log("is anything even happening");
 	wp_enqueue_style( 'wp_listings_idx_listing_style', WPLPRO_URL . 'assets/css/wplpro-import.min.css' );
 }
 add_action( 'wp_ajax_wp_listings_idx_listing_delete', 'wp_listings_idx_listing_delete' );
