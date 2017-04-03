@@ -12,11 +12,10 @@
  */
 
 add_action( 'admin_menu', 'wp_listings_tax_reorder_init', 20 );
-
 /**
- * [wp_listings_tax_reorder_init description]
+ * Adds submenu page through wordpress for this page
  *
- * @return {[type] [description]
+ * @return void
  */
 function wp_listings_tax_reorder_init() {
 	add_submenu_page( 'edit.php?post_type=listing', __( 'Reorder Taxonomies', 'wp-listings-pro' ), __( 'Reorder Taxonomies', 'wp-listings-pro' ), 'manage_options', 'wplistings-tax-reorder', 'wp_listings_tax_reorder' );
@@ -24,17 +23,17 @@ function wp_listings_tax_reorder_init() {
 
 add_action( 'admin_enqueue_scripts', 'wp_listings_tax_reorder_enqueue' );
 /**
- * [wp_listings_tax_reorder_enqueue description]
+ * Enqueue's jQuery UI Sortable
  *
- * @return {[type] [description]
+ * @return void
  */
 function wp_listings_tax_reorder_enqueue() {
 		wp_enqueue_script( 'jquery-ui-sortable' );
 }
 /**
- * [wp_listings_tax_reorder description]
+ * Allows wp_listings_taxonomies to be reorderable
  *
- * @return {[type] [description]
+ * @return void
  */
 function wp_listings_tax_reorder() {
 	$wp_listings_taxes = get_option( 'WPLPRO_Taxonomies' );

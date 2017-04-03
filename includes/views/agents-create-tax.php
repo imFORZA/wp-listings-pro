@@ -1,4 +1,9 @@
 <?php
+/**
+ * Page for creating agent taxonomy
+ *
+ * @package wp-listings-pro
+ */
 if ( ! defined( 'ABSPATH' ) ) { exit;
 }
 screen_icon( 'themes' ); ?>

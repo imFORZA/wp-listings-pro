@@ -1,4 +1,10 @@
 <?php
+/**
+ * Page for editing taxonomy
+ *
+ * @package wp-listings-pro
+ */
+
 $options = get_option( $this->settings_field );
 
 if ( array_key_exists( $_REQUEST['id'], (array) $options ) ) {
