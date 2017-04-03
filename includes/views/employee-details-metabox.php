@@ -5,15 +5,17 @@
  * @package wp-listings-pro
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
-	wp_nonce_field( 'wplpro_agents_metabox_save', 'wplpro_agents_metabox_nonce' );
 
-	global $post;
+wp_nonce_field( 'wplpro_agents_metabox_save', 'wplpro_agents_metabox_nonce' );
 
-	$pattern = '<p><label>%s<br /><input type="text" name="wplpro_agents[%s]" value="%s" style="width:80&#37;;"/></label></p>';
+global $post;
 
-	echo '<div style="width: 45%; display: inline-block;">';
+$pattern = '<p><label>%s<br /><input type="text" name="wplpro_agents[%s]" value="%s" style="width:80&#37;;"/></label></p>';
+
+echo '<div style="width: 45%; display: inline-block;">';
 
 foreach ( (array) $this->employee_details['col1'] as $label => $key ) { // here is where it's actually outputted, OK.
 	printf( $pattern, esc_html( $label ), $key, esc_attr( get_post_meta( $post->ID, $key, true ) ) );

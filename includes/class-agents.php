@@ -173,8 +173,6 @@ class WPLPRO_Agents {
 			return;
 		}
 
-		error_log( 'here' ); // Good news, you were abl to figure out where the error was. Neat.
-
 		if ( ! isset( $_POST['wplpro_agents_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['wplpro_agents_metabox_nonce'], 'wplpro_agents_metabox_save' ) ) {
 	        return $post_id;
 		}
