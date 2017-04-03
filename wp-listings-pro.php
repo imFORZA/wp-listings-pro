@@ -35,9 +35,9 @@ function wplpro_activation() {
 	/** Flush rewrite rules. */
 	if ( ! post_type_exists( 'listing' ) ) {
 
-		global $_wp_listings, $_WPLPRO_Taxonomies, $_wp_listings_templates;
+		global $_wp_listings, $wplpro_taxonomies_var, $_wp_listings_templates;
 		$_wp_listings->create_post_type();
-		$_WPLPRO_Taxonomies->register_taxonomies();
+		$wplpro_taxonomies_var->register_taxonomies();
 	}
 
 	/** Flush rewrite rules. */
@@ -87,7 +87,7 @@ add_action( 'after_setup_theme', 'wplpro_init' );
  */
 function wplpro_init() {
 
-	global $_wp_listings, $_WPLPRO_Taxonomies, $_wp_listings_templates, $_wplpro_agents, $_wplpro_agents_taxonomies;
+	global $_wp_listings, $wplpro_taxonomies_var, $_wp_listings_templates, $_wplpro_agents, $_wplpro_agents_taxonomies;
 
 	define( 'WPLPRO_URL', plugin_dir_url( __FILE__ ) );
 	define( 'WPLPRO_DIR', plugin_dir_path( __FILE__ ) );
@@ -272,7 +272,7 @@ function wplpro_init() {
 
 	/** Instantiate. */
 	$_wp_listings = new WP_Listings;
-	$_WPLPRO_Taxonomies = new WPLPRO_Taxonomies;
+	$wplpro_taxonomies_var = new WPLPRO_Taxonomies;
 
 	add_action( 'widgets_init', 'wp_listings_register_widgets' );
 
@@ -321,7 +321,7 @@ function wp_listings_register_widgets() {
 
 	$listing_widgets = array( 'WP_Listings_Featured_Listings_Widget', 'WP_Listings_Search_Widget' );
 
-	$agent_widgets = array( 'wplpro_Agents_Widget' );
+	$agent_widgets = array( 'WPLPRO_Agents_Widget' );
 
 	foreach ( (array) $listing_widgets as $listing_widget ) {
 		register_widget( $listing_widget );
