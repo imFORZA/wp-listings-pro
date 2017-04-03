@@ -1,4 +1,10 @@
 <?php
+/**
+ * Metabox for employee details
+ *
+ * @package wp-listings-pro
+ */
+
 if ( ! defined( 'ABSPATH' ) ) { exit;
 }
 	wp_nonce_field( 'wplpro_agents_metabox_save', 'wplpro_agents_metabox_nonce' );
@@ -9,26 +15,26 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
 
 	echo '<div style="width: 45%; display: inline-block;">';
 
-foreach ( (array) $this->employee_details['col1'] as $label => $key ) { // here is where it's actually outputted, OK
+foreach ( (array) $this->employee_details['col1'] as $label => $key ) { // here is where it's actually outputted, OK.
 	printf( $pattern, esc_html( $label ), $key, esc_attr( get_post_meta( $post->ID, $key, true ) ) );
 }
 
-	echo '</div>';
+echo '</div>';
 
-	echo '<div style="width: 45%; display: inline-block;">';
+echo '<div style="width: 45%; display: inline-block;">';
 
 foreach ( (array) $this->employee_details['col2'] as $label => $key ) {
 	printf( $pattern, esc_html( $label ), $key, esc_attr( get_post_meta( $post->ID, $key, true ) ) );
 }
 
-	echo '</div>';
+echo '</div>';
 
-	$pattern = '<p><label>%s<br /><input type="url" name="wplpro_agents[%s]" value="%s" style="width:80&#37;;"/></label></p>';
+$pattern = '<p><label>%s<br /><input type="url" name="wplpro_agents[%s]" value="%s" style="width:80&#37;;"/></label></p>';
 
-	echo '<div style="width: 100%;"><h4>' . __( 'Social info:', 'wp-listings-pro' ) . '</h4><hr>';
+echo '<div style="width: 100%;"><h4>' . __( 'Social info:', 'wp-listings-pro' ) . '</h4><hr>';
 
 foreach ( (array) $this->employee_social as $label => $key ) {
 	printf( $pattern, esc_html( $label ), $key, esc_attr( get_post_meta( $post->ID, $key, true ) ) );
 }
 
-	echo '</div>';
+echo '</div>';
