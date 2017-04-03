@@ -97,7 +97,7 @@ class WP_Listings {
 				__( 'Rooms:', 'wp-listings-pro' )					=> '_listing_rooms',
 				__( 'Laundry:', 'wp-listings-pro' )					=> '_listing_laundry',
 				__( 'Utilities:', 'wp-listings-pro' )				=> '_listing_utilities',
-				__( 'Virtual Tour Link:', 'wp_listings' )			=> '_listing_virtualtour'
+				__( 'Virtual Tour Link:', 'wp_listings' )			=> '_listing_virtualtour',
 			),
 		) );
 
@@ -142,8 +142,6 @@ class WP_Listings {
 		if ( empty( $this->options['wplpro_listings_slug'] ) && empty( $this->options['wplpro_archive_posts_num'] ) ) {
 			add_option( 'wplpro_plugin_settings', $new_options );
 		}
-
-
 
 		if ( empty( $this->options['wplpro_employee_slug'] ) && empty( $this->options['wplpro_archive_agent_num'] ) ) {
 			add_option( 'wplpro_plugin_settings', $new_options );
@@ -197,7 +195,7 @@ class WP_Listings {
 				'menu_icon'		=> 'dashicons-admin-home',
 				'has_archive'	=> true,
 				'supports'		=> array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown' ),
-				//'rewrite'		=> array( 'slug' => $this->options['wplpro_listings_slug'], 'feeds' => true, 'with_front' => false ),
+				// 'rewrite'     => array( 'slug' => $this->options['wplpro_listings_slug'], 'feeds' => true, 'with_front' => false ),
 			)
 		);
 

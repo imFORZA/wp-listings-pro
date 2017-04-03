@@ -6,10 +6,13 @@
  */
 
 /**
- * Lists all the terms of a given taxonomy
+ * Lists all the terms of a given taxonomy.
  *
  * Adds the taxonomy title and a list of the terms associated with that taxonomy
  * used in custom post type templates.
+ * @access public
+ * @param mixed $taxonomy Taxonomy.
+ * @return void
  */
 function wplpro_list_terms( $taxonomy ) {
 	$the_tax_object = get_taxonomy( $taxonomy );
@@ -403,7 +406,7 @@ function wplpro_connected_agents_markup() {
 		$thumb_url = wp_get_attachment_image_src( $thumb_id, 'agent-profile-photo', true );
 
 		echo '
-		<div ', post_class( 'connected-agents vcard' ), ' itemscope itemtype="http://schema.org/Person">
+		<div ', post_class( 'connected-agents vcard' ), ' itemscope itemtype="https://schema.org/Person">
 			<div class="agent-thumb"><a href="', get_permalink( $profile->ID ), '"><img src="', $thumb_url[0], '" alt="', get_the_title(), ' photo" class="attachment-agent-profile-photo wp-post-image alignleft" itemprop="image" /></a></div><!-- .agent-thumb -->
 			<div class="agent-details"><h5><a class="fn agent-name" itemprop="name" href="', get_permalink( $profile->ID ), '">', get_the_title( $profile->ID ), '</a></h5>';
 			echo wplpro_employee_details();

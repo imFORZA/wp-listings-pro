@@ -346,28 +346,26 @@ class WPL_Idx_Listing {
 		}
 
 		// Add post meta for Equity API fields.
-
-			if ( false === $update || true === $update_image ) {
-				update_post_meta( $id, '_listing_gallery',  $imgs );
+		if ( false === $update || true === $update_image ) {
+			update_post_meta( $id, '_listing_gallery',  $imgs );
+		}
+		foreach ( $idx_featured_listing_data as $metakey => $metavalue ) {
+			if ( true === $update && 'price' !== $metakey ) {
+				delete_post_meta( $id, '_listing_' . strtolower( $metakey ) );
 			}
-			foreach ( $idx_featured_listing_data as $metakey => $metavalue ) {
-				if ( true === $update && 'price' !== $metakey ) {
-					delete_post_meta( $id, '_listing_' . strtolower( $metakey ) );
-				}
-				if ( isset( $metavalue ) && ! is_array( $metavalue ) && $metavalue !== '' && 'price' !== $metakey ) {
-					update_post_meta( $id, '_listing_' . strtolower( $metakey ), $metavalue );
-				} elseif ( isset( $metavalue ) && is_array( $metavalue ) ) {
-					foreach ( $metavalue as $key => $value ) {
-						if ( get_post_meta( $id, '_listing_' . strtolower( $metakey ) ) && 'images' !== $metakey && 'disclaimer' !== $metakey && 'courtesy' !== $metakey ) {
-							$oldvalue = get_post_meta( $id, '_listing_' . strtolower( $metakey ), true );
-							$newvalue = $value . ', ' . $oldvalue;
-							update_post_meta( $id, '_listing_' . strtolower( $metakey ), $newvalue );
-						} elseif ( 'images' !== $metakey ) {
-							update_post_meta( $id, '_listing_' . strtolower( $metakey ), $value );
-						}
+			if ( isset( $metavalue ) && ! is_array( $metavalue ) && $metavalue !== '' && 'price' !== $metakey ) {
+				update_post_meta( $id, '_listing_' . strtolower( $metakey ), $metavalue );
+			} elseif ( isset( $metavalue ) && is_array( $metavalue ) ) {
+				foreach ( $metavalue as $key => $value ) {
+					if ( get_post_meta( $id, '_listing_' . strtolower( $metakey ) ) && 'images' !== $metakey && 'disclaimer' !== $metakey && 'courtesy' !== $metakey ) {
+						$oldvalue = get_post_meta( $id, '_listing_' . strtolower( $metakey ), true );
+						$newvalue = $value . ', ' . $oldvalue;
+						update_post_meta( $id, '_listing_' . strtolower( $metakey ), $newvalue );
+					} elseif ( 'images' !== $metakey ) {
+						update_post_meta( $id, '_listing_' . strtolower( $metakey ), $value );
 					}
 				}
-
+			}
 		}
 
 		// Add disclaimers and courtesies.
