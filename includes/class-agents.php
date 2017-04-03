@@ -1,12 +1,11 @@
 <?php
-
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
-
 /**
  * This file contains the wplpro_Agents class.
+ *
+ * @package wp-listings-pro
  */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * This class handles the creation of the "Employees" post type, and creates a
@@ -14,15 +13,39 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  */
 class WPLPRO_Agents {
 
+	/**
+	 * Settings field
+	 *
+	 * @var string
+	 */
 	var $settings_field = 'wplpro_agents_taxonomies';
+
+	/**
+	 * Page from which to be called
+	 *
+	 * @var string
+	 */
 	var $menu_page = 'wplpro-agents-taxonomies';
 
+	/**
+	 * Global access var for options, loaded from wplpro_agents_settings.
+	 *
+	 * @var object
+	 */
 	var $options;
 
 	/**
-	 * Property details array.
+	 * Employee details array.
+	 *
+	 * @var object
 	 */
 	var $employee_details;
+
+	/**
+	 * Employee Social Contact Info object
+	 *
+	 * @var object
+	 */
 	var $employee_social;
 
 	/**
@@ -118,7 +141,7 @@ class WPLPRO_Agents {
 	}
 
 	/**
-	 * register_meta_boxes function.
+	 * Register meta boxes function.
 	 *
 	 * @access public
 	 * @return void
@@ -128,7 +151,7 @@ class WPLPRO_Agents {
 	}
 
 	/**
-	 * employee_details_metabox function.
+	 * Employee details metabox function.
 	 *
 	 * @access public
 	 * @return void
@@ -137,7 +160,12 @@ class WPLPRO_Agents {
 		include( dirname( __FILE__ ) . '/views/employee-details-metabox.php' );
 	}
 
-	// Should be what gets called to save the meta boxes right?
+	/**
+	 * Should be what gets called to save the meta boxes right?
+	 *
+	 * @param  int     $post_id    ID of the post.
+	 * @param  WP_Post $post       Object containing the post.
+	 */
 	function metabox_save( $post_id, $post ) {
 
 		/** Run only on employees post type save. */
@@ -189,6 +217,9 @@ class WPLPRO_Agents {
 
 	/**
 	 * Filter the columns in the "Employees" screen, define our own.
+	 *
+	 * @param  array $columns Array of employee data stuff.
+	 * @return array $columns New array of employee data stuff.
 	 */
 	function columns_filter( $columns ) {
 
@@ -206,6 +237,8 @@ class WPLPRO_Agents {
 
 	/**
 	 * Filter the data that shows up in the columns in the "Employees" screen, define our own.
+	 *
+	 * @param string $column Object name to be tested for type and which different data will be returned based on.
 	 */
 	function columns_data( $column ) {
 

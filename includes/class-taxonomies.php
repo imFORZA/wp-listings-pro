@@ -1,23 +1,25 @@
 <?php
 /**
- * This file contains the wplpro_taxonomies class.
+ * This file contains the WPLPRO_Taxonomies class.
+ *
+ * @package wp-listings-pro
  */
 
 /**
  * This class handles all the aspects of displaying, creating, and editing the
  * user-created taxonomies for the "Listings" post-type.
  */
-class wplpro_taxonomies {
+class WPLPRO_Taxonomies {
 
 	 /**
 	  * Settings_field
 	  *
-	  * (default value: 'wplpro_taxonomies')
+	  * (default value: 'WPLPRO_Taxonomies')
 	  *
 	  * @var string
 	  * @access public
 	  */
-	 var $settings_field = 'wplpro_taxonomies';
+	 var $settings_field = 'WPLPRO_Taxonomies';
 
 	 /**
 	  * Menu_page
@@ -38,7 +40,7 @@ class wplpro_taxonomies {
 		add_action( 'admin_menu', array( &$this, 'settings_init' ), 15 );
 		add_action( 'admin_init', array( &$this, 'actions' ) );
 		add_action( 'admin_notices', array( &$this, 'notices' ) );
-		// add_action( 'admin_enqueue_scripts', array( &$this, 'tax_reorder_enqueue' ) );
+		// * add_action( 'admin_enqueue_scripts', array( &$this, 'tax_reorder_enqueue' ) );
 		add_action( 'init', array( &$this, 'register_taxonomies' ), 15 );
 		add_action( 'init', array( $this, 'create_terms' ), 16 );
 		add_action( 'init', array( $this, 'register_term_meta' ), 17 );
@@ -518,8 +520,6 @@ class wplpro_taxonomies {
 
 	  /**
 	   * Register term meta for a featured image
-	   *
-	   * @return [type] [description]
 	   */
 	function register_term_meta() {
 		  register_meta( 'term', 'wplpro_term_image', 'wp_listings_sanitize_term_image' );
@@ -528,7 +528,8 @@ class wplpro_taxonomies {
 	  /**
 	   * Callback to retrieve the term image
 	   *
-	   * @return [type] [description]
+	   * @param WP_Image $wplpro_term_image Term Image.
+	   * @return termImage A completely unsanitized copy of whatever you sent it.
 	   */
 	function wp_listings_sanitize_term_image( $wplpro_term_image ) {
 		  return $wplpro_term_image;
@@ -537,8 +538,9 @@ class wplpro_taxonomies {
 	  /**
 	   * Get the term featured image id
 	   *
-	   * @param  $html bool whether to use html wrapper
-	   * @uses  wp_get_attachment_image to return image id wrapped in markup
+	   * @param int  $term_id ID of the term to check.
+	   * @param bool $html Whether to use html wrapper.
+	   * @uses  wp_get_attachment_image to return image id wrapped in markup.
 	   */
 	function wp_listings_get_term_image( $term_id, $html = true ) {
 		  $image_id = get_term_meta( $term_id, 'wplpro_term_image', true );
@@ -581,9 +583,14 @@ class wplpro_taxonomies {
 		  return $columns;
 	}
 
-	  /**
-	   * Display the new column
-	   */
+  /**
+   * Display the new column
+   * These functions really should be combined into each other
+   *
+   * @param image_markup $out            Formatted html image block to be returned.
+	 * @param object       $column     Type checking if already in.
+	 * @param int          $term_id    Term id for image.
+   */
 	function wp_listings_manage_term_custom_column( $out, $column, $term_id ) {
 
 		if ( 'wplpro_term_image' === $column ) {
@@ -600,6 +607,30 @@ class wplpro_taxonomies {
 		}
 
 			return $out;
+	}
+	/**
+	 * Display the new column
+	 *
+	 * @param image_markup $out            Formatted html image block to be returned.
+	 * @param object       $column     Type checking if already in.
+	 * @param int          $term_id    Term id for image.
+	 */
+	function wplpro_agents_manage_term_custom_column( $out, $column, $term_id ) {
+
+		if ( 'wpmlpro_term_image' === $column ) {
+
+			$image_id = $this->wplpro_agents_get_term_image( $term_id, false );
+
+			if ( ! $image_id ) {
+				return $out;
+			}
+
+			$image_markup = wp_get_attachment_image( $image_id, 'thumbnail', true, array( 'class' => 'wplpro-term-image' ) );
+
+			$out = $image_markup;
+		}
+
+		return $out;
 	}
 
 	  /**
@@ -889,10 +920,10 @@ class WPLPro_Agents_Taxonomies {
 	}
 
 	/**
-	 * edit_taxonomy function.
+	 * Edit Taxonomy function.
 	 *
 	 * @access public
-	 * @param array $args (default: array())
+	 * @param array $args (default: array()).
 	 * @return void
 	 */
 	function edit_taxonomy( $args = array() ) {
@@ -944,7 +975,7 @@ class WPLPro_Agents_Taxonomies {
 	}
 
 	/**
-	 * notices function.
+	 * Notices function.
 	 *
 	 * @access public
 	 * @return void
@@ -1133,26 +1164,7 @@ class WPLPro_Agents_Taxonomies {
 		return $columns;
 	}
 
-	/**
-	 * Display the new column
-	 */
-	function wplpro_agents_manage_term_custom_column( $out, $column, $term_id ) {
 
-		if ( 'wpmlpro_term_image' === $column ) {
-
-			$image_id = $this->wplpro_agents_get_term_image( $term_id, false );
-
-			if ( ! $image_id ) {
-				return $out;
-			}
-
-			$image_markup = wp_get_attachment_image( $image_id, 'thumbnail', true, array( 'class' => 'wplpro-term-image' ) );
-
-			$out = $image_markup;
-		}
-
-		return $out;
-	}
 
 	/**
 	 * Display a custom taxonomy dropdown in admin
@@ -1180,6 +1192,8 @@ class WPLPro_Agents_Taxonomies {
 
 	/**
 	 * Filter posts by taxonomy in admin
+	 *
+	 * @param object $query Query results to pass.
 	 */
 	function wplpro_agents_convert_id_to_term_in_query( $query ) {
 		global $pagenow;
@@ -1222,6 +1236,8 @@ class WPLPro_Agents_Taxonomies {
 
 	/**
 	 * Field for editing an image on a term
+	 *
+	 * @param object $term Term image being passed for editing.
 	 */
 	function wplpro_agents_edit_term_image_field( $term ) {
 

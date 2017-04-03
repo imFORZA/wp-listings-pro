@@ -202,7 +202,7 @@ class WPL_Idx_Listing {
 	 *
 	 * @access public
 	 * @static
-	 * @return True if Success.
+	 * @return void
 	 */
 	public static function wp_listings_update_post() {
 
@@ -281,7 +281,7 @@ class WPL_Idx_Listing {
 	 * @static
 	 * @param mixed $post_id Post ID.
 	 * @param mixed $status Status.
-	 * @return Update Post Status.
+	 * @return void
 	 */
 	public static function wp_listings_idx_change_post_status( $post_id, $status ) {
 	    $current_post = get_post( $post_id, 'ARRAY_A' );
@@ -357,13 +357,14 @@ class WPL_Idx_Listing {
 		if ( false === $update || true === $update_image ) {
 			update_post_meta( $id, '_listing_gallery', apply_filters( 'wplpro_imported_gallery', $gallery = '<img src="' . $featured_image . '" alt="' . $idx_featured_listing_data['address'] . '" />' ) );
 
-			require_once(ABSPATH . 'wp-admin/includes/media.php');
-			require_once(ABSPATH . 'wp-admin/includes/file.php');
-			require_once(ABSPATH . 'wp-admin/includes/image.php');
+			require_once( ABSPATH . 'wp-admin/includes/media.php' );
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
 			$uploaded_media = media_sideload_image( $featured_image, $id, $idx_featured_listing_data['address'] );
 
-			/* // TODO: Fix preg_replace.
+			/*
+			 // TODO: Fix preg_replace.
 				// TODO: Why is _listing_image saving as Array, Array, Array???
 			$image_url = preg_replace( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif)/', $uploaded_media );
 			$image_id = wplpro_get_image_id( $image_url );
@@ -474,9 +475,6 @@ class WPL_Idx_Listing {
 			// Assign featured image to post.
 			set_post_thumbnail( $id, $attach_id );
 		}
-
-		return true;
-
 	}
 
 }

@@ -58,7 +58,7 @@ class WP_Listings_Admin_Notice {
 	 *
 	 * @param string      $message The text of the message.
 	 * @param bool        $error Optional. Whether to show as error or update. Default is notice.
-	 * @param string      $cap_check Optional. Minimum user capability to show notice to. Default is "activate_plugins"
+	 * @param string      $cap_check Optional. Minimum user capability to show notice to. Default is "activate_plugins".
 	 * @param string|bool $ignore_key Optional. The user meta key to use for storing if this message has been dismissed by current user or not. If false, it will be generated.
 	 *
 	 * @return string|void Admin notice if is_admin() and not dismissed.
@@ -68,7 +68,7 @@ class WP_Listings_Admin_Notice {
 			if ( current_user_can( $cap_check ) ) {
 				$user_id = get_current_user_id();
 				if ( ! is_string( $ignore_key ) ) {
-					// wplistings_ignore_3911b2583433f696e5813a503bbb2e65
+					// * wplistings_ignore_3911b2583433f696e5813a503bbb2e65
 					$ignore_key = 'wplistings_ignore_' . substr( md5( $ignore_key ), 0, 40 );
 				}
 
