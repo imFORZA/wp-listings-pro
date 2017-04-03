@@ -55,7 +55,7 @@ function wplpro_activation() {
 	}
 
 	// Welcome Page Transient max age is 60 seconds.
-    set_transient( '_welcome_redirect_wplpro', true, 60 );
+	set_transient( '_welcome_redirect_wplpro', true, 60 );
 }
 
 register_deactivation_hook( __FILE__, 'wplpro_deactivation' );
@@ -108,13 +108,11 @@ function wplpro_init() {
 	require_once( dirname( __FILE__ ) . '/includes/class-listings.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-agents.php' );
 
-
 	require_once( dirname( __FILE__ ) . '/includes/helpers.php' );
 	require_once( dirname( __FILE__ ) . '/includes/functions.php' );
 	require_once( dirname( __FILE__ ) . '/includes/shortcodes.php' );
 
 	require_once( dirname( __FILE__ ) . '/includes/class-taxonomies.php' );
-
 
 	require_once( dirname( __FILE__ ) . '/includes/class-admin-notice.php' );
 	require_once( dirname( __FILE__ ) . '/includes/wp-api.php' );
@@ -129,7 +127,7 @@ function wplpro_init() {
 
 	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
 
-  require_once( dirname( __FILE__ ) . '/welcome/welcome-logic.php' );
+	require_once( dirname( __FILE__ ) . '/welcome/welcome-logic.php' );
 
 	/** Instantiate */
 	$_wplpro_agents = new WPLPRO_Agents;
@@ -170,7 +168,6 @@ function wplpro_init() {
 
 		$options = get_option( 'wplpro_plugin_settings' );
 
-
 		if ( '1' !== $options['disable_css'] ) {
 			wp_register_style( 'wp_listings', WPLPRO_URL . 'assets/css/wp-listings-pro.css', '', null, 'all' );
 			wp_enqueue_style( 'wp_listings' );
@@ -202,7 +199,7 @@ function wplpro_init() {
 		wp_enqueue_style( 'wplpro_agents_admin_css', WPLPRO_URL . 'assets/css/wplpro-agents-admin.min.css' );
 
 		wp_enqueue_script( 'wplpro-agents-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
-		wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js', array('jquery'), null, true );
+		wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js', array( 'jquery' ), null, true );
 
 		$localize_script = array(
 			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
@@ -221,7 +218,7 @@ function wplpro_init() {
 	add_action( 'wp_enqueue_scripts', 'wplpro_add_widget_styles' );
 
 	/**
-	 * wplpro_add_widget_styles function.
+	 * Add Widget Styles.
 	 *
 	 * @access public
 	 * @return void
@@ -406,7 +403,7 @@ function wplpro_set_hidden_price( $post_id, $price, $posts = null ) {
 	$price = wplpro_strip_price( $price );
 
 	// If pinned set hidden price really really high so they show up on top when sorting by price.
-	if ( in_array( (int) $post_id, $pinned ) ) {
+	if ( in_array( (int) $post_id, $pinned, true ) ) {
 			$price = 500000000;
 	}
 	if ( empty( $price ) ) {
@@ -464,7 +461,7 @@ function wplpro_pre_get_listings( $query ) {
  *
  * @param [Array] $option : Array of options to be saved.
  */
-function wplpro_set_sort( $option ){
+function wplpro_set_sort( $option ) {
 	$pinned = ( isset( $option['pinned'] ) ) ? $option['pinned'] : array();
 
 	foreach ( $pinned as $post_id ) {
