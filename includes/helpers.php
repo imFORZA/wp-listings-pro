@@ -40,22 +40,25 @@ function wplpro_list_terms( $taxonomy ) {
  *
  * @access public
  * @param mixed $image_url Image URL.
- * @return void
+ * @return string Image ID.
  */
-function wplpro_get_image_id($image_url) {
+function wplpro_get_image_id( $image_url ) {
 	global $wpdb;
-	$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ));
-        return $attachment[0];
+	$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ) );
+		return $attachment[0];
 }
 
 /**
  * Returns true if the queried taxonomy is a taxonomy of the given post type
+ *
+ * @param string $post_type Post type.
+ * @return bool 						^^
  */
 function wplpro_is_taxonomy_of( $post_type ) {
 	$taxonomies = get_object_taxonomies( $post_type );
 	$queried_tax = get_query_var( 'taxonomy' );
 
-	if ( in_array( $queried_tax, $taxonomies ) ) {
+	if ( in_array( $queried_tax, $taxonomies, true ) ) {
 		return true;
 	}
 
@@ -349,14 +352,16 @@ function wplpro_connected_listings_markup() {
 
 	echo apply_filters( 'wplpro_connected_listing_heading', $heading = '<h3><a name="agent-listings">My Listings</a></h3>' );
 
+	// That's interesting, grab global $post
 	global $post;
 
 	foreach ( $listings as $listing ) {
 
 		setup_postdata( $listing );
 
+		// Wait now we're editing it.
 		$post = $listing;
-
+		// Oh boy, looks Mr. Enforcer's not happy.
 		$thumb_id = get_post_thumbnail_id();
 		$thumb_url = wp_get_attachment_image_src( $thumb_id, 'medium', true );
 
@@ -366,7 +371,7 @@ function wplpro_connected_listings_markup() {
 			$count = 1;
 		}
 
-		$class = ($count === 1) ? ' first' : '';
+		$class = ( 1 === $count ) ? ' first' : '';
 
 		echo '
 		<div class="one-third ', $class, ' connected-listings" itemscope itemtype="https://schema.org/Offer">
@@ -384,7 +389,10 @@ function wplpro_connected_listings_markup() {
 }
 
 /**
- * Check if the agent post id has connected listings
+ * Check if the agent post has connected listings
+ *
+ * @param WP_Post $post Agent Post to check if there are listings.
+ * @return bool 				Whether there are any connected listings.
  */
 function wplpro_has_listings( $post ) {
 

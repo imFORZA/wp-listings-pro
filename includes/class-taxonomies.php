@@ -32,8 +32,8 @@ class WPLPRO_Taxonomies {
 	var $menu_page = 'register-taxonomies';
 
 	/**
-	* Construct Method.
-	*/
+	 * Construct Method.
+	 */
 	function __construct() {
 
 		add_action( 'admin_init', array( &$this, 'register_settings' ) );
@@ -58,38 +58,38 @@ class WPLPRO_Taxonomies {
 			}
 		}
 
-   add_action( 'restrict_manage_posts', array( $this, 'wp_listings_filter_post_type_by_taxonomy' ) );
-   add_filter( 'parse_query', array( $this, 'wp_listings_convert_id_to_term_in_query' ) );
+		add_action( 'restrict_manage_posts', array( $this, 'wp_listings_filter_post_type_by_taxonomy' ) );
+		add_filter( 'parse_query', array( $this, 'wp_listings_convert_id_to_term_in_query' ) );
 
 	}
 
-  /**
-   * Register_settings function.
-   *
-   * @access public
-   * @return void
-   */
+	/**
+	 * Register_settings function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function register_settings() {
-	  register_setting( $this->settings_field, $this->settings_field );
-	  add_option( $this->settings_field, __return_empty_array(), '', 'yes' );
+		register_setting( $this->settings_field, $this->settings_field );
+		add_option( $this->settings_field, __return_empty_array(), '', 'yes' );
 	}
 
-  /**
-   * Settings_init function.
-   *
-   * @access public
-   * @return void
-   */
+	/**
+	 * Settings_init function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function settings_init() {
 		  add_submenu_page( 'edit.php?post_type=listing', __( 'Register Taxonomies', 'wp-listings-pro' ), __( 'Register Taxonomies', 'wp-listings-pro' ), 'manage_options', $this->menu_page, array( &$this, 'admin' ) );
 	}
 
-  /**
-   * Actions function.
-   *
-   * @access public
-   * @return void
-   */
+	/**
+	 * Actions function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function actions() {
 		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] !== $this->menu_page ) {
 			return;
@@ -112,15 +112,15 @@ class WPLPRO_Taxonomies {
 	}
 
 
-  /**
-   * Admin function.
-   *
-   * @access public
-   * @return void
-   */
+	/**
+	 * Admin function.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function admin() {
 
-	  echo '<div class="wrap">';
+		echo '<div class="wrap">';
 
 		if ( isset( $_REQUEST['view'] ) && 'edit' === $_REQUEST['view'] ) {
 			require( dirname( __FILE__ ) . '/views/edit-tax.php' );
@@ -128,16 +128,16 @@ class WPLPRO_Taxonomies {
 			 require( dirname( __FILE__ ) . '/views/create-tax.php' );
 		}
 
-	  echo '</div>';
+		echo '</div>';
 	}
 
-  /**
-   * Create_taxonomy function.
-   *
-   * @access public
-   * @param array $args (default: array()).
-   * @return void
-   */
+	/**
+	 * Create_taxonomy function.
+	 *
+	 * @access public
+	 * @param array $args (default: array()).
+	 * @return void
+	 */
 	function create_taxonomy( $args = array() ) {
 
 		/**** VERIFY THE NONCE. ****/
@@ -191,13 +191,13 @@ class WPLPRO_Taxonomies {
 
 	}
 
-  /**
-   * Delete_taxonomy function.
-   *
-   * @access public
-   * @param string $id (default: '').
-   * @return void
-   */
+	/**
+	 * Delete_taxonomy function.
+	 *
+	 * @access public
+	 * @param string $id (default: '').
+	 * @return void
+	 */
 	function delete_taxonomy( $id = '' ) {
 
 		/**** VERIFY THE NONCE ****/
@@ -221,13 +221,13 @@ class WPLPRO_Taxonomies {
 
 	}
 
-  /**
-   * Edit_taxonomy function.
-   *
-   * @access public
-   * @param array $args Argument list (default: array()).
-   * @return void
-   */
+	/**
+	 * Edit_taxonomy function.
+	 *
+	 * @access public
+	 * @param array $args Argument list (default: array()).
+	 * @return void
+	 */
 	function edit_taxonomy( $args = array() ) {
 
 		/**** VERIFY THE NONCE ****/
@@ -277,8 +277,8 @@ class WPLPRO_Taxonomies {
 	}
 
 	/**
- 	 * Notices function.
- 	 *
+	 * Notices function.
+	 *
 	 * @access public
 	 * @return void
 	 */
@@ -306,15 +306,15 @@ class WPLPRO_Taxonomies {
 		}
 	}
 
-  /**
-   * Register the status taxonomy, manually.
-   */
+	/**
+	 * Register the status taxonomy, manually.
+	 */
 	function listing_status_taxonomy() {
 
-	  $name = __( 'Status', 'wp-listings-pro' );
-	  $singular_name = __( 'Status', 'wp-listings-pro' );
+		$name = __( 'Status', 'wp-listings-pro' );
+		$singular_name = __( 'Status', 'wp-listings-pro' );
 
-	  return array(
+		return array(
 		  'status' => array(
 			  'labels' => array(
 				  'name'					=> strip_tags( $name ),
@@ -329,21 +329,21 @@ class WPLPRO_Taxonomies {
 				  'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 				  'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 				  'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-				  'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
+				  'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) ),
 			  ),
 			  'hierarchical' => true,
 			  'rewrite'  => array( __( 'status', 'wp-listings-pro' ), 'with_front' => false ),
 			  'editable' => 0,
 			  'show_in_rest'  => true,
 			  'rest_base'     => 'status',
-			  'rest_controller_class' => 'WP_REST_Terms_Controller'
-		  )
-	  );
+			  'rest_controller_class' => 'WP_REST_Terms_Controller',
+		  ),
+		);
 	}
 
-  /**
-   * Register the property-types taxonomy, manually.
-   */
+	/**
+	 * Register the property-types taxonomy, manually.
+	 */
 	function property_type_taxonomy() {
 
 		$name = __( 'Property Types', 'wp-listings-pro' );
@@ -364,22 +364,22 @@ class WPLPRO_Taxonomies {
 					'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
+					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) ),
 				),
 				'hierarchical' => true,
 				'rewrite'  => array( __( 'property-types', 'wp-listings-pro' ), 'with_front' => false ),
 				'editable' => 0,
 				'show_in_rest'  => true,
 				'rest_base'     => 'property-types',
-				'rest_controller_class' => 'WP_REST_Terms_Controller'
-			)
+				'rest_controller_class' => 'WP_REST_Terms_Controller',
+			),
 		);
 
 	}
 
-  /**
-   * Register the location taxonomy, manually.
-   */
+	/**
+	 * Register the location taxonomy, manually.
+	 */
 	function listing_location_taxonomy() {
 
 		$name = __( 'Locations', 'wp-listings-pro' );
@@ -400,22 +400,22 @@ class WPLPRO_Taxonomies {
 					'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
+					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) ),
 				),
 				'hierarchical' => true,
 				'rewrite' => array( __( 'locations', 'wp-listings-pro' ), 'with_front' => false ),
 				'editable' => 0,
 				'show_in_rest'  => true,
 				'rest_base'     => 'locations',
-				'rest_controller_class' => 'WP_REST_Terms_Controller'
-			)
+				'rest_controller_class' => 'WP_REST_Terms_Controller',
+			),
 		);
 
 	}
 
-  /**
-   * Register the property features taxonomy, manually.
-   */
+	/**
+	 * Register the property features taxonomy, manually.
+	 */
 	function property_features_taxonomy() {
 
 		$name = __( 'Features', 'wp-listings-pro' );
@@ -436,22 +436,22 @@ class WPLPRO_Taxonomies {
 					'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
+					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) ),
 				),
 				'hierarchical' => 0,
 				'rewrite' => array( __( 'features', 'wp-listings-pro' ),  'with_front' => false ),
 				'editable' => 0,
 				'show_in_rest'  => true,
 				'rest_base'     => 'features',
-				'rest_controller_class' => 'WP_REST_Terms_Controller'
-			)
+				'rest_controller_class' => 'WP_REST_Terms_Controller',
+			),
 		);
 
 	}
 
-  /**
-   * Create the taxonomies.
-   */
+	/**
+	 * Create the taxonomies.
+	 */
 	function register_taxonomies() {
 		foreach ( (array) $this->get_taxonomies() as $id => $data ) {
 			register_taxonomy( $id, array( 'listing' ), $data );
@@ -473,7 +473,7 @@ class WPLPRO_Taxonomies {
 	   */
 	function create_terms() {
 
-	  /** Default terms for status */
+		/** Default terms for status */
 		$status_terms = apply_filters( 'wp_listings_default_status_terms', array( 'Active' => 'active', 'Pending' => 'pending', 'For Rent' => 'for-rent', 'Sold' => 'sold', 'Featured' => 'featured', 'New' => 'new', 'Reduced' => 'reduced' ) );
 		foreach ( $status_terms as $term => $slug ) {
 			if ( term_exists( $term, 'status' ) ) {
@@ -498,34 +498,34 @@ class WPLPRO_Taxonomies {
 			if ( term_exists( $term, 'property-types' ) ) {
 				continue;
 			}
-		  wp_insert_term( $term,'property-types', array( 'slug' => $slug ) );
+			wp_insert_term( $term,'property-types', array( 'slug' => $slug ) );
 		}
 	}
 
-  /**
-   * Register term meta for a featured image
-   */
+	/**
+	 * Register term meta for a featured image
+	 */
 	function register_term_meta() {
 		  register_meta( 'term', 'wplpro_term_image', 'wp_listings_sanitize_term_image' );
 	}
 
-  /**
-   * Callback to retrieve the term image
-   *
-   * @param WP_Image $wplpro_term_image Term Image.
-   * @return termImage A completely unsanitized copy of whatever you sent it.
-   */
+	/**
+	 * Callback to retrieve the term image
+	 *
+	 * @param WP_Image $wplpro_term_image Term Image.
+	 * @return termImage A completely unsanitized copy of whatever you sent it.
+	 */
 	function wp_listings_sanitize_term_image( $wplpro_term_image ) {
-	  return $wplpro_term_image;
+		return $wplpro_term_image;
 	}
 
-  /**
-   * Get the term featured image id
-   *
-   * @param int  $term_id ID of the term to check.
-   * @param bool $html Whether to use html wrapper.
-   * @uses  wp_get_attachment_image to return image id wrapped in markup.
-   */
+	/**
+	 * Get the term featured image id
+	 *
+	 * @param int  $term_id ID of the term to check.
+	 * @param bool $html Whether to use html wrapper.
+	 * @uses  wp_get_attachment_image to return image id wrapped in markup.
+	 */
 	function wp_listings_get_term_image( $term_id, $html = true ) {
 		  $image_id = get_term_meta( $term_id, 'wplpro_term_image', true );
 		  return $image_id && $html ? wp_get_attachment_image( $image_id, 'thumbnail' ) : $image_id;
@@ -534,7 +534,7 @@ class WPLPRO_Taxonomies {
 	  /**
 	   * Save the image uploaded
 	   *
-	   * @param  string $term_id term slug
+	   * @param  string $term_id term slug.
 	   */
 	function wp_listings_save_term_image( $term_id ) {
 
@@ -552,7 +552,7 @@ class WPLPRO_Taxonomies {
 			update_term_meta( $term_id, 'wplpro_term_image', $new_image );
 		}
 
-	  return $term_id;
+		return $term_id;
 
 	}
 
@@ -564,9 +564,9 @@ class WPLPRO_Taxonomies {
 	 */
 	function wp_listings_edit_term_columns( $columns ) {
 
-	  $columns['wplpro_term_image'] = __( 'Image', 'wp-listings-pro' );
+		$columns['wplpro_term_image'] = __( 'Image', 'wp-listings-pro' );
 
-	  return $columns;
+		return $columns;
 	}
 
 	/**
@@ -617,13 +617,13 @@ class WPLPRO_Taxonomies {
 		return $out;
 	}
 
-  /**
-   * Display a custom taxonomy dropdown in admin
-   */
+	/**
+	 * Display a custom taxonomy dropdown in admin
+	 */
 	function wp_listings_filter_post_type_by_taxonomy() {
-	  global $typenow;
-	  $post_type = 'listing';
-	  $taxonomies  = array( 'property-types', 'status', 'locations' );
+		global $typenow;
+		$post_type = 'listing';
+		$taxonomies  = array( 'property-types', 'status', 'locations' );
 		foreach ( $taxonomies as $taxonomy ) {
 			if ( $typenow === $post_type ) {
 				$selected      = isset( $_GET[ $taxonomy ] ) ? $_GET[ $taxonomy ] : '';
@@ -641,25 +641,29 @@ class WPLPRO_Taxonomies {
 		}
 	}
 
-  /**
-   * Filter posts by taxonomy in admin
-   */
+	/**
+	 * Filter posts by taxonomy in admin
+	 *
+	 * @param object $query Query request.
+	 */
 	function wp_listings_convert_id_to_term_in_query( $query ) {
-	  global $pagenow;
-	  $post_type = 'listing';
-	  $taxonomies  = array( 'property-types', 'status', 'locations' );
-	  $q_vars    = &$query->query_vars;
+		global $pagenow;
+		$post_type = 'listing';
+		$taxonomies  = array( 'property-types', 'status', 'locations' );
+		$q_vars    = &$query->query_vars;
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( $pagenow === 'edit.php' && isset( $q_vars['post_type'] ) && $q_vars['post_type'] === $post_type && isset( $q_vars[ $taxonomy ] ) && is_numeric( $q_vars[ $taxonomy ] ) && $q_vars[ $taxonomy ] !== 0 ) {
+			if ( 'edit.php' === $pagenow && isset( $q_vars['post_type'] ) && $q_vars['post_type'] === $post_type && isset( $q_vars[ $taxonomy ] ) && is_numeric( $q_vars[ $taxonomy ] ) && 0 !== $q_vars[ $taxonomy ] ) {
 				$term = get_term_by( 'id', $q_vars[ $taxonomy ], $taxonomy );
 				$q_vars[ $taxonomy ] = $term->slug;
 			}
 		}
 	}
 
-  /**
-   * Field for adding a new image on a term
-   */
+	/**
+	 * Field for adding a new image on a term
+	 *
+	 * @param object $term WP Meta term object.
+	 */
 	function wp_listings_new_term_image_field( $term ) {
 
 		  $image_id = '';
@@ -681,13 +685,15 @@ class WPLPRO_Taxonomies {
 			<?php
 	}
 
-  /**
-   * Field for editing an image on a term
-   */
+	/**
+	 * Field for editing an image on a term
+	 *
+	 * @param object $term WP Meta term object.
+	 */
 	function wp_listings_edit_term_image_field( $term ) {
 
-	  $image_id = $this->wp_listings_get_term_image( $term->term_id, false );
-	  $image_url = wp_get_attachment_url( $image_id );
+		$image_id = $this->wp_listings_get_term_image( $term->term_id, false );
+		$image_url = wp_get_attachment_url( $image_id );
 
 		if ( ! $image_url ) {
 			$image_url = '';
@@ -720,7 +726,17 @@ class WPLPRO_Taxonomies {
  */
 class WPLPro_Agents_Taxonomies {
 
+	/**
+	 * Settings fields
+	 *
+	 * @var string
+	 */
 	var $settings_field = 'wplpro_agents_taxonomies';
+	/**
+	 * Menu Page
+	 *
+	 * @var string
+	 */
 	var $menu_page = 'wplpro-agents-taxonomies';
 
 	/**
@@ -753,19 +769,27 @@ class WPLPro_Agents_Taxonomies {
 
 	}
 
+	/**
+	 * Register settings field through wordpress
+	 *
+	 * @return void
+	 */
 	function register_settings() {
-
 		register_setting( $this->settings_field, $this->settings_field );
 		add_option( $this->settings_field, __return_empty_array(), '', 'yes' );
-
 	}
 
+	/**
+	 * Initialize settings page through wordpress
+	 *
+	 * @return void
+	 */
 	function settings_init() {
 		add_submenu_page( 'edit.php?post_type=employee', __( 'Register Taxonomies', 'wp-listings-pro' ), __( 'Register Taxonomies', 'wp-listings-pro' ), 'manage_options', $this->menu_page, array( &$this, 'admin' ) );
 	}
 
 	/**
-	 * actions function.
+	 * Actions function.
 	 *
 	 * @access public
 	 * @return void
@@ -790,11 +814,10 @@ class WPLPro_Agents_Taxonomies {
 		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] ) {
 			$this->edit_taxonomy( $_POST['wplpro_agents_taxonomy'] );
 		}
-
 	}
 
 	/**
-	 * admin function.
+	 * Admin function.
 	 *
 	 * @access public
 	 * @return void
@@ -815,10 +838,10 @@ class WPLPro_Agents_Taxonomies {
 	}
 
 	/**
-	 * create_taxonomy function.
+	 * Create_taxonomy function.
 	 *
 	 * @access public
-	 * @param array $args (default: array())
+	 * @param array $args (default: array()).
 	 * @return void
 	 */
 	function create_taxonomy( $args = array() ) {
@@ -874,10 +897,10 @@ class WPLPro_Agents_Taxonomies {
 	}
 
 	/**
-	 * delete_taxonomy function.
+	 * Delete a taxonomy.
 	 *
 	 * @access public
-	 * @param string $id (default: '')
+	 * @param string $id (default: '').
 	 * @return void
 	 */
 	function delete_taxonomy( $id = '' ) {
@@ -887,6 +910,7 @@ class WPLPro_Agents_Taxonomies {
 		/** No empty ID */
 		if ( ! isset( $id ) || empty( $id ) ) {
 			wp_die( __( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
+			// * Why don't we just give up pardner?
 		}
 
 		$options = get_option( $this->settings_field );
@@ -1014,15 +1038,15 @@ class WPLPro_Agents_Taxonomies {
 					'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
+					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) ),
 				),
 				'hierarchical' => true,
 				'rewrite'  => array( __( 'job-types', 'wp-listings-pro' ), 'with_front' => false ),
 				'editable' => 0,
 				'show_in_rest'  => true,
 				'rest_base'     => 'job-types',
-				'rest_controller_class' => 'WP_REST_Terms_Controller'
-			)
+				'rest_controller_class' => 'WP_REST_Terms_Controller',
+			),
 		);
 	}
 
@@ -1049,20 +1073,20 @@ class WPLPro_Agents_Taxonomies {
 					'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
 					'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) )
+					'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) ),
 				),
 				'hierarchical' => true,
 				'rewrite' => array( __( 'offices', 'wp-listings-pro' ), 'with_front' => false ),
 				'editable' => 0,
 				'show_in_rest'  => true,
 				'rest_base'     => 'offices',
-				'rest_controller_class' => 'WP_REST_Terms_Controller'
-			)
+				'rest_controller_class' => 'WP_REST_Terms_Controller',
+			),
 		);
 	}
 
 	/**
-	 * Create the taxonomies.
+	 * Actually create the taxonomies.
 	 */
 	function register_taxonomies() {
 		foreach ( (array) $this->get_taxonomies() as $id => $data ) {
@@ -1072,6 +1096,8 @@ class WPLPro_Agents_Taxonomies {
 
 	/**
 	 * Get the taxonomies.
+	 *
+	 * @return array Taxonomies.
 	 */
 	function get_taxonomies() {
 		return array_merge( $this->employee_offices_taxonomy(), $this->employee_job_type_taxonomy(), (array) get_option( $this->settings_field ) );
@@ -1080,16 +1106,17 @@ class WPLPro_Agents_Taxonomies {
 	/**
 	 * Register term meta for a featured image
 	 *
-	 * @return [type] [description]
+	 * @return void
 	 */
 	function register_term_meta() {
 		register_meta( 'term', 'wpmlpro_term_image', 'wplpro_agents_sanitize_term_image' );
 	}
 
 	/**
-	 * Callback to retrieve the term image
+	 * Extraordinarily powerful and useful function to sanitize term images.
 	 *
-	 * @return [type] [description]
+	 * @param object $wpmlpro_term_image 	Object that you want returned to you.
+	 * @return object 										Object that will be returned exactly as it was without any actual sanitizing.
 	 */
 	function wplpro_agents_sanitize_term_image( $wpmlpro_term_image ) {
 		return $wpmlpro_term_image;
@@ -1098,8 +1125,10 @@ class WPLPro_Agents_Taxonomies {
 	/**
 	 * Get the term featured image id
 	 *
-	 * @param  $html bool whether to use html wrapper
-	 * @uses  wp_get_attachment_image to return image id wrapped in markup
+	 * @param string $term_id 				ID of term object.
+	 * @param bool   $html            Whether to use html wrapper.
+	 * @uses  wp_get_attachment_image To return image id wrapped in markup.
+	 * @return string 								Formatted image to be injected, containing the image
 	 */
 	function wplpro_agents_get_term_image( $term_id, $html = true ) {
 		$image_id = get_term_meta( $term_id, 'wpmlpro_term_image', true );
@@ -1109,7 +1138,8 @@ class WPLPro_Agents_Taxonomies {
 	/**
 	 * Save the image uploaded
 	 *
-	 * @param  string $term_id term slug
+	 * @param  string $term_id 	Term slug.
+	 * @return string 					Term ID.
 	 */
 	function wplpro_agents_save_term_image( $term_id ) {
 
@@ -1133,8 +1163,10 @@ class WPLPro_Agents_Taxonomies {
 
 	/**
 	 * Filter the edit term columns
+	 *
+	 * @param object $columns Column object to append/add term image link to.
+	 * @return object 				Original column object with appended term image link.
 	 */
-
 	function wplpro_agents_edit_term_columns( $columns ) {
 		$columns['wpmlpro_term_image'] = __( 'Image', 'wp-listings-pro' );
 

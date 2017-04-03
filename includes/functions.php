@@ -258,6 +258,7 @@ function wplpro_glance_items( $items = array() ) {
 			$published = intval( $num_posts->publish );
 			$post_type = get_post_type_object( $type );
 
+			// Clever... unfortunately not wp standards :/ that's a hard one.
 			$text = _n( '%s ' . $post_type->labels->singular_name, '%s ' . $post_type->labels->name, $published, 'wp-listings-pro' );
 			$text = sprintf( $text, number_format_i18n( $published ) );
 
@@ -307,7 +308,7 @@ add_filter( 'jetpack_sitemap_post_types', 'wplpro_jetpack_sitemap' );
  * Add Listings to Jetpack sitemap
  *
  * @access public
- * @return void
+ * @return array new array( 'listing', 'employee' ).
  */
 function wplpro_jetpack_sitemap() {
 	$post_types = array( 'listing', 'employee' );
@@ -321,7 +322,7 @@ function wplpro_jetpack_sitemap() {
  * @param mixed  $term_id Term ID.
  * @param bool   $html (default: true) HTML.
  * @param string $size (default: 'full') Size.
- * @return void
+ * @return object Term image if it exist, else image ID that it's supposed to be (possible undefined/null).
  */
 function wplpro_term_image( $term_id, $html = true, $size = 'full' ) {
 	$image_id = get_term_meta( $term_id, 'wplpro_term_image', true );
@@ -432,10 +433,10 @@ function wplpro_template_include_employee( $template ) {
 }
 
 /**
- * Employee Details.
+ * WPLPRO Get Employee Details.
  *
  * @access public
- * @return void
+ * @return string Formatted HTML block of employee details.
  */
 function wplpro_employee_details() {
 	global $post;
@@ -504,10 +505,10 @@ function wplpro_employee_details() {
 }
 
 /**
- * wplpro_employee_archive_details function.
+ * WPLPRO Employee Archive Details Boxes
  *
  * @access public
- * @return void
+ * @return string Generated html for employee archive details.
  */
 function wplpro_employee_archive_details() {
 	global $post;
@@ -538,10 +539,10 @@ function wplpro_employee_archive_details() {
 }
 
 /**
- * wplpro_employee_social function.
+ * WPLPRO Employee Social Information.
  *
  * @access public
- * @return void
+ * @return string	If employee has social information, a formatted HTMl block with their information.
  */
 function wplpro_employee_social() {
 	global $post;
@@ -582,6 +583,7 @@ function wplpro_employee_social() {
 
 		return $output;
 	}
+	return '';
 }
 
 /**
@@ -611,6 +613,8 @@ function wplpro_get_job_types( $post_id = null ) {
 
 /**
  * Displays the office of a employee.
+ *
+ * @param int $post_id ID of the employee (Def. null).
  */
 function wplpro_get_offices( $post_id = null ) {
 
