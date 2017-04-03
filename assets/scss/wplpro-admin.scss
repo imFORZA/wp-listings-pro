@@ -2,7 +2,19 @@
 #dashboard_right_now span.employee-count:before {
 	content: "\f307";
 }
+$color-all-nine: #999999;
+$color-dark-grey: #dddddd; // misleading name
+$color-light-grey: #d5d5d5;
+$color-light-green: #46B450;
+$color-almost-white: #f7f7f7;
+$color-yellow-orange: #FFB900;
+$color-kinda-pale-red: #DC3232;
+$color-kinda-pale-blue: #00A0D2;
+$another-different-grey: #b4b9be;
+$color-so-much-pale-blue: #5b9dd9;
 
+
+$white: #ffffff;
 @mixin clearfix(){
 	*zoom: 1;
 
@@ -80,28 +92,28 @@
 	margin: 10px auto;
 }
 .idx-import-option.update-all .dashicons {
-	color: #46B450;
+	color: $color-light-green;
 }
 .idx-import-option.update-noimage .dashicons {
-	color: #FFB900;
+	color: $color-yellow-orange;
 }
 .idx-import-option.update-none .dashicons {
-	color: #DC3232;
+	color: $color-kinda-pale-red;
 }
 .idx-import-option.sold-keep .dashicons {
-	color: #46B450;
+	color: $color-light-green;
 }
 .idx-import-option.sold-draft .dashicons {
-	color: #00A0D2;
+	color: $color-kinda-pale-blue;
 }
 .idx-import-option.sold-delete .dashicons {
-	color: #DC3232;
+	color: $color-kinda-pale-red;
 }
 .idx-import-option input[type=radio] + p {
 	padding: 15px;
 }
 .idx-import-option input[type=radio]:checked + p {
-	background: #fff;
+	background: $white;
 }
 
 /* Edit listing screen */
@@ -133,9 +145,9 @@
 									width: 80px;
 									float: left;
 									cursor: move;
-									border: 1px solid #d5d5d5 ;
+									border: 1px solid $color-light-grey;
 									margin: 9px 9px 0 0;
-									background: #f7f7f7 ;
+									background: $color-almost-white;
 									border-radius: 2px;
 									position: relative;
 									box-sizing: border-box;
@@ -148,14 +160,14 @@
 							}
 
 							li.wc-metabox-sortable-placeholder {
-									border: 3px dashed #dddddd ;
+									border: 3px dashed $color-light-grey;
 									position: relative;
 
 									&:after {
 											@include icon_dashicons( "\f161" );
 											font-size: 2.618em;
 											line-height: 72px;
-											color: #ddd;
+											color: $color-light-grey;
 									}
 							}
 
@@ -189,7 +201,7 @@
 
 													&:before {
 															@include icon_dashicons( "\f153" );
-															color: #999;
+															color: $color-all-nine;
 													}
 
 													&:hover {
@@ -233,9 +245,9 @@
 									height: 110px;
 									float: left;
 									cursor: move;
-									border: 1px solid #d5d5d5 ;
+									border: 1px solid $color-light-grey ;
 									margin: 9px 9px 0 0;
-									background: #f7f7f7 ;
+									background: $color-almost-white ;
 									border-radius: 2px;
 									position: relative;
 									box-sizing: border-box;
@@ -275,14 +287,14 @@
 							}
 
 							li.wc-metabox-sortable-placeholder {
-									border: 3px dashed #dddddd ;
+									border: 3px dashed $color-dark-grey ;
 									position: relative;
 
 									&:after {
 											@include icon_dashicons( "\f161" );
 											font-size: 2.618em;
 											line-height: 72px;
-											color: #ddd;
+											color: $white;
 									}
 							}
 
@@ -316,7 +328,7 @@
 
 													&:before {
 															@include icon_dashicons( "\f153" );
-															color: #999;
+															color: $color-all-nine;
 													}
 
 													&:hover {
@@ -344,7 +356,7 @@
 
 .notice-dismiss:before {
 	background: none;
-	color: #b4b9be;
+	color: $another-different-grey;
 	content: '\f153';
 	display: block;
 	font: normal 16px/20px 'dashicons';
@@ -363,7 +375,7 @@
 	margin: 0;
 	padding: 9px;
 	background: none;
-	color: #b4b9be;
+	color: $another-different-grey;
 	cursor: pointer;
 }
 
@@ -375,12 +387,12 @@
 
 .notice-dismiss:focus {
 	outline: none;
-	-webkit-box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
-	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	-webkit-box-shadow: 0 0 0 1px $color-so-much-pale-blue, 0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 0 1px $color-so-much-pale-blue, 0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 .ie8 .notice-dismiss:focus {
-	outline: 1px solid #5b9dd9;
+	outline: 1px solid $color-so-much-pale-blue;
 }
 
 @media screen and ( max-width: 782px ) {
