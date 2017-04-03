@@ -2,7 +2,7 @@
 /**
  * [setUp description]
  */
-class Test_WPLPRO_Taxonomies extends WP_UnitTestCase {
+class Testwplpro_taxonomies_var extends WP_UnitTestCase {
     /**
      * [setUp description]
      */

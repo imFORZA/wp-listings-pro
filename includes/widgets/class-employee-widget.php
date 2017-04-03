@@ -1,4 +1,10 @@
 <?php
+/**
+ * Widget for employees
+ *
+ * @package wp-listings-pro
+ */
+
 if ( ! defined( 'ABSPATH' ) ) { exit;
 }
 /**
@@ -7,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
  * @since 0.9.0
  * @author Agent Evolution
  */
-class wplpro_Agents_Widget extends WP_Widget {
+class WPLPRO_Agents_Widget extends WP_Widget {
 
 	/**
 	 * __construct function.
@@ -58,11 +64,11 @@ class wplpro_Agents_Widget extends WP_Widget {
 
 		echo $before_widget;
 
-		if ( $show_agent == 'show_all' ) {
+		if ( 'show_all' === $show_agent ) {
 			echo $before_title . apply_filters( 'widget_title', $title, $instance, $this->id_base ) . $after_title;
 			$query_args = array( 'post_type' => 'employee', 'posts_per_page' => - 1, 'orderby' => $orderby, 'order' => $order );
 
-		} elseif ( $show_agent == 'show_random' ) {
+		} elseif ( 'show_random' === $show_agent ) {
 			echo $before_title . apply_filters( 'widget_title', $title, $instance, $this->id_base ) . $after_title;
 			$query_args = array( 'post_type' => 'employee', 'posts_per_page' => $show_number, 'orderby' => 'rand', 'order' => $order );
 
@@ -73,9 +79,10 @@ class wplpro_Agents_Widget extends WP_Widget {
 
 		}
 
-			query_posts( $query_args );
+		query_posts( $query_args );
 
-		if ( have_posts() ) : while ( have_posts() ) : the_post();
+		if ( have_posts() ) {
+			while ( have_posts() ) : the_post();
 
 				echo '<div ', post_class( 'widget-agent-wrap' ), '>';
 				echo '<a href="', get_permalink(), '">', get_the_post_thumbnail( $post->ID, 'employee-thumbnail' ), '</a>';
@@ -90,12 +97,11 @@ class wplpro_Agents_Widget extends WP_Widget {
 				}
 
 				echo '</div>';
-				// echo wplpro_employee_social();
+				// echo wplpro_employee_social();.
 				echo '</div><!-- .widget-agent-wrap -->';
-
-				endwhile;
-			endif;
-			wp_reset_query();
+			endwhile;
+		}
+		wp_reset_query();
 
 		echo $after_widget;
 
@@ -107,7 +113,7 @@ class wplpro_Agents_Widget extends WP_Widget {
 	 * @access public
 	 * @param mixed $new_instance New Instance.
 	 * @param mixed $old_instance Old Instance.
-	 * @return void
+	 * @return object $new_instance
 	 */
 	function update( $new_instance, $old_instance ) {
 		$instance = array();
