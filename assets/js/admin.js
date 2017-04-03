@@ -1,4 +1,32 @@
+// Example formatting for making image media selector tool
+// Global object to attach frame to
+var listing_image_gallery_frame = new Object();
+// <a> tag to attach the onclick listener to for opening the media selector
+var image_gallery_link      = '.add_listing_images';
+// ID of sub container that holds the list (should be a form)
+var image_gallery_id        = '#listing_image_gallery';
+// <div> container to contain all events pertinent to this instance of the media selector
+var image_gallery_container = '#listing_images_container';
+// subclass for where each entity in the gallery should be stored
+var image_gallery_listing   = 'ul.listing_images';
+// Acceptable file extensions (NOTE DOES NOT CHECK ANY MORE DEEPLY THAN THE NAME OF THE FILE, IF PEOPLE RENAMED PIPEBOMB.BAT TO FRIENDLYPONIES.PNG, IT WILL BE ACCEPTED).
+var image_types             = ["png", "jpg", "jpeg", "gif", "svg"];
+
+var listing_doc_gallery_frame = new Object();
+var doc_gallery_link        = '.add_listing_docs';
+var doc_gallery_id          = '#listing_doc_gallery';
+var doc_gallery_container   = '#listing_docs_container';
+var doc_gallery_listing     = 'ul.listing_docs';
+var doc_types               = ["doc", "docx", "xls", "xlsx", "pdf"];
 jQuery(document).ready(function($) {
+
+
+	// Instantiate the media selector tool, and attach all necessary event listeners
+	foobar_gallery_popup(listing_image_gallery_frame, image_gallery_link, image_gallery_id, image_gallery_container, image_gallery_listing, true, image_types);
+
+
+	foobar_gallery_popup(listing_doc_gallery_frame, doc_gallery_link, doc_gallery_id, doc_gallery_container, doc_gallery_listing, false, doc_types);
+
 	jQuery(".feed-select").select2();
 
 	// Save dismiss state
@@ -42,386 +70,374 @@ jQuery(document).ready(function($) {
 		});
 	});
 
-	/* === Begin term image JS. === */
+	/* === Begin listing importer JS. === */
 
-	/* If the <img> source has a value, show it.  Otherwise, hide. */
-	if ( jQuery( '.wpl-term-image-url' ).attr( 'src' ) ) {
-		jQuery( '.wpl-term-image-url' ).show();
-	} else {
-		jQuery( '.wpl-term-image-url' ).hide();
-	}
+	jQuery(function() {
+		jQuery("img.lazy").lazyload({
+			event: "scrollstop"
+		});
+	});
 
-	/* If there's a value for the term image input. */
-	if ( jQuery( 'input#wpl-term-image' ).val() ) {
+	var $container = jQuery('.grid');
+	$container.imagesLoaded(function(){
+		$container.masonry({
+			columnWidth: '.grid-sizer',
+			itemSelector: '.grid-item'
+		});
+	});
 
-		/* Hide the 'set term image' link. */
-		jQuery( '.wpl-add-media-text' ).hide();
-
-		/* Show the 'remove term image' link, the image. */
-		jQuery( '.wpl-remove-media, .wpl-term-image-url' ).show();
-	}
-
-	/* Else, if there's not a value for the term image input. */
-	else {
-
-		/* Show the 'set term image' link. */
-		jQuery( '.wpl-add-media-text' ).show();
-
-		/* Hide the 'remove term image' link, the image. */
-		jQuery( '.wpl-remove-media, .wpl-term-image-url' ).hide();
-	}
-
-	/* When the 'remove term image' link is clicked. */
-	jQuery( '.wpl-remove-media' ).click(
-		function( j ) {
-
-			/* Prevent the default link behavior. */
-			j.preventDefault();
-
-			/* Set the term image input value to nothing. */
-			jQuery( '#wpl-term-image' ).val( '' );
-
-			/* Show the 'set term image' link. */
-			jQuery( '.wpl-add-media-text' ).show();
-
-			/* Hide the 'remove term image' link, the image. */
-			jQuery( '.wpl-remove-media, .wpl-term-image-url, .wpl-errors' ).hide();
-		}
-	);
-
-	/*
-	 * The following code deals with the custom media modal frame for the term image.  It is a
-	 * modified version of Thomas Griffin's New Media Image Uploader example plugin.
-	 *
-	 * @link      https://github.com/thomasgriffin/New-Media-Image-Uploader
-	 * @license   http://www.opensource.org/licenses/gpl-license.php
-	 * @author    Thomas Griffin <thomas@thomasgriffinmedia.com>
-	 * @copyright Copyright 2013 Thomas Griffin
-	 */
-
-	/* Prepare the variable that holds our custom media manager. */
-	var wplpro_term_image_frame;
-
-	/* When the 'set term image' link is clicked. */
-	jQuery( '.wpl-add-media' ).click(
-
-		function( j ) {
-
-			/* Prevent the default link behavior. */
-			j.preventDefault();
-
-			/* If the frame already exists, open it. */
-			if ( wplpro_term_image_frame ) {
-				wplpro_term_image_frame.open();
-				return;
+	jQuery(document).on( 'click', '.delete-post', function() {
+		var id = jQuery(this).data('id');
+		var nonce = jQuery(this).data('nonce');
+		var post = jQuery(this).parents('.post:first');
+		var grid = jQuery('.grid').masonry({
+			columnWidth: '.grid-sizer',
+			itemSelector: '.grid-item'
+		});
+		$.ajax({
+			type: 'post',
+			url: DeleteListingAjax.ajaxurl,
+			data: {
+				action: 'wp_listings_idx_listing_delete',
+				nonce: nonce,
+				id: id
+			},
+			success: function( result ) {
+				if( result === 'success' ) {
+					post.fadeOut( function(){
+						post.remove();
+						grid.masonry('layout');
+					});
+				}
 			}
+		});
+		return false;
+	});
 
-			/* Creates a custom media frame. */
-			wplpro_term_image_frame = wp.media.frames.wplpro_term_image_frame = wp.media(
-				{
-					className: 'media-frame',            // Custom CSS class name
-					frame:     'select',                 // Frame type (post, select)
-					multiple:  false,                   // Allow selection of multiple images
-					title:     wplpro_term_image.title, // Custom frame title
-
-					library: {
-						type: 'image' // Media types allowed
-					},
-
-					button: {
-						text:  wplpro_term_image.button // Custom insert button text
+	jQuery(document).on( 'click', '.delete-all', function() {
+		var go_ahead = confirm("This will delete all imported listings and their attached images. Are you sure you want to continue?");
+		var nonce = jQuery(this).data('nonce');
+		var post = jQuery('#selectable').find('.selected');
+		var grid = jQuery('.grid').masonry({
+			columnWidth: '.grid-sizer',
+			itemSelector: '.grid-item'
+		});
+		if ( go_ahead === true ) {
+			$.ajax({
+				type: 'post',
+				url: DeleteAllListingAjax.ajaxurl,
+				data: {
+					action: 'wp_listings_idx_listing_delete_all',
+					nonce: nonce
+				},
+				success: function( result ) {
+					if( result === 'success' ) {
+						post.fadeOut( function(){
+							post.remove();
+							grid.masonry('layout');
+						});
 					}
 				}
-			);
-
-			/*
-			 * The following handles the image data and sending it back to the meta box once an
-			 * an image has been selected via the media frame.
-			 */
-			wplpro_term_image_frame.on( 'select',
-
-				function() {
-
-					/* Construct a JSON representation of the model. */
-					var media_attachment = wplpro_term_image_frame.state().get( 'selection' ).toJSON();
-
-					/* If the custom term image size is available, use it. */
-					/* Note the 'width' is contrained by $content_width. */
-					if ( media_attachment[0].sizes.wplpro_term_image ) {
-						var wpl_media_url    = media_attachment[0].sizes.wplpro_term_image.url;
-						var wpl_media_width  = media_attachment[0].sizes.wplpro_term_image.width;
-						var wpl_media_height = media_attachment[0].sizes.wplpro_term_image.height;
-					}
-
-					/* Else, use the full size b/c it will always be available. */
-					else {
-						var wpl_media_url    = media_attachment[0].sizes.full.url;
-						var wpl_media_width  = media_attachment[0].sizes.full.width;
-						var wpl_media_height = media_attachment[0].sizes.full.height;
-					}
-
-					/* === Begin image dimensions error wplcks. === */
-
-					var wpl_errors = '';
-
-					/*
-					 * Note that we must use the "full" size width in some error wplcks
-					 * b/c I haven't found a way around WordPress constraining the image
-					 * size via the $content_width global. This means that the error
-					 * wplcking isn't 100%, but it should do fine for the most part since
-					 * we're using a custom image size. If not, the error wplcking is good
-					 * on the PHP side once the data is saved.
-					 */
-					if ( wplpro_term_image.min_width > media_attachment[0].sizes.full.width && wplpro_term_image.min_height > wpl_media_height ) {
-						wpl_errors = wplpro_term_image.min_width_height_error;
-					}
-
-					else if ( wplpro_term_image.max_width < wpl_media_width && wplpro_term_image.max_height < wpl_media_height ) {
-						wpl_errors = wplpro_term_image.max_width_height_error;
-					}
-
-					else if ( wplpro_term_image.min_width > media_attachment[0].sizes.full.width ) {
-						wpl_errors = wplpro_term_image.min_width_error;
-					}
-
-					else if ( wplpro_term_image.min_height > wpl_media_height ) {
-						wpl_errors = wplpro_term_image.min_height_error;
-					}
-
-					else if ( wplpro_term_image.max_width < wpl_media_width ) {
-						wpl_errors = wplpro_term_image.max_width_error;
-					}
-
-					else if ( wplpro_term_image.max_height < wpl_media_height ) {
-						wpl_errors = wplpro_term_image.max_height_error;
-					}
-
-					/* If there are error strings, show them. */
-					if ( wpl_errors ) {
-						jQuery( '.wpl-errors p' ).text( wpl_errors );
-						jQuery( '.wpl-errors' ).show();
-					}
-
-					/* If no error strings, make sure the errors <div> is hidden. */
-					else {
-						jQuery( '.wpl-errors' ).hide();
-					}
-
-					/* === End image dimensions error wplcks. === */
-
-					/* Add the image attachment ID to our hidden form field. */
-					jQuery( '#wpl-term-image').val( media_attachment[0].id );
-
-					/* Change the 'src' attribute so the image will display in the meta box. */
-					jQuery( '.wpl-term-image-url' ).attr( 'src', wpl_media_url );
-
-					/* Hides the add image link. */
-					jQuery( '.wpl-add-media-text' ).hide();
-
-					/* Displays the term image and remove image link. */
-					jQuery( '.wpl-term-image-url, .wpl-remove-media' ).show();
-				}
-			);
-
-			/* Open up the frame. */
-			wplpro_term_image_frame.open();
+			});
+			return false;
+		} else {
+			return false;
 		}
-	);
 
-	/* === End term image JS. === */
-
+	});
 
 
+	// Make sure labels are drawn in the correct state.
+	jQuery('li').each(function()
+	{
 
+		if (jQuery(this).find(':checkbox').attr('checked'))
+			jQuery(this).addClass('selected');
 
+	});
 
-	/* === Begin term image JS. === */
+	// Toggle label css when checkbox is clicked.
+	jQuery(':checkbox').click(function(e)
+	{
 
-	/* If the <img> source has a value, show it.  Otherwise, hide. */
-	if ( jQuery( '.wplpro-term-image-url' ).attr( 'src' ) ) {
-		jQuery( '.wplpro-term-image-url' ).show();
-	} else {
-		jQuery( '.wplpro-term-image-url' ).hide();
-	}
+		var checked = jQuery(this).attr('checked');
+		jQuery(this).closest('li').toggleClass('selected', checked);
 
-	/* If there's a value for the term image input. */
-	if ( jQuery( 'input#wplpro-term-image' ).val() ) {
+	});
 
-		/* Hide the 'set term image' link. */
-		jQuery( '.wplpro-add-media-text' ).hide();
+	// Select all.
+	jQuery("#selectall").change(function(){
+		jQuery(".checkbox").prop('checked', jQuery(this).prop("checked"));
+		jQuery(this).closest('li').addClass('selected');
+	});
 
-		/* Show the 'remove term image' link, the image. */
-		jQuery( '.wplpro-remove-media, .wplpro-term-image-url' ).show();
-	}
+	/* === End listing importer JS. === */
 
-	/* Else, if there's not a value for the term image input. */
-	else {
+	/* === Scrollstop event. ===*/
+	(function(){
 
-		/* Show the 'set term image' link. */
-		jQuery( '.wplpro-add-media-text' ).show();
+		var special = jQuery.event.special,
+			uid1 = 'D' + (+new Date()),
+			uid2 = 'D' + (+new Date() + 1);
 
-		/* Hide the 'remove term image' link, the image. */
-		jQuery( '.wplpro-remove-media, .wplpro-term-image-url' ).hide();
-	}
+		special.scrollstart = {
+			setup: function() {
 
-	/* When the 'remove term image' link is clicked. */
-	jQuery( '.wplpro-remove-media' ).click(
-		function( j ) {
+				var timer,
+					handler =  function(evt) {
 
-			/* Prevent the default link behavior. */
-			j.preventDefault();
+						var _self = this,
+							_args = arguments;
 
-			/* Set the term image input value to nothing. */
-			jQuery( '#wplpro-term-image' ).val( '' );
+						if (timer) {
+							clearTimeout(timer);
+						} else {
+							evt.type = 'scrollstart';
+							jQuery.event.handle.apply(_self, _args);
+						}
 
-			/* Show the 'set term image' link. */
-			jQuery( '.wplpro-add-media-text' ).show();
+						timer = setTimeout( function(){
+							timer = null;
+						}, special.scrollstop.latency);
 
-			/* Hide the 'remove term image' link, the image. */
-			jQuery( '.wplpro-remove-media, .wplpro-term-image-url, .wplpro-errors' ).hide();
-		}
-	);
+					};
 
-	/*
-	 * The following code deals with the custom media modal frame for the term image.  It is a
-	 * modified version of Thomas Griffin's New Media Image Uploader example plugin.
-	 *
-	 * @link      https://github.com/thomasgriffin/New-Media-Image-Uploader
-	 * @license   http://www.opensource.org/licenses/gpl-license.php
-	 * @author    Thomas Griffin <thomas@thomasgriffinmedia.com>
-	 * @copyright Copyright 2013 Thomas Griffin
-	 */
+				jQuery(this).bind('scroll', handler).data(uid1, handler);
 
-	/* Prepare the variable that holds our custom media manager. */
-	var wpmlpro_term_image_frame;
-
-	/* When the 'set term image' link is clicked. */
-	jQuery( '.wplpro-add-media' ).click(
-
-		function( j ) {
-
-			/* Prevent the default link behavior. */
-			j.preventDefault();
-
-			/* If the frame already exists, open it. */
-			if ( wpmlpro_term_image_frame ) {
-				wpmlpro_term_image_frame.open();
-				return;
+			},
+			teardown: function(){
+				jQuery(this).unbind( 'scroll', jQuery(this).data(uid1) );
 			}
+		};
 
-			/* Creates a custom media frame. */
-			wpmlpro_term_image_frame = wp.media.frames.wpmlpro_term_image_frame = wp.media(
-				{
-					className: 'media-frame',            // Custom CSS class name
-					frame:     'select',                 // Frame type (post, select)
-					multiple:  false,                   // Allow selection of multiple images
-					title:     wpmlpro_term_image.title, // Custom frame title
+		special.scrollstop = {
+			latency: 300,
+			setup: function() {
 
-					library: {
-						type: 'image' // Media types allowed
-					},
+				var timer,
+						handler = function(evt) {
 
-					button: {
-						text:  wpmlpro_term_image.button // Custom insert button text
-					}
-				}
-			);
+						var _self = this,
+							_args = arguments;
 
-			/*
-			 * The following handles the image data and sending it back to the meta box once an
-			 * an image has been selected via the media frame.
-			 */
-			wpmlpro_term_image_frame.on( 'select',
+						if (timer) {
+							clearTimeout(timer);
+						}
 
-				function() {
+						timer = setTimeout( function(){
 
-					/* Construct a JSON representation of the model. */
-					var media_attachment = wpmlpro_term_image_frame.state().get( 'selection' ).toJSON();
+							timer = null;
+							evt.type = 'scrollstop';
+							jQuery.event.handle.apply(_self, _args);
 
-					/* If the custom term image size is available, use it. */
-					/* Note the 'width' is contrained by $content_width. */
-					if ( media_attachment[0].sizes.wpmlpro_term_image ) {
-						var impa_media_url    = media_attachment[0].sizes.wpmlpro_term_image.url;
-						var impa_media_width  = media_attachment[0].sizes.wpmlpro_term_image.width;
-						var impa_media_height = media_attachment[0].sizes.wpmlpro_term_image.height;
-					}
+						}, special.scrollstop.latency);
 
-					/* Else, use the full size b/c it will always be available. */
-					else {
-						var impa_media_url    = media_attachment[0].sizes.full.url;
-						var impa_media_width  = media_attachment[0].sizes.full.width;
-						var impa_media_height = media_attachment[0].sizes.full.height;
-					}
+					};
 
-					/* === Begin image dimensions error impacks. === */
+				jQuery(this).bind('scroll', handler).data(uid2, handler);
 
-					var impa_errors = '';
+			},
+			teardown: function() {
+				jQuery(this).unbind( 'scroll', jQuery(this).data(uid2) );
+			}
+		};
 
-					/*
-					 * Note that we must use the "full" size width in some error impacks
-					 * b/c I haven't found a way around WordPress constraining the image
-					 * size via the $content_width global. This means that the error
-					 * impacking isn't 100%, but it should do fine for the most part since
-					 * we're using a custom image size. If not, the error impacking is good
-					 * on the PHP side once the data is saved.
-					 */
-					if ( wpmlpro_term_image.min_width > media_attachment[0].sizes.full.width && wpmlpro_term_image.min_height > impa_media_height ) {
-						impa_errors = wpmlpro_term_image.min_width_height_error;
-					}
-
-					else if ( wpmlpro_term_image.max_width < impa_media_width && wpmlpro_term_image.max_height < impa_media_height ) {
-						impa_errors = wpmlpro_term_image.max_width_height_error;
-					}
-
-					else if ( wpmlpro_term_image.min_width > media_attachment[0].sizes.full.width ) {
-						impa_errors = wpmlpro_term_image.min_width_error;
-					}
-
-					else if ( wpmlpro_term_image.min_height > impa_media_height ) {
-						impa_errors = wpmlpro_term_image.min_height_error;
-					}
-
-					else if ( wpmlpro_term_image.max_width < impa_media_width ) {
-						impa_errors = wpmlpro_term_image.max_width_error;
-					}
-
-					else if ( wpmlpro_term_image.max_height < impa_media_height ) {
-						impa_errors = wpmlpro_term_image.max_height_error;
-					}
-
-					/* If there are error strings, show them. */
-					if ( impa_errors ) {
-						jQuery( '.wplpro-errors p' ).text( impa_errors );
-						jQuery( '.wplpro-errors' ).show();
-					}
-
-					/* If no error strings, make sure the errors <div> is hidden. */
-					else {
-						jQuery( '.wplpro-errors' ).hide();
-					}
-
-					/* === End image dimensions error impacks. === */
-
-					/* Add the image attachment ID to our hidden form field. */
-					jQuery( '#wplpro-term-image').val( media_attachment[0].id );
-
-					/* Change the 'src' attribute so the image will display in the meta box. */
-					jQuery( '.wplpro-term-image-url' ).attr( 'src', impa_media_url );
-
-					/* Hides the add image link. */
-					jQuery( '.wplpro-add-media-text' ).hide();
-
-					/* Displays the term image and remove image link. */
-					jQuery( '.wplpro-term-image-url, .wplpro-remove-media' ).show();
-				}
-			);
-
-			/* Open up the frame. */
-			wpmlpro_term_image_frame.open();
-		}
-	);
-
-	/* === End term image JS. === */
-
-
+	})();
 });
+
+/**
+ * Function to attach a gallery that is not at all similar to WooCommerce, given varying parameters about.
+ * @param  string 				listing_gallery_frame   Global Object to attach media selector tool to, for better user performance on multiple openings of tool.
+ * @param  string 				link                    HTML Class of the (<a>) element to attach the onClick event to fire the selector tool to.
+ * @param  string 				gallery_id              HTML ID of the gallery to store added objects to
+ * @param  string 				listing_image_container HTML ID of the container (<div>) within which everything will happen, and we will look for each element
+ * @param  string  				listing_image_class     HTML Class of the subelement for the ul list of which each element will be added as
+ * @param  boolean 				use_default_thumbnail   Whether to use default WordPress DashIcons or attempt to pull thumbnails from the item itself (recommended false for non-images, default = false)
+ * @param  array[string] 	$image_types            Acceptable file extensions (if empty, all file types will be accepted, default = [])
+ * @return null
+ */
+function foobar_gallery_popup(listing_gallery_frame, link, gallery_id, listing_image_container, listing_image_class, use_default_thumbnail, $image_types){
+	// Checking for default parameters
+	if($image_types === undefined){
+    $image_types = [];
+  }
+  if(use_default_thumbnail === undefined){
+    use_default_thumbnail = false;
+  }
+  var $media_gallery_ids  = jQuery( gallery_id );
+  var $listing_ul     = jQuery( listing_image_container ).find( listing_image_class );
+
+	// Assigning onclick event to given item
+	jQuery( link ).on('click', 'a', function(event){
+    var $el = jQuery( this );
+
+    event.preventDefault();
+
+    // If the media frame already exists, reopen it.
+    if ( listing_gallery_frame.a ) {
+        listing_gallery_frame.a.open();
+        return;
+    }
+
+    // Create the media frame.
+    listing_gallery_frame.a = wp.media.frames.listing_image_gallery = wp.media({
+        // Set the title of the modal.
+        title: $el.data( 'choose' ),
+        button: {
+            text: $el.data( 'update' )
+        },
+        states: [
+            new wp.media.controller.Library({
+                title: $el.data( 'choose' ),
+                filterable: 'all',
+                multiple: true
+            })
+        ]
+    });
+    // When an image is selected, run a callback.
+    listing_gallery_frame.a.on( 'select', function() {
+        var selection = listing_gallery_frame.a.state().get( 'selection' );
+        var attachment_ids = $media_gallery_ids.val();
+
+        selection.map( function( attachment ) {
+            attachment = attachment.toJSON();
+            if ( attachment.id && use_default_thumbnail ) {
+							var el = attachment.url.split(".")[attachment.url.split(".").length-1];
+
+              // Formatting errors in preparation for eventually turning these blocks into a function.
+
+							// Check whether given type is contained within list of given types
+							var s = check_types($image_types, el);
+              if(s != true){
+                wrong_filetype(s);
+                return;
+              }
+
+							// Assign IDs to each added element for storage of the gallery into postmeta
+              attachment_ids   = attachment_ids ? attachment_ids + ',' + attachment.id : attachment.id;
+              var attachment_image = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
+
+              $listing_ul.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_image + '" /><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
+            }else if ( attachment.id ) { // Cannot use default thumbnail, have to use one of wordpress' icon_dashicons
+              var el = attachment.url.split(".")[attachment.url.split(".").length-1].toLowerCase();
+
+              // Formatting errors in preparation for eventually turning these blocks into a function.
+              var s = check_types($image_types, el);
+              if(s != true){
+                wrong_filetype(s);
+                return;
+              }
+
+              attachment_ids   = attachment_ids ? attachment_ids + ',' + attachment.id : attachment.id;
+              var attachment_doc;
+							// TODO: add more types for other spreadsheets, ie videos, or whatnot
+  						if(el == "xls" || el == "xlsx"){
+  							attachment_doc = "/wp-includes/images/media/spreadsheet.png";
+  						}else{
+  							attachment_doc = "/wp-includes/images/media/document.png";
+  						}
+
+              $listing_ul.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_doc + '" /><div class="filename"><div>' + attachment.filename + '</div></div><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
+            }
+        });
+
+        $media_gallery_ids.val( attachment_ids );
+    });
+
+    // Finally, open the modal.
+    listing_gallery_frame.a.open();
+  });
+
+  // Make sortable.
+  jQuery( listing_image_container ).find( listing_image_class ).sortable({
+  	items: 'li.image',
+  	cursor: 'move',
+  	scrollSensitivity: 40,
+  	forcePlaceholderSize: true,
+  	forceHelperSize: false,
+  	helper: 'clone',
+  	opacity: 0.65,
+  	placeholder: 'wc-metabox-sortable-placeholder',
+  	start: function( event, ui ) {
+  		ui.item.css( 'background-color', '#f6f6f6 ' );
+  	},
+  	stop: function( event, ui ) {
+  		ui.item.removeAttr( 'style' );
+  	},
+  	update: function() {
+  		var attachment_ids = '';
+
+  		jQuery( image_gallery_container ).find( 'ul li.image' ).css( 'cursor', 'default' ).each( function() {
+  			var attachment_id = jQuery( this ).attr( 'data-attachment_id' );
+  			attachment_ids = attachment_ids + attachment_id + ',';
+  		});
+
+  		$media_gallery_ids.val( attachment_ids );
+  	}
+  });
+
+  // Apply remove images button.
+  jQuery( listing_image_container ).on( 'click', 'a.delete', function() {
+  	jQuery( this ).closest( 'li.image' ).remove();
+
+  	var attachment_ids = '';
+
+  	jQuery( listing_image_container ).find( 'ul li.image' ).css( 'cursor', 'default' ).each( function() {
+  		var attachment_id = jQuery( this ).attr( 'data-attachment_id' );
+  		attachment_ids = attachment_ids + attachment_id + ',';
+  	});
+
+  	$media_gallery_ids.val( attachment_ids );
+
+  	// Remove any lingering tooltips.
+  	jQuery( '#tiptip_holder' ).removeAttr( 'style' );
+  	jQuery( '#tiptip_arrow' ).removeAttr( 'style' );
+
+  	return false;
+  });
+}
+/**
+ * Function to output a given error log, and scroll to the top of the page (specifically for if a wrong file type is added)
+ * @param  string 	s Error message.
+ * @return null
+ */
+function wrong_filetype(s){
+	jQuery('.wrong-filetype').remove();
+	jQuery('<div class="notice notice-error wrong-filetype"><h2>' + s + '</h2></div>').insertAfter( jQuery(".wp-header-end") );
+	jQuery("html, body").animate({ scrollTop: 0}, "fast");
+}
+
+/**
+ * Function for comparing a given element to a given list and seeing if it is contained.
+ * If the given list is empty, it will return true.
+ * @param  array[] 	types Array of entities to cross check the element with.
+ * @param  var 			el		Given element, to check whether or not is contained in list.
+ * @return var			      If element is contained in list (or list is empty), will return (true). Else, will return a formatted error message with possible types.
+ */
+function check_types(types, el){
+  for(var i=0;i<types.length;i++){
+    if(el == types[i]){ // Found it, THE SEARCH IS OVER. Soft equals is intentional here.
+      break;
+    }else if(i === types.length - 1){ // At last element.
+      var s = "Only files ending with a ";
+
+			// Generate pretty string.
+      for(var j=0;j<types.length;j++){
+				// At last element and it's not the first element, add an or
+        if(j === types.length-1 && types.length !== 1){
+          s += " or ";
+        }
+        s += types[j];
+				// If not at last element and there's not two elements total, we need commas
+        if(j !== types.length-1 && types.length !== 2){
+          s += ", ";
+        }
+      }
+
+			// Specfically for this case.
+      s += " extension are accepted in this field.";
+      return s;
+    }
+  }
+  return true;
+}

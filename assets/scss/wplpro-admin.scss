@@ -1,13 +1,20 @@
-/* Settings page */
-.js #idx_metabox .handlediv,
-#idx_metabox h2.hndle {
-	display: none;
+#dashboard_right_now a.employee-count:before,
+#dashboard_right_now span.employee-count:before {
+	content: "\f307";
 }
-.js #equity_metabox .handlediv,
-#equity_metabox h2.hndle {
-	display: none;
-}
+$color-all-nine: #999999;
+$color-dark-grey: #dddddd; // misleading name
+$color-light-grey: #d5d5d5;
+$color-light-green: #46B450;
+$color-almost-white: #f7f7f7;
+$color-yellow-orange: #FFB900;
+$color-kinda-pale-red: #DC3232;
+$color-kinda-pale-blue: #00A0D2;
+$another-different-grey: #b4b9be;
+$color-so-much-pale-blue: #5b9dd9;
 
+
+$white: #ffffff;
 @mixin clearfix(){
 	*zoom: 1;
 
@@ -46,6 +53,74 @@
 	height: 1em;
 	width: 1em;
 }
+
+/* Settings page */
+.js #idx_metabox .handlediv,
+#idx_metabox h2.hndle {
+	display: none;
+}
+.js #equity_metabox .handlediv,
+#equity_metabox h2.hndle {
+	display: none;
+}
+
+.wplpro-term-image {
+	max-width: 80px;
+	height: auto;
+}
+
+.js #idx_metabox .handlediv,
+#idx_metabox h2.hndle {
+	display: none;
+}
+.js #equity_metabox .handlediv,
+#equity_metabox h2.hndle {
+	display: none;
+}
+
+.idx-import-option {
+	width: 30%;
+	margin: 0 1%;
+	float: left;
+	text-align: center;
+}
+.idx-import-option .dashicons {
+	display: block;
+	font-size: 50px;
+	height: 50px;
+	width: 50px;
+	margin: 10px auto;
+}
+.idx-import-option.update-all .dashicons {
+	color: $color-light-green;
+}
+.idx-import-option.update-noimage .dashicons {
+	color: $color-yellow-orange;
+}
+.idx-import-option.update-none .dashicons {
+	color: $color-kinda-pale-red;
+}
+.idx-import-option.sold-keep .dashicons {
+	color: $color-light-green;
+}
+.idx-import-option.sold-draft .dashicons {
+	color: $color-kinda-pale-blue;
+}
+.idx-import-option.sold-delete .dashicons {
+	color: $color-kinda-pale-red;
+}
+.idx-import-option input[type=radio] + p {
+	padding: 15px;
+}
+.idx-import-option input[type=radio]:checked + p {
+	background: $white;
+}
+
+/* Edit listing screen */
+#wp-_listing_gallery-media-buttons #idx-shortcode {display: none;}
+
+
+
 /* listing gallery */
 #wplpro-listing-images {
 	.inside {
@@ -70,9 +145,9 @@
 									width: 80px;
 									float: left;
 									cursor: move;
-									border: 1px solid #d5d5d5 ;
+									border: 1px solid $color-light-grey;
 									margin: 9px 9px 0 0;
-									background: #f7f7f7 ;
+									background: $color-almost-white;
 									border-radius: 2px;
 									position: relative;
 									box-sizing: border-box;
@@ -85,14 +160,14 @@
 							}
 
 							li.wc-metabox-sortable-placeholder {
-									border: 3px dashed #dddddd ;
+									border: 3px dashed $color-light-grey;
 									position: relative;
 
 									&:after {
 											@include icon_dashicons( "\f161" );
 											font-size: 2.618em;
 											line-height: 72px;
-											color: #ddd;
+											color: $color-light-grey;
 									}
 							}
 
@@ -126,7 +201,7 @@
 
 													&:before {
 															@include icon_dashicons( "\f153" );
-															color: #999;
+															color: $color-all-nine;
 													}
 
 													&:hover {
@@ -170,9 +245,9 @@
 									height: 110px;
 									float: left;
 									cursor: move;
-									border: 1px solid #d5d5d5 ;
+									border: 1px solid $color-light-grey ;
 									margin: 9px 9px 0 0;
-									background: #f7f7f7 ;
+									background: $color-almost-white ;
 									border-radius: 2px;
 									position: relative;
 									box-sizing: border-box;
@@ -212,14 +287,14 @@
 							}
 
 							li.wc-metabox-sortable-placeholder {
-									border: 3px dashed #dddddd ;
+									border: 3px dashed $color-dark-grey ;
 									position: relative;
 
 									&:after {
 											@include icon_dashicons( "\f161" );
 											font-size: 2.618em;
 											line-height: 72px;
-											color: #ddd;
+											color: $white;
 									}
 							}
 
@@ -253,7 +328,7 @@
 
 													&:before {
 															@include icon_dashicons( "\f153" );
-															color: #999;
+															color: $color-all-nine;
 													}
 
 													&:hover {
@@ -273,55 +348,58 @@
 	}
 }
 
-.idx-import-option {
-	width: 30%;
-	margin: 0 1%;
-	float: left;
-	text-align: center;
+/* Copied from WordPress 4.2 */
+.wp-core-ui .notice.is-dismissible {
+	padding-right: 38px;
+	position: relative;
 }
-.idx-import-option .dashicons {
+
+.notice-dismiss:before {
+	background: none;
+	color: $another-different-grey;
+	content: '\f153';
 	display: block;
-	font-size: 50px;
-	height: 50px;
-	width: 50px;
-	margin: 10px auto;
+	font: normal 16px/20px 'dashicons';
+	speak: none;
+	height: 20px;
+	text-align: center;
+	width: 20px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
-.idx-import-option.update-all .dashicons {
-	color: #46B450;
-}
-.idx-import-option.update-noimage .dashicons {
-	color: #FFB900;
-}
-.idx-import-option.update-none .dashicons {
-	color: #DC3232;
-}
-.idx-import-option.sold-keep .dashicons {
-	color: #46B450;
-}
-.idx-import-option.sold-draft .dashicons {
-	color: #00A0D2;
-}
-.idx-import-option.sold-delete .dashicons {
-	color: #DC3232;
-}
-.idx-import-option input[type=radio] + p {
-	padding: 15px;
-}
-.idx-import-option input[type=radio]:checked + p {
-	background: #fff;
+.notice-dismiss {
+	position: absolute;
+	top: 0;
+	right: 1px;
+	border: none;
+	margin: 0;
+	padding: 9px;
+	background: none;
+	color: $another-different-grey;
+	cursor: pointer;
 }
 
-/* Dashboard widget */
-#dashboard_right_now a.listing-count:before,
-#dashboard_right_now span.listing-count:before {
-	content: "\f102";
+.notice-dismiss:hover:before,
+.notice-dismiss:active:before,
+.notice-dismiss:focus:before {
+	color: #c00;
 }
 
-/* Term edit page */
-.wpl-term-image {
-	max-width: 80px;
-	height: auto;
+.notice-dismiss:focus {
+	outline: none;
+	-webkit-box-shadow: 0 0 0 1px $color-so-much-pale-blue, 0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 0 1px $color-so-much-pale-blue, 0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
-/* Edit listing screen */
-#wp-_listing_gallery-media-buttons #idx-shortcode {display: none;}
+.ie8 .notice-dismiss:focus {
+	outline: 1px solid $color-so-much-pale-blue;
+}
+
+@media screen and ( max-width: 782px ) {
+	.notice-dismiss {
+		padding: 13px;
+	}
+	.wp-core-ui .notice.is-dismissible {
+		padding-right: 46px;
+	}
+}

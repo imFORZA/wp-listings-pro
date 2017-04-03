@@ -159,10 +159,10 @@ class WPLPRO_Meta_Box_Listing_Images {
 		// </p>
 	// -->
 	// <!-- This works -->
-	// <!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js"></script> -->
+	// <!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js"></script> -->
 	// <!-- TODO: Turn it into a registered and then enqueued script with PROPER LINKING -->
 	// < ?     php
-// wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js', array('jquery'), null, true );
+// wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js', array('jquery'), null, true );
 // }
 //
 // **
@@ -249,6 +249,7 @@ class WPLPRO_Meta_Box_Listing_Docs {
 					?>
 	</ul>
 
+
 				<input type="hidden" id="listing_doc_gallery" name="listing_doc_gallery" value="<?php echo esc_attr( $listing_doc_gallery ); ?>" />
 
 			</div>
@@ -256,10 +257,10 @@ class WPLPRO_Meta_Box_Listing_Docs {
 			<a href="#" data-choose="<?php esc_attr_e( 'Add documents to listing', 'wp-listings-pro' ); ?>" data-update="<?php esc_attr_e( 'Add to listing', 'wp-listings-pro' ); ?>" data-delete="<?php esc_attr_e( 'Delete document', 'wp-listings-pro' ); ?>" data-text="<?php esc_attr_e( 'Delete', 'wp-listings-pro' ); ?>"><?php _e( 'Add listing documents', 'wp-listings-pro' ); ?></a>
 			</p>
 			<!-- This works -->
-			<!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js"></script> -->
+			<!-- <script src="/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js"></script> -->
 			<!-- TODO: Turn it into a registered and then enqueued script with PROPER LINKING -->
 			<?php
-			// wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js', array('jquery'), null, true );
+			// wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js', array('jquery'), null, true );
 	}
 
 		/**

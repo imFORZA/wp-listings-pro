@@ -168,18 +168,27 @@ function wplpro_init() {
 
 		$options = get_option( 'wplpro_plugin_settings' );
 
+		if ( ! isset( $options['disable_css'] ) ) {
+			$options['disable_css'] = 0;
+		}
 		if ( '1' !== $options['disable_css'] ) {
 			wp_register_style( 'wp_listings', WPLPRO_URL . 'assets/css/wp-listings-pro.css', '', null, 'all' );
 			wp_enqueue_style( 'wp_listings' );
 		}
 
 		/** Register Font Awesome icons but don't enqueue them. */
+		if ( ! isset( $options['disable_fontawesome'] ) ) {
+			$options['disable_fontawesome'] = 0;
+		}
 		if ( '1' !== $options['disable_fontawesome'] ) {
 			wp_register_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', '', null, 'all' );
 			wp_enqueue_style( 'font-awesome' );
 		}
 
 		/** Register Properticons but don't enqueue them. */
+		if ( ! isset( $options['disable_properticons'] ) ) {
+			$options['disable_properticons'] = 0;
+		}
 		if ( '1' !== $options['disable_properticons'] ) {
 			wp_register_style( 'properticons', 'https://s3.amazonaws.com/properticons/css/properticons.css', '', null, 'all' );
 		}
@@ -195,24 +204,44 @@ function wplpro_init() {
 	 * @access public
 	 * @return void
 	 */
-	function wplpro_agents_admin_scripts_styles() {
-		wp_enqueue_style( 'wplpro_agents_admin_css', WPLPRO_URL . 'assets/css/wplpro-agents-admin.min.css' );
-
-		wp_enqueue_script( 'wplpro-agents-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
-		wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.js', array( 'jquery' ), null, true );
-
+	function wplpro_admin_scripts_styles() {
 		$localize_script = array(
 			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
 			'button'       => __( 'Set term image', 'wp-listings-pro' ),
 		);
 
+		wp_enqueue_script( 'jquery-masonry' );
+		wp_enqueue_style( 'wp_listings_admin_css', WPLPRO_URL . 'assets/css/wplpro-admin.min.css' );
+
+		wp_enqueue_style( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css', null, null, 'screen' );
+		wp_enqueue_script( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js', 'jquery', null, true );
+
+		wp_enqueue_script( 'wp_listings_idx_listing_lazyload', WPLPRO_URL . 'assets/js/jquery.lazyload.min.js', array( 'jquery' ), true );
+		wp_enqueue_script( 'images-loaded', 'https://unpkg.com/imagesloaded@4.1/imagesloaded.pkgd.min.js' );
+		/** Enqueue Font Awesome in the Admin if IDX Broker is not installed */
+		if ( ! class_exists( 'Idx_Broker_Plugin' ) ) {
+			wp_register_style( 'font-awesome-admin', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', '', null, 'all' );
+			wp_enqueue_style( 'font-awesome-admin' );
+			wp_enqueue_style( 'upgrade-icon', WPLPRO_URL . 'assets/css/wp-listings-upgrade.css' );
+		}
+
+		global $wp_version;
+		$nonce_action = 'wp_listings_admin_notice';
+		wp_enqueue_script( 'wp-listings-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
+		wp_localize_script( 'wp-listings-admin', 'wp_listings_adminL10n', array(
+			'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+			'nonce'      => wp_create_nonce( $nonce_action ),
+			'wp_version' => $wp_version,
+			'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
+		) );
+
 		/* Pass custom variables to the script. */
-		wp_localize_script( 'wplpro-agents-admin', 'wpmlpro_term_image', $localize_script );
+		wp_localize_script( 'wp-listings-admin', 'wplpro_term_image', $localize_script );
 
 		wp_enqueue_media();
 
 	}
-	add_action( 'admin_enqueue_scripts', 'wplpro_agents_admin_scripts_styles' );
+	add_action( 'admin_enqueue_scripts', 'wplpro_admin_scripts_styles' );
 
 	/** Enqueues wp-listings-widgets.css style file if it exists and is not deregistered in settings. */
 	add_action( 'wp_enqueue_scripts', 'wplpro_add_widget_styles' );
@@ -240,50 +269,6 @@ function wplpro_init() {
 			wp_enqueue_style( 'wp_listings_widgets' );
 		}
 	}
-
-	/**
-	 * Add admin scripts and styles
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function wplpro_admin_scripts_styles() {
-		wp_enqueue_style( 'wp_listings_admin_css', WPLPRO_URL . 'assets/css/wp-listings-admin.css' );
-
-		wp_enqueue_style( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css', null, null, 'screen' );
-		wp_enqueue_script( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js', 'jquery', null, true );
-
-		/** Enqueue Font Awesome in the Admin if IDX Broker is not installed */
-		if ( ! class_exists( 'Idx_Broker_Plugin' ) ) {
-			wp_register_style( 'font-awesome-admin', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', '', null, 'all' );
-			wp_enqueue_style( 'font-awesome-admin' );
-			wp_enqueue_style( 'upgrade-icon', WPLPRO_URL . 'assets/css/wp-listings-upgrade.css' );
-		}
-
-		global $wp_version;
-		$nonce_action = 'wp_listings_admin_notice';
-
-		wp_enqueue_style( 'wp-listings-admin-notice', WPLPRO_URL . 'assets/css/wp-listings-admin-notice.css' );
-		wp_enqueue_script( 'wp-listings-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
-		wp_localize_script( 'wp-listings-admin', 'wp_listings_adminL10n', array(
-			'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-			'nonce'      => wp_create_nonce( $nonce_action ),
-			'wp_version' => $wp_version,
-			'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
-		) );
-
-		$localize_script = array(
-			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
-			'button'       => __( 'Set term image', 'wp-listings-pro' ),
-		);
-
-		/* Pass custom variables to the script. */
-		wp_localize_script( 'wp-listings-admin', 'wplpro_term_image', $localize_script );
-
-		wp_enqueue_media();
-
-	}
-	add_action( 'admin_enqueue_scripts', 'wplpro_admin_scripts_styles' );
 
 	/** Instantiate. */
 	$_wp_listings = new WP_Listings;
@@ -428,6 +413,9 @@ function wplpro_setall_hidden_price() {
 }
 
 $options = get_option( 'wplpro_plugin_settings' );
+if ( ! isset( $options['enable_sort'] ) ) {
+	$options['enable_sort'] = 0;
+}
 if ( ! empty( $options ) && $options['enable_sort'] ) {
 	add_action( 'pre_get_posts', 'wplpro_pre_get_listings', 99999 );
 }

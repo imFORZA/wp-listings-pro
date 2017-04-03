@@ -10,6 +10,7 @@
  *
  * Adds the taxonomy title and a list of the terms associated with that taxonomy
  * used in custom post type templates.
+ *
  * @access public
  * @param mixed $taxonomy Taxonomy.
  * @return void

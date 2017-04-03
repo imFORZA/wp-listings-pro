@@ -128,6 +128,7 @@ gulp.task('build-img', function(){
  * CMD: gulp build
  */
 gulp.task('build', ['build-sass','build-css','build-js', 'build-img']);
+gulp.task('buildf', ['build-sass','build-css','build-js']); // build fast
 
 /**
  * Creates a zip file of the current project without any of the config and dev
