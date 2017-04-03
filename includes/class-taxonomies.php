@@ -593,29 +593,6 @@ class WPLPRO_Taxonomies {
 
 		return $out;
 	}
-	/**
-	 * Display the new column
-	 *
-	 * @param image_markup $out            Formatted html image block to be returned.
-	 * @param object       $column     Type checking if already in.
-	 * @param int          $term_id    Term id for image.
-	 */
-	function wplpro_agents_manage_term_custom_column( $out, $column, $term_id ) {
-
-		if ( 'wpmlpro_term_image' === $column ) {
-			$image_id = $this->wplpro_agents_get_term_image( $term_id, false );
-
-			if ( ! $image_id ) {
-				return $out;
-			}
-
-			$image_markup = wp_get_attachment_image( $image_id, 'thumbnail', true, array( 'class' => 'wplpro-term-image' ) );
-
-			$out = $image_markup;
-		}
-
-		return $out;
-	}
 
 	/**
 	 * Display a custom taxonomy dropdown in admin
@@ -835,6 +812,30 @@ class WPLPro_Agents_Taxonomies {
 
 		echo '</div>';
 
+	}
+
+	/**
+	 * Display the new column
+	 *
+	 * @param image_markup $out            Formatted html image block to be returned.
+	 * @param object       $column     Type checking if already in.
+	 * @param int          $term_id    Term id for image.
+	 */
+	function wplpro_agents_manage_term_custom_column( $out, $column, $term_id ) {
+
+		if ( 'wpmlpro_term_image' === $column ) {
+			$image_id = $this->wplpro_agents_get_term_image( $term_id, false );
+
+			if ( ! $image_id ) {
+				return $out;
+			}
+
+			$image_markup = wp_get_attachment_image( $image_id, 'thumbnail', true, array( 'class' => 'wplpro-term-image' ) );
+
+			$out = $image_markup;
+		}
+
+		return $out;
 	}
 
 	/**
