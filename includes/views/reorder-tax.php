@@ -37,7 +37,7 @@ function wp_listings_tax_reorder_enqueue() {
  * @return {[type] [description]
  */
 function wp_listings_tax_reorder() {
-	$wp_listings_taxes = get_option( 'wplpro_taxonomies' );
+	$wp_listings_taxes = get_option( 'WPLPRO_Taxonomies' );
 
 	if ( $_POST ) {
 		$new_order = $_POST['wplistings-tax'];
@@ -48,7 +48,7 @@ function wp_listings_tax_reorder() {
 			}
 		}
 		$wp_listings_taxes = $wp_listings_taxes_reordered;
-		update_option( 'wplpro_taxonomies', $wp_listings_taxes_reordered );
+		update_option( 'WPLPRO_Taxonomies', $wp_listings_taxes_reordered );
 
 	}
 	screen_icon( 'themes' ); ?>

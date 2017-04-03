@@ -11,24 +11,34 @@
  */
 class WP_Listings {
 	/**
-	 * [__construct description]
+	 * Settings page to load
+	 *
+	 * @var string
 	 */
 	var $settings_page = 'wp-listings-settings';
 	/**
-	 * [__construct description]
+	 * Taxonomies list
+	 *
+	 * @var string
 	 */
-	var $settings_field = 'wplpro_taxonomies';
+	var $settings_field = 'WPLPRO_Taxonomies';
 	/**
-	 * [__construct description]
+	 * Page to register taxonomies
+	 *
+	 * @var string
 	 */
 	var $menu_page = 'register-taxonomies';
 	/**
-	 * [__construct description]
+	 * Object to hold options, filled in __contrust
+	 *
+	 * @var object
 	 */
 	var $options;
 
 	/**
 	 * Property details array.
+	 *
+	 * @var object
 	 */
 	var $property_details;
 
@@ -203,9 +213,9 @@ class WP_Listings {
 
 	}
 	/**
-	 * [register_meta_boxes description]
+	 * Register Meta Boxes
 	 *
-	 * @return {[type] [description]
+	 * @return void
 	 */
 	function register_meta_boxes() {
 		add_meta_box( 'listing_details_metabox', __( 'Property Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
@@ -216,17 +226,13 @@ class WP_Listings {
 
 	}
 	/**
-	 * [listing_details_metabox description]
-	 *
-	 * @return {[type] [description]
+	 * Metabox for listing details
 	 */
 	function listing_details_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-details-metabox.php' );
 	}
 	/**
-	 * [listing_features_metabox description]
-	 *
-	 * @return {[type] [description]
+	 * Metabox for listing features
 	 */
 	function listing_features_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-features-metabox.php' );
@@ -235,9 +241,9 @@ class WP_Listings {
 	/**
 	 * [metabox_save description]
 	 *
-	 * @param  [type] $post_id [description].
-	 * @param  [type] $post    [description].
-	 * @return {[type]         [description].
+	 * @param  int     $post_id    ID of the post.
+	 * @param  WP_POST $post       Object containing the post itself.
+	 * @return int         				ID of the post if nonce fails.
 	 */
 	function metabox_save( $post_id, $post ) {
 
@@ -269,7 +275,7 @@ class WP_Listings {
 				$property_details['_listing_hide_price'] = 0;
 		}
 
-			// Making sure null data isn't saved, per client stuff
+			// Making sure null data isn't saved, per client stuff.
 			$stuff = get_posts(array(
 				'post_type'       => 'employee',
 				'posts_per_page'  => -1,
@@ -298,6 +304,9 @@ class WP_Listings {
 
 	/**
 	 * Filter the columns in the "Listings" screen, define our own.
+	 *
+	 * @param object $columns    Array containing listing details.
+	 * @return object 					Modified array.
 	 */
 	function columns_filter( $columns ) {
 
@@ -315,6 +324,8 @@ class WP_Listings {
 
 	/**
 	 * Filter the data that shows up in the columns in the "Listings" screen, define our own.
+	 *
+	 * @param string $column Object name to be tested for type and which different data will be returned based on.
 	 */
 	function columns_data( $column ) {
 
@@ -353,10 +364,9 @@ class WP_Listings {
 	/**
 	 * Adds query var on saving post to show notice
 	 *
-	 * @param  [type] $post_id [description].
-	 * @param  [type] $post    [description].
-	 * @param  [type] $update  [description].
-	 * @return [type]          [description].
+	 * @param  int     $post_id ID of the post.
+	 * @param  WP_POST $post    Object containing post data.
+	 * @param  object  $update  New version of the post.
 	 */
 	function save_post( $post_id, $post, $update ) {
 		if ( 'listing' !== $post->post_type ) {
@@ -366,6 +376,11 @@ class WP_Listings {
 		add_filter( 'redirect_post_location', array( &$this, 'add_notice_query_var' ), 99 );
 	}
 
+	/**
+	 * Add notice query var
+	 *
+	 * @param object $location WP stored format of location.
+	 */
 	function add_notice_query_var( $location ) {
 		remove_filter( 'redirect_post_location', array( &$this, 'add_notice_query_var' ), 99 );
 		return add_query_arg( array( 'wp-listings-pro' => 'show-notice' ), $location );

@@ -16,7 +16,7 @@ if ( true === $settings['wplpro_uninstall_delete'] ) {
 	// Delete our Options.
 	delete_site_option( 'wplpro_plugin_settings' );
 	delete_site_option( 'wplpro_idx_featured_listing_wp_options' );
-	delete_site_option( 'wplpro_taxonomies' );
+	delete_site_option( 'WPLPRO_Taxonomies' );
 	delete_site_option( 'wplpro_agents_taxonomies' );
 	delete_site_option( 'widget_wplistings-featured-listings' );
 	delete_site_option( 'widget_listings-search' );
