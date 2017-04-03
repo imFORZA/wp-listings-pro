@@ -204,7 +204,13 @@ function wplpro_init() {
 	 * @access public
 	 * @return void
 	 */
-	function wplpro_admin_scripts_styles() {
+
+	function wplpro_agents_admin_scripts_styles() {
+		wp_enqueue_style( 'wplpro_agents_admin_css', WPLPRO_URL . 'assets/css/wplpro-admin.min.css' );
+
+		wp_enqueue_script( 'wplpro-agents-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
+		wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js', array('jquery'), null, true );
+
 		$localize_script = array(
 			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
 			'button'       => __( 'Set term image', 'wp-listings-pro' ),
@@ -270,6 +276,50 @@ function wplpro_init() {
 			wp_enqueue_style( 'wp_listings_widgets' );
 		}
 	}
+
+<<<<<<< HEAD
+=======
+	/**
+	 * Add admin scripts and styles
+	 *
+	 * @access public
+	 * @return void
+	 */
+	function wp_listings_admin_scripts_styles() {
+		wp_enqueue_style( 'wp_listings_admin_css', WPLPRO_URL . 'assets/css/wplpro-admin.min.css' );
+
+		wp_enqueue_style( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css', null, null, 'screen' );
+		wp_enqueue_script( 'select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js', 'jquery', null, true );
+
+		/** Enqueue Font Awesome in the Admin if IDX Broker is not installed */
+		if ( ! class_exists( 'Idx_Broker_Plugin' ) ) {
+			wp_register_style( 'font-awesome-admin', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', '', null, 'all' );
+			wp_enqueue_style( 'font-awesome-admin' );
+			wp_enqueue_style( 'upgrade-icon', WPLPRO_URL . 'assets/css/wp-listings-upgrade.css' );
+		}
+
+		global $wp_version;
+		$nonce_action = 'wp_listings_admin_notice';
+		wp_enqueue_script( 'wp-listings-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
+		wp_localize_script( 'wp-listings-admin', 'wp_listings_adminL10n', array(
+			'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+			'nonce'      => wp_create_nonce( $nonce_action ),
+			'wp_version' => $wp_version,
+			'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
+		) );
+
+		$localize_script = array(
+			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
+			'button'       => __( 'Set term image', 'wp-listings-pro' ),
+		);
+
+		/* Pass custom variables to the script. */
+		wp_localize_script( 'wp-listings-admin', 'wplpro_term_image', $localize_script );
+
+		wp_enqueue_media();
+
+	}
+	add_action( 'admin_enqueue_scripts', 'wp_listings_admin_scripts_styles' );
 
 	/** Instantiate. */
 	$_wp_listings = new WP_Listings;

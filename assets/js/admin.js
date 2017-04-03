@@ -66,6 +66,7 @@ jQuery(document).ready(function($) {
 			});
 		});
 	});
+<<<<<<< HEAD
 
 	/* === Begin listing importer JS. === */
 
