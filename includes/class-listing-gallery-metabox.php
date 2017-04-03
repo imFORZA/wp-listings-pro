@@ -22,6 +22,8 @@ class WPLPRO_Meta_Box_Listing_Images {
 	 * @param WP_Post $post Post to be sent in.
 	 */
 	public static function output( $post = null ) {
+
+		wp_nonce_field( 'wplpro_image_gallery_metabox_save', 'wplpro_image_gallery_metabox_nonce' );
 		?>
 		<div id="listing_images_container">
 			<ul class="listing_images">
@@ -85,6 +87,10 @@ class WPLPRO_Meta_Box_Listing_Images {
 	 */
 	public static function save( $post_id, $post ) {
 
+		if ( ! wp_verify_nonce( $_POST['wplpro_image_gallery_metabox_nonce'], 'wplpro_image_gallery_metabox_save' ) ) {
+			return $post_id;
+		}
+
 		$attachment_ids = isset( $_POST['listing_image_gallery'] ) ? array_filter( explode( ',',  $_POST['listing_image_gallery'] ) ) : array();
 
 		update_post_meta( $post_id, '_listing_image_gallery', implode( ',', $attachment_ids ) );
@@ -102,7 +108,9 @@ class WPLPRO_Meta_Box_Listing_Docs {
 		 * @param WP_Post $post Given post.
 		 */
 	public static function output( $post = null ) {
-					?>
+
+			wp_nonce_field( 'wplpro_document_gallery_metabox_save', 'wplpro_document_gallery_metabox_nonce' );
+			?>
 			<div id="listing_docs_container">
 
 				<ul class="listing_docs">
@@ -169,6 +177,10 @@ class WPLPRO_Meta_Box_Listing_Docs {
 		 * @param WP_Post $post			Given post.
 		 */
 	public static function save( $post_id, $post ) {
+
+		if ( ! wp_verify_nonce( $_POST['wplpro_document_gallery_metabox_nonce'], 'wplpro_document_gallery_metabox_save' ) ) {
+			return $post_id;
+		}
 
 		$attachment_ids = isset( $_POST['listing_doc_gallery'] ) ? array_filter( explode( ',',  $_POST['listing_doc_gallery'] ) ) : array();
 
