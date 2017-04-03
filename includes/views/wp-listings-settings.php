@@ -329,7 +329,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 						_e( '<p><input name="wplpro_plugin_settings[wplpro_display_idx_link]" id="wplpro_display_idx_link" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_display_idx_link'], false ) . ' /> Display a link to IDX Broker details page?</p><hr style="clear: both;">', 'wp-listings-pro' );
 
 
-						_e( '<h3>Sort Listings?</h3>', 'wp-listings-pro' );
+						_e( '<h3>Sort Listings (High to Low Price)?</h3>', 'wp-listings-pro' );
 
 						?>
 						<label> <input type="radio" name="wplpro_plugin_settings[enable_sort]" value="1" <?php if ( ! empty( $options['enable_sort'] ) == '1' ) {  echo 'checked="checked"'; } ?>> Yes</label><br>
