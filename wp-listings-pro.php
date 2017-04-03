@@ -196,8 +196,6 @@ function wplpro_init() {
 	 * @return void
 	 */
 	function wplpro_admin_scripts_styles() {
-		wp_enqueue_script( 'class-listings', '/wp-content/plugins/wp-listings-pro/assets/js/media-gallery.min.js', array('jquery'), null, true );
-
 		$localize_script = array(
 			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
 			'button'       => __( 'Set term image', 'wp-listings-pro' ),
@@ -230,7 +228,6 @@ function wplpro_init() {
 		wp_localize_script( 'wp-listings-admin', 'wplpro_term_image', $localize_script );
 
 		wp_enqueue_media();
-
 
 	}
 	add_action( 'admin_enqueue_scripts', 'wplpro_admin_scripts_styles' );
