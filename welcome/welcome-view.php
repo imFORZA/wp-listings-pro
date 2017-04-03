@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Welcome Page View
  *
