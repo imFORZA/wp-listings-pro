@@ -32,6 +32,8 @@ function wplpro_activation() {
 
 	wplpro_setall_hidden_price();
 
+	wplpro_add_user_role_lead();
+
 	/** Flush rewrite rules. */
 	if ( ! post_type_exists( 'listing' ) ) {
 
@@ -443,6 +445,17 @@ function wplpro_pre_get_listings( $query ) {
 
 	return $query;
 }
+
+/**
+ * Wplpro_add_user_role_lead function.
+ *
+ * @access public
+ * @return void
+ */
+function wplpro_add_user_role_lead() {
+    add_role( 'lead', 'Lead', array( 'read' => true, 'level_0' => true ) );
+}
+
 
 /**
  * Runs after option is saved. Will set hidden price for pinned listings.
