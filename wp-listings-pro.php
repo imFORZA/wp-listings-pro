@@ -127,6 +127,9 @@ function wplpro_init() {
 	require_once( dirname( __FILE__ ) . '/includes/class-listing-import.php' );
 	require_once( dirname( __FILE__ ) . '/includes/class-agent-import.php' );
 
+	require_once( dirname( __FILE__ ) . '/includes/class-saved-searches.php' );
+	require_once( dirname( __FILE__ ) . '/includes/class-users.php' );
+
 	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
 
 	require_once( dirname( __FILE__ ) . '/welcome/welcome-logic.php' );
