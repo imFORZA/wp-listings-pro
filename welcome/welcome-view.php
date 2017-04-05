@@ -11,7 +11,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 
 }
-
+wplpro_import_image_gallery();
 ?>
 <style>
 	/* Logo */

@@ -28,6 +28,10 @@ register_activation_hook( __FILE__, 'wplpro_activation' );
  */
 function wplpro_activation() {
 
+	error_log("in activation");
+
+	wplpro_import_image_gallery();
+
 	wplpro_init();
 
 	wplpro_setall_hidden_price();
@@ -56,6 +60,49 @@ function wplpro_activation() {
 
 	// Welcome Page Transient max age is 60 seconds.
 	set_transient( '_welcome_redirect_wplpro', true, 60 );
+}
+
+// TODO: move this whole thing into functions
+function wplpro_import_image_gallery(){
+	/*
+	 // TODO: Fix preg_replace.
+		// TODO: Why is _listing_image saving as Array, Array, Array???
+	$image_url = preg_replace( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif)/', $uploaded_media );
+	$image_id = wplpro_get_image_id( $image_url );
+
+	// Doesn't work as it give the entire url.
+	update_post_meta( $id, '_listing_image_gallery', $image_id );
+	*/
+	$old_listings = get_posts(array(
+		'post_type'       => 'listing',
+		'posts_per_page'  => -1,
+	));
+	$images = get_posts(array(
+		'post_type' 			=> 'attachment',
+		'posts_per_page'  => -1,
+	));
+	foreach ( $old_listings as $listing ) {
+		$old_gallery = get_post_meta( $listing->ID, '_listing_gallery', true);
+		//error_log(print_r($listing, true));
+		error_log($old_gallery);
+
+
+		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif)/', $old_gallery, $matches );
+		// error_log(print_r($matches, true));
+		// check for current listings
+		$ids = array();
+		foreach ( $matches[0] as $image_url_dirty ) {
+			$pattern = '/\-*(\d+)x(\d+)\.(.*)$/';
+			$replacement = '.$3';
+
+			// error_log("URL: " . $image_url_dirty);
+			$image_url_clean = preg_replace($pattern, $replacement, $image_url_dirty);
+			$image_id = wplpro_get_image_id( $image_url_clean );
+			// error_log("ID: " . $image_id);
+			$ids[sizeof($ids)] = $image_id;
+		}
+		error_log(print_r($ids, true));
+	}
 }
 
 register_deactivation_hook( __FILE__, 'wplpro_deactivation' );
