@@ -252,9 +252,12 @@ function wplpro_get_additional_image_sizes() {
 
 }
 
-
-/*
- * function to set column classes based on parameter.
+/**
+ * Set column classes based on parameter.
+ *
+ * @access public
+ * @param mixed $columns Columns.
+ * @return void
  */
 function get_column_class( $columns ) {
 	$column_class = '';
