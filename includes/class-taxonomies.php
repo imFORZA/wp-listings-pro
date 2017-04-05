@@ -475,18 +475,18 @@ class WPLPRO_Taxonomies {
 
 		/** Default terms for status. */
 		$status_terms = apply_filters( 'wp_listings_default_status_terms', array(
-		'Active' => 'active',
-		'Pending' => 'pending',
-		'Active Under Contract'  => 'active-under-contract',
-		'Canceled'  => 'canceled',
-		'Closed'  => 'closed',
-		'Coming Soon'  => 'coming-soon',
-		'Sold'  => 'sold', // Not RESO Standard.
-		// 'Delete'  => 'delete', // RESO Standard.
-		'Expired'  => 'expired',
-		'Hold'  => 'hold',
-		'Incomplete'  => 'incomplete',
-		'Withdrawn'  => 'withdrawn',
+			'Active' => 'active',
+			'Pending' => 'pending',
+			'Active Under Contract'  => 'active-under-contract',
+			'Canceled'  => 'canceled',
+			'Closed'  => 'closed',
+			'Coming Soon'  => 'coming-soon',
+			'Sold'  => 'sold', // Not RESO Standard.
+			// 'Delete'  => 'delete', // RESO Standard.
+			'Expired'  => 'expired',
+			'Hold'  => 'hold',
+			'Incomplete'  => 'incomplete',
+			'Withdrawn'  => 'withdrawn',
 		) );
 		foreach ( $status_terms as $term => $slug ) {
 			if ( term_exists( $term, 'status' ) ) {

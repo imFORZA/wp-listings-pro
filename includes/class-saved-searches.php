@@ -1,11 +1,11 @@
 <?php
 
-if ( ! function_exists('wplpro_saved_searches') ) {
+if ( ! function_exists( 'wplpro_saved_searches' ) ) {
 
-// Register Saved Searches CPT.
-function wplpro_saved_searches() {
+	// Register Saved Searches CPT.
+	function wplpro_saved_searches() {
 
-	$labels = array(
+		$labels = array(
 		'name'                  => _x( 'Saved Searches', 'Post Type General Name', 'wp-listings-pro' ),
 		'singular_name'         => _x( 'Saved Search', 'Post Type Singular Name', 'wp-listings-pro' ),
 		'menu_name'             => __( 'Saved Searches', 'wp-listings-pro' ),
@@ -33,31 +33,31 @@ function wplpro_saved_searches() {
 		'items_list'            => __( 'Saved Searches list', 'wp-listings-pro' ),
 		'items_list_navigation' => __( 'Saved Searches list navigation', 'wp-listings-pro' ),
 		'filter_items_list'     => __( 'Filter Saved Searches list', 'wp-listings-pro' ),
-	);
-	$args = array(
-		'label'                 => __( 'Saved Search', 'wp-listings-pro' ),
-		'description'           => __( 'A Saved Search.', 'wp-listings-pro' ),
-		'labels'                => $labels,
-		'supports'              => array( 'title', 'editor', 'author', 'revisions', ),
-		'hierarchical'          => false,
-		'public'                => true,
-		'show_ui'               => false,
-		'show_in_menu'          => 'users.php',
-		'menu_position'         => 70,
-		'menu_icon'             => 'dashicons-search',
-		'show_in_admin_bar'     => true,
-		'show_in_nav_menus'     => false,
-		'can_export'            => true,
-		'has_archive'           => true,
-		'exclude_from_search'   => true,
-		'publicly_queryable'    => true,
-		'capability_type'       => 'page',
-		'show_in_rest'          => true,
-		'rest_base'             => 'saved-search',
-	);
-	register_post_type( 'saved-search', $args );
+			);
+			$args = array(
+			'label'                 => __( 'Saved Search', 'wp-listings-pro' ),
+			'description'           => __( 'A Saved Search.', 'wp-listings-pro' ),
+			'labels'                => $labels,
+			'supports'              => array( 'title', 'editor', 'author', 'revisions' ),
+			'hierarchical'          => false,
+			'public'                => true,
+			'show_ui'               => false,
+			'show_in_menu'          => 'users.php',
+			'menu_position'         => 70,
+			'menu_icon'             => 'dashicons-search',
+			'show_in_admin_bar'     => true,
+			'show_in_nav_menus'     => false,
+			'can_export'            => true,
+			'has_archive'           => true,
+			'exclude_from_search'   => true,
+			'publicly_queryable'    => true,
+			'capability_type'       => 'page',
+			'show_in_rest'          => true,
+			'rest_base'             => 'saved-search',
+			);
+			register_post_type( 'saved-search', $args );
 
-}
-add_action( 'init', 'wplpro_saved_searches', 0 );
+	}
+	add_action( 'init', 'wplpro_saved_searches', 0 );
 
 }

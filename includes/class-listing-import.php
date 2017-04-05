@@ -75,7 +75,7 @@ class WPL_Idx_Listing {
 	 * @return [type] $featured Featured.
 	 */
 	public static function wp_listings_idx_create_post( $listings ) {
-		error_log("creating post");
+		error_log( 'creating post' );
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 			require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
 

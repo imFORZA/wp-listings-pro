@@ -28,7 +28,7 @@ register_activation_hook( __FILE__, 'wplpro_activation' );
  */
 function wplpro_activation() {
 
-	error_log("in activation");
+	error_log( 'in activation' );
 
 	wplpro_init();
 
@@ -63,7 +63,7 @@ function wplpro_activation() {
 }
 
 // TODO: move this whole thing into functions
-function wplpro_import_image_gallery(){
+function wplpro_import_image_gallery() {
 	/*
 	 // TODO: Fix preg_replace.
 		// TODO: Why is _listing_image saving as Array, Array, Array???
@@ -82,13 +82,12 @@ function wplpro_import_image_gallery(){
 		'posts_per_page'  => -1,
 	));
 	foreach ( $old_listings as $listing ) {
-		$old_gallery = get_post_meta( $listing->ID, '_listing_gallery', true);
-		//error_log(print_r($listing, true));
-		error_log($old_gallery);
-
+		$old_gallery = get_post_meta( $listing->ID, '_listing_gallery', true );
+		// error_log(print_r($listing, true));
+		error_log( $old_gallery );
 
 		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif|\.jpeg|\.svg)/', $old_gallery, $matches );
-		error_log(print_r($matches[0], true));
+		error_log( print_r( $matches[0], true ) );
 		// check for current listings
 		$ids = array();
 		foreach ( $matches[0] as $image_url_dirty ) {
@@ -96,12 +95,11 @@ function wplpro_import_image_gallery(){
 			$replacement = '.$3';
 
 			// error_log("URL: " . $image_url_dirty);
-			$image_url_clean = preg_replace($pattern, $replacement, $image_url_dirty);
+			$image_url_clean = preg_replace( $pattern, $replacement, $image_url_dirty );
 			$image_id = wplpro_get_image_id( $image_url_clean );
 			// error_log("ID: " . $image_id);
-			$ids[sizeof($ids)] = $image_id;
+			$ids[ sizeof( $ids ) ] = $image_id;
 		}
-
 
 		// If we already have a gallery, get it
 		$listing_image_gallery;
@@ -112,19 +110,19 @@ function wplpro_import_image_gallery(){
 
 		// Only add images that aren't already in the listing (in case the client jumps around plugins)
 		$images_to_append = $ids;
-		for ( $i = 0; $i < sizeof($wplpro_images); $i++ ) {
-			for ( $j = 0; $j < sizeof($ids); $j++ ) {
-				if($ids[$j] == $wplpro_images[$i]){
-					$images_to_append[$j] = -1;
-					$j = sizeof($ids);
+		for ( $i = 0; $i < sizeof( $wplpro_images ); $i++ ) {
+			for ( $j = 0; $j < sizeof( $ids ); $j++ ) {
+				if ( $ids[ $j ] == $wplpro_images[ $i ] ) {
+					$images_to_append[ $j ] = -1;
+					$j = sizeof( $ids );
 				}
 			}
 		}
 
 		// Now have array of what we need, only add elements that we need
 		foreach ( $images_to_append as $image ) {
-			if($image != -1){
-				$wplpro_images[sizeof($wplpro_images)] = $image;
+			if ( $image != -1 ) {
+				$wplpro_images[ sizeof( $wplpro_images ) ] = $image;
 			}
 		}
 
@@ -480,7 +478,7 @@ function wplpro_set_hidden_price( $post_id, $price, $posts = null ) {
  */
 function wplpro_setall_hidden_price() {
 	// Grab all listings.
-	$listings = get_posts( array( 'post_type' => 'listing', 'orderby' => 'post_id', 'order' => 'ASC', 'posts_per_page' => -1 ) ); //TODO: dont use -1 for posts_per_page.
+	$listings = get_posts( array( 'post_type' => 'listing', 'orderby' => 'post_id', 'order' => 'ASC', 'posts_per_page' => -1 ) ); // TODO: dont use -1 for posts_per_page.
 
 	// Loop and set hidden price.
 	foreach ( $listings as $listing ) {
@@ -528,7 +526,7 @@ function wplpro_pre_get_listings( $query ) {
  * @return void
  */
 function wplpro_add_user_role_lead() {
-    add_role( 'lead', 'Lead', array( 'read' => true, 'level_0' => true ) );
+	add_role( 'lead', 'Lead', array( 'read' => true, 'level_0' => true ) );
 }
 
 
