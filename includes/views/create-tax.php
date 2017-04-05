@@ -1,4 +1,12 @@
-<?php screen_icon( 'themes' ); ?>
+<?php
+/**
+ * Page for creating generic taxonomy
+ *
+ * @package wp-listings-pro
+ */
+
+screen_icon( 'themes' );
+?>
 <h2><?php esc_html_e( 'Listing Taxonomies', 'wp-listings-pro' ); ?></h2>
 
 <div id="col-container">

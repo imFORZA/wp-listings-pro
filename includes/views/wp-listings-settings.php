@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Page for WP-Listings Settings
+ *
+ * @package wp-listings-pro
+ */
 
 if ( isset( $_GET['settings-updated'] ) ) { ?>
 	<div id="message" class="updated">

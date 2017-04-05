@@ -1,4 +1,10 @@
 <?php
+/**
+ * Page for listing details
+ *
+ * @package wp-listings-pro
+ */
+
 wp_nonce_field( 'wp_listings_metabox_save', 'wp_listings_metabox_nonce' );
 
 global $post;
@@ -45,13 +51,13 @@ echo '<div style="width: 90%; float: left">';
 	_e( '<h4>Agent Assignments</h4>', 'wp-listings-pro' );
 	echo '<p>Agents will go here</p><p>';
 	// Example for how to access Will's first name. Neat.
-	// echo get_post_meta(8, '_employee_first_name', true);
-	// update_post_meta($post->ID, '_assigned_employees[\'8\']', 1);
+	// * echo get_post_meta(8, '_employee_first_name', true);
+	// * update_post_meta($post->ID, '_assigned_employees[\'8\']', 1);.
 	$stuff = get_posts(array(
 		'post_type'       => 'employee',
 		'posts_per_page'  => -1,
 	));
-	// echo print_r($stuff, true);
+	// * echo print_r($stuff, true);
 	// echo $stuff[0]->ID; // yields 10. NEAT.
 	foreach ( $stuff as $agent ) {
 	  	printf( '<input type="checkbox" name="wp_listings[_employee_responsibility_' . $agent->ID . ']" %s />',checked( get_post_meta( $post->ID, '_employee_responsibility_' . $agent->ID , true ), 1, 0 ) );
@@ -111,7 +117,7 @@ echo '<div style="width: 90%; float: left">';
 	echo '<div style="width: 90%; float: left;">';
 
 	_e( '<p><label>Enter Video or Virtual Tour Embed Code (<a href="https://wordpress.org/plugins/jetpack/" target="_blank" rel="nofollow">Jetpack</a> offers several <a href="http://jetpack.me/support/shortcode-embeds/" target="_blank" rel="nofollow">video shortcodes</a>.):<br />', 'wp-listings-pro' );
-	printf( __( '<textarea name="wp_listings[_listing_video]" rows="5" cols="18" style="%1$s">%1$s</textarea></label></p>', 'wp-listings-pro' ), 'width: 99%;', htmlentities( get_post_meta( $post->ID, '_listing_video', true ) ) );
+	printf( __( '<textarea name="wp_listings[_listing_video]" rows="5" cols="18" style="%s">%s</textarea></label></p>', 'wp-listings-pro' ), 'width: 99%;', htmlentities( get_post_meta( $post->ID, '_listing_video', true ) ) );
 
 	echo '</div><br style="clear: both;" />';
 
@@ -135,7 +141,7 @@ echo '<div style="width: 90%; float: left">';
 		echo '</div><br style="clear: both;" />';
 
 		_e( '<p><label>Or enter Map Embed Code or shortcode from Map plugin (such as <a href="http://jetpack.me/support/shortcode-embeds/" target="_blank" rel="nofollow">Jetpack Shortcodes</a>, <a href="https://wordpress.org/plugins/simple-google-maps-short-code/" target="_blank" rel="nofollow">Simple Google Maps Short Code</a> or <a href="https://wordpress.org/plugins/mappress-google-maps-for-wordpress/" target="_blank" rel="nofollow">MapPress</a>):<br /><em>Recommend size: 660x300 (If possible, use 100% width, or your themes content width)</em><br />', 'wp-listings-pro' );
-		printf( __( '<textarea name="wp_listings[_listing_map]" rows="5" cols="18" style="%1$s">%1$s</textarea></label></p>', 'wp-listings-pro' ), 'width: 99%;', htmlentities( get_post_meta( $post->ID, '_listing_map', true ) ) );
+		printf( __( '<textarea name="wp_listings[_listing_map]" rows="5" cols="18" style="%s">%s</textarea></label></p>', 'wp-listings-pro' ), 'width: 99%;', htmlentities( get_post_meta( $post->ID, '_listing_map', true ) ) );
 
 		echo '</div>';
 
@@ -143,6 +149,6 @@ echo '<div style="width: 90%; float: left">';
 		_e( '<h4>Contact Form</h4>', 'wp-listings-pro' );
 
 		_e( '<p><label>If you use a Contact Form plugin, you may enter the Contact Form shortcode here.', 'wp-listings-pro' );
-		printf( __( '<textarea name="wp_listings[_listing_contact_form]" rows="1" cols="18" style="%1$s">%1$s</textarea></label></p>', 'wp-listings-pro' ), htmlentities( get_post_meta( $post->ID, '_listing_contact_form', true ) ) );
+		printf( __( '<textarea name="wp_listings[_listing_contact_form]" rows="1" cols="18" style="%s">%s</textarea></label></p>', 'wp-listings-pro' ), 'width: 99%', htmlentities( get_post_meta( $post->ID, '_listing_contact_form', true ) ) );
 
 		echo '</div><br style="clear: both;" />';

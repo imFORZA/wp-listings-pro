@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Welcome Page View
  *
@@ -12,7 +11,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 
 }
-
+wplpro_import_image_gallery();
 ?>
 <style>
 	/* Logo */

@@ -2,7 +2,7 @@
 	/**
 	 * WP Rest API Support.
 	 *
- @package WP-Listings-Pro
+	 * @package WP-Listings-Pro
 	 */
 
 /**

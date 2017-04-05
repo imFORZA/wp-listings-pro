@@ -75,6 +75,7 @@ class WPL_Idx_Listing {
 	 * @return [type] $featured Featured.
 	 */
 	public static function wp_listings_idx_create_post( $listings ) {
+		error_log("creating post");
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 			require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
 
@@ -202,7 +203,7 @@ class WPL_Idx_Listing {
 	 *
 	 * @access public
 	 * @static
-	 * @return True if Success.
+	 * @return void
 	 */
 	public static function wp_listings_update_post() {
 
@@ -281,7 +282,7 @@ class WPL_Idx_Listing {
 	 * @static
 	 * @param mixed $post_id Post ID.
 	 * @param mixed $status Status.
-	 * @return Update Post Status.
+	 * @return void
 	 */
 	public static function wp_listings_idx_change_post_status( $post_id, $status ) {
 	    $current_post = get_post( $post_id, 'ARRAY_A' );
@@ -357,20 +358,11 @@ class WPL_Idx_Listing {
 		if ( false === $update || true === $update_image ) {
 			update_post_meta( $id, '_listing_gallery', apply_filters( 'wplpro_imported_gallery', $gallery = '<img src="' . $featured_image . '" alt="' . $idx_featured_listing_data['address'] . '" />' ) );
 
-			require_once(ABSPATH . 'wp-admin/includes/media.php');
-			require_once(ABSPATH . 'wp-admin/includes/file.php');
-			require_once(ABSPATH . 'wp-admin/includes/image.php');
+			require_once( ABSPATH . 'wp-admin/includes/media.php' );
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
 			$uploaded_media = media_sideload_image( $featured_image, $id, $idx_featured_listing_data['address'] );
-
-			/* // TODO: Fix preg_replace.
-				// TODO: Why is _listing_image saving as Array, Array, Array???
-			$image_url = preg_replace( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif)/', $uploaded_media );
-			$image_id = wplpro_get_image_id( $image_url );
-
-			// Doesn't work as it give the entire url.
-			update_post_meta( $id, '_listing_image_gallery', $image_id );
-			*/
 
 		}
 
@@ -474,9 +466,6 @@ class WPL_Idx_Listing {
 			// Assign featured image to post.
 			set_post_thumbnail( $id, $attach_id );
 		}
-
-		return true;
-
 	}
 
 }
@@ -538,10 +527,6 @@ function wp_listings_idx_listing_scripts() {
 	if ( 'listing_page_wplistings-idx-listing' !== $screen->id ) {
 		return;
 	}
-
-	wp_enqueue_script( 'jquery-masonry' );
-	wp_enqueue_script( 'wp_listings_idx_listing_lazyload', WPLPRO_URL . 'assets/js/jquery.lazyload.min.js', array( 'jquery' ), true );
-	wp_enqueue_script( 'wp_listings_idx_listing_delete_script', WPLPRO_URL . 'assets/js/admin-import.js', array( 'jquery' ), true ); // Should be min.
 
 	wp_localize_script( 'wp_listings_idx_listing_delete_script', 'DeleteListingAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	wp_localize_script( 'wp_listings_idx_listing_delete_script', 'DeleteAllListingAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );

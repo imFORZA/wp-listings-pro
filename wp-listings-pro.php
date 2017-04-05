@@ -28,6 +28,8 @@ register_activation_hook( __FILE__, 'wplpro_activation' );
  */
 function wplpro_activation() {
 
+	error_log("in activation");
+
 	wplpro_init();
 
 	wplpro_setall_hidden_price();
@@ -37,9 +39,9 @@ function wplpro_activation() {
 	/** Flush rewrite rules. */
 	if ( ! post_type_exists( 'listing' ) ) {
 
-		global $_wp_listings, $_wplpro_taxonomies, $_wp_listings_templates;
+		global $_wp_listings, $wplpro_taxonomies_var, $_wp_listings_templates;
 		$_wp_listings->create_post_type();
-		$_wplpro_taxonomies->register_taxonomies();
+		$wplpro_taxonomies_var->register_taxonomies();
 	}
 
 	/** Flush rewrite rules. */
@@ -58,6 +60,76 @@ function wplpro_activation() {
 
 	// Welcome Page Transient max age is 60 seconds.
 	set_transient( '_welcome_redirect_wplpro', true, 60 );
+}
+
+// TODO: move this whole thing into functions
+function wplpro_import_image_gallery(){
+	/*
+	 // TODO: Fix preg_replace.
+		// TODO: Why is _listing_image saving as Array, Array, Array???
+	$image_url = preg_replace( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif)/', $uploaded_media );
+	$image_id = wplpro_get_image_id( $image_url );
+
+	// Doesn't work as it give the entire url.
+	update_post_meta( $id, '_listing_image_gallery', $image_id );
+	*/
+	$old_listings = get_posts(array(
+		'post_type'       => 'listing',
+		'posts_per_page'  => -1,
+	));
+	$images = get_posts(array(
+		'post_type' 			=> 'attachment',
+		'posts_per_page'  => -1,
+	));
+	foreach ( $old_listings as $listing ) {
+		$old_gallery = get_post_meta( $listing->ID, '_listing_gallery', true);
+		//error_log(print_r($listing, true));
+		error_log($old_gallery);
+
+
+		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif|\.jpeg|\.svg)/', $old_gallery, $matches );
+		error_log(print_r($matches[0], true));
+		// check for current listings
+		$ids = array();
+		foreach ( $matches[0] as $image_url_dirty ) {
+			$pattern = '/\-*(\d+)x(\d+)\.(.*)$/';
+			$replacement = '.$3';
+
+			// error_log("URL: " . $image_url_dirty);
+			$image_url_clean = preg_replace($pattern, $replacement, $image_url_dirty);
+			$image_id = wplpro_get_image_id( $image_url_clean );
+			// error_log("ID: " . $image_id);
+			$ids[sizeof($ids)] = $image_id;
+		}
+
+
+		// If we already have a gallery, get it
+		$listing_image_gallery;
+		if ( metadata_exists( 'post', $listing->ID, '_listing_image_gallery' ) ) {
+			$listing_image_gallery = get_post_meta( $listing->ID, '_listing_image_gallery', true );
+		}
+		$wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
+
+		// Only add images that aren't already in the listing (in case the client jumps around plugins)
+		$images_to_append = $ids;
+		for ( $i = 0; $i < sizeof($wplpro_images); $i++ ) {
+			for ( $j = 0; $j < sizeof($ids); $j++ ) {
+				if($ids[$j] == $wplpro_images[$i]){
+					$images_to_append[$j] = -1;
+					$j = sizeof($ids);
+				}
+			}
+		}
+
+		// Now have array of what we need, only add elements that we need
+		foreach ( $images_to_append as $image ) {
+			if($image != -1){
+				$wplpro_images[sizeof($wplpro_images)] = $image;
+			}
+		}
+
+		update_post_meta( $listing->ID, '_listing_image_gallery', implode( ',', $wplpro_images ) );
+	}
 }
 
 register_deactivation_hook( __FILE__, 'wplpro_deactivation' );
@@ -89,7 +161,7 @@ add_action( 'after_setup_theme', 'wplpro_init' );
  */
 function wplpro_init() {
 
-	global $_wp_listings, $_wplpro_taxonomies, $_wp_listings_templates, $_wplpro_agents, $_wplpro_agents_taxonomies;
+	global $_wp_listings, $wplpro_taxonomies_var, $_wp_listings_templates, $_wplpro_agents, $_wplpro_agents_taxonomies;
 
 	define( 'WPLPRO_URL', plugin_dir_url( __FILE__ ) );
 	define( 'WPLPRO_DIR', plugin_dir_path( __FILE__ ) );
@@ -274,7 +346,7 @@ function wplpro_init() {
 
 	/** Instantiate. */
 	$_wp_listings = new WP_Listings;
-	$_wplpro_taxonomies = new wplpro_taxonomies;
+	$wplpro_taxonomies_var = new WPLPRO_Taxonomies;
 
 	add_action( 'widgets_init', 'wp_listings_register_widgets' );
 
@@ -323,7 +395,7 @@ function wp_listings_register_widgets() {
 
 	$listing_widgets = array( 'WP_Listings_Featured_Listings_Widget', 'WP_Listings_Search_Widget' );
 
-	$agent_widgets = array( 'wplpro_Agents_Widget' );
+	$agent_widgets = array( 'WPLPRO_Agents_Widget' );
 
 	foreach ( (array) $listing_widgets as $listing_widget ) {
 		register_widget( $listing_widget );
