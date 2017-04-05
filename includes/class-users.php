@@ -1,8 +1,16 @@
 <?php
 
-add_action( 'show_user_profile', 'wplpro_saved_property_field' );
-add_action( 'edit_user_profile', 'wplpro_saved_property_field' );
+// add_action( 'show_user_profile', 'wplpro_saved_property_field' );
+// add_action( 'edit_user_profile', 'wplpro_saved_property_field' );
 
+
+/**
+ * Wplpro_saved_property_field function.
+ *
+ * @access public
+ * @param mixed $user
+ * @return void
+ */
 function wplpro_saved_property_field( $user ) { ?>
 
 	<h3>Saved Properties</h3>
@@ -36,14 +44,21 @@ function wplpro_saved_property_field( $user ) { ?>
 
 
 
-add_action( 'personal_options_update', 'wplpro_save_property_field' );
-add_action( 'edit_user_profile_update', 'wplpro_save_property_field' );
+// add_action( 'personal_options_update', 'wplpro_save_property_field' );
+// add_action( 'edit_user_profile_update', 'wplpro_save_property_field' );
 
+
+/**
+ * wplpro_save_property_field function.
+ *
+ * @access public
+ * @param mixed $user_id
+ * @return void
+ */
 function wplpro_save_property_field( $user_id ) {
 
 	if ( !current_user_can( 'edit_user', $user_id ) )
 		return false;
 
-	/* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
 	update_usermeta( $user_id, 'saved-properties', $_POST['saved-properties'] );
 }
