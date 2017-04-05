@@ -224,7 +224,6 @@ function wplpro_init() {
 	 */
 	function wplpro_add_scripts() {
 		wp_register_script( 'wp-listings-single', WPLPRO_URL . 'assets/js/single-listing.min.js', array( 'jquery' ), null, true ); // Enqueued only on single listings.
-		wp_register_script( 'jquery-validate', WPLPRO_URL . 'assets/js/jquery.validate.min.js', array( 'jquery' ), null, true ); // Enqueued only on single listings.
 		wp_register_script( 'fitvids', '//cdnjs.cloudflare.com/ajax/libs/fitvids/1.1.0/jquery.fitvids.min.js', array( 'jquery' ), null, true ); // Enqueued only on single listings.
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-ui-tabs', array( 'jquery' ) );
