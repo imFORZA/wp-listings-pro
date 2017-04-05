@@ -473,7 +473,7 @@ class WPLPRO_Taxonomies {
 	   */
 	function create_terms() {
 
-		/** Default terms for status */
+		/** Default terms for status. */
 		$status_terms = apply_filters( 'wp_listings_default_status_terms', array(
 		'Active' => 'active',
 		'Pending' => 'pending',
@@ -481,7 +481,8 @@ class WPLPRO_Taxonomies {
 		'Canceled'  => 'canceled',
 		'Closed'  => 'closed',
 		'Coming Soon'  => 'coming-soon',
-		'Delete'  => 'deleted',
+		'Sold'  => 'sold', // Not RESO Standard.
+		// 'Delete'  => 'delete', // RESO Standard.
 		'Expired'  => 'expired',
 		'Hold'  => 'hold',
 		'Incomplete'  => 'incomplete',
