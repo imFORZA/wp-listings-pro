@@ -166,6 +166,7 @@ function wplpro_init() {
 	define( 'WPLPRO_URL', plugin_dir_url( __FILE__ ) );
 	define( 'WPLPRO_DIR', plugin_dir_path( __FILE__ ) );
 	define( 'WPLPRO_VERSION', '3.0.0' );
+	define( 'WPLPRO_DB_VERSION', '1.0.0' );
 
 	/** Load textdomain for translation. */
 	load_plugin_textdomain( 'wp-listings-pro', false, basename( dirname( __FILE__ ) ) . '/languages/' );
