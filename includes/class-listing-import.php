@@ -75,6 +75,7 @@ class WPL_Idx_Listing {
 	 * @return [type] $featured Featured.
 	 */
 	public static function wp_listings_idx_create_post( $listings ) {
+		error_log("creating post");
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 			require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
 
@@ -362,16 +363,6 @@ class WPL_Idx_Listing {
 			require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
 			$uploaded_media = media_sideload_image( $featured_image, $id, $idx_featured_listing_data['address'] );
-
-			/*
-			 // TODO: Fix preg_replace.
-				// TODO: Why is _listing_image saving as Array, Array, Array???
-			$image_url = preg_replace( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif)/', $uploaded_media );
-			$image_id = wplpro_get_image_id( $image_url );
-
-			// Doesn't work as it give the entire url.
-			update_post_meta( $id, '_listing_image_gallery', $image_id );
-			*/
 
 		}
 

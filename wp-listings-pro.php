@@ -30,8 +30,6 @@ function wplpro_activation() {
 
 	error_log("in activation");
 
-	wplpro_import_image_gallery();
-
 	wplpro_init();
 
 	wplpro_setall_hidden_price();
@@ -87,8 +85,8 @@ function wplpro_import_image_gallery(){
 		error_log($old_gallery);
 
 
-		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif)/', $old_gallery, $matches );
-		// error_log(print_r($matches, true));
+		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif|\.jpeg|\.svg)/', $old_gallery, $matches );
+		error_log(print_r($matches[0], true));
 		// check for current listings
 		$ids = array();
 		foreach ( $matches[0] as $image_url_dirty ) {
@@ -101,7 +99,34 @@ function wplpro_import_image_gallery(){
 			// error_log("ID: " . $image_id);
 			$ids[sizeof($ids)] = $image_id;
 		}
-		error_log(print_r($ids, true));
+
+
+		// If we already have a gallery, get it
+		$listing_image_gallery;
+		if ( metadata_exists( 'post', $listing->ID, '_listing_image_gallery' ) ) {
+			$listing_image_gallery = get_post_meta( $listing->ID, '_listing_image_gallery', true );
+		}
+		$wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
+
+		// Only add images that aren't already in the listing (in case the client jumps around plugins)
+		$images_to_append = $ids;
+		for ( $i = 0; $i < sizeof($wplpro_images); $i++ ) {
+			for ( $j = 0; $j < sizeof($ids); $j++ ) {
+				if($ids[$j] == $wplpro_images[$i]){
+					$images_to_append[$j] = -1;
+					$j = sizeof($ids);
+				}
+			}
+		}
+
+		// Now have array of what we need, only add elements that we need
+		foreach ( $images_to_append as $image ) {
+			if($image != -1){
+				$wplpro_images[sizeof($wplpro_images)] = $image;
+			}
+		}
+
+		update_post_meta( $listing->ID, '_listing_image_gallery', implode( ',', $wplpro_images ) );
 	}
 }
 
