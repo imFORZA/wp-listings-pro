@@ -498,7 +498,7 @@ function wp_listings_idx_listing_register_menu_page() {
  * @return void
  */
 function wp_listings_idx_listing_register_settings() {
-	register_setting( 'wp_listings_idx_listing_settings_group', 'wp_listings_idx_featured_listing_options', 'wp_listings_idx_create_post_cron' );
+	register_setting( 'wp_listings_idx_listing_settings_group', 'wplpro_idx_featured_listing_options', 'wp_listings_idx_create_post_cron' );
 }
 
 /**
@@ -682,7 +682,7 @@ function wp_listings_idx_listing_setting_page() {
 					);
 				}
 
-				printf('<div class="grid-item post"><label for="%s" class="idx-listing"><li class="%s"><img class="listing lazy" data-original="%s"><input type="checkbox" id="%s" class="checkbox" name="wp_listings_idx_featured_listing_options[]" value="%s" %s />%s<p><span class="price">%s</span><br/><span class="address">%s</span><br/><span class="mls">MLS#: </span>%s</p>%s</li></label></div>',
+				printf('<div class="grid-item post"><label for="%s" class="idx-listing"><li class="%s"><img class="listing lazy" data-original="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_idx_featured_listing_options[]" value="%s" %s />%s<p><span class="price">%s</span><br/><span class="address">%s</span><br/><span class="mls">MLS#: </span>%s</p>%s</li></label></div>',
 					$prop['listingID'],
 					isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'imported' : '') : '',
 					isset( $prop['image']['0']['url'] ) ? $prop['image']['0']['url'] : '//mlsphotos.idxbroker.com/defaultNoPhoto/noPhotoFull.png',
