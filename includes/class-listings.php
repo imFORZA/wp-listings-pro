@@ -220,8 +220,9 @@ class WP_Listings {
 	function register_meta_boxes() {
 		add_meta_box( 'listing_details_metabox', __( 'Property Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
+		add_meta_box( 'listing_contact_metabox', __( 'Lead Tools', 'wp-listings-pro' ), array( &$this, 'listing_contact_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_assignment_metabox', __( 'Agent Assignments', 'wp-listings-pro' ), array( &$this, 'listing_assignments_metabox' ), 'listing', 'normal', 'high' );
-
+    
 		add_meta_box( 'wplpro-listing-images', __( 'Photo Gallery', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Images::output', 'listing', 'normal', 'high' );
 		add_meta_box( 'wplpro-listing-docs', __( 'Documents', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Docs::output', 'listing', 'normal', 'high' );
 
@@ -237,6 +238,13 @@ class WP_Listings {
 	 */
 	function listing_features_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-features-metabox.php' );
+	}
+
+  /**
+   * Metabox for lead/contact forms
+   */
+	function listing_contact_metabox() {
+		include( dirname( __FILE__ ) . '/views/listing-contact-metabox.php' );
 	}
 
 	/**
