@@ -219,8 +219,8 @@ function wplpro_single_listing_post_content() {
 				<?php
 				$ids = explode( ',', get_post_meta( $post->ID, '_employee_responsibility', true ) );
 				foreach ( $ids as $agent_id ) {
-					error_log("yup: " . print_r(get_the_post_thumbnail_url( $agent_id ), true));
-					echo '<p><img style="min-height: 150px;min-width: 150px;max-width: 150px;max-height: 150px;" src="' . esc_url( get_the_post_thumbnail_url( $agent_id ) ) . '" alt="Employee Thumbnail"/></p>';
+					echo '<p><img style="min-height: 150px;min-width: 150px;max-width: 150px;max-height: 150px;margin-bottom: 10px;" src="' . esc_url( get_the_post_thumbnail_url( $agent_id ) ) . '" alt="Employee Thumbnail"/><br>';
+					echo get_post_meta( $agent_id, '_employee_first_name', true ) . ' ' . get_post_meta( $agent_id, '_employee_last_name', true ) . '.</p>';
 				}
 				?>
 			</div>
