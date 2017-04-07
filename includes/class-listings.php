@@ -220,6 +220,7 @@ class WP_Listings {
 	function register_meta_boxes() {
 		add_meta_box( 'listing_details_metabox', __( 'Property Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
+		add_meta_box( 'listing_assignment_metabox', __( 'Agent Assignments', 'wp-listings-pro' ), array( &$this, 'listing_assignments_metabox' ), 'listing', 'normal', 'high' );
 
 		add_meta_box( 'wplpro-listing-images', __( 'Photo Gallery', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Images::output', 'listing', 'normal', 'high' );
 		add_meta_box( 'wplpro-listing-docs', __( 'Documents', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Docs::output', 'listing', 'normal', 'high' );
@@ -238,6 +239,10 @@ class WP_Listings {
 		include( dirname( __FILE__ ) . '/views/listing-features-metabox.php' );
 	}
 
+	function listing_assignments_metabox() {
+		include( dirname( __FILE__ ) . '/views/listing-assignments-metabox.php' );
+	}
+
 	/**
 	 * [metabox_save description]
 	 *
@@ -246,41 +251,46 @@ class WP_Listings {
 	 * @return int         				ID of the post if nonce fails.
 	 */
 	function metabox_save( $post_id, $post ) {
-
+		error_log("called");
 		/** Run only on listings post type save */
 		if ( 'listing' !== $post->post_type ) {
 			return;
 		}
 
 		if ( ! isset( $_POST['wp_listings_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['wp_listings_metabox_nonce'], 'wp_listings_metabox_save' ) ) {
-	        return $post_id;
+      return $post_id;
 		}
 
 	    /** Don't try to save the data under autosave, ajax, or future post */
-	    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return;
-		}
-	    if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) { return;
-		}
-	    if ( defined( 'DOING_CRON' ) && DOING_CRON ) { return;
-		}
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+			return;
+    if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+			return;
+    if ( defined( 'DOING_CRON' ) && DOING_CRON )
+			return;
 
 	    /** Check permissions */
-	    if ( ! current_user_can( 'edit_post', $post_id ) ) {
-	        return;
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+      return;
 		}
 
-	    $property_details = $_POST['wp_listings'];
+    $property_details = $_POST['wp_listings'];
 
-	    if ( ! isset( $property_details['_listing_hide_price'] ) ) {
-				$property_details['_listing_hide_price'] = 0;
+    if ( ! isset( $property_details['_listing_hide_price'] ) ) {
+			$property_details['_listing_hide_price'] = 0;
 		}
 
-			// Making sure null data isn't saved, per client stuff.
-			$stuff = get_posts(array(
-				'post_type'       => 'employee',
-				'posts_per_page'  => -1,
-			));
+		// Making sure null data isn't saved, per client stuff.
+		$stuff = get_posts(array(
+			'post_type'       => 'employee',
+			'posts_per_page'  => -1,
+		));
+		$ids = array();
 		foreach ( $stuff as $agent ) {
+			//error_log( $property_details['_employee_responsibility_' . $agent->ID] );
+			if($property_details['_employee_responsibility_' . $agent->ID] == 1){
+				$ids[sizeof($ids)] = $agent->ID;
+			}
 			if ( ! isset( $property_details[ '_employee_responsibility_' . $agent->ID ] ) ) {
 				$property_details[ '_employee_responsibility_' . $agent->ID ] = 0;
 			} else {
@@ -288,15 +298,19 @@ class WP_Listings {
 			}
 		}
 
-	    /** Store the property details custom fields */
-	    foreach ( (array) $property_details as $key => $value ) {
 
-	        /** Save/Update/Delete */
-	        if ( $value ) {
-	            update_post_meta( $post->ID, $key, $value );
-	        } else {
-	            delete_post_meta( $post->ID, $key );
-	        }
+		$property_details['_employee_responsibility'] = implode(',',$ids);
+
+
+    /** Store the property details custom fields */
+    foreach ( (array) $property_details as $key => $value ) {
+
+      /** Save/Update/Delete */
+      if ( $value ) {
+          update_post_meta( $post->ID, $key, $value );
+      } else {
+          delete_post_meta( $post->ID, $key );
+      }
 		}
 
 	}
