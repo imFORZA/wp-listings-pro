@@ -239,6 +239,9 @@ class WP_Listings {
 		include( dirname( __FILE__ ) . '/views/listing-features-metabox.php' );
 	}
 
+	/**
+	 * Metabox for agents being assigned to listing
+	 */
 	function listing_assignments_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-assignments-metabox.php' );
 	}
@@ -280,25 +283,17 @@ class WP_Listings {
 			$property_details['_listing_hide_price'] = 0;
 		}
 
-		// Making sure null data isn't saved, per client stuff.
+		// Saving Agent Assignments
 		$stuff = get_posts(array(
 			'post_type'       => 'employee',
 			'posts_per_page'  => -1,
 		));
 		$ids = array();
 		foreach ( $stuff as $agent ) {
-			//error_log( $property_details['_employee_responsibility_' . $agent->ID] );
-			if($property_details['_employee_responsibility_' . $agent->ID] == 1){
+			if( isset( $property_details[ '_employee_responsibility_' . $agent->ID ] ) ){
 				$ids[sizeof($ids)] = $agent->ID;
 			}
-			if ( ! isset( $property_details[ '_employee_responsibility_' . $agent->ID ] ) ) {
-				$property_details[ '_employee_responsibility_' . $agent->ID ] = 0;
-			} else {
-				$property_details[ '_employee_responsibility_' . $agent->ID ] = 1;
-			}
 		}
-
-
 		$property_details['_employee_responsibility'] = implode(',',$ids);
 
 
