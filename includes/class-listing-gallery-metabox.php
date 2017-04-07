@@ -97,17 +97,14 @@ class WPLPRO_Meta_Box_Listing_Images {
 		update_post_meta( $post_id, '_listing_gallery', static::backwards_compatibility_gallery( $attachment_ids ) );
 	}
 
+	/**
+	 * Provides support for the way that wp-listings manages galleries.
+	 * @param  array[post_ids] 	$ids 		Array of IDs to be included in the gallery.
+	 * @return string      							HTML block of images, following specifications of old wp-listings gallery.
+	 */
 	public static function backwards_compatibility_gallery( $ids ){
-		/*
-<p><img class="alignnone size-medium wp-image-48" src="http://wp-listings-pro.dev/wp-content/uploads/2017/04/pictures-of-nice-houses-incredible-nice-houses-on-the-beach-300x165.jpg" alt="" width="300" height="165" /></p>
-<p><img class="alignnone size-medium wp-image-40" src="http://wp-listings-pro.dev/wp-content/uploads/2017/04/Pointy.gif" alt="" width="48" height="48" /></p>
-<p><img class="alignnone size-medium wp-image-41" src="http://wp-listings-pro.dev/wp-content/uploads/2017/04/PurpGuy.gif" alt="" width="48" height="48" /> </p>
-<p><img class="alignnone size-medium wp-image-42" src="http://wp-listings-pro.dev/wp-content/uploads/2017/04/RedDog.gif" alt="" width="48" height="48" /></p>
-<p><img class="alignnone size-full wp-image-43" src="http://wp-listings-pro.dev/wp-content/uploads/2017/04/Woof.gif" alt="" width="48" height="48" /></p>
-		 */
 		$s = '';
 		foreach( $ids as $image_id){
-			// error_log(print_r(wp_get_attachment_image_src($image_id), true));
 			$s .= '<p><img class="alignnone size-medium wp-image-' . $image_id . '" src="' . wp_get_attachment_url( $image_id ) . '" alt="" width="' . wp_get_attachment_image_src($image_id)[1] . '" height="' . wp_get_attachment_image_src($image_id)[2] . '" /></p>';
 		}
 		error_log($s);
