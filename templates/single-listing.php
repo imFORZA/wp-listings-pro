@@ -213,6 +213,19 @@ function wplpro_single_listing_post_content() {
 			</div><!-- #listing-gallery -->
 			<?php } ?>
 
+			<?php	if ( get_post_meta( $post->ID, '_employee_responsibility', true) !== '' ) { ?>
+			<div id="listing-agent-assignments">
+				<p>Howdy!</p>
+				<?php
+				$ids = explode( ',', get_post_meta( $post->ID, '_employee_responsibility', true ) );
+				foreach ( $ids as $agent_id ) {
+					echo '<p><img style="min-height: 150px;min-width: 150px;max-width: 150px;max-height: 150px;margin-bottom: 10px;" src="' . esc_url( get_the_post_thumbnail_url( $agent_id ) ) . '" alt="Employee Thumbnail"/><br>';
+					echo get_post_meta( $agent_id, '_employee_first_name', true ) . ' ' . get_post_meta( $agent_id, '_employee_last_name', true ) . '.</p>';
+				}
+				?>
+			</div>
+			<?php } ?>
+
 			<?php if ( get_post_meta( $post->ID, '_listing_video', true ) !== '' ) { ?>
 			<div id="listing-video">
 				<div class="iframe-wrap">

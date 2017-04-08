@@ -28,8 +28,6 @@ register_activation_hook( __FILE__, 'wplpro_activation' );
  */
 function wplpro_activation() {
 
-	error_log( 'in activation' );
-
 	wplpro_init();
 
 	wplpro_setall_hidden_price();
@@ -82,7 +80,6 @@ function wplpro_import_image_gallery() {
 	foreach ( $old_listings as $listing ) {
 		$old_gallery = get_post_meta( $listing->ID, '_listing_gallery', true );
 
-		error_log( $old_gallery );
 
 		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif|\.jpeg|\.svg)/', $old_gallery, $matches );
 		error_log( print_r( $matches[0], true ) );
