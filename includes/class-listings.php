@@ -271,7 +271,6 @@ class WP_Listings {
 	 * @return int         				ID of the post if nonce fails.
 	 */
 	function metabox_save( $post_id, $post ) {
-		error_log("called");
 		/** Run only on listings post type save */
 		if ( 'listing' !== $post->post_type ) {
 			return;
