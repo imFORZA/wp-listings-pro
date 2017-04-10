@@ -75,6 +75,7 @@ class WPL_Idx_Listing {
 	 * @return [type] $featured Featured.
 	 */
 	public static function wp_listings_idx_create_post( $listings ) {
+		error_log("creating post");
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 			require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
 
@@ -95,8 +96,11 @@ class WPL_Idx_Listing {
 
 			if ( is_array( $listings ) && is_array( $properties ) ) {
 
+
 				// Loop through featured properties.
+				error_log(count($properties));
 				foreach ( $properties as $prop ) {
+					// this is too dangerous of a command
 
 					// Get the listing ID.
 					$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
@@ -115,17 +119,17 @@ class WPL_Idx_Listing {
 
 				 	// Add post and update post meta.
 					if ( in_array( $prop['listingID'], $listings, true ) && ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
-
+						error_log("please");
 						// Get Equity listing API data if available.
-						if ( class_exists( 'Equity_Idx_Api' ) ) {
-							$equity_properties = $_equity_idx->equity_listing_ID( $prop['idxID'], $prop['listingID'] );
-
-							if ( false === $equity_properties ) {
-								add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_empty', 'The Equity API returned no data for property ' . $prop['listingID'] . '. This is usually caused by your WordPress domain not matching the approved domain in your IDX account. Only some data has been imported.', 'error' );
-								$equity_properties = $properties[ $key ];
-								delete_transient( 'equity_listing_' . $prop['listingID'] );
-							}
-						}
+						// if ( class_exists( 'Equity_Idx_Api' ) ) {
+						// 	$equity_properties = $_equity_idx->equity_listing_ID( $prop['idxID'], $prop['listingID'] );
+						//
+						// 	if ( false === $equity_properties ) {
+						// 		add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_empty', 'The Equity API returned no data for property ' . $prop['listingID'] . '. This is usually caused by your WordPress domain not matching the approved domain in your IDX account. Only some data has been imported.', 'error' );
+						// 		$equity_properties = $properties[ $key ];
+						// 		delete_transient( 'equity_listing_' . $prop['listingID'] );
+						// 	}
+						// }
 
 						if ( '' === $properties[ $key ]['address'] || null === $properties[ $key ]['address'] ) {
 							$properties[ $key ]['address'] = 'Address unlisted';
@@ -155,11 +159,10 @@ class WPL_Idx_Listing {
 							$idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] = $add_post;
 							$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = 'publish';
 							update_post_meta( $add_post, '_listing_details_url', $properties[ $key ]['fullDetailsURL'] );
-							if ( class_exists( 'Equity_Idx_Api' ) ) {
-								self::wp_listings_idx_insert_post_meta( $add_post, $equity_properties );
-							} else {
-								self::wp_listings_idx_insert_post_meta( $add_post, $properties[ $key ] );
-							}
+
+							// Insert meta for post
+							self::wp_listings_idx_insert_post_meta( $add_post, $properties[ $key ] );
+
 						}
 					} // Change status to publish if it's not already.
 					elseif ( in_array( $prop['listingID'], $listings, true ) && 'publish' !== $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) {
@@ -205,7 +208,7 @@ class WPL_Idx_Listing {
 	 * @return void
 	 */
 	public static function wp_listings_update_post() {
-
+		error_log("updating post");
 		require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
 
 		// Load IDX Broker API Class and retrieve featured properties.
@@ -217,7 +220,7 @@ class WPL_Idx_Listing {
 		$wpl_options = get_option( 'wplpro_plugin_settings' );
 
 		foreach ( $properties as $prop ) { // OK here we go
-			error_log("220:\n" . print_r($prop, true));
+			//error_log("220:\n" . print_r($prop, true));
 
 			$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
 
@@ -306,7 +309,6 @@ class WPL_Idx_Listing {
 	 * @return void
 	 */
 	public static function wp_listings_idx_insert_post_meta( $id, $idx_featured_listing_data, $update = false, $update_image = true, $sold = false ) {
-
 		if ( false === $update  ||true === $update_image ) {
 			$imgs = '';
 			$featured_image = $idx_featured_listing_data['image']['0']['url'];
@@ -356,7 +358,26 @@ class WPL_Idx_Listing {
 
 		// Inserts image tags into Old Listing Gallery Box.
 		if ( false === $update || true === $update_image ) {
-			update_post_meta( $id, '_listing_gallery', apply_filters( 'wplpro_imported_gallery', $gallery = '<img src="' . $featured_image . '" alt="' . $idx_featured_listing_data['address'] . '" />' ) );
+			// Here's where we need to do this at
+			// error_log(print_r($idx_featured_listing_data['image'], true));
+			$ids = array();
+			error_log(print_r($idx_featured_listing_data['image'], true));
+			for( $i = 0; $i < $idx_featured_listing_data['image']['totalCount']; $i++ ) {
+				$image_url = $idx_featured_listing_data['image'][$i];
+				error_log(print_r($image_url, true));
+				$ids[count($ids)] = wplpro_upload_image(array(
+					'url' => $image_url['url'],
+					'name' => $idx_featured_listing_data['address'] . '-' . $i . '.jpg',
+					'title' => $idx_featured_listing_data['address'] . '-' . $i,
+					'content' => '',
+					'description' => '',
+				));
+			}
+			// error_log("Oh baby a triple\n" . print_r($ids, true));
+			//
+			//update_post_meta( $id, '_listing_gallery', apply_filters( 'wplpro_imported_gallery', $gallery = '<img src="' . $featured_image . '" alt="' . $idx_featured_listing_data['address'] . '" />' ) );
+
+			update_post_meta( $id, '_listing_image_gallery', implode( ',', $ids ) );
 
 			require_once( ABSPATH . 'wp-admin/includes/media.php' );
 			require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -364,30 +385,31 @@ class WPL_Idx_Listing {
 
 			$uploaded_media = media_sideload_image( $featured_image, $id, $idx_featured_listing_data['address'] );
 
+
 		}
 
 		// Add post meta for Equity API fields.
-		if ( false === $update || true === $update_image ) {
-			update_post_meta( $id, '_listing_gallery',  $imgs );
-		}
-		foreach ( $idx_featured_listing_data as $metakey => $metavalue ) {
-			if ( true === $update && 'price' !== $metakey ) {
-				delete_post_meta( $id, '_listing_' . strtolower( $metakey ) );
-			}
-			if ( isset( $metavalue ) && ! is_array( $metavalue ) && '' !== $metavalue && 'price' !== $metakey ) {
-				update_post_meta( $id, '_listing_' . strtolower( $metakey ), $metavalue );
-			} elseif ( isset( $metavalue ) && is_array( $metavalue ) ) {
-				foreach ( $metavalue as $key => $value ) {
-					if ( get_post_meta( $id, '_listing_' . strtolower( $metakey ) ) && 'images' !== $metakey && 'disclaimer' !== $metakey && 'courtesy' !== $metakey ) {
-						$oldvalue = get_post_meta( $id, '_listing_' . strtolower( $metakey ), true );
-						$newvalue = $value . ', ' . $oldvalue;
-						update_post_meta( $id, '_listing_' . strtolower( $metakey ), $newvalue );
-					} elseif ( 'images' !== $metakey ) {
-						update_post_meta( $id, '_listing_' . strtolower( $metakey ), $value );
-					}
-				}
-			}
-		}
+		// if ( false === $update || true === $update_image ) {
+		// 	update_post_meta( $id, '_listing_gallery',  $imgs );
+		// }
+		// foreach ( $idx_featured_listing_data as $metakey => $metavalue ) {
+		// 	if ( true === $update && 'price' !== $metakey ) {
+		// 		delete_post_meta( $id, '_listing_' . strtolower( $metakey ) );
+		// 	}
+		// 	if ( isset( $metavalue ) && ! is_array( $metavalue ) && '' !== $metavalue && 'price' !== $metakey ) {
+		// 		update_post_meta( $id, '_listing_' . strtolower( $metakey ), $metavalue );
+		// 	} elseif ( isset( $metavalue ) && is_array( $metavalue ) ) {
+		// 		foreach ( $metavalue as $key => $value ) {
+		// 			if ( get_post_meta( $id, '_listing_' . strtolower( $metakey ) ) && 'images' !== $metakey && 'disclaimer' !== $metakey && 'courtesy' !== $metakey ) {
+		// 				$oldvalue = get_post_meta( $id, '_listing_' . strtolower( $metakey ), true );
+		// 				$newvalue = $value . ', ' . $oldvalue;
+		// 				update_post_meta( $id, '_listing_' . strtolower( $metakey ), $newvalue );
+		// 			} elseif ( 'images' !== $metakey ) {
+		// 				update_post_meta( $id, '_listing_' . strtolower( $metakey ), $value );
+		// 			}
+		// 		}
+		// 	}
+		// }
 
 		// Add disclaimers and courtesies.
 		foreach ( $idx_featured_listing_data['disclaimer'] as $disclaimer ) {
@@ -644,7 +666,6 @@ function wp_listings_idx_listing_setting_page() {
 
 				$_idx_api = new \IDX\Idx_Api();
 				$properties = $_idx_api->client_properties( 'featured' );
-				error_log("Loading properties");
 				if ( is_wp_error( $properties ) ) {
 					$error_string = $properties->get_error_message();
 					add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_update', $error_string, 'error' );
@@ -666,7 +687,7 @@ function wp_listings_idx_listing_setting_page() {
 
 			// Loop through properties.
 			foreach ( $properties as $prop ) {
-				error_log(print_r($prop, true));
+				//error_log(print_r($prop, true));
 				if( isset( $prop[ 'listingID' ] ) ) {
 					if ( ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) || ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
 						$idx_featured_listing_wp_options[ $prop['listingID'] ] = array(
