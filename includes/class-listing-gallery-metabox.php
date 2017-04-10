@@ -107,7 +107,6 @@ class WPLPRO_Meta_Box_Listing_Images {
 		foreach( $ids as $image_id){
 			$s .= '<p><img class="alignnone size-medium wp-image-' . $image_id . '" src="' . wp_get_attachment_url( $image_id ) . '" alt="" width="' . wp_get_attachment_image_src($image_id)[1] . '" height="' . wp_get_attachment_image_src($image_id)[2] . '" /></p>';
 		}
-		error_log($s);
 		return $s;
 	}
 }

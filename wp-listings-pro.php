@@ -82,7 +82,6 @@ function wplpro_import_image_gallery() {
 
 
 		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif|\.jpeg|\.svg)/', $old_gallery, $matches );
-		error_log( print_r( $matches[0], true ) );
 		// Check for current listings.
 		$ids = array();
 		foreach ( $matches[0] as $image_url_dirty ) {

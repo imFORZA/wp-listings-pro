@@ -75,7 +75,6 @@ class WPL_Idx_Listing {
 	 * @return [type] $featured Featured.
 	 */
 	public static function wp_listings_idx_create_post( $listings ) {
-		error_log( 'creating post' );
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 			require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
 
@@ -217,7 +216,8 @@ class WPL_Idx_Listing {
 		$idx_featured_listing_wp_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
 		$wpl_options = get_option( 'wplpro_plugin_settings' );
 
-		foreach ( $properties as $prop ) {
+		foreach ( $properties as $prop ) { // OK here we go
+			error_log("220:\n" . print_r($prop, true));
 
 			$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
 
@@ -644,12 +644,13 @@ function wp_listings_idx_listing_setting_page() {
 
 				$_idx_api = new \IDX\Idx_Api();
 				$properties = $_idx_api->client_properties( 'featured' );
-				// } elseif ( is_wp_error( $properties ) ) {
-				// $error_string = $properties->get_error_message();
-				// add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_update', $error_string, 'error' );
-				// settings_errors( 'wp_listings_idx_listing_settings_group' );
-				// return;
-				// }
+				error_log("Loading properties");
+				if ( is_wp_error( $properties ) ) {
+					$error_string = $properties->get_error_message();
+					add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_update', $error_string, 'error' );
+					settings_errors( 'wp_listings_idx_listing_settings_group' );
+					return;
+				}
 			} else {
 				return;
 			}
@@ -665,37 +666,38 @@ function wp_listings_idx_listing_setting_page() {
 
 			// Loop through properties.
 			foreach ( $properties as $prop ) {
+				error_log(print_r($prop, true));
+				if( isset( $prop[ 'listingID' ] ) ) {
+					if ( ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) || ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
+						$idx_featured_listing_wp_options[ $prop['listingID'] ] = array(
+							'listingID' => $prop['listingID'],
+							);
+					}
 
-				if ( ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) || ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
-					$idx_featured_listing_wp_options[ $prop['listingID'] ] = array(
-						'listingID' => $prop['listingID'],
+					if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) && get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
+						$pid = $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'];
+						$nonce = wp_create_nonce( 'wp_listings_idx_listing_delete_nonce' );
+						$delete_listing = sprintf('<a href="%s" data-id="%s" data-nonce="%s" class="delete-post">Delete</a>',
+							admin_url( 'admin-ajax.php?action=wp_listings_idx_listing_delete&id=' . $pid . '&nonce=' . $nonce ),
+							$pid,
+							$nonce
 						);
-				}
+					}
 
-				if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) && get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
-					$pid = $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'];
-					$nonce = wp_create_nonce( 'wp_listings_idx_listing_delete_nonce' );
-					$delete_listing = sprintf('<a href="%s" data-id="%s" data-nonce="%s" class="delete-post">Delete</a>',
-						admin_url( 'admin-ajax.php?action=wp_listings_idx_listing_delete&id=' . $pid . '&nonce=' . $nonce ),
-						$pid,
-						$nonce
+					printf('<div class="grid-item post"><label for="%s" class="idx-listing"><li class="%s"><img class="listing lazy" data-original="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_idx_featured_listing_options[]" value="%s" %s />%s<p><span class="price">%s</span><br/><span class="address">%s</span><br/><span class="mls">MLS#: </span>%s</p>%s</li></label></div>',
+						$prop['listingID'],
+						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'imported' : '') : '',
+						isset( $prop['image']['0']['url'] ) ? $prop['image']['0']['url'] : '//mlsphotos.idxbroker.com/defaultNoPhoto/noPhotoFull.png',
+						$prop['listingID'],
+						$prop['listingID'],
+						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'checked' : '') : '',
+						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? "<span class='imported'><i class='dashicons dashicons-yes'></i>Imported</span>" : '') : '',
+						$prop['listingPrice'],
+						$prop['address'],
+						$prop['listingID'],
+						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? $delete_listing : '') : ''
 					);
 				}
-
-				printf('<div class="grid-item post"><label for="%s" class="idx-listing"><li class="%s"><img class="listing lazy" data-original="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_idx_featured_listing_options[]" value="%s" %s />%s<p><span class="price">%s</span><br/><span class="address">%s</span><br/><span class="mls">MLS#: </span>%s</p>%s</li></label></div>',
-					$prop['listingID'],
-					isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'imported' : '') : '',
-					isset( $prop['image']['0']['url'] ) ? $prop['image']['0']['url'] : '//mlsphotos.idxbroker.com/defaultNoPhoto/noPhotoFull.png',
-					$prop['listingID'],
-					$prop['listingID'],
-					isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'checked' : '') : '',
-					isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? "<span class='imported'><i class='dashicons dashicons-yes'></i>Imported</span>" : '') : '',
-					$prop['listingPrice'],
-					$prop['address'],
-					$prop['listingID'],
-					isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? $delete_listing : '') : ''
-				);
-
 			}
 			echo '</ol>';
 			submit_button( 'Import Listings' );
