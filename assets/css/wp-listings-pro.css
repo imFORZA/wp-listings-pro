@@ -525,9 +525,6 @@
   .single-employee .one-third img {
     width: 100%; } }
 
-/* =WP Listings - Defaults
------------------------------------------------------------- */
-/* reset some theme defaults */
 .full-width.singular .site-content article.hentry.has-post-thumbnail,
 .full-width .site-content .has-post-thumbnail header.entry-header {
   margin-top: 0; }
@@ -548,15 +545,12 @@ section.content-area,
 div.content-area {
   overflow: hidden; }
 
-/* end reset some theme defaults */
 .listing,
 .listing-wrap {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
-/* =Archive Listing template & shortcode
------------------------------------------------------------- */
 .archive .listing-wrap,
 .wplpro-shortcode .listing-wrap {
   width: 100%;
@@ -718,8 +712,6 @@ div.content-area {
 .wplpro-shortcode .listing-wrap {
   margin-bottom: 25px; }
 
-/* =Listing overlays
------------------------------------------------------------- */
 .archive .listing-wrap span.listing-status,
 .wplpro-shortcode .listing-wrap span.listing-status {
   color: #fff;
@@ -754,8 +746,6 @@ div.content-area {
   background: #24a4ea;
   background: rgba(36, 164, 234, 0.8); }
 
-/* =Column classes (one-third - for archive page)
------------------------------------------------------------- */
 .archive .listing.one-third {
   float: left;
   margin-left: 2.564102564102564%;
@@ -767,8 +757,6 @@ div.content-area {
   clear: both;
   margin-left: 0; }
 
-/* =Column classes (for shortcode only)
------------------------------------------------------------- */
 .wplpro-shortcode .listing-wrap.one-half,
 .wplpro-shortcode .listing-wrap.one-third,
 .wplpro-shortcode .listing-wrap.one-fourth,
@@ -797,8 +785,6 @@ div.content-area {
   clear: both;
   margin-left: 0; }
 
-/* =Listing Navigation
------------------------------------------------------------- */
 .nav-links {
   -webkit-hyphens: auto;
   -moz-hyphens: auto;
@@ -836,7 +822,6 @@ div.content-area {
 .listing-navigation a:hover {
   color: #41a62a; }
 
-/* Paging Navigation */
 .pagination,
 .archive-listing-navigation {
   clear: both; }
@@ -868,8 +853,6 @@ div.content-area {
   border-top: 5px solid #41a62a;
   color: #2b2b2b; }
 
-/* =Responsive
------------------------------------------------------------- */
 @media only screen and (max-width: 1139px) {
   .archive .listing-widget-thumb a img,
   .wplpro-shortcode .listing-widget-thumb a img {

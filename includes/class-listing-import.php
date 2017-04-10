@@ -607,7 +607,7 @@ function wp_listings_idx_listing_setting_page() {
 	?>
 			<h1>Import IDX Listings</h1>
 			<p>Select the listings to import.</p>
-			<form id="wplistings-idx-listing-import" method="post" action="options.php">
+			<form id="wplpro-idx-listing-import" method="post" action="options.php">
 			<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all listings, it may take some time. <strong class="error">Please be patient.</strong></em></label>
 
 			<?php
