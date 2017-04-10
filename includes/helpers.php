@@ -34,6 +34,52 @@ function wplpro_list_terms( $taxonomy ) {
 	}
 }
 
+/**
+ * Uploads an image to media folder and attaches it to a post
+ *
+ * @param  [Mixed] $image   : Array with image data. Requires url, name, title, content, and description.
+ * @param  [Mixed] $post_id : ID of post to atttach to. Send blank string if
+ *                            you do not want to attach it to a post.
+ * @return [Mixed]          : Post id of attachment on success, false on error.
+ */
+function wplpro_upload_image( $image, $post_id = "") {
+	require_once( ABSPATH . 'wp-admin/includes/image.php' );
+	require_once( ABSPATH . 'wp-admin/includes/file.php' );
+	require_once( ABSPATH . 'wp-admin/includes/media.php' );
+
+	$attachment_id = false;
+	$image_tmp = download_url( $image['url'] );
+
+	if ( is_wp_error( $image_tmp ) ) {
+		if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
+			error_log( 'WPLPRO Image Import Fail' );
+		}
+	} else {
+		$image_size = filesize( $image_tmp );
+		// Download complete now upload in your project.
+		$file = array(
+		  'name' => sanitize_file_name( $image['name'] ),
+		  'type' => 'image/jpg',
+		  'tmp_name' => $image_tmp,
+		  'error' => 0,
+		  'size' => $image_size,
+		);
+
+		// Set attachment data.
+		$post_data = array(
+			'post_title'     => sanitize_title( $image['title'] ),
+			'post_content'   => "",
+			'post_status'    => 'inherit',
+		);
+
+		error_log($post_id);
+
+		// This image/file will show on media page...
+		$attachment_id = media_handle_sideload( $file, $post_id, $image['description'], $post_data );
+	}
+
+	return $attachment_id;
+}
 
 /**
  * Get Image ID by URL.
