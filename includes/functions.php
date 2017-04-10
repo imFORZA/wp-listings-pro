@@ -94,9 +94,21 @@ function wplpro_customize_register($wp_customize){
     ));
 
     $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'employee_nophoto', array(
-        'label'    => __('Image Upload Test', 'wplpro'),
+        'label'    => __('Default Employee Thumbnail', 'wplpro'),
         'section'  => 'wplpro_customizer_settings',
         'settings' => 'wplpro_plugin_settings[employee_nophoto]',
+    )));
+
+		$wp_customize->add_setting('wplpro_plugin_settings[listing_nophoto]', array(
+        'default'           => plugin_dir_url( __FILE__ ) . '../assets/images/listing-nophoto.jpg',
+        'capability'        => 'edit_theme_options',
+        'type'           => 'option',
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'listing_nophoto', array(
+        'label'    => __('Default Listing Thumbnail', 'wplpro'),
+        'section'  => 'wplpro_customizer_settings',
+        'settings' => 'wplpro_plugin_settings[listing_nophoto]',
     )));
 
     //  File Upload Example

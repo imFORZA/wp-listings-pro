@@ -242,13 +242,13 @@ class WPLPRO_Agents {
 
 		global $post, $wp_taxonomies;
 
-		$image_size = 'style="max-width: 115px;"';
+		// So because of the way that esc_attr works, quotation marks will break it. OK then.
+		$image_size = 'style=min-width:150px;min-height:150px;width:150px;height:150px';
 
 		apply_filters( 'wplpro_agents_admin_employee_details', $admin_details = $this->employee_details['col1'] );
 
 		if ( isset( $_GET['mode'] ) && trim( $_GET['mode'] ) === 'excerpt' ) {
 			apply_filters( 'wplpro_agents_admin_extended_details', $admin_details = $this->employee_details['col1'] + $this->employee_details['col2'] );
-			$image_size = 'style="max-width: 150px;"';
 		}
 
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );
@@ -256,10 +256,17 @@ class WPLPRO_Agents {
 		// Adds support for nophoto, as defined in the customizer.
 		if( $image == "" ){
 			$options = get_option( 'wplpro_plugin_settings' );
+
+			$image_url;
+			if( isset( get_option( 'wplpro_plugin_settings' )['employee_nophoto'] ) ) {
+				$image_url = get_option( 'wplpro_plugin_settings' )['employee_nophoto'];
+			}else{
+				$image_url = plugin_dir_url( __FILE__ ) . '../assets/images/default.gif';
+			}
+
 			$image = array(
-				get_option( 'wplpro_plugin_settings' )['employee_nophoto'],
+				$image_url,
 			);
-			$image_size = 'style=width:150px;height:150px'; // So because of the way that esc_attr works, quotation marks will break it. OK then.
 		}
 
 		switch ( $column ) {
