@@ -18,73 +18,7 @@ function wplpro_customize_register($wp_customize){
         'title'    => __('WPLPRO Page Settings', 'wplpro'),
         'priority' => 120,
     ));
-    //  Text Example
-    /*
-    $wp_customize->add_setting('wplpro_plugin_settings[text_test]', array(
-        'default'        => 'Arse!',
-        'capability'     => 'edit_theme_options',
-        'type'           => 'option',
-    ));
-    $wp_customize->add_control('wplpro_text_test', array(
-        'label'      => __('Text Test', 'wplpro'),
-        'section'    => 'wplpro_customizer_settings',
-        'settings'   => 'wplpro_plugin_settings[text_test]',
-    ));
-		*/
-
-    //  Radio Button Example
-    /*
-    $wp_customize->add_setting('wplpro_plugin_settings[color_scheme]', array(
-        'default'        => 'value2',
-        'capability'     => 'edit_theme_options',
-        'type'           => 'option',
-    ));
-    $wp_customize->add_control('wplpro_customizer_settings', array(
-        'label'      => __('Color Scheme', 'wplpro'),
-        'section'    => 'wplpro_customizer_settings',
-        'settings'   => 'wplpro_plugin_settings[radio_buttons]',
-        'type'       => 'radio',
-        'choices'    => array(
-            'value1' => 'Choice 1',
-            'value2' => 'Choice 2',
-            'value3' => 'Choice 3',
-        ),
-    ));
-		*/
-
-    //  Single Checkbox Example
-    /*
-    $wp_customize->add_setting('wplpro_plugin_settings[checkbox_test]', array(
-        'capability' => 'edit_theme_options',
-        'type'       => 'option',
-    ));
-    $wp_customize->add_control('display_header_text', array(
-        'settings' => 'wplpro_plugin_settings[checkbox_test]',
-        'label'    => __('Display Header Text'),
-        'section'  => 'wplpro_customizer_settings',
-        'type'     => 'checkbox',
-    ));
-		*/
-
-    //  Select Box Example
-    /*
-    $wp_customize->add_setting('wplpro_plugin_settings[header_select]', array(
-        'default'        => 'value2',
-        'capability'     => 'edit_theme_options',
-        'type'           => 'option',
-    ));
-    $wp_customize->add_control( 'example_select_box', array(
-        'settings' => 'wplpro_plugin_settings[header_select]',
-        'label'   => 'Select Something:',
-        'section' => 'wplpro_customizer_settings',
-        'type'    => 'select',
-        'choices'    => array(
-            'value1' => 'Choice 1',
-            'value2' => 'Choice 2',
-            'value3' => 'Choice 3',
-        ),
-    ));
-		*/
+    
 
     //  Image Upload Example
     $wp_customize->add_setting('wplpro_plugin_settings[employee_nophoto]', array(
@@ -111,48 +45,6 @@ function wplpro_customize_register($wp_customize){
         'settings' => 'wplpro_plugin_settings[listing_nophoto]',
     )));
 
-    //  File Upload Example
-    /*
-    $wp_customize->add_setting('wplpro_plugin_settings[upload_test]', array(
-        'default'           => 'arse',
-        'capability'        => 'edit_theme_options',
-        'type'           => 'option',
-    ));
-    $wp_customize->add_control( new WP_Customize_Upload_Control($wp_customize, 'upload_test', array(
-        'label'    => __('Upload Test', 'wplpro'),
-        'section'  => 'wplpro_customizer_settings',
-        'settings' => 'wplpro_plugin_settings[upload_test]',
-    )));
-		*/
-
-    //  Example Color Picker
-    /*
-    $wp_customize->add_setting('wplpro_plugin_settings[link_color]', array(
-        'default'           => '000',
-        'sanitize_callback' => 'sanitize_hex_color',
-        'capability'        => 'edit_theme_options',
-        'type'           => 'option',
-    ));
-    $wp_customize->add_control( new WP_Customize_Color_Control($wp_customize, 'link_color', array(
-        'label'    => __('Link Color', 'wplpro'),
-        'section'  => 'wplpro_customizer_settings',
-        'settings' => 'wplpro_plugin_settings[link_color]',
-    )));
-		*/
-
-    //  Page Dropdown Example
-    /*
-    $wp_customize->add_setting('wplpro_plugin_settings[page_test]', array(
-        'capability'     => 'edit_theme_options',
-        'type'           => 'option',
-    ));
-    $wp_customize->add_control('wplpro_page_test', array(
-        'label'      => __('Page Test', 'wplpro'),
-        'section'    => 'wplpro_customizer_settings',
-        'type'    => 'dropdown-pages',
-        'settings'   => 'wplpro_plugin_settings[page_test]',
-    ));
-		*/
 }
 add_action('customize_register', 'wplpro_customize_register');
 
