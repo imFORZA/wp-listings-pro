@@ -253,9 +253,18 @@ class WPLPRO_Agents {
 
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );
 
+		// Adds support for nophoto, as defined in the customizer.
+		if( $image == "" ){
+			$options = get_option( 'wplpro_plugin_settings' );
+			$image = array(
+				get_option( 'wplpro_plugin_settings' )['employee_nophoto'],
+			);
+			$image_size = 'style=width:150px;height:150px'; // So because of the way that esc_attr works, quotation marks will break it. OK then.
+		}
+
 		switch ( $column ) {
 			case 'employee_thumbnail':
-				echo '<p><img src="' . esc_url( $image[0] ) . '" alt="employee-thumbnail" ' . esc_attr( $image_size ) . '/></p>';
+				echo '<p><img src="' . esc_url( $image[0] ) . '" alt="employee-thumbnail" ' . esc_attr( $image_size ) . ' /></p>';
 				break;
 			case 'employee_details':
 				foreach ( (array) $admin_details as $label => $key ) {
