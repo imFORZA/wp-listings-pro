@@ -7,8 +7,12 @@ img.agent {
 img.listing {
   max-width: 150px;
   min-height: 100px;
+  max-height: 100px;
   vertical-align: middle;
   border: 1px solid #ccc; }
+
+#wplpro-idx-listing-import img.listing {
+  max-height: 100px !important; }
 
 #wplpro-idx-agent-import li {
   list-style-type: none;
