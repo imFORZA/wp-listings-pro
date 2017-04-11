@@ -303,7 +303,7 @@ class WPL_Idx_Listing {
 			foreach ( $idx_featured_listing_data['image'] as $image_data => $img ) {
 				if ( 'totalCount' === $image_data ) { continue;
 				}
-				$img_markup = sprintf( '<img src="%s" alt="%s" />', $img['url'], $idx_featured_listing_data['address'] );
+				$img_markup = sprintf( '<img src="%s" alt="%s" />',  $img['url'], $idx_featured_listing_data['address'] );
 				$imgs .= apply_filters( 'wp_listings_imported_image_markup', $img_markup, $img, $idx_featured_listing_data );
 			}
 		} else {
@@ -665,7 +665,7 @@ function wp_listings_idx_listing_setting_page() {
 					printf('<div class="grid-item post"><label for="%s" class="idx-listing"><li class="%s"><img class="listing lazy" data-original="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_idx_featured_listing_options[]" value="%s" %s />%s<p><span class="price">%s</span><br/><span class="address">%s</span><br/><span class="mls">MLS#: </span>%s</p>%s</li></label></div>',
 						$prop['listingID'],
 						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'imported' : '') : '',
-						isset( $prop['image']['0']['url'] ) ? $prop['image']['0']['url'] : '//mlsphotos.idxbroker.com/defaultNoPhoto/noPhotoFull.png',
+						isset( $prop['image']['0']['url'] ) ? $prop['image']['0']['url'] : 'https://i0.wp.com/mlsphotos.idxbroker.com/defaultNoPhoto/noPhotoFull.png',
 						$prop['listingID'],
 						$prop['listingID'],
 						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'checked' : '') : '',
