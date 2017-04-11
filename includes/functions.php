@@ -5,6 +5,49 @@
  * @package WP-Listings-Pro
  */
 
+
+/**
+ * Adding submenu for wplpro customizer, very nicely copied from https://gist.github.com/Abban/2968549
+ * Really clean honestly
+ *
+ * @param  WP_Customizer_Object $wp_customize Callback var for WP_Customizer
+ */
+function wplpro_customize_register($wp_customize){
+
+    $wp_customize->add_section('wplpro_customizer_settings', array(
+        'title'    => __('WPLPRO Page Settings', 'wplpro'),
+        'priority' => 120,
+    ));
+    
+
+    //  Image Upload Example
+    $wp_customize->add_setting('wplpro_plugin_settings[employee_nophoto]', array(
+        'default'           => plugin_dir_url( __FILE__ ) . '../assets/images/default.gif',
+        'capability'        => 'edit_theme_options',
+        'type'           => 'option',
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'employee_nophoto', array(
+        'label'    => __('Default Employee Thumbnail', 'wplpro'),
+        'section'  => 'wplpro_customizer_settings',
+        'settings' => 'wplpro_plugin_settings[employee_nophoto]',
+    )));
+
+		$wp_customize->add_setting('wplpro_plugin_settings[listing_nophoto]', array(
+        'default'           => plugin_dir_url( __FILE__ ) . '../assets/images/listing-nophoto.jpg',
+        'capability'        => 'edit_theme_options',
+        'type'           => 'option',
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'listing_nophoto', array(
+        'label'    => __('Default Listing Thumbnail', 'wplpro'),
+        'section'  => 'wplpro_customizer_settings',
+        'settings' => 'wplpro_plugin_settings[listing_nophoto]',
+    )));
+
+}
+add_action('customize_register', 'wplpro_customize_register');
+
 /**
  * Holds miscellaneous functions for use in the WP Listings plugin
  */
