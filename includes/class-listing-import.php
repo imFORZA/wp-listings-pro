@@ -75,7 +75,6 @@ class WPL_Idx_Listing {
 	 * @return [type] $featured Featured.
 	 */
 	public static function wp_listings_idx_create_post( $listings ) {
-		error_log("creating post");
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 			require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
 
@@ -98,7 +97,7 @@ class WPL_Idx_Listing {
 
 
 				// Loop through featured properties.
-				error_log(count($properties));
+				//
 				foreach ( $properties as $prop ) {
 					// this is too dangerous of a command
 
@@ -119,17 +118,6 @@ class WPL_Idx_Listing {
 
 				 	// Add post and update post meta.
 					if ( in_array( $prop['listingID'], $listings, true ) && ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
-						error_log("please");
-						// Get Equity listing API data if available.
-						// if ( class_exists( 'Equity_Idx_Api' ) ) {
-						// 	$equity_properties = $_equity_idx->equity_listing_ID( $prop['idxID'], $prop['listingID'] );
-						//
-						// 	if ( false === $equity_properties ) {
-						// 		add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_empty', 'The Equity API returned no data for property ' . $prop['listingID'] . '. This is usually caused by your WordPress domain not matching the approved domain in your IDX account. Only some data has been imported.', 'error' );
-						// 		$equity_properties = $properties[ $key ];
-						// 		delete_transient( 'equity_listing_' . $prop['listingID'] );
-						// 	}
-						// }
 
 						if ( '' === $properties[ $key ]['address'] || null === $properties[ $key ]['address'] ) {
 							$properties[ $key ]['address'] = 'Address unlisted';
@@ -208,7 +196,7 @@ class WPL_Idx_Listing {
 	 * @return void
 	 */
 	public static function wp_listings_update_post() {
-		error_log("updating post");
+
 		require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
 
 		// Load IDX Broker API Class and retrieve featured properties.
@@ -219,8 +207,7 @@ class WPL_Idx_Listing {
 		$idx_featured_listing_wp_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
 		$wpl_options = get_option( 'wplpro_plugin_settings' );
 
-		foreach ( $properties as $prop ) { // OK here we go
-			//error_log("220:\n" . print_r($prop, true));
+		foreach ( $properties as $prop ) {
 
 			$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
 
@@ -358,7 +345,6 @@ class WPL_Idx_Listing {
 
 		// Inserts image tags into Old Listing Gallery Box.
 		if ( false === $update || true === $update_image ) {
-
 			$ids = array();
 			for( $i = 0; $i < $idx_featured_listing_data['image']['totalCount']; $i++ ) {
 				$image_url = $idx_featured_listing_data['image'][$i];
@@ -658,7 +644,7 @@ function wp_listings_idx_listing_setting_page() {
 
 			// Loop through properties.
 			foreach ( $properties as $prop ) {
-				//error_log(print_r($prop, true));
+
 				if( isset( $prop[ 'listingID' ] ) ) {
 					if ( ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) || ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
 						$idx_featured_listing_wp_options[ $prop['listingID'] ] = array(

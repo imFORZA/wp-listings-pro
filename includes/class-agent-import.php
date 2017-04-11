@@ -206,7 +206,7 @@ class WPLPRO_Agents_Import {
 	 * @return bool	true if featured image is set.
 	 */
 	public static function wplpro_agents_idx_insert_post_meta( $id, $idx_agent_data, $update = false, $update_image = true ) {
-		// error_log(print_r($idx_agent_data, true));
+
 		// Add or reset taxonomies terms for job-types = agentTitle.
 		wp_set_object_terms( $id, $idx_agent_data['agentTitle'], 'job-types' );
 
