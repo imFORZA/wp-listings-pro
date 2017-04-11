@@ -49,7 +49,6 @@ function wplpro_upload_image( $image, $post_id = "") {
 
 	$attachment_id = false;
 	$image_tmp = download_url( $image['url'] );
-
 	if ( is_wp_error( $image_tmp ) ) {
 		if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
 			error_log( 'WPLPRO Image Import Fail' );
@@ -71,8 +70,6 @@ function wplpro_upload_image( $image, $post_id = "") {
 			'post_content'   => "",
 			'post_status'    => 'inherit',
 		);
-
-		error_log($post_id);
 
 		// This image/file will show on media page...
 		$attachment_id = media_handle_sideload( $file, $post_id, $image['description'], $post_data );
