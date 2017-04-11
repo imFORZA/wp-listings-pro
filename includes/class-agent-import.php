@@ -44,7 +44,7 @@ class WPLPRO_Agents_Import {
 		if ( ! $haystack ) { return false;
 		}
 		foreach ( $haystack as $item ) {
-			if ( ($strict ? $item === $needle : $item === $needle) || ( is_array( $item ) && self::in_array( $needle, $item, $strict ) ) ) {
+			if ( ($strict ? $item === $needle : $item == $needle) || ( is_array( $item ) && self::in_array( $needle, $item, $strict ) ) ) {
 				return true;
 			}
 		}
@@ -76,60 +76,63 @@ class WPLPRO_Agents_Import {
 			$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_wp_options' );
 			$impa_options = get_option( 'wplpro_agents_settings' );
 
-			foreach ( $agents as $agent ) {
+			foreach ( $agents['agent'] as $a ) {
 
-				foreach ( $agent as $a ) {
+				if ( ! in_array( $a['agentID'], $agent_ids, false ) ) {
+					$idx_agent_wp_options[ $a['agentID'] ]['agentID'] = $a['agentID'];
+					$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
+				}
 
-					if ( ! in_array( $a['agentID'], $agent_ids, true ) ) {
-						$idx_agent_wp_options[ $a['agentID'] ]['agentID'] = $a['agentID'];
-						$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
-					}
+				if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) && ! get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
+					unset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
+					unset( $idx_agent_wp_options[ $a['agentID'] ]['status'] );
+			 	}
 
-					if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) && ! get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
-						unset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
-						unset( $idx_agent_wp_options[ $a['agentID'] ]['status'] );
-				 	}
+				// TODO: have better handling for this.
+				if( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status']) ){
+					$idx_agent_wp_options[ $a['agentID'] ]['status'] = "";
+				}
 
-					if ( in_array( $a['agentID'], $agent_ids, true ) && ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 
-						$opts = array(
-							'post_content' => $a['bioDetails'],
-							'post_title' => $a['agentDisplayName'],
-							'post_status' => 'publish',
-							'post_type' => 'employee',
-						);
-						$add_post = wp_insert_post( $opts, true );
-						if ( is_wp_error( $add_post ) ) {
-							$error_string = $add_post->get_error_message();
-							add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
-							return;
-						} elseif ( $add_post ) {
-							$idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $add_post;
-							$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
-							self::wplpro_agents_idx_insert_post_meta( $add_post, $a );
-						}
-					} elseif ( in_array( $a['agentID'], $agent_ids, true ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
-						self::wplpro_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'publish' );
+				if ( in_array( $a['agentID'], $agent_ids, false ) && ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
+
+					$opts = array(
+						'post_content' => $a['bioDetails'],
+						'post_title' => $a['agentDisplayName'],
+						'post_status' => 'publish',
+						'post_type' => 'employee',
+					);
+					$add_post = wp_insert_post( $opts, true );
+					if ( is_wp_error( $add_post ) ) {
+						$error_string = $add_post->get_error_message();
+						add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
+						return;
+					} elseif ( $add_post ) {
+						$idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $add_post;
 						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
-					} elseif ( ! in_array( $a['agentID'], $agent_ids, true ) && 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
+						self::wplpro_agents_idx_insert_post_meta( $add_post, $a );
+					}
+				} elseif ( in_array( $a['agentID'], $agent_ids, false ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
+					self::wplpro_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'publish' );
+					$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
+				} elseif ( ! in_array( $a['agentID'], $agent_ids, false ) && 'publish' == $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
 
-						// change to draft or delete agent if the post exists but is not in the agent array based on settings.
-						if ( isset( $impa_options['wplpro_agents_idx_remove'] ) && 'remove-draft' === $impa_options['wplpro_agents_idx_remove'] ) {
+					// change to draft or delete agent if the post exists but is not in the agent array based on settings.
+					if ( isset( $impa_options['wplpro_agents_idx_remove'] ) && 'remove-draft' === $impa_options['wplpro_agents_idx_remove'] ) {
 
-							// Change to draft.
-							self::wplpro_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'draft' );
-							$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'draft';
-						} elseif ( isset( $impa_options['wplpro_agents_idx_remove'] ) && 'remove-delete' === $impa_options['wplpro_agents_idx_remove'] ) {
+						// Change to draft.
+						self::wplpro_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'draft' );
+						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'draft';
+					} elseif ( isset( $impa_options['wplpro_agents_idx_remove'] ) && 'remove-delete' === $impa_options['wplpro_agents_idx_remove'] ) {
 
-							$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'deleted';
+						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'deleted';
 
-							// Delete featured image.
-							$post_featured_image_id = get_post_thumbnail_id( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
-							wp_delete_attachment( $post_featured_image_id );
+						// Delete featured image.
+						$post_featured_image_id = get_post_thumbnail_id( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
+						wp_delete_attachment( $post_featured_image_id );
 
-							// Delete post.
-							wp_delete_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
-						}
+						// Delete post.
+						wp_delete_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
 					}
 				}
 			}
@@ -208,18 +211,18 @@ class WPLPRO_Agents_Import {
 		wp_set_object_terms( $id, $idx_agent_data['agentTitle'], 'job-types' );
 
 		// Add post meta for existing fields.
-		if ( get_post_meta( $id, '_employee_title' ) === false ) { update_post_meta( $id, '_employee_title', $idx_agent_data['agentTitle'] ); }
-		if ( get_post_meta( $id, '_employee_first_name' ) === false ) { update_post_meta( $id, '_employee_first_name', $idx_agent_data['agentFirstName'] ); }
-		if ( get_post_meta( $id, '_employee_last_name' ) === false ) { update_post_meta( $id, '_employee_last_name', $idx_agent_data['agentLastName'] ); }
-		if ( get_post_meta( $id, '_employee_agent_id' ) === false ) { update_post_meta( $id, '_employee_agent_id', $idx_agent_data['agentID'] ); }
-		if ( get_post_meta( $id, '_employee_phone' ) === false ) { update_post_meta( $id, '_employee_phone', $idx_agent_data['agentContactPhone'] ); }
-		if ( get_post_meta( $id, '_employee_mobile' ) === false ) { update_post_meta( $id, '_employee_mobile', $idx_agent_data['agentCellPhone'] ); }
-		if ( get_post_meta( $id, '_employee_email' ) === false ) { update_post_meta( $id, '_employee_email', $idx_agent_data['agentEmail'] ); }
-		if ( get_post_meta( $id, '_employee_website' ) === false ) { update_post_meta( $id, '_employee_website', $idx_agent_data['agentURL'] ); }
-		if ( get_post_meta( $id, '_employee_address' ) === false ) { update_post_meta( $id, '_employee_address', $idx_agent_data['address'] ); }
-		if ( get_post_meta( $id, '_employee_city' ) === false ) { update_post_meta( $id, '_employee_city', $idx_agent_data['city'] ); }
-		if ( get_post_meta( $id, '_employee_state' ) === false ) { update_post_meta( $id, '_employee_state', $idx_agent_data['stateProvince'] ); }
-		if ( get_post_meta( $id, '_employee_zip' ) === false ) { update_post_meta( $id, '_employee_zip', $idx_agent_data['zipCode'] ); }
+		if ( get_post_meta( $id, '_employee_title' ) === array() ) { update_post_meta( $id, '_employee_title', $idx_agent_data['agentTitle'] ); }
+		if ( get_post_meta( $id, '_employee_first_name' ) === array() ) { update_post_meta( $id, '_employee_first_name', $idx_agent_data['agentFirstName'] ); }
+		if ( get_post_meta( $id, '_employee_last_name' ) === array() ) { update_post_meta( $id, '_employee_last_name', $idx_agent_data['agentLastName'] ); }
+		if ( get_post_meta( $id, '_employee_agent_id' ) === array() ) { update_post_meta( $id, '_employee_agent_id', $idx_agent_data['agentID'] ); }
+		if ( get_post_meta( $id, '_employee_phone' ) === array() ) { update_post_meta( $id, '_employee_phone', $idx_agent_data['agentContactPhone'] ); }
+		if ( get_post_meta( $id, '_employee_mobile' ) === array() ) { update_post_meta( $id, '_employee_mobile', $idx_agent_data['agentCellPhone'] ); }
+		if ( get_post_meta( $id, '_employee_email' ) === array() ) { update_post_meta( $id, '_employee_email', $idx_agent_data['agentEmail'] ); }
+		if ( get_post_meta( $id, '_employee_website' ) === array() ) { update_post_meta( $id, '_employee_website', $idx_agent_data['agentURL'] ); }
+		if ( get_post_meta( $id, '_employee_address' ) === array() ) { update_post_meta( $id, '_employee_address', $idx_agent_data['address'] ); }
+		if ( get_post_meta( $id, '_employee_city' ) === array() ) { update_post_meta( $id, '_employee_city', $idx_agent_data['city'] ); }
+		if ( get_post_meta( $id, '_employee_state' ) === array() ) { update_post_meta( $id, '_employee_state', $idx_agent_data['stateProvince'] ); }
+		if ( get_post_meta( $id, '_employee_zip' ) === array() ) { update_post_meta( $id, '_employee_zip', $idx_agent_data['zipCode'] ); }
 
 		foreach ( $idx_agent_data as $metakey => $metavalue ) {
 			if ( isset( $metavalue ) && ! is_array( $metavalue ) && '' !== $metavalue ) {

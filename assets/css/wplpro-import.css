@@ -4,6 +4,12 @@ img.agent {
   vertical-align: middle;
   border: 1px solid #ccc; }
 
+img.listing {
+  max-width: 150px;
+  min-height: 100px;
+  vertical-align: middle;
+  border: 1px solid #ccc; }
+
 #wplpro-idx-agent-import li {
   list-style-type: none;
   text-align: center;
@@ -126,6 +132,121 @@ img.agent {
 #wplpro-idx-agent-import .grid-sizer,
 #wplpro-idx-agent-import .grid-item {
   width: 48%; }
+
+#wplpro-idx-listing-import li {
+  list-style-type: none;
+  text-align: center;
+  background: #efefef;
+  padding: 10px;
+  margin: 0 0.5em 2em 0;
+  border: 1px solid #CFCCCC;
+  overflow: hidden; }
+
+#wplpro-idx-listing-import .idx-agent:hover li {
+  background: #99D9ED; }
+
+#wplpro-idx-listing-import li p {
+  font-size: 12px;
+  margin: 0 0 0 0.5rem;
+  float: left;
+  display: block; }
+
+#wplpro-idx-listing-import li p .agent-name {
+  font-size: 16px; }
+
+#wplpro-idx-listing-import li .controls {
+  float: right; }
+
+#wplpro-idx-listing-import li span.imported {
+  font-size: 0.8em;
+  line-height: 3em;
+  text-align: left;
+  text-transform: uppercase;
+  display: block;
+  border: 1px solid #fff;
+  color: #64b450;
+  background-color: #fff;
+  padding: 0 6px; }
+
+#wplpro-idx-listing-import li p span.price {
+  font-size: 14px; }
+
+#wplpro-idx-listing-import li p span.mls {
+  font-size: 11px; }
+
+#wplpro-idx-listing-import li span.imported i {
+  width: 35px;
+  font-size: 3em;
+  margin-left: -10px; }
+
+#wplpro-idx-listing-import li.selected,
+#wplpro-idx-listing-import li.imported {
+  background: #64b450;
+  color: white; }
+
+#wplpro-idx-listing-import li input[type="checkbox"] {
+  background: #64b450;
+  display: none; }
+
+#wplpro-idx-listing-import li input[type="checkbox"]:checked + p + div:before {
+  font-family: 'dashicons';
+  font-size: 2em;
+  line-height: 1;
+  content: "\f147";
+  display: block;
+  text-align: left;
+  margin-left: -24px;
+  margin-top: 3px;
+  position: absolute; }
+
+#wplpro-idx-listing-import li input[type="checkbox"]:checked + p:before {
+  font-family: 'dashicons';
+  font-size: 2em;
+  line-height: 1;
+  content: "\f147";
+  display: block;
+  text-align: left;
+  margin-top: -7px; }
+
+#wplpro-idx-listing-import .delete-post {
+  font-size: 0.7em;
+  font-weight: 700;
+  line-height: 2.8;
+  color: #dc3232;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: right;
+  clear: both;
+  float: right;
+  display: inline-block;
+  background-color: #fff;
+  padding: 2px 10px 2px 0;
+  border-radius: 15px; }
+
+#wplpro-idx-listing-import .delete-post:hover,
+#wplpro-idx-listing-import .delete-post:active,
+#wplpro-idx-listing-import .delete-post:hover:before,
+#wplpro-idx-listing-import .delete-post:active:before {
+  color: #c33030; }
+
+#wplpro-idx-listing-import .delete-post:before {
+  font-family: 'dashicons';
+  font-size: 1.8em;
+  line-height: 1.5;
+  content: "\f182";
+  display: block;
+  float: left;
+  width: 25px;
+  margin-left: -3px; }
+
+#wplpro-idx-listing-import .delete-all {
+  color: red;
+  float: right;
+  margin-right: 40px; }
+
+#wplpro-idx-listing-import .grid-sizer,
+#wplpro-idx-listing-import .grid-item {
+  width: 180px; }
 
 /**
  * No IDX import listings page
