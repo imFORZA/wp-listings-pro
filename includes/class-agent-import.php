@@ -78,7 +78,7 @@ class WPLPRO_Agents_Import {
 
 			foreach ( $agents['agent'] as $a ) {
 
-				if ( ! in_array( $a['agentID'], $agent_ids, false ) ) {
+				if ( ! in_array( (string) $a['agentID'], $agent_ids, true ) ) {
 					$idx_agent_wp_options[ $a['agentID'] ]['agentID'] = $a['agentID'];
 					$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
 				}
@@ -94,7 +94,7 @@ class WPLPRO_Agents_Import {
 				}
 
 
-				if ( in_array( $a['agentID'], $agent_ids, false ) && ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
+				if ( in_array( (string) $a['agentID'], $agent_ids, true ) && ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 
 					$opts = array(
 						'post_content' => $a['bioDetails'],
@@ -112,10 +112,10 @@ class WPLPRO_Agents_Import {
 						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
 						self::wplpro_agents_idx_insert_post_meta( $add_post, $a );
 					}
-				} elseif ( in_array( $a['agentID'], $agent_ids, false ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
+				} elseif ( in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
 					self::wplpro_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'publish' );
 					$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
-				} elseif ( ! in_array( $a['agentID'], $agent_ids, false ) && 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
+				} elseif ( ! in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
 
 					// change to draft or delete agent if the post exists but is not in the agent array based on settings.
 					if ( isset( $impa_options['wplpro_agents_idx_remove'] ) && 'remove-draft' === $impa_options['wplpro_agents_idx_remove'] ) {
