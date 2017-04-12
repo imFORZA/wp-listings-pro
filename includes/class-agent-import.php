@@ -74,7 +74,7 @@ class WPLPRO_Agents_Import {
 
 			// Load WP options.
 			$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_wp_options' );
-			$impa_options = get_option( 'wplpro_agents_settings' );
+			$wplpro_agent_settings = get_option( 'wplpro_agents_settings' );
 
 			foreach ( $agents['agent'] as $a ) {
 
@@ -118,12 +118,12 @@ class WPLPRO_Agents_Import {
 				} elseif ( ! in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
 
 					// change to draft or delete agent if the post exists but is not in the agent array based on settings.
-					if ( isset( $impa_options['wplpro_agents_idx_remove'] ) && 'remove-draft' === $impa_options['wplpro_agents_idx_remove'] ) {
+					if ( isset( $wplpro_agent_settings['wplpro_agents_idx_remove'] ) && 'remove-draft' === $wplpro_agent_settings['wplpro_agents_idx_remove'] ) {
 
 						// Change to draft.
 						self::wplpro_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'draft' );
 						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'draft';
-					} elseif ( isset( $impa_options['wplpro_agents_idx_remove'] ) && 'remove-delete' === $impa_options['wplpro_agents_idx_remove'] ) {
+					} elseif ( isset( $wplpro_agent_settings['wplpro_agents_idx_remove'] ) && 'remove-delete' === $wplpro_agent_settings['wplpro_agents_idx_remove'] ) {
 
 						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'deleted';
 
@@ -160,14 +160,15 @@ class WPLPRO_Agents_Import {
 
 		// Load WP options.
 		$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_wp_options' );
-		$impa_options = get_option( 'wplpro_agents_settings' );
+		$wplpro_agent_settings = get_option( 'wplpro_agents_settings' );
+
 
 		foreach ( $agents as $agent ) {
 			foreach ( $agent as $a ) {
 
 				if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 					// Update agent data.
-					if ( ! isset( $impa_options['wplpro_agents_idx_update'] ) || isset( $impa_options['wplpro_agents_idx_update'] ) && 'update-none' !== $impa_options['wplpro_agents_idx_update'] ) {
+					if ( ! isset( $wplpro_agent_settings['wplpro_agents_idx_update'] ) || isset( $wplpro_agent_settings['wplpro_agents_idx_update'] ) && 'update-none' !== $wplpro_agent_settings['wplpro_agents_idx_update'] ) {
 						self::wplpro_agents_idx_insert_post_meta( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], $a, true, false );
 					}
 					$idx_agent_wp_options[ $a['agentID'] ]['updated'] = date( 'm/d/Y h:i:sa' );
@@ -441,6 +442,8 @@ function wplpro_agents_idx_agent_setting_page() {
 				return;
 			}
 
+			$nophoto = isset( get_option('wplpro_customizer_settings')['employee_nophoto'] ) ? get_option('wplpro_customizer_settings')['employee_nophoto'] : "";
+
 			// Loop through agents.
 			foreach ( $agents as $agent ) {
 				foreach ( $agent as $a ) {
@@ -460,11 +463,13 @@ function wplpro_agents_idx_agent_setting_page() {
 						);
 					}
 
+
+
 					printf('<div class="grid-item post"><label for="%s" class="idx-agent"><li class="%s agent"><img class="agent" src="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_agents_idx_agent_options[]" value="%s" %s /><p><span class="agent-name">%s</span><br/><span class="agent-title">%s</span><br/><span class="agent-phone">%s</span><br/><span class="agent-id">Agent ID: %s</span></p><div class="controls">%s %s</div></li></label></div>',
 						// @codingStandardsIgnoreStart
 						$a['agentID'],
 						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ( 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ? 'imported' : '') : '',
-						( isset( $a['agentPhotoURL'] ) && '' !== $a['agentPhotoURL'] ) ? $a['agentPhotoURL'] : WPLPRO_URL . 'assets/images/wplpro-agents-nophoto.png',
+						( isset( $a['agentPhotoURL'] ) && '' !== $a['agentPhotoURL'] ) ? $a['agentPhotoURL'] : ( $nophoto != "" ?  get_option('wplpro_customizer_settings')['employee_nophoto'] : WPLPRO_URL . 'assets/images/default.gif'),
 						$a['agentID'],
 						$a['agentID'],
 						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ( 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ? 'checked' : '') : '',
