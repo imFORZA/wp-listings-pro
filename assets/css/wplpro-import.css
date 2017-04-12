@@ -87,7 +87,7 @@ img.listing {
   text-align: left;
   margin-top: -7px; }
 
-#wplpro-idx-agent-import .delete-post {
+#wplpro-idx-agent-import .delete-agent {
   font-size: 0.7em;
   font-weight: 700;
   line-height: 2.8;
@@ -102,13 +102,13 @@ img.listing {
   padding: 2px 10px 2px 0;
   border-radius: 15px; }
 
-#wplpro-idx-agent-import .delete-post:hover,
-#wplpro-idx-agent-import .delete-post:active,
-#wplpro-idx-agent-import .delete-post:hover:before,
-#wplpro-idx-agent-import .delete-post:active:before {
+#wplpro-idx-agent-import .delete-agent:hover,
+#wplpro-idx-agent-import .delete-agent:active,
+#wplpro-idx-agent-import .delete-agent:hover:before,
+#wplpro-idx-agent-import .delete-agent:active:before {
   color: #c33030; }
 
-#wplpro-idx-agent-import .delete-post:before {
+#wplpro-idx-agent-import .delete-agent:before {
   font-family: 'dashicons';
   font-size: 1.8em;
   line-height: 1.5;
@@ -221,7 +221,7 @@ img.listing {
   text-align: left;
   margin-top: -7px; }
 
-#wplpro-idx-listing-import .delete-post {
+#wplpro-idx-listing-import .delete-listing {
   font-size: 0.7em;
   font-weight: 700;
   line-height: 2.8;
@@ -236,13 +236,13 @@ img.listing {
   padding: 2px 10px 2px 0;
   border-radius: 15px; }
 
-#wplpro-idx-listing-import .delete-post:hover,
-#wplpro-idx-listing-import .delete-post:active,
-#wplpro-idx-listing-import .delete-post:hover:before,
-#wplpro-idx-listing-import .delete-post:active:before {
+#wplpro-idx-listing-import .delete-listing:hover,
+#wplpro-idx-listing-import .delete-listing:active,
+#wplpro-idx-listing-import .delete-listing:hover:before,
+#wplpro-idx-listing-import .delete-listing:active:before {
   color: #c33030; }
 
-#wplpro-idx-listing-import .delete-post:before {
+#wplpro-idx-listing-import .delete-listing:before {
   font-family: 'dashicons';
   font-size: 1.8em;
   line-height: 1.5;

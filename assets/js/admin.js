@@ -84,8 +84,7 @@ jQuery(document).ready(function($) {
 		});
 	});
 
-	jQuery(document).on( 'click', '.delete-post', function() {
-		console.log("CLICKED");
+	jQuery(document).on( 'click', '.delete-listing', function() {
 		var id = jQuery(this).data('id');
 		var nonce = jQuery(this).data('nonce');
 		var post = jQuery(this).parents('.post:first');
@@ -93,11 +92,34 @@ jQuery(document).ready(function($) {
 			columnWidth: '.grid-sizer',
 			itemSelector: '.grid-item'
 		});
-		$.ajax({
+		jQuery.ajax({
 			type: 'post',
 			url: 'admin-ajax.php?action=wp_listings_idx_listing_delete&id=' + id + '&nonce=' + nonce ,
 			data: {
 				action: 'wp_listings_idx_listing_delete',
+				nonce: nonce,
+				id: id
+			},
+			success: function( result ) {
+				window.location.reload();
+			}
+		});
+		//return false;
+	});
+
+	jQuery(document).on( 'click', '.delete-agent', function() {
+		var id = jQuery(this).data('id');
+		var nonce = jQuery(this).data('nonce');
+		var post = jQuery(this).parents('.post:first');
+		var grid = jQuery('.grid').masonry({
+			columnWidth: '.grid-sizer',
+			itemSelector: '.grid-item'
+		});
+		jQuery.ajax({
+			type: 'post',
+			url: 'admin-ajax.php?action=impa_idx_agent_delete&id=' + id + '&nonce=' + nonce  ,
+			data: {
+				action: 'impa_idx_agent_delete',
 				nonce: nonce,
 				id: id
 			},
@@ -117,29 +139,22 @@ jQuery(document).ready(function($) {
 			itemSelector: '.grid-item'
 		});
 		if ( go_ahead === true ) {
-			$.ajax({
+			jQuery.ajax({
 				type: 'post',
-				url: DeleteAllListingAjax.ajaxurl,
+				url: 'admin-ajax.php?action=wp_listings_idx_delete_all&nonce=' + nonce,
 				data: {
 					action: 'wp_listings_idx_listing_delete_all',
 					nonce: nonce
 				},
 				success: function( result ) {
-					if( result === 'success' ) {
-						post.fadeOut( function(){
-							post.remove();
-							grid.masonry('layout');
-						});
-					}
+					// window.location.reload();
 				}
 			});
-			return false;
 		} else {
 			return false;
 		}
 
 	});
-
 
 	// Make sure labels are drawn in the correct state.
 	jQuery('li').each(function()
@@ -458,4 +473,4 @@ function check_types(types, el){
     }
   }
   return true;
-}
+}//</div>

@@ -454,8 +454,7 @@ function wplpro_agents_idx_agent_setting_page() {
 					if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) && get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 						$pid = $idx_agent_wp_options[ $a['agentID'] ]['post_id'];
 						$nonce = wp_create_nonce( 'impa_idx_agent_delete_nonce' );
-						$delete_agent = sprintf('<a href="%s" data-id="%s" data-nonce="%s" class="delete-post">Delete</a>',
-							admin_url( 'admin-ajax.php?action=impa_idx_agent_delete&id=' . $pid . '&nonce=' . $nonce ),
+						$delete_agent = sprintf('<a href="" data-id="%s" data-nonce="%s" class="delete-agent">Delete</a>',
 							$pid,
 							$nonce
 						);
