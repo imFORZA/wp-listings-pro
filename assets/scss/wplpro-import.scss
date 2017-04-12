@@ -12,6 +12,10 @@ img.listing {
 	vertical-align: middle;
 	border: 1px solid #ccc;
 }
+#wplpro-idx-listing-import img.listing {
+	max-height: 100px !important;
+}
+
 #wplpro-idx-agent-import li {
 	list-style-type: none;
 	text-align: center;
