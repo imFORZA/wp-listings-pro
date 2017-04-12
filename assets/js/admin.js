@@ -18,6 +18,8 @@ var doc_gallery_id          = '#listing_doc_gallery';
 var doc_gallery_container   = '#listing_docs_container';
 var doc_gallery_listing     = 'ul.listing_docs';
 var doc_types               = ["doc", "docx", "xls", "xlsx", "pdf"];
+
+var selected = "";
 jQuery(document).ready(function($) {
 	// Instantiate the media selector tool, and attach all necessary event listeners
 	foobar_gallery_popup(listing_image_gallery_frame, image_gallery_link, image_gallery_id, image_gallery_container, image_gallery_listing, true, image_types);
@@ -153,18 +155,42 @@ jQuery(document).ready(function($) {
 	});
 
 	// Toggle label css when checkbox is clicked.
-	jQuery(':checkbox').click(function(e)
+	jQuery(".idx-listing :not('.imported') .checkbox").click(function(e)
 	{
 
 		var checked = jQuery(this).attr('checked');
 		jQuery(this).closest('li').toggleClass('selected', checked);
 
 	});
+	jQuery('.idx-listing .imported .checkbox').click(function(e){
+		e.preventDefault()
+	});
+
+	jQuery(".idx-agent :not('.imported') .checkbox").click(function(e)
+	{
+
+		var checked = jQuery(this).attr('checked');
+		jQuery(this).closest('li').toggleClass('selected', checked);
+
+	});
+	jQuery('.idx-agent .imported .checkbox').click(function(e){
+		e.preventDefault()
+	});
 
 	// Select all.
 	jQuery("#selectall").change(function(){
-		jQuery(".checkbox").prop('checked', jQuery(this).prop("checked"));
-		jQuery(this).closest('li').addClass('selected');
+		if(selected === ""){
+			jQuery(".checkbox").prop('checked', true);
+			jQuery(".idx-listing li").removeClass("selected").addClass("selected"); // Don't want to add doubles.
+			jQuery(".idx-agent li").removeClass("selected").addClass("selected");
+			selected = "y";
+		}else{
+			jQuery(".checkbox").prop('checked', false);
+			jQuery(".imported .checkbox").prop('checked', true);
+			jQuery(".idx-listing li").removeClass("selected");
+			jQuery(".idx-agent li").removeClass("selected");
+			selected = "";
+		}
 	});
 
 	/* === End listing importer JS. === */
