@@ -6,7 +6,9 @@ img.agent {
 
 img.listing {
   max-width: 150px;
-  min-height: 100px;
+  min-width: 150px;
+  min-height: 120px;
+  max-height: 120px;
   vertical-align: middle;
   border: 1px solid #ccc; }
 
@@ -133,7 +135,14 @@ img.listing {
 #wplpro-idx-agent-import .grid-item {
   width: 48%; }
 
+#wplpro-idx-listing-import .grid-item {
+  min-width: 180px;
+  min-height: 289px;
+  max-width: 180px;
+  max-height: 289px; }
+
 #wplpro-idx-listing-import li {
+  min-height: 197px;
   list-style-type: none;
   text-align: center;
   background: #efefef;
@@ -141,6 +150,9 @@ img.listing {
   margin: 0 0.5em 2em 0;
   border: 1px solid #CFCCCC;
   overflow: hidden; }
+
+#wplpro-idx-listing-import li.imported {
+  min-height: 259px; }
 
 #wplpro-idx-listing-import .idx-agent:hover li {
   background: #99D9ED; }
@@ -158,6 +170,7 @@ img.listing {
   float: right; }
 
 #wplpro-idx-listing-import li span.imported {
+  min-height: 0px;
   font-size: 0.8em;
   line-height: 3em;
   text-align: left;
