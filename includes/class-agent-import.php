@@ -115,7 +115,7 @@ class WPLPRO_Agents_Import {
 				} elseif ( in_array( $a['agentID'], $agent_ids, false ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
 					self::wplpro_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'publish' );
 					$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
-				} elseif ( ! in_array( $a['agentID'], $agent_ids, false ) && 'publish' == $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
+				} elseif ( ! in_array( $a['agentID'], $agent_ids, false ) && 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
 
 					// change to draft or delete agent if the post exists but is not in the agent array based on settings.
 					if ( isset( $impa_options['wplpro_agents_idx_remove'] ) && 'remove-draft' === $impa_options['wplpro_agents_idx_remove'] ) {

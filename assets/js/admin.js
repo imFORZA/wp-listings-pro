@@ -85,6 +85,7 @@ jQuery(document).ready(function($) {
 	});
 
 	jQuery(document).on( 'click', '.delete-post', function() {
+		console.log("CLICKED");
 		var id = jQuery(this).data('id');
 		var nonce = jQuery(this).data('nonce');
 		var post = jQuery(this).parents('.post:first');
@@ -94,22 +95,17 @@ jQuery(document).ready(function($) {
 		});
 		$.ajax({
 			type: 'post',
-			url: DeleteListingAjax.ajaxurl,
+			url: 'admin-ajax.php?action=wp_listings_idx_listing_delete&id=' + id + '&nonce=' + nonce ,
 			data: {
 				action: 'wp_listings_idx_listing_delete',
 				nonce: nonce,
 				id: id
 			},
 			success: function( result ) {
-				if( result === 'success' ) {
-					post.fadeOut( function(){
-						post.remove();
-						grid.masonry('layout');
-					});
-				}
+				window.location.reload();
 			}
 		});
-		return false;
+		//return false;
 	});
 
 	jQuery(document).on( 'click', '.delete-all', function() {
