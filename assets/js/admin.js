@@ -18,6 +18,8 @@ var doc_gallery_id          = '#listing_doc_gallery';
 var doc_gallery_container   = '#listing_docs_container';
 var doc_gallery_listing     = 'ul.listing_docs';
 var doc_types               = ["doc", "docx", "xls", "xlsx", "pdf"];
+
+var selected = "";
 jQuery(document).ready(function($) {
 	// Instantiate the media selector tool, and attach all necessary event listeners
 	foobar_gallery_popup(listing_image_gallery_frame, image_gallery_link, image_gallery_id, image_gallery_container, image_gallery_listing, true, image_types);
@@ -82,7 +84,7 @@ jQuery(document).ready(function($) {
 		});
 	});
 
-	jQuery(document).on( 'click', '.delete-post', function() {
+	jQuery(document).on( 'click', '.delete-listing', function() {
 		var id = jQuery(this).data('id');
 		var nonce = jQuery(this).data('nonce');
 		var post = jQuery(this).parents('.post:first');
@@ -90,24 +92,42 @@ jQuery(document).ready(function($) {
 			columnWidth: '.grid-sizer',
 			itemSelector: '.grid-item'
 		});
-		$.ajax({
+		jQuery.ajax({
 			type: 'post',
-			url: DeleteListingAjax.ajaxurl,
+			url: 'admin-ajax.php?action=wp_listings_idx_listing_delete&id=' + id + '&nonce=' + nonce ,
 			data: {
 				action: 'wp_listings_idx_listing_delete',
 				nonce: nonce,
 				id: id
 			},
 			success: function( result ) {
-				if( result === 'success' ) {
-					post.fadeOut( function(){
-						post.remove();
-						grid.masonry('layout');
-					});
-				}
+				window.location.reload();
 			}
 		});
-		return false;
+		//return false;
+	});
+
+	jQuery(document).on( 'click', '.delete-agent', function() {
+		var id = jQuery(this).data('id');
+		var nonce = jQuery(this).data('nonce');
+		var post = jQuery(this).parents('.post:first');
+		var grid = jQuery('.grid').masonry({
+			columnWidth: '.grid-sizer',
+			itemSelector: '.grid-item'
+		});
+		jQuery.ajax({
+			type: 'post',
+			url: 'admin-ajax.php?action=impa_idx_agent_delete&id=' + id + '&nonce=' + nonce  ,
+			data: {
+				action: 'impa_idx_agent_delete',
+				nonce: nonce,
+				id: id
+			},
+			success: function( result ) {
+				window.location.reload();
+			}
+		});
+		//return false;
 	});
 
 	jQuery(document).on( 'click', '.delete-all', function() {
@@ -119,29 +139,22 @@ jQuery(document).ready(function($) {
 			itemSelector: '.grid-item'
 		});
 		if ( go_ahead === true ) {
-			$.ajax({
+			jQuery.ajax({
 				type: 'post',
-				url: DeleteAllListingAjax.ajaxurl,
+				url: 'admin-ajax.php?action=wp_listings_idx_delete_all&nonce=' + nonce,
 				data: {
 					action: 'wp_listings_idx_listing_delete_all',
 					nonce: nonce
 				},
 				success: function( result ) {
-					if( result === 'success' ) {
-						post.fadeOut( function(){
-							post.remove();
-							grid.masonry('layout');
-						});
-					}
+					// window.location.reload();
 				}
 			});
-			return false;
 		} else {
 			return false;
 		}
 
 	});
-
 
 	// Make sure labels are drawn in the correct state.
 	jQuery('li').each(function()
@@ -153,18 +166,42 @@ jQuery(document).ready(function($) {
 	});
 
 	// Toggle label css when checkbox is clicked.
-	jQuery(':checkbox').click(function(e)
+	jQuery(".idx-listing :not('.imported') .checkbox").click(function(e)
 	{
 
 		var checked = jQuery(this).attr('checked');
 		jQuery(this).closest('li').toggleClass('selected', checked);
 
 	});
+	jQuery('.idx-listing .imported .checkbox').click(function(e){
+		e.preventDefault()
+	});
+
+	jQuery(".idx-agent :not('.imported') .checkbox").click(function(e)
+	{
+
+		var checked = jQuery(this).attr('checked');
+		jQuery(this).closest('li').toggleClass('selected', checked);
+
+	});
+	jQuery('.idx-agent .imported .checkbox').click(function(e){
+		e.preventDefault()
+	});
 
 	// Select all.
 	jQuery("#selectall").change(function(){
-		jQuery(".checkbox").prop('checked', jQuery(this).prop("checked"));
-		jQuery(this).closest('li').addClass('selected');
+		if(selected === ""){
+			jQuery(".checkbox").prop('checked', true);
+			jQuery(".idx-listing li").removeClass("selected").addClass("selected"); // Don't want to add doubles.
+			jQuery(".idx-agent li").removeClass("selected").addClass("selected");
+			selected = "y";
+		}else{
+			jQuery(".checkbox").prop('checked', false);
+			jQuery(".imported .checkbox").prop('checked', true);
+			jQuery(".idx-listing li").removeClass("selected");
+			jQuery(".idx-agent li").removeClass("selected");
+			selected = "";
+		}
 	});
 
 	/* === End listing importer JS. === */
@@ -436,4 +473,4 @@ function check_types(types, el){
     }
   }
   return true;
-}
+}//</div>

@@ -61,7 +61,7 @@ class WPL_Idx_Listing {
 		if ( ! $haystack ) { return false;
 		}
 		foreach ( $haystack as $item ) {
-			if ( ($strict ? $item === $needle : $item === $needle) || (is_array( $item ) && self::in_array( $needle, $item, $strict )) ) {
+			if ( ($strict ? $item === $needle : $item == $needle) || (is_array( $item ) && self::in_array( $needle, $item, $strict )) ) {
 				return true;
 			}
 		}
@@ -594,7 +594,7 @@ function wp_listings_idx_listing_setting_page() {
 				foreach ( $idx_featured_listing_wp_options as $prop ) {
 					if ( isset( $prop['post_id'] ) ) {
 						$nonce_all = wp_create_nonce( 'wp_listings_idx_listing_delete_all_nonce' );
-						echo '<a class="delete-all" href="admin-ajax.php?action=wp_listings_idx_delete_all&nonce=' . $nonce_all . '" data-nonce="' . $nonce_all . '">Delete All Imported Listings</a>';
+						echo '<a class="delete-all" href="" data-nonce="' . $nonce_all . '">Delete All Imported Listings</a>';
 						break;
 					}
 				}
@@ -655,8 +655,7 @@ function wp_listings_idx_listing_setting_page() {
 					if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) && get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
 						$pid = $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'];
 						$nonce = wp_create_nonce( 'wp_listings_idx_listing_delete_nonce' );
-						$delete_listing = sprintf('<a href="%s" data-id="%s" data-nonce="%s" class="delete-post">Delete</a>',
-							admin_url( 'admin-ajax.php?action=wp_listings_idx_listing_delete&id=' . $pid . '&nonce=' . $nonce ),
+						$delete_listing = sprintf('<a data-id="%s" data-nonce="%s" class="delete-listing">Delete</a>',
 							$pid,
 							$nonce
 						);
