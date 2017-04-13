@@ -5,7 +5,6 @@
  *
  * @package WP-Listings-Pro
  */
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 
@@ -97,7 +96,11 @@ class WPL_Idx_Listing {
 
 
 				// Loop through featured properties.
-				//
+				$listings_queue = new WPLPRO_Background_Listings();
+				$item = array();
+				$item['idx_options'] = $idx_featured_listing_wp_options;
+				$item['properties'] = $properties;
+
 				foreach ( $properties as $prop ) {
 					// this is too dangerous of a command
 
@@ -119,6 +122,8 @@ class WPL_Idx_Listing {
 				 	// Add post and update post meta.
 					if ( in_array( $prop['listingID'], $listings, true ) && ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
 
+
+
 						if ( '' === $properties[ $key ]['address'] || null === $properties[ $key ]['address'] ) {
 							$properties[ $key ]['address'] = 'Address unlisted';
 						}
@@ -134,24 +139,13 @@ class WPL_Idx_Listing {
 							'post_type' => 'listing',
 							'post_author' => (isset( $wpl_options['import_author'] )) ? $wpl_options['import_author'] : 1,
 						);
+						$item['opts'] = $opts;
+						$item['prop'] = $prop;
+						$item['key'] = $key;
 
-						// Add the post.
-						$add_post = wp_insert_post( $opts, true );
+						// Background processing
+				    $listings_queue->push_to_queue( $item );
 
-						// Show error if wp_insert_post fails.
-						// add post meta and update options if success.
-						if ( is_wp_error( $add_post ) ) {
-							$error_string = $add_post->get_error_message();
-							add_settings_error( 'wp_listings_idx_listing_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
-						} elseif ( $add_post ) {
-							$idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] = $add_post;
-							$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = 'publish';
-							update_post_meta( $add_post, '_listing_details_url', $properties[ $key ]['fullDetailsURL'] );
-
-							// Insert meta for post
-							self::wp_listings_idx_insert_post_meta( $add_post, $properties[ $key ] );
-
-						}
 					} // Change status to publish if it's not already.
 					elseif ( in_array( $prop['listingID'], $listings, true ) && 'publish' !== $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) {
 						self::wp_listings_idx_change_post_status( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'], 'publish' );
@@ -179,6 +173,7 @@ class WPL_Idx_Listing {
 						}
 					}
 				}
+				$listings_queue->save()->dispatch();
 			}
 
 			// Lastly update our options.
@@ -360,27 +355,27 @@ class WPL_Idx_Listing {
 		}
 
 		// Add disclaimers and courtesies.
-		foreach ( $idx_featured_listing_data['disclaimer'] as $disclaimer ) {
-			if ( in_array( 'details', $disclaimer, true ) ) {
-				$disclaimer_logo = ($disclaimer['logoURL']) ? '<br /><img src="' . $disclaimer['logoURL'] . '" style="opacity: 1 !important; position: static !important;" />' : '';
-				$disclaimer_combined = $disclaimer['text'] . $disclaimer_logo;
-				update_post_meta( $id, '_listing_disclaimer', $disclaimer_combined );
-			}
-			if ( in_array( 'widget', $disclaimer, true ) ) {
-				$disclaimer_logo = ($disclaimer['logoURL']) ? '<br /><img src="' . $disclaimer['logoURL'] . '" style="opacity: 1 !important; position: static !important;" />' : '';
-				$disclaimer_combined = $disclaimer['text'] . $disclaimer_logo;
-				update_post_meta( $id, '_listing_disclaimer_widget', $disclaimer_combined );
-			}
-		}
-
-		foreach ( $idx_featured_listing_data['courtesy'] as $courtesy ) {
-			if ( in_array( 'details', $courtesy, true ) ) {
-				update_post_meta( $id, '_listing_courtesy', $courtesy['text'] );
-			}
-			if ( in_array( 'widget', $courtesy, true ) ) {
-				update_post_meta( $id, '_listing_courtesy_widget', $courtesy['text'] );
-			}
-		}
+		// foreach ( $idx_featured_listing_data['disclaimer'] as $disclaimer ) {
+		// 	if ( in_array( 'details', $disclaimer, true ) ) {
+		// 		$disclaimer_logo = ($disclaimer['logoURL']) ? '<br /><img src="' . $disclaimer['logoURL'] . '" style="opacity: 1 !important; position: static !important;" />' : '';
+		// 		$disclaimer_combined = $disclaimer['text'] . $disclaimer_logo;
+		// 		update_post_meta( $id, '_listing_disclaimer', $disclaimer_combined );
+		// 	}
+		// 	if ( in_array( 'widget', $disclaimer, true ) ) {
+		// 		$disclaimer_logo = ($disclaimer['logoURL']) ? '<br /><img src="' . $disclaimer['logoURL'] . '" style="opacity: 1 !important; position: static !important;" />' : '';
+		// 		$disclaimer_combined = $disclaimer['text'] . $disclaimer_logo;
+		// 		update_post_meta( $id, '_listing_disclaimer_widget', $disclaimer_combined );
+		// 	}
+		// }
+		//
+		// foreach ( $idx_featured_listing_data['courtesy'] as $courtesy ) {
+		// 	if ( in_array( 'details', $courtesy, true ) ) {
+		// 		update_post_meta( $id, '_listing_courtesy', $courtesy['text'] );
+		// 	}
+		// 	if ( in_array( 'widget', $courtesy, true ) ) {
+		// 		update_post_meta( $id, '_listing_courtesy_widget', $courtesy['text'] );
+		// 	}
+		// }
 
 		/**
 		 * Pull featured image if it's not an update or update image is set to true.
@@ -440,6 +435,48 @@ class WPL_Idx_Listing {
 
 }
 
+/**
+ * Here is where my background processing stuff goes
+ */
+require_once plugin_dir_path( __FILE__ ) . 'wp-background-processing/wp-background-processing.php';
+
+class WPLPRO_Background_Listings extends WP_Background_Process {
+
+	protected $action = 'background-processing-listings';
+
+	/**
+	 * Task to be run each iteration
+	 * @param  string 	$data 	ID of listing to be imported
+	 * @return mixed       			False if done, $data if to be re-run
+	 */
+	protected function task($data){
+
+
+		// Add the post.
+		$add_post = wp_insert_post( $data['opts'], true );
+
+		$idx_options 	= $data['idx_options'];
+		$properties 	= $data['properties'];
+		$prop 				= $data['prop'];
+		$key 					= $data['key'];
+
+
+		// Show error if wp_insert_post fails.
+		// add post meta and update options if success.
+		if ( is_wp_error( $add_post ) ) {
+			$error_string = $add_post->get_error_message();
+			add_settings_error( 'wp_listings_idx_listing_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
+		} elseif ( $add_post ) {
+			$idx_options[ $prop['listingID'] ]['post_id'] = $add_post;
+			$idx_options[ $prop['listingID'] ]['status'] = 'publish';
+			update_post_meta( $add_post, '_listing_details_url', $properties[ $key ]['fullDetailsURL'] );
+
+			// Insert meta for post
+			WPL_Idx_Listing::wp_listings_idx_insert_post_meta( $add_post, $properties[ $key ] );
+		}
+		return false;
+	}
+}
 
 /**
  * Admin settings page.
@@ -482,6 +519,7 @@ function wp_listings_idx_create_post_cron( $listings ) {
 	wp_schedule_single_event( time(), 'wp_listings_idx_create_post_cron_hook', array( $listings ) );
 }
 add_action( 'wp_listings_idx_create_post_cron_hook', array( 'WPL_Idx_Listing', 'wp_listings_idx_create_post' ) );
+
 
 add_action( 'admin_enqueue_scripts', 'wp_listings_idx_listing_scripts' );
 
@@ -711,3 +749,6 @@ function wplpro_idx_update_schedule() {
  * @since 2.0
  */
 add_action( 'wplpro_idx_update', array( 'WPL_Idx_Listing', 'wp_listings_update_post' ) );
+
+
+new WPLPRO_Background_Listings();
