@@ -80,6 +80,7 @@ $white: #ffffff;
 
 .idx-import-option {
 	width: 30%;
+	display: block;
 	margin: 0 1%;
 	float: left;
 	text-align: center;
@@ -91,8 +92,21 @@ $white: #ffffff;
 	width: 50px;
 	margin: 10px auto;
 }
+// .idx-import-wrap{
+// 	float: left;
+// 	position: relative;
+// 	left: 50%;
+// }
+// .idx-import-wrap .fixer {
+// 	float: left;
+// 	position: relative;
+// 	left: -50%;
+// }
 .idx-import-option.update-all .dashicons {
 	color: $color-light-green;
+}
+.idx-import-option.update-nodetails .dashicons {
+	color: #4286f4;
 }
 .idx-import-option.update-noimage .dashicons {
 	color: $color-yellow-orange;
