@@ -26,6 +26,7 @@
 
 .idx-import-option {
   width: 30%;
+  display: block;
   margin: 0 1%;
   float: left;
   text-align: center; }
@@ -39,6 +40,9 @@
 
 .idx-import-option.update-all .dashicons {
   color: #46B450; }
+
+.idx-import-option.update-nodetails .dashicons {
+  color: #4286f4; }
 
 .idx-import-option.update-noimage .dashicons {
   color: #FFB900; }

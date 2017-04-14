@@ -10,7 +10,6 @@ $stuff = get_posts(array(
 	'posts_per_page'  => -1,
 ));
 if(sizeof($stuff) === 0){
-
 	echo __("No agents found.", 'wp-listings-pro');
 }else{
 	$agent_assignments = explode(",", get_post_meta( $post->ID, '_employee_responsibility' , true ));
@@ -18,7 +17,7 @@ if(sizeof($stuff) === 0){
 	foreach ( $stuff as $agent ) {
 	  printf( '<input type="checkbox" name="wp_listings[_employee_responsibility_' . $agent->ID . ']" %s />',checked( in_array( $agent->ID, $agent_assignments ), 1, 0 ) );
 
-		echo get_post_meta( $agent->ID, '_employee_last_name', true ) . ', ' . get_post_meta( $agent->ID, '_employee_first_name', true );
+		echo get_post_meta( $agent->ID, '_employee_first_name', true ) . ' ' . get_post_meta( $agent->ID, '_employee_last_name', true );
 		echo '<br>';
 	}
 }
