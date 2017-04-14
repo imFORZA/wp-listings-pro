@@ -220,6 +220,7 @@ class WPL_Idx_Listing {
 					}
 					$idx_featured_listing_wp_options[ $prop['listingID'] ]['updated'] = date( 'm/d/Y h:i:sa' );
 				} else {
+					// Here's where global update settings need to go
 					if ( ! isset( $wpl_options['wplpro_idx_update'] ) || isset( $wpl_options['wplpro_idx_update'] ) && 'update-none' !== $wpl_options['wplpro_idx_update'] ) {
 						self::wp_listings_idx_insert_post_meta( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'], $properties[ $key ], true, ( 'update-noimage' === $wpl_options['wplpro_idx_update'] ) ? false : true, false );
 					}
@@ -688,6 +689,18 @@ function wp_listings_idx_listing_setting_page() {
 				echo 'No featured properties found.';
 				return;
 			}
+
+			// update references in case post is not listed properly
+			$stuff = get_posts(array(
+				'post_type'       => 'listing',
+			));
+			foreach($stuff as $prop){
+				if( ! isset($idx_featured_listing_wp_options[ get_post_meta($prop->ID, '_listing_mls', true) ]['post_id'])){
+					$idx_featured_listing_wp_options[ get_post_meta($prop->ID, '_listing_mls', true) ]['post_id'] = $prop->ID;
+					$idx_featured_listing_wp_options[ get_post_meta($prop->ID, '_listing_mls', true) ]['status'] = 'publish';
+				}
+			}
+			// update_option('wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options); // Don't need to update references globally, as references are just for output purposes
 
 			// Loop through properties.
 			foreach ( $properties as $prop ) {
