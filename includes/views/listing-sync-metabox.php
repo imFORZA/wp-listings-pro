@@ -7,10 +7,21 @@ if( null == get_post_meta( $post->ID, '_listing_sync_update', true ) || '' == ge
 }
 $sync_setting = get_post_meta( $post->ID, '_listing_sync_update', true );
 
+$global_sync_setting = get_option( 'wplpro_plugin_settings' )['wplpro_idx_update'];
+$current_setting = 'everything';
+if($global_sync_setting != 'update-all'){
+	if($global_sync_setting == 'update-noimage'){
+		$current_setting .= ' but images';
+	}else{
+		$current_setting = 'nothing';
+	}
+}
+
+
 echo "<div class='idx-import-wrap' style='height:600px;'>";
 echo "<div class='fixer'>";
 _e( '<h2>Update Listings</h2>', 'wp-listings-pro' );
-_e( '<div class="idx-import-option update-useglobal"><label><h4>Follow Global Settings</h4> <span class="dashicons dashicons-update"></span><input name="wp_listings[_listing_sync_update]" id="_listing_sync_update" type="radio" value="update-useglobal" class="code" ' . checked( 'update-useglobal', $sync_setting, false ) . ' /> <p>Follow global settings for updates (is currently WHAT IS IT BRADLEY, HUH?!).</p></label></div>', 'wp-listings-pro' );
+_e( '<div class="idx-import-option ' . $global_sync_setting .  '"><label><h4>Follow Global Settings</h4> <span class="dashicons dashicons-update"></span><input name="wp_listings[_listing_sync_update]" id="_listing_sync_update" type="radio" value="update-useglobal" class="code" ' . checked( 'update-useglobal', $sync_setting, false ) . ' /> <p>Follow global settings for updates (is currently set to update ' . ($current_setting) . ').</p></label></div>', 'wp-listings-pro' );
 _e( '<div class="idx-import-option update-all"><label><h4>Update All</h4> <span class="dashicons dashicons-update"></span><input name="wp_listings[_listing_sync_update]" id="_listing_sync_update" type="radio" value="update-all" class="code" ' . checked( 'update-all', $sync_setting, false ) . ' /> <p>Update all imported fields including gallery and featured image. <br /><em>* Excludes Post Title and Post Content</em></p></label></div>', 'wp-listings-pro' );
 _e( '<div class="idx-import-option update-noimage"><label><h4>Update Excluding Images</h4> <span class="dashicons dashicons-update"></span><input name="wp_listings[_listing_sync_update]" id="_listing_sync_update" type="radio" value="update-noimage" class="code" ' . checked( 'update-noimage', $sync_setting, false ) . ' /> <p>Update all imported fields, but excluding the gallery and featured image.<br /><em>* Also excludes Post Title and Post Content</em></p></label></div>', 'wp-listings-pro' );
 _e( '<div class="idx-import-option update-nodetails"><label><h4>Update Excluding Details</h4> <span class="dashicons dashicons-update"></span><input name="wp_listings[_listing_sync_update]" id="_listing_sync_update" type="radio" value="update-nodetails" class="code" ' . checked( 'update-nodetails', $sync_setting, false ) . ' /> <p>Update only images, including the gallery and featured image.<br /></p></label></div>', 'wp-listings-pro' );
