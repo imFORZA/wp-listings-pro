@@ -121,7 +121,7 @@ class WPL_Idx_Listing {
 
 				 	// Add post and update post meta.
 					if ( in_array( $prop['listingID'], $listings, true ) && ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
-
+						$idx_featured_listing_wp_options = get_option('wplpro_idx_featured_listing_wp_options');
 
 
 						if ( '' === $properties[ $key ]['address'] || null === $properties[ $key ]['address'] ) {
@@ -175,7 +175,6 @@ class WPL_Idx_Listing {
 				}
 				$listings_queue->save()->dispatch();
 			}
-
 			// Lastly update our options.
 			update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 			delete_option( 'wp_listings_import_progress' );
@@ -255,7 +254,6 @@ class WPL_Idx_Listing {
 				}
 			}
 		}
-
 		update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 
 	}
@@ -451,11 +449,10 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 	 */
 	protected function task($data){
 
-
 		// Add the post.
 		$add_post = wp_insert_post( $data['opts'], true );
 
-		$idx_options 	= $data['idx_options'];
+		$idx_options 	= get_option('wplpro_idx_featured_listing_wp_options');
 		$properties 	= $data['properties'];
 		$prop 				= $data['prop'];
 		$key 					= $data['key'];
@@ -471,10 +468,19 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 			$idx_options[ $prop['listingID'] ]['status'] = 'publish';
 			update_post_meta( $add_post, '_listing_details_url', $properties[ $key ]['fullDetailsURL'] );
 
+			update_option( 'wplpro_idx_featured_listing_wp_options', $idx_options );
+
 			// Insert meta for post
 			WPL_Idx_Listing::wp_listings_idx_insert_post_meta( $add_post, $properties[ $key ] );
 		}
+
 		return false;
+	}
+
+	protected function complete(){
+		parent::complete();
+
+		error_log("finished");
 	}
 }
 
@@ -516,7 +522,8 @@ function wp_listings_idx_listing_register_settings() {
  * @return void
  */
 function wp_listings_idx_create_post_cron( $listings ) {
-	wp_schedule_single_event( time(), 'wp_listings_idx_create_post_cron_hook', array( $listings ) );
+	// wp_schedule_single_event( time(), 'wp_listings_idx_create_post_cron_hook', array( $listings ) );
+	WPL_Idx_Listing::wp_listings_idx_create_post( $listings );
 }
 add_action( 'wp_listings_idx_create_post_cron_hook', array( 'WPL_Idx_Listing', 'wp_listings_idx_create_post' ) );
 
@@ -569,6 +576,8 @@ function wp_listings_idx_listing_delete() {
 
 		// Delete post.
 		wp_delete_post( $_REQUEST['id'] );
+
+
 
 		echo 'success';
 	}
@@ -684,10 +693,19 @@ function wp_listings_idx_listing_setting_page() {
 			foreach ( $properties as $prop ) {
 
 				if( isset( $prop[ 'listingID' ] ) ) {
-					if ( ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) || ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
+					$boolDOIT = false;
+					if( isset($idx_featured_listing_wp_options[$prop['listingID']]['status'])){
+						$boolDOIT = $idx_featured_listing_wp_options[$prop['listingID']]['status'];
+
+					}
+					if (  ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) || ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
 						$idx_featured_listing_wp_options[ $prop['listingID'] ] = array(
 							'listingID' => $prop['listingID'],
 							);
+					}
+
+					if($boolDOIT != false){
+						$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = $boolDOIT;
 					}
 
 					if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) && get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
@@ -698,6 +716,12 @@ function wp_listings_idx_listing_setting_page() {
 							$nonce
 						);
 					}
+
+					// if(16176526 == $prop['listingID'] || 16108388 == $prop['listingID'] || 16167940 == $prop['listingID']){
+					// 	unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['status']);
+					// 	unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']);
+					// 	update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
+					// }
 
 					printf('<div class="grid-item post"><label for="%s" class="idx-listing"><li class="%s"><img class="listing lazy" data-original="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_idx_featured_listing_options[]" value="%s" %s />%s<p><span class="price">%s</span><br/><span class="address">%s</span><br/><span class="mls">MLS#: </span>%s</p>%s</li></label></div>',
 						$prop['listingID'],

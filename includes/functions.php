@@ -56,7 +56,17 @@ add_image_size( 'listings', 560, 380, true );
 
 add_filter( 'template_include', 'wplpro_template_include' );
 
-
+add_action('before_delete_post', 'wplpro_clear_references');
+function wplpro_clear_references( $post_id ){
+  $post_type = get_post($post_id)->post_type;
+  if( $post_type === 'listing' ){
+		// Delete references
+		$idx_options = get_option( 'wplpro_idx_featured_listing_wp_options');
+		unset($idx_options[ get_post_meta( $post_id, '_listing_mls', true) ]['post_id']);
+		unset($idx_options[ get_post_meta( $post_id, '_listing_mls', true) ]['status']);
+		update_option( 'wplpro_idx_featured_listing_wp_options', $idx_options);
+  }
+}
 /**
  * Template Support.
  *
