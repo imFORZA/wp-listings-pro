@@ -5,7 +5,6 @@
  *
  * @package WP-Listings-Pro
  */
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 
@@ -97,7 +96,11 @@ class WPL_Idx_Listing {
 
 
 				// Loop through featured properties.
-				//
+				$listings_queue = new WPLPRO_Background_Listings();
+				$item = array();
+				$item['idx_options'] = $idx_featured_listing_wp_options;
+				$item['properties'] = $properties;
+
 				foreach ( $properties as $prop ) {
 					// this is too dangerous of a command
 
@@ -118,6 +121,8 @@ class WPL_Idx_Listing {
 
 				 	// Add post and update post meta.
 					if ( in_array( $prop['listingID'], $listings, true ) && ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
+						$idx_featured_listing_wp_options = get_option('wplpro_idx_featured_listing_wp_options');
+
 
 						if ( '' === $properties[ $key ]['address'] || null === $properties[ $key ]['address'] ) {
 							$properties[ $key ]['address'] = 'Address unlisted';
@@ -134,24 +139,13 @@ class WPL_Idx_Listing {
 							'post_type' => 'listing',
 							'post_author' => (isset( $wpl_options['import_author'] )) ? $wpl_options['import_author'] : 1,
 						);
+						$item['opts'] = $opts;
+						$item['prop'] = $prop;
+						$item['key'] = $key;
 
-						// Add the post.
-						$add_post = wp_insert_post( $opts, true );
+						// Background processing
+				    $listings_queue->push_to_queue( $item );
 
-						// Show error if wp_insert_post fails.
-						// add post meta and update options if success.
-						if ( is_wp_error( $add_post ) ) {
-							$error_string = $add_post->get_error_message();
-							add_settings_error( 'wp_listings_idx_listing_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
-						} elseif ( $add_post ) {
-							$idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] = $add_post;
-							$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = 'publish';
-							update_post_meta( $add_post, '_listing_details_url', $properties[ $key ]['fullDetailsURL'] );
-
-							// Insert meta for post
-							self::wp_listings_idx_insert_post_meta( $add_post, $properties[ $key ] );
-
-						}
 					} // Change status to publish if it's not already.
 					elseif ( in_array( $prop['listingID'], $listings, true ) && 'publish' !== $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) {
 						self::wp_listings_idx_change_post_status( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'], 'publish' );
@@ -179,8 +173,8 @@ class WPL_Idx_Listing {
 						}
 					}
 				}
+				$listings_queue->save()->dispatch();
 			}
-
 			// Lastly update our options.
 			update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 			delete_option( 'wp_listings_import_progress' );
@@ -213,6 +207,14 @@ class WPL_Idx_Listing {
 
 			if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
 				// Update property data.
+				$global_setting = $wpl_options['wplpro_idx_update'];
+
+				$sync_setting = get_post_meta( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] , '_listing_sync_update', true);
+				if( $sync_setting === 'update-useglobal' || $sync_setting == null){
+					$sync_setting = $global_setting;
+				}
+				error_log("setting is : " . $sync_setting );
+
 				if ( class_exists( 'Equity_Idx_Api' ) ) {
 					require_once( ABSPATH . 'wp-content/themes/equity/lib/idx/class.Equity_Idx_Api.inc.php' );
 					$_equity_idx = new Equity_Idx_Api;
@@ -221,13 +223,15 @@ class WPL_Idx_Listing {
 						$equity_properties = $properties[ $key ];
 						delete_transient( 'equity_listing_' . $prop['listingID'] );
 					}
-					if ( ! isset( $wpl_options['wplpro_idx_update'] ) || isset( $wpl_options['wplpro_idx_update'] ) && 'update-none' !== $wpl_options['wplpro_idx_update'] ) {
-						self::wp_listings_idx_insert_post_meta( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'], $equity_properties, true, ( 'update-noimage' === $wpl_options['wplpro_idx_update'] ) ? false : true, false );
+
+					if ( ! isset( $sync_setting ) || isset( $sync_setting ) && 'update-none' !== $sync_setting ) {
+						self::wp_listings_idx_insert_post_meta( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'], $equity_properties, true, ( 'update-noimage' === $sync_setting ) ? false : true, false, ( 'update-nodetails' === $sync_setting ) ? false : true );
 					}
 					$idx_featured_listing_wp_options[ $prop['listingID'] ]['updated'] = date( 'm/d/Y h:i:sa' );
 				} else {
-					if ( ! isset( $wpl_options['wplpro_idx_update'] ) || isset( $wpl_options['wplpro_idx_update'] ) && 'update-none' !== $wpl_options['wplpro_idx_update'] ) {
-						self::wp_listings_idx_insert_post_meta( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'], $properties[ $key ], true, ( 'update-noimage' === $wpl_options['wplpro_idx_update'] ) ? false : true, false );
+					// Here's where global update settings need to go
+					if ( ! isset( $sync_setting ) || isset( $sync_setting ) && 'update-none' !== $sync_setting ) {
+						self::wp_listings_idx_insert_post_meta( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'], $properties[ $key ], true, ( 'update-noimage' === $sync_setting ) ? false : true, false, ( 'update-nodetails' === $sync_setting ) ? false : true  );
 					}
 					$idx_featured_listing_wp_options[ $prop['listingID'] ]['updated'] = date( 'm/d/Y h:i:sa' );
 				}
@@ -260,7 +264,6 @@ class WPL_Idx_Listing {
 				}
 			}
 		}
-
 		update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 
 	}
@@ -295,7 +298,7 @@ class WPL_Idx_Listing {
 	 * @param bool  $sold (default: false) Sold.
 	 * @return void
 	 */
-	public static function wp_listings_idx_insert_post_meta( $id, $idx_featured_listing_data, $update = false, $update_image = true, $sold = false ) {
+	public static function wp_listings_idx_insert_post_meta( $id, $idx_featured_listing_data, $update = false, $update_image = true, $sold = false, $update_details = true ) {
 		if ( false === $update  ||true === $update_image ) {
 			$imgs = '';
 			$featured_image = $idx_featured_listing_data['image']['0']['url'];
@@ -321,27 +324,28 @@ class WPL_Idx_Listing {
 				$propstatus = ucfirst( $idx_featured_listing_data['propStatus'] );
 			}
 		}
+		if ( false === $update || true === $update_details ) {
+			// Add or reset taxonomies for property-types, locations, and status.
+			wp_set_object_terms( $id, $idx_featured_listing_data['idxPropType'], 'property-types', true );
+			wp_set_object_terms( $id, $idx_featured_listing_data['cityName'], 'locations', true );
+			wp_set_object_terms( $id, $propstatus, 'status', true );
 
-		// Add or reset taxonomies for property-types, locations, and status.
-		wp_set_object_terms( $id, $idx_featured_listing_data['idxPropType'], 'property-types', true );
-		wp_set_object_terms( $id, $idx_featured_listing_data['cityName'], 'locations', true );
-		wp_set_object_terms( $id, $propstatus, 'status', true );
-
-		// Add post meta for existing WPL fields.
-		update_post_meta( $id, '_listing_lot_sqft', $idx_featured_listing_data['acres'] . ' acres' );
-		update_post_meta( $id, '_listing_price', $idx_featured_listing_data['listingPrice'] );
-		update_post_meta( $id, '_listing_hidden_price', wplpro_strip_price( $idx_featured_listing_data['listingPrice'] ) );
-		update_post_meta( $id, '_listing_address', $idx_featured_listing_data['address'] );
-		update_post_meta( $id, '_listing_city', $idx_featured_listing_data['cityName'] );
-		update_post_meta( $id, '_listing_county', $idx_featured_listing_data['countyName'] );
-		update_post_meta( $id, '_listing_state', $idx_featured_listing_data['state'] );
-		update_post_meta( $id, '_listing_zip', $idx_featured_listing_data['zipcode'] );
-		update_post_meta( $id, '_listing_mls', $idx_featured_listing_data['listingID'] );
-		update_post_meta( $id, '_listing_sqft', $idx_featured_listing_data['sqFt'] );
-		update_post_meta( $id, '_listing_year_built', (isset( $idx_featured_listing_data['yearBuilt'] )) ? $idx_featured_listing_data['yearBuilt'] : '' );
-		update_post_meta( $id, '_listing_bedrooms', $idx_featured_listing_data['bedrooms'] );
-		update_post_meta( $id, '_listing_bathrooms', $idx_featured_listing_data['totalBaths'] );
-		update_post_meta( $id, '_listing_half_bath', $idx_featured_listing_data['partialBaths'] );
+			// Add post meta for existing WPL fields.
+			update_post_meta( $id, '_listing_lot_sqft', $idx_featured_listing_data['acres'] . ' acres' );
+			update_post_meta( $id, '_listing_price', $idx_featured_listing_data['listingPrice'] );
+			update_post_meta( $id, '_listing_hidden_price', wplpro_strip_price( $idx_featured_listing_data['listingPrice'] ) );
+			update_post_meta( $id, '_listing_address', $idx_featured_listing_data['address'] );
+			update_post_meta( $id, '_listing_city', $idx_featured_listing_data['cityName'] );
+			update_post_meta( $id, '_listing_county', $idx_featured_listing_data['countyName'] );
+			update_post_meta( $id, '_listing_state', $idx_featured_listing_data['state'] );
+			update_post_meta( $id, '_listing_zip', $idx_featured_listing_data['zipcode'] );
+			update_post_meta( $id, '_listing_mls', $idx_featured_listing_data['listingID'] );
+			update_post_meta( $id, '_listing_sqft', $idx_featured_listing_data['sqFt'] );
+			update_post_meta( $id, '_listing_year_built', (isset( $idx_featured_listing_data['yearBuilt'] )) ? $idx_featured_listing_data['yearBuilt'] : '' );
+			update_post_meta( $id, '_listing_bedrooms', $idx_featured_listing_data['bedrooms'] );
+			update_post_meta( $id, '_listing_bathrooms', $idx_featured_listing_data['totalBaths'] );
+			update_post_meta( $id, '_listing_half_bath', $idx_featured_listing_data['partialBaths'] );
+		}
 
 		// Inserts image tags into Old Listing Gallery Box.
 		if ( false === $update || true === $update_image ) {
@@ -360,27 +364,27 @@ class WPL_Idx_Listing {
 		}
 
 		// Add disclaimers and courtesies.
-		foreach ( $idx_featured_listing_data['disclaimer'] as $disclaimer ) {
-			if ( in_array( 'details', $disclaimer, true ) ) {
-				$disclaimer_logo = ($disclaimer['logoURL']) ? '<br /><img src="' . $disclaimer['logoURL'] . '" style="opacity: 1 !important; position: static !important;" />' : '';
-				$disclaimer_combined = $disclaimer['text'] . $disclaimer_logo;
-				update_post_meta( $id, '_listing_disclaimer', $disclaimer_combined );
-			}
-			if ( in_array( 'widget', $disclaimer, true ) ) {
-				$disclaimer_logo = ($disclaimer['logoURL']) ? '<br /><img src="' . $disclaimer['logoURL'] . '" style="opacity: 1 !important; position: static !important;" />' : '';
-				$disclaimer_combined = $disclaimer['text'] . $disclaimer_logo;
-				update_post_meta( $id, '_listing_disclaimer_widget', $disclaimer_combined );
-			}
-		}
-
-		foreach ( $idx_featured_listing_data['courtesy'] as $courtesy ) {
-			if ( in_array( 'details', $courtesy, true ) ) {
-				update_post_meta( $id, '_listing_courtesy', $courtesy['text'] );
-			}
-			if ( in_array( 'widget', $courtesy, true ) ) {
-				update_post_meta( $id, '_listing_courtesy_widget', $courtesy['text'] );
-			}
-		}
+		// foreach ( $idx_featured_listing_data['disclaimer'] as $disclaimer ) {
+		// 	if ( in_array( 'details', $disclaimer, true ) ) {
+		// 		$disclaimer_logo = ($disclaimer['logoURL']) ? '<br /><img src="' . $disclaimer['logoURL'] . '" style="opacity: 1 !important; position: static !important;" />' : '';
+		// 		$disclaimer_combined = $disclaimer['text'] . $disclaimer_logo;
+		// 		update_post_meta( $id, '_listing_disclaimer', $disclaimer_combined );
+		// 	}
+		// 	if ( in_array( 'widget', $disclaimer, true ) ) {
+		// 		$disclaimer_logo = ($disclaimer['logoURL']) ? '<br /><img src="' . $disclaimer['logoURL'] . '" style="opacity: 1 !important; position: static !important;" />' : '';
+		// 		$disclaimer_combined = $disclaimer['text'] . $disclaimer_logo;
+		// 		update_post_meta( $id, '_listing_disclaimer_widget', $disclaimer_combined );
+		// 	}
+		// }
+		//
+		// foreach ( $idx_featured_listing_data['courtesy'] as $courtesy ) {
+		// 	if ( in_array( 'details', $courtesy, true ) ) {
+		// 		update_post_meta( $id, '_listing_courtesy', $courtesy['text'] );
+		// 	}
+		// 	if ( in_array( 'widget', $courtesy, true ) ) {
+		// 		update_post_meta( $id, '_listing_courtesy_widget', $courtesy['text'] );
+		// 	}
+		// }
 
 		/**
 		 * Pull featured image if it's not an update or update image is set to true.
@@ -440,6 +444,56 @@ class WPL_Idx_Listing {
 
 }
 
+/**
+ * Here is where my background processing stuff goes
+ */
+require_once plugin_dir_path( __FILE__ ) . 'wp-background-processing/wp-background-processing.php';
+
+class WPLPRO_Background_Listings extends WP_Background_Process {
+
+	protected $action = 'background-processing-listings';
+
+	/**
+	 * Task to be run each iteration
+	 * @param  string 	$data 	ID of listing to be imported
+	 * @return mixed       			False if done, $data if to be re-run
+	 */
+	protected function task($data){
+
+		// Add the post.
+		$add_post = wp_insert_post( $data['opts'], true );
+
+		$idx_options 	= get_option('wplpro_idx_featured_listing_wp_options');
+		$properties 	= $data['properties'];
+		$prop 				= $data['prop'];
+		$key 					= $data['key'];
+
+
+		// Show error if wp_insert_post fails.
+		// add post meta and update options if success.
+		if ( is_wp_error( $add_post ) ) {
+			$error_string = $add_post->get_error_message();
+			add_settings_error( 'wp_listings_idx_listing_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
+		} elseif ( $add_post ) {
+			$idx_options[ $prop['listingID'] ]['post_id'] = $add_post;
+			$idx_options[ $prop['listingID'] ]['status'] = 'publish';
+			update_post_meta( $add_post, '_listing_details_url', $properties[ $key ]['fullDetailsURL'] );
+
+			update_option( 'wplpro_idx_featured_listing_wp_options', $idx_options );
+
+			// Insert meta for post
+			WPL_Idx_Listing::wp_listings_idx_insert_post_meta( $add_post, $properties[ $key ] );
+		}
+
+		return false;
+	}
+
+	protected function complete(){
+		parent::complete();
+
+		error_log("finished with import queue");
+	}
+}
 
 /**
  * Admin settings page.
@@ -479,9 +533,11 @@ function wp_listings_idx_listing_register_settings() {
  * @return void
  */
 function wp_listings_idx_create_post_cron( $listings ) {
-	wp_schedule_single_event( time(), 'wp_listings_idx_create_post_cron_hook', array( $listings ) );
+	// wp_schedule_single_event( time(), 'wp_listings_idx_create_post_cron_hook', array( $listings ) );
+	WPL_Idx_Listing::wp_listings_idx_create_post( $listings );
 }
 add_action( 'wp_listings_idx_create_post_cron_hook', array( 'WPL_Idx_Listing', 'wp_listings_idx_create_post' ) );
+
 
 add_action( 'admin_enqueue_scripts', 'wp_listings_idx_listing_scripts' );
 
@@ -531,6 +587,8 @@ function wp_listings_idx_listing_delete() {
 
 		// Delete post.
 		wp_delete_post( $_REQUEST['id'] );
+
+
 
 		echo 'success';
 	}
@@ -642,14 +700,35 @@ function wp_listings_idx_listing_setting_page() {
 				return;
 			}
 
+			// update references in case post is not listed properly
+			$stuff = get_posts(array(
+				'post_type'       => 'listing',
+			));
+			foreach($stuff as $prop){
+				if( ! isset($idx_featured_listing_wp_options[ get_post_meta($prop->ID, '_listing_mls', true) ]['post_id'])){
+					$idx_featured_listing_wp_options[ get_post_meta($prop->ID, '_listing_mls', true) ]['post_id'] = $prop->ID;
+					$idx_featured_listing_wp_options[ get_post_meta($prop->ID, '_listing_mls', true) ]['status'] = 'publish';
+				}
+			}
+			// update_option('wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options); // Don't need to update references globally, as references are just for output purposes
+
 			// Loop through properties.
 			foreach ( $properties as $prop ) {
 
 				if( isset( $prop[ 'listingID' ] ) ) {
-					if ( ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) || ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
+					$boolDOIT = false;
+					if( isset($idx_featured_listing_wp_options[$prop['listingID']]['status'])){
+						$boolDOIT = $idx_featured_listing_wp_options[$prop['listingID']]['status'];
+
+					}
+					if (  ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) || ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
 						$idx_featured_listing_wp_options[ $prop['listingID'] ] = array(
 							'listingID' => $prop['listingID'],
 							);
+					}
+
+					if($boolDOIT != false){
+						$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = $boolDOIT;
 					}
 
 					if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) && get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
@@ -660,6 +739,12 @@ function wp_listings_idx_listing_setting_page() {
 							$nonce
 						);
 					}
+
+					// if(16176526 == $prop['listingID'] || 16108388 == $prop['listingID'] || 16167940 == $prop['listingID']){
+					// 	unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['status']);
+					// 	unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']);
+					// 	update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
+					// }
 
 					printf('<div class="grid-item post"><label for="%s" class="idx-listing"><li class="%s"><img class="listing lazy" data-original="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_idx_featured_listing_options[]" value="%s" %s />%s<p><span class="price">%s</span><br/><span class="address">%s</span><br/><span class="mls">MLS#: </span>%s</p>%s</li></label></div>',
 						$prop['listingID'],
@@ -711,3 +796,6 @@ function wplpro_idx_update_schedule() {
  * @since 2.0
  */
 add_action( 'wplpro_idx_update', array( 'WPL_Idx_Listing', 'wp_listings_update_post' ) );
+
+
+new WPLPRO_Background_Listings();
