@@ -425,7 +425,6 @@ class WP_Listings {
 	 * @param  object  $update  New version of the post.
 	 */
 	function save_post( $post_id, $post, $update ) {
-		error_log("here");
 		if ( 'listing' !== $post->post_type ) {
 			return;
 		}
