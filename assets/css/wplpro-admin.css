@@ -47,6 +47,9 @@
 .idx-import-option.update-noimage .dashicons {
   color: #FFB900; }
 
+.idx-import-option.update-custom .dashicons {
+  color: #FFB900; }
+
 .idx-import-option.update-none .dashicons {
   color: #DC3232; }
 
