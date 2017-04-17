@@ -372,7 +372,6 @@ class WP_Listings {
 		}
 
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );
-
 		// Adds support for nophoto, as defined in the customizer.
 		if( $image == "" ){
 			$options = get_option( 'wplpro_plugin_settings' );
