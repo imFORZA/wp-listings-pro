@@ -48,12 +48,16 @@ jQuery(document).ready(function($) {
 	})
 	function cause_html(){
 		if( jQuery( '#wplpro_idx_update_custom' ).attr('checked')){
-			document.getElementById("wplpro_custom_inputs").disabled = false;
+			jQuery("#wplpro_custom_inputs").attr("disabled", false);
+		}else if(jQuery('#_listing_sync_update_custom').attr("checked")){
+			jQuery("#listing_custom_inputs").attr("disabled", false);
 		}else{
-			document.getElementById("wplpro_custom_inputs").disabled = true;
+			jQuery("#wplpro_custom_inputs").attr("disabled", true);
+			jQuery("#listing_custom_inputs").attr("disabled", true);
 		}
 	}
 	setTimeout(cause_html, 100);
+
 
 	// Make notices dismissible - backward compatabity -4.2 - copied from WordPress 4.2
 	jQuery( '.notice.is-dismissible' ).each( function() {

@@ -306,6 +306,16 @@ class WP_Listings {
 			$property_details['_listing_hide_price'] = 0;
 		}
 
+		if ( ! isset( $property_details['_listing_custom_sync_featured'] ) ) {
+			$property_details['_listing_custom_sync_featured'] = 0;
+		}
+		if ( ! isset( $property_details['_listing_custom_sync_gallery'] ) ) {
+			$property_details['_listing_custom_sync_gallery'] = 0;
+		}
+		if ( ! isset( $property_details['_listing_custom_sync_details'] ) ) {
+			$property_details['_listing_custom_sync_details'] = 0;
+		}
+
 		// Saving Agent Assignments
 		$stuff = get_posts(array(
 			'post_type'       => 'employee',
@@ -415,6 +425,7 @@ class WP_Listings {
 	 * @param  object  $update  New version of the post.
 	 */
 	function save_post( $post_id, $post, $update ) {
+		error_log("here");
 		if ( 'listing' !== $post->post_type ) {
 			return;
 		}
