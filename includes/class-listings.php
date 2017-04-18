@@ -306,6 +306,16 @@ class WP_Listings {
 			$property_details['_listing_hide_price'] = 0;
 		}
 
+		if ( ! isset( $property_details['_listing_custom_sync_featured'] ) ) {
+			$property_details['_listing_custom_sync_featured'] = 0;
+		}
+		if ( ! isset( $property_details['_listing_custom_sync_gallery'] ) ) {
+			$property_details['_listing_custom_sync_gallery'] = 0;
+		}
+		if ( ! isset( $property_details['_listing_custom_sync_details'] ) ) {
+			$property_details['_listing_custom_sync_details'] = 0;
+		}
+
 		// Saving Agent Assignments
 		$stuff = get_posts(array(
 			'post_type'       => 'employee',
@@ -372,7 +382,6 @@ class WP_Listings {
 		}
 
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );
-
 		// Adds support for nophoto, as defined in the customizer.
 		if( $image == "" ){
 			$options = get_option( 'wplpro_plugin_settings' );

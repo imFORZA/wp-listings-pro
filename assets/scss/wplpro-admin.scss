@@ -102,6 +102,8 @@ $white: #ffffff;
 // 	position: relative;
 // 	left: -50%;
 // }
+
+
 .idx-import-option.update-all .dashicons {
 	color: $color-light-green;
 }
@@ -109,6 +111,9 @@ $white: #ffffff;
 	color: #4286f4;
 }
 .idx-import-option.update-noimage .dashicons {
+	color: $color-yellow-orange;
+}
+.idx-import-option.update-custom .dashicons {
 	color: $color-yellow-orange;
 }
 .idx-import-option.update-none .dashicons {

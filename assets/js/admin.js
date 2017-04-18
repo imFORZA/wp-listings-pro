@@ -26,7 +26,7 @@ jQuery(document).ready(function($) {
 	foobar_gallery_popup(listing_doc_gallery_frame, doc_gallery_link, doc_gallery_id, doc_gallery_container, doc_gallery_listing, false, doc_types);
 
 	jQuery(".feed-select").select2();
-
+	jQuery("#wplpro_custom_inputs").attr("disabled", true);
 	// Save dismiss state
 	jQuery( '.notice.is-dismissible' ).on('click', '.notice-dismiss', function ( event ) {
 		event.preventDefault();
@@ -42,6 +42,22 @@ jQuery(document).ready(function($) {
 		});
 
 	});
+
+	jQuery( '.idx-import-option' ).on('click', function(event){
+		setTimeout(cause_html, 100);
+	})
+	function cause_html(){
+		if( jQuery( '#wplpro_idx_update_custom' ).attr('checked')){
+			jQuery("#wplpro_custom_inputs").attr("disabled", false);
+		}else if(jQuery('#_listing_sync_update_custom').attr("checked")){
+			jQuery("#listing_custom_inputs").attr("disabled", false);
+		}else{
+			jQuery("#wplpro_custom_inputs").attr("disabled", true);
+			jQuery("#listing_custom_inputs").attr("disabled", true);
+		}
+	}
+	setTimeout(cause_html, 100);
+
 
 	// Make notices dismissible - backward compatabity -4.2 - copied from WordPress 4.2
 	jQuery( '.notice.is-dismissible' ).each( function() {
