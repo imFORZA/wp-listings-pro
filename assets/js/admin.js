@@ -111,11 +111,11 @@ jQuery(document).ready(function($) {
 
 	/* === Begin listing importer JS. === */
 
-	jQuery(function() {
+	setTimeout(function(){jQuery(function() {
 		jQuery("img.lazy").lazyload({
 			event: "scrollstop"
 		});
-	});
+	})}, 100);
 
 	var $container = jQuery('.grid');
 	$container.imagesLoaded(function(){

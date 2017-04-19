@@ -677,8 +677,7 @@ function wp_listings_idx_listing_setting_page() {
 					}
 				}
 			}
-			echo '<p><a href="#" class="submit-imports-button">Import Listings</a></p>';
-//			submit_button( 'Import Listings', 'submit-imports-button' );
+			submit_button( 'Import Listings', 'primary submit-imports-button' );
 
 			settings_errors( 'wp_listings_idx_listing_settings_group' );
 			?>
@@ -782,7 +781,7 @@ function wp_listings_idx_listing_setting_page() {
 				}
 			}
 			echo '</ol>';
-			submit_button( 'Import Listings', 'submit-imports-button' );
+			submit_button( 'Import Listings', 'primary submit-imports-button' );
 			?>
 			</form>
 	<?php
