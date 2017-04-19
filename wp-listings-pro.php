@@ -176,6 +176,7 @@ function wplpro_init() {
 
 	require_once( dirname( __FILE__ ) . '/includes/helpers.php' );
 	require_once( dirname( __FILE__ ) . '/includes/functions.php' );
+	require_once( dirname( __FILE__ ) . '/includes/rest-api.php' );
 	require_once( dirname( __FILE__ ) . '/includes/shortcodes.php' );
 
 	require_once( dirname( __FILE__ ) . '/includes/class-taxonomies.php' );

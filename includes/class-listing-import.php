@@ -70,7 +70,7 @@ class WPL_Idx_Listing {
 	/**
 	 * Creates a post of listing type using post data from options page.
 	 *
-	 * @param  array $listings listingID of the property.
+	 * @param  array $listings listingID of the property. Contains each property that has a check on it
 	 * @return [type] $featured Featured.
 	 */
 	public static function wp_listings_idx_create_post( $listings ) {
@@ -98,8 +98,6 @@ class WPL_Idx_Listing {
 				// Loop through featured properties.
 				$listings_queue = new WPLPRO_Background_Listings();
 				$item = array();
-				$item['idx_options'] = $idx_featured_listing_wp_options;
-				$item['properties'] = $properties;
 
 				foreach ( $properties as $prop ) {
 					// this is too dangerous of a command
@@ -139,9 +137,11 @@ class WPL_Idx_Listing {
 							'post_type' => 'listing',
 							'post_author' => (isset( $wpl_options['import_author'] )) ? $wpl_options['import_author'] : 1,
 						);
+						// $item['properties'].push($prop);
 						$item['opts'] = $opts;
 						$item['prop'] = $prop;
 						$item['key'] = $key;
+						$item['property'] = $properties[$key];
 
 						// Background processing
 				    $listings_queue->push_to_queue( $item );
@@ -175,10 +175,11 @@ class WPL_Idx_Listing {
 				}
 				$listings_queue->save()->dispatch();
 			}
-			// Lastly update our options.
+			// Lastly update our options.=
 			update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 			delete_option( 'wp_listings_import_progress' );
-			return $idx_featured_listing_wp_options;
+			return "success";
+			// return $idx_featured_listing_wp_options;
 		}
 	}
 
@@ -215,7 +216,6 @@ class WPL_Idx_Listing {
 				if( $sync_setting === 'update-useglobal' || $sync_setting == null){
 					$sync_setting = $global_setting;
 				}
-				error_log("setting is : " . $sync_setting );
 
 				if ( class_exists( 'Equity_Idx_Api' ) ) {
 					require_once( ABSPATH . 'wp-content/themes/equity/lib/idx/class.Equity_Idx_Api.inc.php' );
@@ -228,43 +228,32 @@ class WPL_Idx_Listing {
 				}
 
 				$listing_setting = get_post_meta( $post_id , '_listing_sync_update', true);
-				error_log("listing setting is " . $listing_setting);
 				if ( ! isset( $sync_setting ) || isset( $sync_setting ) && 'update-none' !== $sync_setting ) {
-					error_log("  updating listing");
 					$update_image;
 					$update_gallery;
 					$update_details;
 					if( $listing_setting === 'update-useglobal' ) {
-						error_log("    following global");
 						if ( isset ( $wpl_options['wplpro_custom_sync_featured'] ) ) {
-							error_log("      syncing featured");
 							$update_image = $wpl_options['wplpro_custom_sync_featured'];
 						}else{
-							error_log("      not syncing featured");
 							$update_image = 0;
 						}
 
 						if ( isset ( $wpl_options['wplpro_custom_sync_gallery'] ) ) {
-							error_log("      syncing gallery");
 							$update_gallery = $wpl_options['wplpro_custom_sync_gallery'];
 						}else{
-							error_log("      not syncing gallery");
 							$update_gallery = 0;
 						}
 
 						if ( isset ( $wpl_options['wplpro_custom_sync_details'] ) ) {
-							error_log("      syncing details");
 							$update_details = $wpl_options['wplpro_custom_sync_details'];
 						}else{
-							error_log("      not syncing details");
 							$update_details = 0;
 						}
 						self::wp_listings_idx_insert_post_meta( $post_id, $properties[ $key ], true, $update_image , false, $update_details, $update_gallery );
 					} else if ( $listing_setting === 'update-custom' ) {
-						error_log("    syncing based on post meta");
 						self::wp_listings_idx_insert_post_meta( $post_id, $properties[ $key ], true,  get_post_meta( $post_id, '_listing_custom_sync_featured', true ) , false,  get_post_meta( $post_id, '_listing_custom_sync_details', true ),  get_post_meta( $post_id, '_listing_custom_sync_gallery', true ) );
 					} else {
-						error_log("    syncing all");
 						self::wp_listings_idx_insert_post_meta( $post_id, $properties[ $key ], true, true , false, true, true );
 					}
 				}
@@ -493,12 +482,12 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 	 * @return mixed       			False if done, $data if to be re-run
 	 */
 	protected function task($data){
-
+		error_log('task being run');
 		// Add the post.
 		$add_post = wp_insert_post( $data['opts'], true );
 
 		$idx_options 	= get_option('wplpro_idx_featured_listing_wp_options');
-		$properties 	= $data['properties'];
+		$property 		= $data['property'];
 		$prop 				= $data['prop'];
 		$key 					= $data['key'];
 
@@ -511,14 +500,15 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 		} elseif ( $add_post ) {
 			$idx_options[ $prop['listingID'] ]['post_id'] = $add_post;
 			$idx_options[ $prop['listingID'] ]['status'] = 'publish';
-			update_post_meta( $add_post, '_listing_details_url', $properties[ $key ]['fullDetailsURL'] );
+			update_post_meta( $add_post, '_listing_details_url', $property['fullDetailsURL'] );
 
 			update_option( 'wplpro_idx_featured_listing_wp_options', $idx_options );
 
 			// Insert meta for post
-			WPL_Idx_Listing::wp_listings_idx_insert_post_meta( $add_post, $properties[ $key ] );
+			WPL_Idx_Listing::wp_listings_idx_insert_post_meta( $add_post, $property );
 		}
 
+		error_log('task complete');
 		return false;
 	}
 
@@ -546,7 +536,7 @@ add_action( 'admin_menu', 'wp_listings_idx_listing_register_menu_page' );
  */
 function wp_listings_idx_listing_register_menu_page() {
 	add_submenu_page( 'edit.php?post_type=listing', __( 'Import IDX Listings', 'wp-listings-pro' ), __( 'Import IDX Listings', 'wp-listings-pro' ), 'manage_options', 'wplistings-idx-listing', 'wp_listings_idx_listing_setting_page' );
-	add_action( 'admin_init', 'wp_listings_idx_listing_register_settings' );
+	// add_action( 'admin_init', 'wp_listings_idx_listing_register_settings' );
 }
 
 /**
@@ -555,9 +545,9 @@ function wp_listings_idx_listing_register_menu_page() {
  * @access public
  * @return void
  */
-function wp_listings_idx_listing_register_settings() {
-	register_setting( 'wp_listings_idx_listing_settings_group', 'wplpro_idx_featured_listing_options', 'wp_listings_idx_create_post_cron' );
-}
+// function wp_listings_idx_listing_register_settings() {
+// 	register_setting( 'wp_listings_idx_listing_settings_group', 'wplpro_idx_featured_listing_options', 'wp_listings_idx_create_post_cron' );
+// }
 
 /**
  * Do wp_cron job for importing listings.
@@ -566,11 +556,12 @@ function wp_listings_idx_listing_register_settings() {
  * @param mixed $listings Listings.
  * @return void
  */
-function wp_listings_idx_create_post_cron( $listings ) {
-	// wp_schedule_single_event( time(), 'wp_listings_idx_create_post_cron_hook', array( $listings ) );
-	WPL_Idx_Listing::wp_listings_idx_create_post( $listings );
-}
-add_action( 'wp_listings_idx_create_post_cron_hook', array( 'WPL_Idx_Listing', 'wp_listings_idx_create_post' ) );
+// function wp_listings_idx_create_post_cron( $listings ) {
+// 	// wp_schedule_single_event( time(), 'wp_listings_idx_create_post_cron_hook', array( $listings ) );
+// 	WPL_Idx_Listing::wp_listings_idx_create_post( $listings );
+// }
+// add_action( 'wp_listings_idx_create_post_cron_hook', array( 'WPL_Idx_Listing', 'wp_listings_idx_create_post' ) );
+
 
 
 add_action( 'admin_enqueue_scripts', 'wp_listings_idx_listing_scripts' );
@@ -601,32 +592,28 @@ add_action( 'wp_ajax_wp_listings_idx_listing_delete', 'wp_listings_idx_listing_d
  * @access public
  * @return void
  */
-function wp_listings_idx_listing_delete() {
+function wp_listings_idx_listing_delete($given_id) {
 
-	$permission = check_ajax_referer( 'wp_listings_idx_listing_delete_nonce', 'nonce', false );
-
+	//$permission = check_ajax_referer( 'wp_listings_idx_listing_delete_nonce', 'nonce', false );
+	$permission = true;
 	if ( false === $permission ) {
-		echo 'error';
+		return "error";
 	} else {
 		// Delete featured image.
-		$post_featured_image_id = get_post_thumbnail_id( $_REQUEST['id'] );
+		$post_featured_image_id = get_post_thumbnail_id( $given_id );
 		wp_delete_attachment( $post_featured_image_id );
 
 		// Delete images.
-		$ids = get_attached_media( "image/jpeg", $_REQUEST['id'] );
+		$ids = get_attached_media( "image/jpeg", $given_id );
 		foreach( $ids as $id ) {
 			wp_delete_attachment($id->ID);
 		}
-		delete_post_meta( $_REQUEST['id'], '_listing_image_gallery' );
+		delete_post_meta( $given_id, '_listing_image_gallery' );
 
 		// Delete post.
-		wp_delete_post( $_REQUEST['id'] );
-
-
-
-		echo 'success';
+		wp_delete_post( $given_id );
+		return "success";
 	}
-	die();
 }
 
 add_action( 'wp_ajax_wp_listings_idx_listing_delete_all', 'wp_listings_idx_listing_delete_all' );
@@ -660,7 +647,6 @@ function wp_listings_idx_listing_delete_all() {
 
 		echo 'success';
 	}
-	die();
 }
 
 /**
@@ -678,7 +664,7 @@ function wp_listings_idx_listing_setting_page() {
 	?>
 			<h1>Import IDX Listings</h1>
 			<p>Select the listings to import.</p>
-			<form id="wplpro-idx-listing-import" method="post" action="options.php">
+			<form id="wplpro-idx-listing-import">
 			<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all listings, it may take some time. <strong class="error">Please be patient.</strong></em></label>
 
 			<?php
@@ -691,8 +677,8 @@ function wp_listings_idx_listing_setting_page() {
 					}
 				}
 			}
-
-			submit_button( 'Import Listings' );
+			echo '<p><a href="#" class="submit-imports-button">Import Listings</a></p>';
+//			submit_button( 'Import Listings', 'submit-imports-button' );
 
 			settings_errors( 'wp_listings_idx_listing_settings_group' );
 			?>
@@ -796,7 +782,7 @@ function wp_listings_idx_listing_setting_page() {
 				}
 			}
 			echo '</ol>';
-			submit_button( 'Import Listings' );
+			submit_button( 'Import Listings', 'submit-imports-button' );
 			?>
 			</form>
 	<?php
