@@ -115,7 +115,7 @@ jQuery(document).ready(function($) {
 		jQuery("img.lazy").lazyload({
 			event: "scrollstop"
 		});
-	})}, 100);
+	})}, 600);
 
 	var $container = jQuery('.grid');
 	$container.imagesLoaded(function(){
