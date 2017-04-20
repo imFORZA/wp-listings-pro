@@ -40,9 +40,34 @@ jQuery(document).ready(function($) {
 			nag: $this.parent().data( 'key' ),
 			nonce: wp_listings_adminL10n.nonce || ''
 		});
-
 	});
 
+	jQuery(document).on( 'click', '.submit-imports-button', function(event){
+		console.log("Can one ever truly prevent defaults?");
+		event.preventDefault(); // Yes. Yes they can.
+		var all = jQuery('.selected').contents();
+		var mlses = [];
+		for(var i=0; i<all.length;i++){
+			if(all[i].id){
+				mlses[mlses.length] = all[i].id;
+			}
+		}
+		mlses = mlses.join('z'); // probably not the cleanest way of doing this...
+		jQuery.ajax({
+			type : "get",
+			dataType: "json",
+			url: "/wp-json/wp-listings-pro/v1/import-listings/?mlses=" + mlses,
+			data: {
+				mlses: mlses
+			},
+			success:function(response){
+				window.location.reload();
+				console.log(response);
+			}
+		});
+	})
+
+	// Code for changing CSS of elements within masonry for visual effects based on whether they're checked or not, in support of the selectall/deselect all.
 	jQuery( '.idx-import-option' ).on('click', function(event){
 		setTimeout(cause_html, 100);
 	})
@@ -86,11 +111,11 @@ jQuery(document).ready(function($) {
 
 	/* === Begin listing importer JS. === */
 
-	jQuery(function() {
+	setTimeout(function(){jQuery(function() {
 		jQuery("img.lazy").lazyload({
 			event: "scrollstop"
 		});
-	});
+	})}, 600);
 
 	var $container = jQuery('.grid');
 	$container.imagesLoaded(function(){
@@ -100,28 +125,26 @@ jQuery(document).ready(function($) {
 		});
 	});
 
-	jQuery(document).on( 'click', '.delete-listing', function() {
+	// mine feat. Finding Nemo
+	jQuery(document).on( 'click', '.delete-listing', function(){
 		var id = jQuery(this).data('id');
-		var nonce = jQuery(this).data('nonce');
 		var post = jQuery(this).parents('.post:first');
 		var grid = jQuery('.grid').masonry({
 			columnWidth: '.grid-sizer',
 			itemSelector: '.grid-item'
 		});
 		jQuery.ajax({
-			type: 'post',
-			url: 'admin-ajax.php?action=wp_listings_idx_listing_delete&id=' + id + '&nonce=' + nonce ,
+			type : "get",
+			dataType: "json",
+			url: "/wp-json/wp-listings-pro/v1/results/?id=" + id,
 			data: {
-				action: 'wp_listings_idx_listing_delete',
-				nonce: nonce,
 				id: id
 			},
-			success: function( result ) {
+			success:function(response){
 				window.location.reload();
 			}
 		});
-		//return false;
-	});
+	})
 
 	jQuery(document).on( 'click', '.delete-agent', function() {
 		var id = jQuery(this).data('id');

@@ -176,6 +176,7 @@ function wplpro_init() {
 
 	require_once( dirname( __FILE__ ) . '/includes/helpers.php' );
 	require_once( dirname( __FILE__ ) . '/includes/functions.php' );
+	require_once( dirname( __FILE__ ) . '/includes/rest-api.php' );
 	require_once( dirname( __FILE__ ) . '/includes/shortcodes.php' );
 
 	require_once( dirname( __FILE__ ) . '/includes/class-taxonomies.php' );
@@ -295,7 +296,7 @@ function wplpro_init() {
 
 		global $wp_version;
 		$nonce_action = 'wp_listings_admin_notice';
-		wp_enqueue_script( 'wp-listings-admin', WPLPRO_URL . 'assets/js/admin.js', 'media-views' );
+		wp_enqueue_script( 'wp-listings-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
 		wp_localize_script( 'wp-listings-admin', 'wp_listings_adminL10n', array(
 			'ajaxurl'    => admin_url( 'admin-ajax.php' ),
 			'nonce'      => wp_create_nonce( $nonce_action ),
