@@ -58,6 +58,7 @@ class WPLPRO_Agents_Import {
 	 * @return [type] $featured Featured.
 	 */
 	public static function wplpro_agents_idx_create_post( $agent_ids ) {
+		error_log('called');
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 
 			// Load IDX Broker API Class and retrieve agents.
@@ -75,6 +76,9 @@ class WPLPRO_Agents_Import {
 			// Load WP options.
 			$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_wp_options' );
 			$wplpro_agent_settings = get_option( 'wplpro_agents_settings' );
+
+			$agents_queue = new WPLPRO_Background_Agents();
+			$item = array();
 
 			foreach ( $agents['agent'] as $a ) {
 
@@ -102,16 +106,24 @@ class WPLPRO_Agents_Import {
 						'post_status' => 'publish',
 						'post_type' => 'employee',
 					);
-					$add_post = wp_insert_post( $opts, true );
-					if ( is_wp_error( $add_post ) ) {
-						$error_string = $add_post->get_error_message();
-						add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
-						return;
-					} elseif ( $add_post ) {
-						$idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $add_post;
-						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
-						self::wplpro_agents_idx_insert_post_meta( $add_post, $a );
-					}
+
+					$item['opts'] = $opts;
+					$item['a'] = $a;
+
+					// $add_post = wp_insert_post( $opts, true );
+					// if ( is_wp_error( $add_post ) ) {
+					// 	$error_string = $add_post->get_error_message();
+					// 	add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
+					// 	return;
+					// } elseif ( $add_post ) {
+					// 	$idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $add_post;
+					// 	$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
+					// 	self::wplpro_agents_idx_insert_post_meta( $add_post, $a );
+					// }
+
+
+					 $agents_queue->push_to_queue( $item );
+					 update_option( 'wplpro_agents_idx_agent_wp_options', $idx_agent_wp_options );
 				} elseif ( in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
 					self::wplpro_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'publish' );
 					$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
@@ -136,6 +148,8 @@ class WPLPRO_Agents_Import {
 					}
 				}
 			}
+			error_log("dispatching");
+			$agents_queue->save()->dispatch();
 			update_option( 'wplpro_agents_idx_agent_wp_options', $idx_agent_wp_options );
 			return $idx_agent_wp_options;
 		}
@@ -306,6 +320,63 @@ class WPLPRO_Agents_Import {
 
 }
 
+/**
+ * Here is where my background processing stuff goes
+ */
+require_once plugin_dir_path( __FILE__ ) . 'wp-background-processing/wp-background-processing.php';
+
+class WPLPRO_Background_Agents extends WP_Background_Process {
+
+	protected $action = 'background-processing-agents';
+
+	/**
+	 * Task to be run each iteration
+	 * @param  string 	$data 	ID of listing to be imported
+	 * @return mixed       			False if done, $data if to be re-run
+	 */
+	protected function task($data){
+		error_log('Task being run.');
+
+		// Get important data.
+		$idx_options 	= get_option('wplpro_agents_idx_agent_wp_options');
+		$a 						= $data['a'];
+
+		// Check if it already exists
+		$stuff = get_posts(array(
+			'post_type'       => 'employee',
+		));
+		foreach($stuff as $temp_agent){
+			if( $a['agentID'] == get_post_meta($temp_agent->ID, '_employee_agent_id', true) ){
+				// Already exists
+				error_log("sike that guy already exists");
+				return false;
+			}
+		}
+
+
+		$add_post = wp_insert_post( $data['opts'], true );
+		if ( is_wp_error( $add_post ) ) {
+			$error_string = $add_post->get_error_message();
+			add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
+			return;
+		} elseif ( $add_post ) {
+			$idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $add_post;
+			$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
+			WPLPRO_Agents_Import::wplpro_agents_idx_insert_post_meta( $add_post, $a );
+			update_option( 'wplpro_agents_idx_agent_wp_options', $idx_options );
+		}
+
+		error_log('Task complete.');
+		return false;
+	}
+
+	protected function complete(){
+		parent::complete();
+
+		error_log("Finished with import queue.");
+	}
+}
+
 
 /**
  * Admin settings page.
@@ -453,6 +524,7 @@ function wplpro_agents_idx_agent_setting_page() {
 							'agentID' => $a['agentID'],
 							);
 					}
+
 					$stuff = get_posts(array(
 						'post_type'       => 'employee',
 					));
@@ -461,10 +533,14 @@ function wplpro_agents_idx_agent_setting_page() {
 							if( !isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) || !$idx_agent_wp_options[ $a['agentID'] ]['status'] != "") {
 								$idx_agent_wp_options[ $a['agentID'] ]['status'] = "publish";
 							}
+
+							if( !isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) || $idx_agent_wp_options[ $a['agentID'] ]['post_id'] == "") {
+								$idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $temp_agent->ID;
+							}
 						}
 					}
+
 					if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) && get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
-						error_log("so this should be going off");
 						$pid = $idx_agent_wp_options[ $a['agentID'] ]['post_id'];
 						$nonce = wp_create_nonce( 'impa_idx_agent_delete_nonce' );
 						$delete_agent = sprintf('<a href="" data-id="%s" data-nonce="%s" class="delete-agent">Delete</a>',
@@ -529,3 +605,5 @@ function wplpro_agents_idx_update_schedule() {
  * @since 2.0
  */
 add_action( 'wplpro_agents_idx_update', array( 'WPLPRO_Agents_Import', 'wplpro_agents_update_post' ) );
+
+new WPLPRO_Background_Agents();
