@@ -453,8 +453,18 @@ function wplpro_agents_idx_agent_setting_page() {
 							'agentID' => $a['agentID'],
 							);
 					}
-
+					$stuff = get_posts(array(
+						'post_type'       => 'employee',
+					));
+					foreach($stuff as $temp_agent){
+						if( $a['agentID'] == get_post_meta($temp_agent->ID, '_employee_agent_id', true) ){
+							if( !isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) || !$idx_agent_wp_options[ $a['agentID'] ]['status'] != "") {
+								$idx_agent_wp_options[ $a['agentID'] ]['status'] = "publish";
+							}
+						}
+					}
 					if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) && get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
+						error_log("so this should be going off");
 						$pid = $idx_agent_wp_options[ $a['agentID'] ]['post_id'];
 						$nonce = wp_create_nonce( 'impa_idx_agent_delete_nonce' );
 						$delete_agent = sprintf('<a href="" data-id="%s" data-nonce="%s" class="delete-agent">Delete</a>',
