@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
 	});
 
 	jQuery(document).on( 'click', '.submit-imports-button', function(event){
-		console.log("Can one ever truly prevent defaults?");
+														// Can one ever truly stop nature's course?
 		event.preventDefault(); // Yes. Yes they can.
 		var all = jQuery('.selected').contents();
 		var mlses = [];
@@ -52,7 +52,7 @@ jQuery(document).ready(function($) {
 				mlses[mlses.length] = all[i].id;
 			}
 		}
-		mlses = mlses.join('z'); // probably not the cleanest way of doing this...
+		mlses = mlses.join('z'); // Probably not the cleanest way of doing this...
 		jQuery.ajax({
 			type : "get",
 			dataType: "json",
@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
 			},
 			success:function(response){
 				window.location.reload();
-				console.log(response);
+				// But hey, whatever floats your goat.
 			}
 		});
 	})
@@ -79,6 +79,15 @@ jQuery(document).ready(function($) {
 		}else{
 			jQuery("#wplpro_custom_inputs").attr("disabled", true);
 			jQuery("#listing_custom_inputs").attr("disabled", true);
+		}
+
+		if( jQuery( '#wplpro_idx_update_agents_custom' ).attr('checked')){
+			jQuery("#wplpro_custom_agents_inputs").attr("disabled", false);
+		}else if(jQuery('#_agent_sync_update_custom').attr("checked")){
+			jQuery("#agent_custom_inputs").attr("disabled", false);
+		}else{
+			jQuery("#wplpro_custom_agents_inputs").attr("disabled", true);
+			jQuery("#agent_custom_inputs").attr("disabled", true);
 		}
 	}
 	setTimeout(cause_html, 100);
