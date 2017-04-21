@@ -144,7 +144,9 @@ class WPL_Idx_Listing {
 						$item['property'] = $properties[$key];
 
 						// Background processing
+						error_log("pushing to queue");
 				    $listings_queue->push_to_queue( $item );
+						update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 
 					} // Change status to publish if it's not already.
 					elseif ( in_array( $prop['listingID'], $listings, true ) && 'publish' !== $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) {
@@ -173,6 +175,7 @@ class WPL_Idx_Listing {
 						}
 					}
 				}
+				error_log("dispatching");
 				$listings_queue->save()->dispatch();
 			}
 			// Lastly update our options.=
@@ -482,14 +485,26 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 	 * @return mixed       			False if done, $data if to be re-run
 	 */
 	protected function task($data){
-		error_log('task being run');
-		// Add the post.
-		$add_post = wp_insert_post( $data['opts'], true );
+		error_log('Task being run.');
 
+		// Get important data.
 		$idx_options 	= get_option('wplpro_idx_featured_listing_wp_options');
 		$property 		= $data['property'];
 		$prop 				= $data['prop'];
 		$key 					= $data['key'];
+
+
+		// Add the post (after checking to make sure it's not already there).
+		$stuff = get_posts(array(
+			'post_type'       => 'listing',
+		));
+		foreach($stuff as $p){
+			if( $property['listingID'] == get_post_meta($p->ID, '_listing_mls', true) ){
+				error_log( "Breaking from task, MLS listing already detected." );
+				return false;
+			}
+		}
+		$add_post = wp_insert_post( $data['opts'], true );
 
 
 		// Show error if wp_insert_post fails.
@@ -508,14 +523,14 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 			WPL_Idx_Listing::wp_listings_idx_insert_post_meta( $add_post, $property );
 		}
 
-		error_log('task complete');
+		error_log('Task complete.');
 		return false;
 	}
 
 	protected function complete(){
 		parent::complete();
 
-		error_log("finished with import queue");
+		error_log("Finished with import queue.");
 	}
 }
 
