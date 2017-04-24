@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
 	});
 
 	jQuery(document).on( 'click', '.submit-imports-button', function(event){
-		console.log("Can one ever truly prevent defaults?");
+		//console.log("Can one ever truly prevent defaults?");
 		event.preventDefault(); // Yes. Yes they can.
 		var all = jQuery('.selected').contents();
 		var mlses = [];
@@ -204,13 +204,26 @@ jQuery(document).ready(function($) {
 
 	});
 
+	jQuery( document ).on( 'heartbeat-send', function ( event, data ) {
+    // Add additional data to Heartbeat data.
+    data.wplpro_import_status = 'some_data';
+		console.log("sending");
+	});
+
+	jQuery( document ).on( 'heartbeat-tick', function ( event, data ) {
+    // Check for our data, and use it.
+    if ( ! data.wplpro_import_status_hashed ) {
+        return;
+    }
+
+    console.log( 'The hash is ' + data.wplpro_import_status_hashed );
+	});
+
 	// Toggle label css when checkbox is clicked.
 	jQuery(".idx-listing :not('.imported') .checkbox").click(function(e)
 	{
-
 		var checked = jQuery(this).attr('checked');
 		jQuery(this).closest('li').toggleClass('selected', checked);
-
 	});
 	jQuery('.idx-listing .imported .checkbox').click(function(e){
 		e.preventDefault()
@@ -218,10 +231,8 @@ jQuery(document).ready(function($) {
 
 	jQuery(".idx-agent :not('.imported') .checkbox").click(function(e)
 	{
-
 		var checked = jQuery(this).attr('checked');
 		jQuery(this).closest('li').toggleClass('selected', checked);
-
 	});
 	jQuery('.idx-agent .imported .checkbox').click(function(e){
 		e.preventDefault()
