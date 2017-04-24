@@ -45,6 +45,7 @@ jQuery(document).ready(function($) {
 	jQuery(document).on( 'click', '.submit-imports-button', function(event){
 														// Can one ever truly stop nature's course?
 		event.preventDefault(); // Yes. Yes one can.
+
 		var all = jQuery('.selected').contents();
 		var mlses = [];
 		for(var i=0; i<all.length;i++){
