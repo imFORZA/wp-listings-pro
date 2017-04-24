@@ -204,6 +204,9 @@ jQuery(document).ready(function($) {
 
 	});
 
+	setTimeout(function(){
+		wp.heartbeat.connectNow();
+	}, 2500);
 	jQuery( document ).on( 'heartbeat-send', function ( event, data ) {
     // Add additional data to Heartbeat data.
     data.wplpro_import_status = 'some_data';
@@ -220,10 +223,9 @@ jQuery(document).ready(function($) {
 		var imported = data.wplpro_import_status_hashed.substring( data.wplpro_import_status_hashed.indexOf("],[") + 3, data.wplpro_import_status_hashed.length - 2 ).split(",");
 
 		if(importing[0] != ""){
-			for(var i=0;i<importing.length;i++){
-				var container = jQuery( "label[for='" + importing[i] + "']" );
-				console.log(container);
-			}
+			setTimeout(function(){
+				wp.heartbeat.connectNow();
+			}, 2500);
 		}
 
 		if(imported[0] != ""){
@@ -231,8 +233,6 @@ jQuery(document).ready(function($) {
 				jQuery( "label[for='" + imported[i] + "'] li" ).removeClass('importing').removeClass('imported').addClass('imported');
 				jQuery( "label[for='" + imported[i] + "'] li span.importing" ).html("<i class='dashicons dashicons-yes'></i>Imported");
 				jQuery( "label[for='" + imported[i] + "'] li span.importing" ).addClass('imported').removeClass('importing');
-
-				console.log(container);
 			}
 		}
 
