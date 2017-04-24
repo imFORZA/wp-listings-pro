@@ -94,13 +94,12 @@ class WPL_Idx_Listing {
 
 			if ( is_array( $listings ) && is_array( $properties ) ) {
 
-
 				// Loop through featured properties.
 				$listings_queue = new WPLPRO_Background_Listings();
 				$item = array();
-
+				$item['id'] = "" . rand(0, 99);
 				foreach ( $properties as $prop ) {
-					// this is too dangerous of a command
+
 
 					// Get the listing ID.
 					$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
@@ -120,7 +119,13 @@ class WPL_Idx_Listing {
 				 	// Add post and update post meta.
 					if ( in_array( $prop['listingID'], $listings, true ) && ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
 						$idx_featured_listing_wp_options = get_option('wplpro_idx_featured_listing_wp_options');
+					 	if( isset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ){
+							continue;
+						}
+						$idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] = "";
+						$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = 'publish';
 
+						update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options);
 
 						if ( '' === $properties[ $key ]['address'] || null === $properties[ $key ]['address'] ) {
 							$properties[ $key ]['address'] = 'Address unlisted';
@@ -479,6 +484,7 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 
 	protected $action = 'background-processing-listings';
 
+	private $id = "";
 	/**
 	 * Task to be run each iteration
 	 * @param  string 	$data 	ID of listing to be imported
@@ -486,6 +492,8 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 	 */
 	protected function task($data){
 		error_log('Task being run.');
+
+
 
 		// Get important data.
 		$idx_options 	= get_option('wplpro_idx_featured_listing_wp_options');
@@ -504,6 +512,8 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 				return false;
 			}
 		}
+
+		// Add the post.
 		$add_post = wp_insert_post( $data['opts'], true );
 
 
@@ -532,6 +542,29 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 
 		error_log("Finished with import queue.");
 	}
+}
+
+// Add filter to receive hook, and specify we need 2 parameters.
+add_filter( 'heartbeat_received', 'wplpro_receive_heartbeat', 10, 2 );
+/**
+ * Receive Heartbeat data and respond.
+ *
+ * Processes data received via a Heartbeat request, and returns additional data to pass back to the front end.
+ *
+ * @param array $response Heartbeat response data to pass back to front end.
+ * @param array $data Data received from the front end (unslashed).
+ */
+function wplpro_receive_heartbeat( $response, $data ) {
+    // If we didn't receive our data, don't send any back.
+    if ( empty( $data['wplpro_import_status'] ) ) {
+        return $response;
+    }
+
+    // Calculate our data and pass it back. For this example, we'll hash it.
+    $received_data = $data['wplpro_import_status'];
+
+    $response['wplpro_import_status_hashed'] = sha1( $received_data );
+    return $response;
 }
 
 /**
@@ -779,6 +812,13 @@ function wp_listings_idx_listing_setting_page() {
 					// 	unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']);
 					// 	update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 					// }
+
+					if(isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) && 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status']){
+						if( !isset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']) || $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] == ""){
+							$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = "";
+							update_option("wplpro_idx_featured_listing_wp_options", $idx_featured_listing_wp_options);
+						}
+					}
 
 					printf('<div class="grid-item post"><label for="%s" class="idx-listing"><li class="%s"><img class="listing lazy" data-original="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_idx_featured_listing_options[]" value="%s" %s />%s<p><span class="price">%s</span><br/><span class="address">%s</span><br/><span class="mls">MLS#: </span>%s</p>%s</li></label></div>',
 						$prop['listingID'],
