@@ -360,8 +360,8 @@ class WPLPRO_Background_Agents extends WP_Background_Process {
 			add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
 			return;
 		} elseif ( $add_post ) {
-			$idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $add_post;
-			$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
+			$idx_options[ $a['agentID'] ]['post_id'] = $add_post;
+			$idx_options[ $a['agentID'] ]['status'] = 'publish';
 			WPLPRO_Agents_Import::wplpro_agents_idx_insert_post_meta( $add_post, $a );
 			update_option( 'wplpro_agents_idx_agent_wp_options', $idx_options );
 		}
