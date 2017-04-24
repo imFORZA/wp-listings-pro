@@ -122,8 +122,8 @@ class WPLPRO_Agents_Import {
 					// }
 
 
-					 $agents_queue->push_to_queue( $item );
-					 update_option( 'wplpro_agents_idx_agent_wp_options', $idx_agent_wp_options );
+					$agents_queue->push_to_queue( $item );
+					update_option( 'wplpro_agents_idx_agent_wp_options', $idx_agent_wp_options );
 				} elseif ( in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
 					self::wplpro_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'publish' );
 					$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
@@ -349,11 +349,10 @@ class WPLPRO_Background_Agents extends WP_Background_Process {
 		foreach($stuff as $temp_agent){
 			if( $a['agentID'] == get_post_meta($temp_agent->ID, '_employee_agent_id', true) ){
 				// Already exists
-				error_log("sike that guy already exists");
+				error_log("Cancelling task, user already exists.");
 				return false;
 			}
 		}
-
 
 		$add_post = wp_insert_post( $data['opts'], true );
 		if ( is_wp_error( $add_post ) ) {
