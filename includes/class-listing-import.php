@@ -99,7 +99,7 @@ class WPL_Idx_Listing {
 				$item = array();
 				$item['id'] = "" . rand(0, 99);
 				foreach ( $properties as $prop ) {
-
+					$idx_featured_listing_wp_options = get_option('wplpro_idx_featured_listing_wp_options');
 
 					// Get the listing ID.
 					$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
@@ -111,19 +111,20 @@ class WPL_Idx_Listing {
 					}
 
 					// Unset options if they don't exist.
-					if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) && ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
+					if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) && ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) && $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] !== "" ) {
 						unset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] );
 						unset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] );
 				 	}
 
 				 	// Add post and update post meta.
 					if ( in_array( $prop['listingID'], $listings, true ) && ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
-						$idx_featured_listing_wp_options = get_option('wplpro_idx_featured_listing_wp_options');
+
 					 	if( isset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ){
 							continue;
 						}
 						$idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] = "";
 						$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = 'publish';
+						$idx_featured_listing_wp_options[ $prop['listingID'] ]['import_status'] = "importing";
 
 						update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options);
 
@@ -484,7 +485,6 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 
 	protected $action = 'background-processing-listings';
 
-	private $id = "";
 	/**
 	 * Task to be run each iteration
 	 * @param  string 	$data 	ID of listing to be imported
@@ -492,7 +492,6 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 	 */
 	protected function task($data){
 		error_log('Task being run.');
-
 		// Get important data.
 		$idx_options 	= get_option('wplpro_idx_featured_listing_wp_options');
 		$property 		= $data['property'];
@@ -523,6 +522,7 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 		} elseif ( $add_post ) {
 			$idx_options[ $prop['listingID'] ]['post_id'] = $add_post;
 			$idx_options[ $prop['listingID'] ]['status'] = 'publish';
+			$idx_options[ $prop['listingID'] ]['import_status'] = "complete";
 			update_post_meta( $add_post, '_listing_details_url', $property['fullDetailsURL'] );
 
 			update_option( 'wplpro_idx_featured_listing_wp_options', $idx_options );
@@ -779,21 +779,19 @@ function wp_listings_idx_listing_setting_page() {
 
 			// Loop through properties.
 			foreach ( $properties as $prop ) {
-
+				$idx_featured_listing_wp_options = get_option('wplpro_idx_featured_listing_wp_options');
 				if( isset( $prop[ 'listingID' ] ) ) {
-					$boolDOIT = false;
-					if( isset($idx_featured_listing_wp_options[$prop['listingID']]['status'])){
-						$boolDOIT = $idx_featured_listing_wp_options[$prop['listingID']]['status'];
 
-					}
-					if (  ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) || ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
+					// if(16176526 == $prop['listingID'] || 16108388 == $prop['listingID'] || 16112806	 == $prop['listingID']){
+					// 	unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['status']);
+					// 	unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']);
+					// 	update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
+					// }
+
+					if ( ! isset($idx_featured_listing_wp_options[ $prop['listingID'] ]['import_status']) && ( ! isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) || ! get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) ) {
 						$idx_featured_listing_wp_options[ $prop['listingID'] ] = array(
 							'listingID' => $prop['listingID'],
 							);
-					}
-
-					if($boolDOIT != false){
-						$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = $boolDOIT;
 					}
 
 					if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) && get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
@@ -805,11 +803,7 @@ function wp_listings_idx_listing_setting_page() {
 						);
 					}
 
-					// if(16176526 == $prop['listingID'] || 16108388 == $prop['listingID'] || 16167940 == $prop['listingID']){
-					// 	unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['status']);
-					// 	unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']);
-					// 	update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
-					// }
+
 
 					if(isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) && 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status']){
 						if( !isset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']) || $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] == ""){
@@ -818,14 +812,18 @@ function wp_listings_idx_listing_setting_page() {
 						}
 					}
 
+					if(isset($idx_featured_listing_wp_options[ $prop['listingID'] ]['import_status']) && $idx_featured_listing_wp_options[ $prop['listingID'] ]['import_status'] == "importingdelete"){
+						$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = "";
+					}
+
 					printf('<div class="grid-item post"><label for="%s" class="idx-listing"><li class="%s"><img class="listing lazy" data-original="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_idx_featured_listing_options[]" value="%s" %s />%s<p><span class="price">%s</span><br/><span class="address">%s</span><br/><span class="mls">MLS#: </span>%s</p>%s</li></label></div>',
 						$prop['listingID'],
-						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'imported' : '') : '',
+						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'imported' : 'importing') : '',
 						isset( $prop['image']['0']['url'] ) ? 'https://i0.wp.com/'. preg_replace('#^https?://#', '', $prop['image']['0']['url'] ) : 'https://i0.wp.com/mlsphotos.idxbroker.com/defaultNoPhoto/noPhotoFull.png',
 						$prop['listingID'],
 						$prop['listingID'],
-						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'checked' : '') : '',
-						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? "<span class='imported'><i class='dashicons dashicons-yes'></i>Imported</span>" : '') : '',
+						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'checked' : 'checked') : '',
+						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? "<span class='imported'><i class='dashicons dashicons-yes'></i>Imported</span>" : "<span class='importing'><i class='dashicons dashicons-yes'></i>Importing</span>" ) : '',
 						$prop['listingPrice'],
 						$prop['address'],
 						$prop['listingID'],
