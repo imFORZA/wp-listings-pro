@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
 	});
 
 	jQuery(document).on( 'click', '.submit-imports-button', function(event){
-		console.log("Can one ever truly prevent defaults?");
+		//console.log("Can one ever truly prevent defaults?");
 		event.preventDefault(); // Yes. Yes they can.
 		var all = jQuery('.selected').contents();
 		var mlses = [];
@@ -204,13 +204,46 @@ jQuery(document).ready(function($) {
 
 	});
 
+	setTimeout(function(){
+		wp.heartbeat.connectNow();
+	}, 2500);
+	jQuery( document ).on( 'heartbeat-send', function ( event, data ) {
+    // Add additional data to Heartbeat data.
+    data.wplpro_import_status = 'some_data';
+		console.log("sending");
+	});
+
+	jQuery( document ).on( 'heartbeat-tick', function ( event, data ) {
+    // Check for our data, and use it.
+    if ( ! data.wplpro_import_status_hashed ) {
+        return;
+    }
+
+		var importing = data.wplpro_import_status_hashed.substring( 2, data.wplpro_import_status_hashed.indexOf("],[") ).split(",");
+		var imported = data.wplpro_import_status_hashed.substring( data.wplpro_import_status_hashed.indexOf("],[") + 3, data.wplpro_import_status_hashed.length - 2 ).split(",");
+
+		if(importing[0] != ""){
+			setTimeout(function(){
+				wp.heartbeat.connectNow();
+			}, 2500);
+		}
+
+		if(imported[0] != ""){
+			for(var i=0;i<imported.length;i++){
+				jQuery( "label[for='" + imported[i] + "'] li" ).removeClass('importing').removeClass('imported').addClass('imported');
+				jQuery( "label[for='" + imported[i] + "'] li span.importing" ).html("<i class='dashicons dashicons-yes'></i>Imported");
+				jQuery( "label[for='" + imported[i] + "'] li span.importing" ).addClass('imported').removeClass('importing');
+			}
+		}
+
+    console.log( 'Importing: ' + importing + ", Imported: " + imported);
+	});
+
 	// Toggle label css when checkbox is clicked.
 	jQuery(".idx-listing :not('.imported') .checkbox").click(function(e)
 	{
-
 		var checked = jQuery(this).attr('checked');
 		jQuery(this).closest('li').toggleClass('selected', checked);
-
 	});
 	jQuery('.idx-listing .imported .checkbox').click(function(e){
 		e.preventDefault()
@@ -218,10 +251,8 @@ jQuery(document).ready(function($) {
 
 	jQuery(".idx-agent :not('.imported') .checkbox").click(function(e)
 	{
-
 		var checked = jQuery(this).attr('checked');
 		jQuery(this).closest('li').toggleClass('selected', checked);
-
 	});
 	jQuery('.idx-agent .imported .checkbox').click(function(e){
 		e.preventDefault()
