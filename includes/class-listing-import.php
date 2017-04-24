@@ -493,8 +493,6 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 	protected function task($data){
 		error_log('Task being run.');
 
-
-
 		// Get important data.
 		$idx_options 	= get_option('wplpro_idx_featured_listing_wp_options');
 		$property 		= $data['property'];
