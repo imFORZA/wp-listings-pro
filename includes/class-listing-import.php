@@ -97,7 +97,6 @@ class WPL_Idx_Listing {
 				// Loop through featured properties.
 				$listings_queue = new WPLPRO_Background_Listings();
 				$item = array();
-				$item['id'] = "" . rand(0, 99);
 				foreach ( $properties as $prop ) {
 					$idx_featured_listing_wp_options = get_option('wplpro_idx_featured_listing_wp_options');
 
@@ -545,7 +544,29 @@ function wplpro_receive_heartbeat( $response, $data ) {
     // Calculate our data and pass it back. For this example, we'll hash it.
     $received_data = $data['wplpro_import_status'];
 
-    $response['wplpro_import_status_hashed'] = sha1( $received_data );
+		// Load IDX Broker API Class and retrieve featured properties.
+		$_idx_api = new \IDX\Idx_Api();
+		$properties = $_idx_api->client_properties( 'featured?disclaimers=true' );
+
+		// Load WP options.
+		$idx_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
+
+		$imported = array();
+		$importing = array();
+
+		foreach ( $properties as $prop ) {
+			if( isset( $idx_options[ $prop['listingID'] ]['status'] ) && isset( $idx_options[ $prop['listingID'] ]['import_status'] ) ) {
+				if( $idx_options[ $prop['listingID'] ]['import_status'] == "importing" ){
+					$importing[count($importing)] = $prop['listingID'];
+				}else{
+					$imported[count($imported)] = $prop['listingID'];
+				}
+			}
+		}
+
+		$received_data = '[[' . implode(',', $importing) . '],[' . implode(',', $imported) . ']]';
+
+    $response['wplpro_import_status_hashed'] = $received_data;
     return $response;
 }
 
@@ -639,6 +660,12 @@ function wp_listings_idx_listing_delete($given_id) {
 			wp_delete_attachment($id->ID);
 		}
 		delete_post_meta( $given_id, '_listing_image_gallery' );
+
+		// Delete reference
+		$idx_options = get_option( "wplpro_idx_featured_listing_wp_options" );
+		$idx_options[get_post_meta( $given_id, '_listing_mls', true )] = array(
+			'listingID' => get_post_meta( $given_id, '_listing_mls', true )
+		);
 
 		// Delete post.
 		wp_delete_post( $given_id );

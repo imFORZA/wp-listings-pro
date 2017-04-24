@@ -216,7 +216,27 @@ jQuery(document).ready(function($) {
         return;
     }
 
-    console.log( 'The hash is ' + data.wplpro_import_status_hashed );
+		var importing = data.wplpro_import_status_hashed.substring( 2, data.wplpro_import_status_hashed.indexOf("],[") ).split(",");
+		var imported = data.wplpro_import_status_hashed.substring( data.wplpro_import_status_hashed.indexOf("],[") + 3, data.wplpro_import_status_hashed.length - 2 ).split(",");
+
+		if(importing[0] != ""){
+			for(var i=0;i<importing.length;i++){
+				var container = jQuery( "label[for='" + importing[i] + "']" );
+				console.log(container);
+			}
+		}
+
+		if(imported[0] != ""){
+			for(var i=0;i<imported.length;i++){
+				jQuery( "label[for='" + imported[i] + "'] li" ).removeClass('importing').removeClass('imported').addClass('imported');
+				jQuery( "label[for='" + imported[i] + "'] li span.importing" ).html("<i class='dashicons dashicons-yes'></i>Imported");
+				jQuery( "label[for='" + imported[i] + "'] li span.importing" ).addClass('imported').removeClass('importing');
+
+				console.log(container);
+			}
+		}
+
+    console.log( 'Importing: ' + importing + ", Imported: " + imported);
 	});
 
 	// Toggle label css when checkbox is clicked.
