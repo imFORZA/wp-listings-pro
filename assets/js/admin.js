@@ -44,7 +44,7 @@ jQuery(document).ready(function($) {
 
 	jQuery(document).on( 'click', '.submit-imports-button', function(event){
 														// Can one ever truly stop nature's course?
-		event.preventDefault(); // Yes. Yes they can.
+		event.preventDefault(); // Yes. Yes one can.
 		var all = jQuery('.selected').contents();
 		var mlses = [];
 		for(var i=0; i<all.length;i++){
@@ -213,13 +213,26 @@ jQuery(document).ready(function($) {
 
 	});
 
+	jQuery( document ).on( 'heartbeat-send', function ( event, data ) {
+    // Add additional data to Heartbeat data.
+    data.wplpro_import_status = 'some_data';
+		console.log("sending");
+	});
+
+	jQuery( document ).on( 'heartbeat-tick', function ( event, data ) {
+    // Check for our data, and use it.
+    if ( ! data.wplpro_import_status_hashed ) {
+        return;
+    }
+
+    console.log( 'The hash is ' + data.wplpro_import_status_hashed );
+	});
+
 	// Toggle label css when checkbox is clicked.
 	jQuery(".idx-listing :not('.imported') .checkbox").click(function(e)
 	{
-
 		var checked = jQuery(this).attr('checked');
 		jQuery(this).closest('li').toggleClass('selected', checked);
-
 	});
 	jQuery('.idx-listing .imported .checkbox').click(function(e){
 		e.preventDefault()
@@ -227,10 +240,8 @@ jQuery(document).ready(function($) {
 
 	jQuery(".idx-agent :not('.imported') .checkbox").click(function(e)
 	{
-
 		var checked = jQuery(this).attr('checked');
 		jQuery(this).closest('li').toggleClass('selected', checked);
-
 	});
 	jQuery('.idx-agent .imported .checkbox').click(function(e){
 		e.preventDefault()
