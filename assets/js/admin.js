@@ -233,6 +233,7 @@ jQuery(document).ready(function($) {
 		var imported = data.wplpro_import_status_hashed.substring( data.wplpro_import_status_hashed.indexOf("],[") + 3, data.wplpro_import_status_hashed.length - 2 ).split(",");
 
 		if(importing[0] != ""){
+			// Otherwise importing equals array of MLS ID's of listings that are being imported
 			setTimeout(function(){
 				wp.heartbeat.connectNow();
 			}, 2500);
