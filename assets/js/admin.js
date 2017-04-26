@@ -43,8 +43,9 @@ jQuery(document).ready(function($) {
 	});
 
 	jQuery(document).on( 'click', '.submit-imports-button', function(event){
-		//console.log("Can one ever truly prevent defaults?");
-		event.preventDefault(); // Yes. Yes they can.
+														// Can one ever truly stop nature's course?
+		event.preventDefault(); // Yes. Yes one can.
+
 		var all = jQuery('.selected').contents();
 		var mlses = [];
 		for(var i=0; i<all.length;i++){
@@ -52,7 +53,7 @@ jQuery(document).ready(function($) {
 				mlses[mlses.length] = all[i].id;
 			}
 		}
-		mlses = mlses.join('z'); // probably not the cleanest way of doing this...
+		mlses = mlses.join('z'); // Probably not the cleanest way of doing this...
 		jQuery.ajax({
 			type : "get",
 			dataType: "json",
@@ -62,7 +63,7 @@ jQuery(document).ready(function($) {
 			},
 			success:function(response){
 				window.location.reload();
-				console.log(response);
+				// But hey, whatever floats your goat.
 			}
 		});
 	})
@@ -223,6 +224,8 @@ jQuery(document).ready(function($) {
 		var imported = data.wplpro_import_status_hashed.substring( data.wplpro_import_status_hashed.indexOf("],[") + 3, data.wplpro_import_status_hashed.length - 2 ).split(",");
 
 		if(importing[0] != ""){
+			// Otherwise importing equals array of MLS ID's of listings that are being imported
+
 			setTimeout(function(){
 				wp.heartbeat.connectNow();
 			}, 2500);
