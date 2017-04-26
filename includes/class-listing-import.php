@@ -822,24 +822,56 @@ function wp_listings_idx_listing_setting_page() {
 					}
 
 					if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) && get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
-						$pid = $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'];
-						$nonce = wp_create_nonce( 'wp_listings_idx_listing_delete_nonce' );
-						$delete_listing = sprintf('<a data-id="%s" data-nonce="%s" class="delete-listing">Delete</a>',
-							$pid,
-							$nonce
-						);
-					}
+						error_log("hold up there jeffro");
+						$temp_post = get_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] );
+						$stuff = get_posts(array(
+							'post_type'       => 'listing',
+						));
+						error_log(count($stuff));
+						$it_exists = false;
+						foreach($stuff as $a){
+							if( $a->ID == $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) {
+								$it_exists = true;
+								break;
+							}
+						}
 
-
-
-					if(isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) && 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status']){
-						if( !isset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']) || $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] == ""){
-							$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = "";
-							update_option("wplpro_idx_featured_listing_wp_options", $idx_featured_listing_wp_options);
+						if($it_exists){
+							$pid = $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'];
+							$nonce = wp_create_nonce( 'wp_listings_idx_listing_delete_nonce' );
+							$delete_listing = sprintf('<a data-id="%s" data-nonce="%s" class="delete-listing">Delete</a>',
+								$pid,
+								$nonce
+							);
+						}else{
+							$idx_featured_listing_wp_options[ $prop['listingID'] ] = array(
+								'listingID' => $prop['listingID'],
+							); // I wonder if I should update the settings...
+							update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
+							// Probably not.
+							// Ugh, I might have to redo this all again.
 						}
 					}
 
-					if(isset($idx_featured_listing_wp_options[ $prop['listingID'] ]['import_status']) && $idx_featured_listing_wp_options[ $prop['listingID'] ]['import_status'] == "importingdelete"){
+					// if ($prop['listingID'] == "16108388"){
+					// 	error_log("here");
+					// 	error_log("post id: " . $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']);
+					// 	// unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']);
+					// 	// unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['status']);
+					// 	// update_option("wplpro_idx_featured_listing_wp_options", $idx_featured_listing_wp_options);
+					// }
+
+
+
+					// if(isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) && 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status']){
+					// 	if( !isset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']) || $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] == ""){
+					// 		error_log("Oh that might have done it");
+					// 		$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = "";
+					//		// update_option("wplpro_idx_featured_listing_wp_options", $idx_featured_listing_wp_options);
+					// 	}
+					// }
+
+					if(isset($idx_featured_listing_wp_options[ $prop['listingID'] ]['import_status']) && $idx_featured_listing_wp_options[ $prop['listingID'] ]['import_status'] == "importing"){
 						$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = "";
 					}
 
