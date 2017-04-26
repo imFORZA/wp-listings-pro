@@ -1,5 +1,6 @@
 jQuery(document).ready(function() {
 	jQuery( "#listing-tabs" ).tabs();
-	jQuery( "#inquiry-form" ).validate();
+	//jQuery( "#inquiry-form" ).validate();
 	jQuery( ".iframe-wrap" ).fitVids();
+	jQuery( ".bxslider" ).bxSlider();
 });

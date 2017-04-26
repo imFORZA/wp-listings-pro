@@ -35,9 +35,9 @@ class WPLPRO_Meta_Box_Listing_Images {
 					$listing_image_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
 				}
 
-					$attachments         = array_filter( explode( ',', $listing_image_gallery ) );
-					$update_meta         = false;
-					$updated_gallery_ids = array();
+				$attachments         = array_filter( explode( ',', $listing_image_gallery ) );
+				$update_meta         = false;
+				$updated_gallery_ids = array();
 
 				if ( ! empty( $attachments ) ) {
 					foreach ( $attachments as $attachment_id ) {
