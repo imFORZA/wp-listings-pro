@@ -81,15 +81,6 @@ jQuery(document).ready(function($) {
 			jQuery("#wplpro_custom_inputs").attr("disabled", true);
 			jQuery("#listing_custom_inputs").attr("disabled", true);
 		}
-
-		if( jQuery( '#wplpro_idx_update_agents_custom' ).attr('checked')){ // Main settings
-			jQuery("#wplpro_custom_agents_inputs").attr("disabled", false);
-		}else if(jQuery('#_agent_sync_update_custom').attr("checked")){ // Each admin settings metabox
-			jQuery("#agent_custom_inputs").attr("disabled", false);
-		}else{
-			jQuery("#wplpro_custom_agents_inputs").attr("disabled", true);
-			jQuery("#agent_custom_inputs").attr("disabled", true);
-		}
 	}
 	setTimeout(cause_html, 100);
 

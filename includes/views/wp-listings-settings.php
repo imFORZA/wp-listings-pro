@@ -49,8 +49,6 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					'wplpro_custom_sync_featured'					=> 0,
 					'wplpro_custom_sync_gallery' 					=> 0,
 					'wplpro_custom_sync_details' 					=> 0,
-					'wplpro_custom_sync_agents_featured'	=> 0,
-					'wplpro_custom_sync_agents_details'		=> 0,
 					'wplpro_idx_sold'											=> 'sold-keep',
 					'wplpro_display_idx_link'							=> 0,
 					'wplpro_import_author'								=> 0,
@@ -355,12 +353,6 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 						_e( '<h2>Update Agents</h2>', 'wp-listings-pro' );
 						_e( '<div class="idx-import-option update-all"><label><h4>Update All</h4> <span class="dashicons dashicons-update"></span><input name="wplpro_plugin_settings[wplpro_idx_update_agents]" id="wplpro_idx_update_agents_all" type="radio" value="update-all" class="code" ' . checked( 'update-all', $options['wplpro_idx_update_agents'], false ) . ' /> <p>Update all imported fields including photo and contact information. <br /><em>* Excludes Post Title and Post Content</em></p></label></div>', 'wp-listings-pro' );
 						_e( '<div class="idx-import-option update-none"><label><h4>Do Not Update</h4> <span class="dashicons dashicons-dismiss"></span><input name="wplpro_plugin_settings[wplpro_idx_update_agents]" id="wplpro_idx_update_agents_none" type="radio" value="update-none" class="code" ' . checked( 'update-none', $options['wplpro_idx_update_agents'], false ) . ' /> <p><strong>Not recommended as displaying inaccurate MLS data may violate your IDX agreement.</strong><br /> Does not update any fields.<br /></p></label></div>', 'wp-listings-pro' );
-						_e( '<div class="idx-import-option update-custom"><label><h4>Custom Sync Settings</h4> <span class="dashicons dashicons-update"></span><input name="wplpro_plugin_settings[wplpro_idx_update_agents]" id="wplpro_idx_update_agents_custom" type="radio" value="update-custom" class="code" ' . checked( 'update-custom', $options['wplpro_idx_update_agents'], false ) . ' /> <p>Choose specific fields to update.<br /></p></label></div></div>', 'wp-listings-pro' );
-
-						echo '<div class"custom-inputs"><fieldset id="wplpro_custom_agents_inputs" disabled>';
-						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_agents_featured]" id="wplpro_custom_sync_agents_featured" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_agents_featured'], false ) . ' /> Keep the featured image in sync?</p>', 'wp-listings-pro');
-						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_agents_details]" id="wplpro_custom_sync_agents_details" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_agents_details'], false ) . ' /> Keep agent details in sync?</p>', 'wp-listings-pro');
-						_e( '</fieldset></div>');
 
 						_e( '<br style="clear: both;"><h2>Additional Options</h2>', 'wp-listings-pro' );
 						_e( '<p>Select an author to use when importing listings <br />' . wp_dropdown_users( array( 'selected' => $options['wplpro_import_author'], 'name' => 'wplpro_plugin_settings[wplpro_import_author]', 'id' => 'wplpro_import_author', 'echo' => false, 'who' => 'authors' ) ) . '</p>', 'wp-listings-pro' );
