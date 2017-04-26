@@ -217,6 +217,7 @@ function wplpro_init() {
 	function wplpro_add_scripts() {
 		wp_register_script( 'wp-listings-single', WPLPRO_URL . 'assets/js/single-listing.min.js', array( 'jquery' ), null, true ); // Enqueued only on single listings.
 		wp_register_script( 'fitvids', '//cdnjs.cloudflare.com/ajax/libs/fitvids/1.1.0/jquery.fitvids.min.js', array( 'jquery' ), null, true ); // Enqueued only on single listings.
+		wp_register_script( 'bxslider', WPLPRO_URL . 'assets/js/jquery.bxslider.min.js', array( 'jquery' ), null, true );
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-ui-tabs', array( 'jquery' ) );
 	}
@@ -264,6 +265,7 @@ function wplpro_init() {
 
 		/** Register single styles but don't enqueue them. */
 		wp_register_style( 'wp-listings-single', WPLPRO_URL . 'assets/css/wp-listings-single.min.css', '', null, 'all' );
+		wp_register_style( 'bxslider', WPLPRO_URL . 'assets/css/jquery.bxslider.min.css', '', null, 'all' );
 
 	}
 
