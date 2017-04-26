@@ -173,16 +173,23 @@ class WPLPRO_Agents_Import {
 
 		// Load WP options.
 		$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_wp_options' );
-		$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_wp_options' );
-		$wplpro_agent_settings = get_option( 'wplpro_agents_settings' );
-
+		$wplpro_plugin_settings = get_option( 'wplpro_plugin_settings' );
+		error_log(print_r($wplpro_plugin_settings, true));
 
 		foreach ( $agents as $agent ) {
 			foreach ( $agent as $a ) {
 
 				if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
+					$current_setting = get_post_meta( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], '_listing_sync_update', true );
+					if( $current_setting == '' || $current_setting == 'update-useglobal'){ // Confirmed to follow global, or doesn't exist, need to set it to global.
+						if( isset( $wplpro_plugin_settings['wplpro_idx_update_agents'] ) ){
+							$current_setting = $wplpro_plugin_settings['wplpro_idx_update_agents'];
+						}else{ // Global doesn't exist, local setting doesn't exist, just sync it.
+							$current_setting = 'update-all';
+						}
+					}
 					// Update agent data.
-					if ( ! isset( $wplpro_agent_settings['wplpro_agents_idx_update'] ) || isset( $wplpro_agent_settings['wplpro_agents_idx_update'] ) && 'update-none' !== $wplpro_agent_settings['wplpro_agents_idx_update'] ) {
+					if ( $current_setting != 'update-none' ) {
 						self::wplpro_agents_idx_insert_post_meta( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], $a, true, false );
 					}
 					$idx_agent_wp_options[ $a['agentID'] ]['updated'] = date( 'm/d/Y h:i:sa' );
@@ -263,7 +270,7 @@ class WPLPRO_Agents_Import {
 		$featured_image = $idx_agent_data['agentPhotoURL'];
 
 		if ( isset( $featured_image ) && null !== $featured_image ) {
-			if ( false === $update || true === $update_imagee ) {
+			if ( false === $update || true === $update_image ) {
 				// Delete previously attached image.
 				$post_featured_image_id = get_post_thumbnail_id( $id );
 				wp_delete_attachment( $post_featured_image_id );
