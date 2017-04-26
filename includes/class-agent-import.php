@@ -58,7 +58,6 @@ class WPLPRO_Agents_Import {
 	 * @return [type] $featured Featured.
 	 */
 	public static function wplpro_agents_idx_create_post( $agent_ids ) {
-		error_log('called');
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 
 			// Load IDX Broker API Class and retrieve agents.
