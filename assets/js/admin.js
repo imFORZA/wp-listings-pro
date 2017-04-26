@@ -225,6 +225,7 @@ jQuery(document).ready(function($) {
 
 		if(importing[0] != ""){
 			// Otherwise importing equals array of MLS ID's of listings that are being imported
+
 			setTimeout(function(){
 				wp.heartbeat.connectNow();
 			}, 2500);
