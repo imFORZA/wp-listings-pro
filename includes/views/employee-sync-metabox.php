@@ -9,7 +9,7 @@ $sync_setting = get_post_meta( $post->ID, '_listing_sync_update', true );
 $options = get_option('wp');
 $plugin_options = get_option( 'wplpro_plugin_settings' );
 if( ! isset( $plugin_options['wplpro_idx_update_agents'] ) ) {
-	$plugin_options['wplpro_idx_update_agents'] = 'update-all';
+	$plugin_options['wplpro_idx_update_agents'] = 'update-useglobal';
 }
 $global_sync_setting = get_option( 'wplpro_plugin_settings' )['wplpro_idx_update_agents'];
 
