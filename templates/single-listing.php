@@ -18,9 +18,11 @@ add_action( 'wp_enqueue_scripts', 'wplpro_enqueue_single_listing_scripts' );
 function wplpro_enqueue_single_listing_scripts() {
 	wp_enqueue_style( 'wp-listings-single' );
 	wp_enqueue_style( 'font-awesome' );
+	wp_enqueue_style( 'bxslider' );
 	// wp_enqueue_script( 'jquery-validate', array( 'jquery' ), true, true );
 	wp_enqueue_script( 'fitvids', array( 'jquery' ), true, true );
 	wp_enqueue_script( 'wp-listings-single', array( 'jquery, jquery-ui-tabs', 'jquery-validate' ), true, true );
+	wp_enqueue_script( 'bxslider', array( 'jquery' ), true, true );
 }
 
 /**
@@ -37,15 +39,15 @@ function wplpro_single_listing_post_content() {
 	?>
 <div itemscope itemtype="https://schema.org/SingleFamilyResidence" class="entry-content wplistings-single-listing">
 
-  <div class="listing-image-wrap">
-    <?php echo '<div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">' . get_the_post_thumbnail( $post->ID, 'listings-full', array( 'class' => 'single-listing-image', 'itemprop' => 'contentUrl' ) ) . '</div>';
-    if ( '' !== wplpro_get_status() ) {
-      printf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wplpro_get_status() ) ), wplpro_get_status() );
-    }
-    if ( '' !== get_post_meta( $post->ID, '_listing_open_house', true ) ) {
-      printf( '<span class="listing-open-house">Open House: %s</span>', get_post_meta( $post->ID, '_listing_open_house', true ) );
-    } ?>
-  </div><!-- .listing-image-wrap -->
+  <!-- <div class="listing-image-wrap"> -->
+    <?php //echo '<div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">' . get_the_post_thumbnail( $post->ID, 'listings-full', array( 'class' => 'single-listing-image', 'itemprop' => 'contentUrl' ) ) . '</div>';
+    // if ( '' !== wplpro_get_status() ) {
+    //   printf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wplpro_get_status() ) ), wplpro_get_status() );
+    // }
+    // if ( '' !== get_post_meta( $post->ID, '_listing_open_house', true ) ) {
+    //   printf( '<span class="listing-open-house">Open House: %s</span>', get_post_meta( $post->ID, '_listing_open_house', true ) );
+    //} ?>
+  <!-- </div><!- .listing-image-wrap -->
 
   <?php
   $listing_meta = sprintf( '<ul class="listing-meta">' );
@@ -88,35 +90,53 @@ function wplpro_single_listing_post_content() {
 
   ?>
 	<style type="text/css">
-      ul.tabs {
-          display: table;
-          list-style-type: none;
-          margin: 0;
-          padding: 0;
-      }
+    ul.tabs {
+        display: table;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
 
-      ul.tabs>li {
-          float: left;
-          padding: 10px;
-          background-color: lightgray;
-      }
+    ul.tabs>li {
+        float: left;
+        padding: 10px;
+        background-color: lightgray;
+    }
 
-      ul.tabs>li:hover {
-          background-color: lightgray;
-      }
+    ul.tabs>li:hover {
+        background-color: lightgray;
+    }
 
-      ul.tabs>li.selected {
-          background-color: lightgray;
-      }
+    ul.tabs>li.selected {
+        background-color: lightgray;
+    }
 
-      div.content {
-          border: 1px solid black;
-      }
+    div.content {
+        border: 1px solid black;
+    }
 
-      ul { overflow: auto; }
+    ul { overflow: auto; }
 
-      div.content { clear: both; }
-    </style>
+    div.content { clear: both; }
+  </style>
+
+	<?php
+	//echo do_shortcode( get_post_meta( $post->ID, '_listing_gallery', true ) );
+	$listing_image_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
+	$attachments = array_filter( explode( ',', $listing_image_gallery ) );
+	if ( ! empty( $attachments ) ) {
+		echo '<ul class="bxslider">';
+		foreach ( $attachments as $attachment_id ) {
+			echo '<li><img src="';
+			$url = wp_get_attachment_url( $attachment_id );
+			// @codingStandardsIgnoreStart
+			echo $url;
+			// @codingStandardsIgnoreEnd
+			echo '" /></li>';
+		}
+		echo '</ul>';
+	}
+	?>
 
   <div id="listing-tabs" class="listing-data">
 
@@ -126,9 +146,9 @@ function wplpro_single_listing_post_content() {
       <li><a href="#listing-details">Details</a></li>
 
 
-      <?php if ( get_post_meta( $post->ID, '_listing_image_gallery', true ) !== '' ) { ?>
-        <li><a href="#listing-gallery">Photos</a></li>
-      <?php } ?>
+      <?php //if ( get_post_meta( $post->ID, '_listing_image_gallery', true ) !== '' ) { ?>
+        <!-- <li><a href="#listing-gallery">Photos</a></li> -->
+      <?php //} ?>
 
       <?php if ( get_post_meta( $post->ID, '_listing_video', true ) !== '' ) { ?>
         <li><a href="#listing-video">Video / Virtual Tour</a></li>
@@ -240,27 +260,8 @@ function wplpro_single_listing_post_content() {
 
     <?php if ( get_post_meta( $post->ID, '_listing_image_gallery', true ) !== '' ) { ?>
     <div id="listing-gallery">
-      <?php
-			//echo do_shortcode( get_post_meta( $post->ID, '_listing_gallery', true ) );
-			$listing_image_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
-			$attachments = array_filter( explode( ',', $listing_image_gallery ) );
-			error_log(count($attachments));
-			if ( ! empty( $attachments ) ) {
-				foreach ( $attachments as $attachment_id ) {
-					$attachment = wp_get_attachment_image( $attachment_id, 'thumbnail' );
-					// if attachment is empty skip.
-					if ( empty( $attachment ) ) {
-						$update_meta = true;
-						continue;
-					}
-					// @codingStandardsIgnoreStart
-					error_log($attachment);
-					echo $attachment;
-					// @codingStandardsIgnoreEnd
-				}
-			}
-			?>
     </div><!-- #listing-gallery -->
+
     <?php } ?>
 
     <?php	if ( get_post_meta( $post->ID, '_employee_responsibility', true) !== '' ) { ?>
