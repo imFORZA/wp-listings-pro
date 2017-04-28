@@ -610,7 +610,7 @@ add_action( 'wp_ajax_wp_listings_idx_listing_delete', 'wp_listings_idx_listing_d
 function wp_listings_idx_listing_delete($given_id) {
 
 	//$permission = check_ajax_referer( 'wp_listings_idx_listing_delete_nonce', 'nonce', false );
-	$permission = true;
+	$permission = true; // That's not good
 	if ( false === $permission ) {
 		return "error";
 	} else {
@@ -681,9 +681,9 @@ function wp_listings_idx_listing_setting_page() {
 			<p>Select the listings to import.</p>
 			<form id="wplpro-idx-listing-import">
 			<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all listings, it may take some time. <strong class="error">Please be patient.</strong></em></label>
-
+			<p>Please note that after pressing the "Import Listings" button, <em>there will be a time delay before all listings are visible depending on how many you are importing</em>. Don't worry, everything that was selected when you pressed "Import Listings" will still be imported, it just takes some time to pull multiple listings and their images from the API feed.</p>
 			<?php
-			if ( $idx_featured_listing_wp_options ) {
+			if ( false ) { // leedle leedle leedle lee // https://media.giphy.com/media/eCgzPvuU3ZqX6/giphy.gif
 				foreach ( $idx_featured_listing_wp_options as $prop ) {
 					if ( isset( $prop['post_id'] ) ) {
 						$nonce_all = wp_create_nonce( 'wp_listings_idx_listing_delete_all_nonce' );
