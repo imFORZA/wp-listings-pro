@@ -148,6 +148,8 @@ class WPLPRO_Agents {
 	 */
 	function register_meta_boxes() {
 		add_meta_box( 'employee_details_metabox', __( 'Employee Info', 'wp-listings-pro' ), array( &$this, 'employee_details_metabox' ), 'employee', 'normal', 'high' );
+
+		add_meta_box( 'employee_sync_metabox', __( 'Synchronization Settings', 'wp-listings-pro' ), array( &$this, 'employee_sync_metabox' ), 'employee', 'normal', 'high' );
 	}
 
 	/**
@@ -158,6 +160,16 @@ class WPLPRO_Agents {
 	 */
 	function employee_details_metabox() {
 		include( dirname( __FILE__ ) . '/views/employee-details-metabox.php' );
+	}
+
+	/**
+	 *	Employee sync settings metabox function
+	 *
+	 * 	@access public
+	 * 	@return void
+	 */
+	function employee_sync_metabox() {
+		include( dirname( __FILE__ ) . '/views/employee-sync-metabox.php' );
 	}
 
 	/**
