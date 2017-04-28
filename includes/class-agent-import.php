@@ -470,6 +470,7 @@ function wplpro_agents_idx_agent_setting_page() {
 			<p>Select the agents to import.</p>
 			<form id="wplpro-idx-agent-import" method="post" action="options.php">
 				<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all agents, it may take some time. <strong class="error">Please be patient.</strong></em></label>
+				<p>Please note that after pressing the "Import Agents" button, <em>there will be a time delay before all agents are visible depending on how many you are importing</em>. Don't worry, everything that was selected when you pressed "Import Agents" will still be imported, it just takes some time to pull multiple agents and their image from the API feed.</p>
 				<?php submit_button( 'Import Agents' ); ?>
 
 			<?php

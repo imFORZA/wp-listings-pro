@@ -138,6 +138,7 @@ function wplpro_single_listing_post_content() {
 			}
 			echo '</ul>';
 		}
+
 	}
 	?>
 
@@ -148,11 +149,11 @@ function wplpro_single_listing_post_content() {
 
       <li><a href="#listing-details">Details</a></li>
 
-
       <?php
 			if ( empty( $listing_image_gallery ) && get_post_meta( $post->ID, '_listing_gallery', true ) !== '' ) { ?>
         <li><a href="#listing-gallery">Photos</a></li>
       <?php } ?>
+
 
       <?php if ( get_post_meta( $post->ID, '_listing_video', true ) !== '' ) { ?>
         <li><a href="#listing-video">Video / Virtual Tour</a></li>
@@ -265,7 +266,6 @@ function wplpro_single_listing_post_content() {
     <?php if ( empty( $listing_image_gallery ) && get_post_meta( $post->ID, '_listing_gallery', true ) ) { ?>
     <div id="listing-gallery">
 			<?php echo do_shortcode( get_post_meta( $post->ID, '_listing_gallery', true ) ); ?>
-
     </div><!-- #listing-gallery -->
 
     <?php } ?>
