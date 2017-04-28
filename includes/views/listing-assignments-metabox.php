@@ -9,7 +9,7 @@ $stuff = get_posts(array(
 	'post_type'       => 'employee',
 	'posts_per_page'  => -1,
 ));
-if(sizeof($stuff) === 0){
+if(count($stuff) === 0){
 	echo __("No agents found.", 'wp-listings-pro');
 }else{
 	$agent_assignments = explode(",", get_post_meta( $post->ID, '_employee_responsibility' , true ));

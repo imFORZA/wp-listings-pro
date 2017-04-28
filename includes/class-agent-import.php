@@ -174,7 +174,6 @@ class WPLPRO_Agents_Import {
 		// Load WP options.
 		$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_wp_options' );
 		$wplpro_plugin_settings = get_option( 'wplpro_plugin_settings' );
-		error_log(print_r($wplpro_plugin_settings, true));
 
 		foreach ( $agents as $agent ) {
 			foreach ( $agent as $a ) {

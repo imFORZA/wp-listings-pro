@@ -19,6 +19,7 @@ add_action( 'rest_api_init', function () {
 		'callback' => 'wplpro_send_listings',
 	));
 } );
+
 /**
  * REST api call, returns formatted html block
  *

@@ -324,7 +324,7 @@ class WP_Listings {
 		$ids = array();
 		foreach ( $stuff as $agent ) {
 			if( isset( $property_details[ '_employee_responsibility_' . $agent->ID ] ) ){
-				$ids[sizeof($ids)] = $agent->ID;
+				$ids[count($ids)] = $agent->ID;
 			}
 		}
 		$property_details['_employee_responsibility'] = implode(',',$ids);
