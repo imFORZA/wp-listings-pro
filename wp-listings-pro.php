@@ -80,7 +80,6 @@ function wplpro_import_image_gallery() {
 	foreach ( $old_listings as $listing ) {
 		$old_gallery = get_post_meta( $listing->ID, '_listing_gallery', true );
 
-
 		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif|\.jpeg|\.svg)/', $old_gallery, $matches );
 		// Check for current listings.
 		$ids = array();
@@ -91,7 +90,7 @@ function wplpro_import_image_gallery() {
 			$image_url_clean = preg_replace( $pattern, $replacement, $image_url_dirty );
 			$image_id = wplpro_get_image_id( $image_url_clean );
 
-			$ids[ sizeof( $ids ) ] = $image_id;
+			$ids[ count( $ids ) ] = $image_id;
 		}
 
 		// If we already have a gallery, get it.
@@ -103,11 +102,13 @@ function wplpro_import_image_gallery() {
 
 		// Only add images that aren't already in the listing (in case the client jumps around plugins).
 		$images_to_append = $ids;
-		for ( $i = 0; $i < sizeof( $wplpro_images ); $i++ ) {
-			for ( $j = 0; $j < sizeof( $ids ); $j++ ) {
+		$length_images = count( $wplpro_images );
+		$length_ids  	 = count( $ids );
+		for ( $i = 0; $i < $length_images; $i++ ) {
+			for ( $j = 0; $j < $length_ids; $j++ ) {
 				if ( $ids[ $j ] === $wplpro_images[ $i ] ) {
 					$images_to_append[ $j ] = -1;
-					$j = sizeof( $ids );
+					$j = count( $ids );
 				}
 			}
 		}
@@ -115,7 +116,7 @@ function wplpro_import_image_gallery() {
 		// Now have array of what we need, only add elements that we need.
 		foreach ( $images_to_append as $image ) {
 			if ( -1 !== $image ) {
-				$wplpro_images[ sizeof( $wplpro_images ) ] = $image;
+				$wplpro_images[ count( $wplpro_images ) ] = $image;
 			}
 		}
 

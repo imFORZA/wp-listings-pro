@@ -715,6 +715,7 @@ function wp_listings_idx_listing_setting_page() {
 
 				$_idx_api = new \IDX\Idx_Api();
 				$properties = $_idx_api->client_properties( 'featured' );
+				error_log(count($properties));
 				if ( is_wp_error( $properties ) ) {
 					$error_string = $properties->get_error_message();
 					add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_update', $error_string, 'error' );
@@ -747,6 +748,7 @@ function wp_listings_idx_listing_setting_page() {
 			// update_option('wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options); // Don't need to update references globally, as references are just for output purposes
 
 			// Loop through properties.
+			error_log(print_r($properties, true));
 			foreach ( $properties as $prop ) {
 
 				if( isset( $prop[ 'listingID' ] ) ) {
