@@ -88,12 +88,12 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					esc_html_e( 'Disable CSS and/or Javascript:', 'wp-listings-pro' );
 					echo '</h3>';
 
-					_e( 'There may be times you may want to disable the CSS provided by WP Listings Pro.', 'wp-listings-pro' );
-					_e( '<p><input name="wplpro_plugin_settings[disable_css]" id="wplpro-disable-css" type="checkbox" value="1" class="code" ' . checked( 1, $options['disable_css'], false ) . ' /> Disable WP Listings Pro CSS?</p>', 'wp-listings-pro' );
+					_e( 'There may be times you may want to disable the CSS automatically provided by WP Listings Pro.', 'wp-listings-pro' );
+					_e( '<p><input name="wplpro_plugin_settings[disable_css]" id="wplpro-disable-css" type="checkbox" value="1" class="code" ' . checked( 1, $options['disable_css'], false ) . ' /> Disable WP Listings Pro CSS</p>', 'wp-listings-pro' );
 
-					_e( '<p><input name="wplpro_plugin_settings[disable_fontawesome]" id="wplpro-disable-fontawesome" type="checkbox" value="1" class="code" ' . checked( 1, $options['disable_fontawesome'], false ) . ' /> Disable FontAwesome CSS?</p>', 'wp-listings-pro' );
+					_e( '<p><input name="wplpro_plugin_settings[disable_fontawesome]" id="wplpro-disable-fontawesome" type="checkbox" value="1" class="code" ' . checked( 1, $options['disable_fontawesome'], false ) . ' /> Disable FontAwesome CSS</p>', 'wp-listings-pro' );
 
-					_e( '<p><input name="wplpro_plugin_settings[disable_properticons]" id="wplpro-disable-properticons" type="checkbox" value="1" class="code" ' . checked( 1, $options['disable_properticons'], false ) . ' /> Disable Properticons CSS?</p>', 'wp-listings-pro' );
+					_e( '<p><input name="wplpro_plugin_settings[disable_properticons]" id="wplpro-disable-properticons" type="checkbox" value="1" class="code" ' . checked( 1, $options['disable_properticons'], false ) . ' /> Disable Properticons CSS</p>', 'wp-listings-pro' );
 
 					echo '<hr>';
 
@@ -284,7 +284,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					echo '</select>
 					  </p>';
 
-					_e( '<p><input name="wplpro_plugin_settings[wplpro_display_currency_code]" id="wplpro_display_currency_code" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_display_currency_code'], 0 ) . ' /> Display currency code?</p><hr>', 'wp-listings-pro' );
+					_e( '<p><input name="wplpro_plugin_settings[wplpro_display_currency_code]" id="wplpro_display_currency_code" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_display_currency_code'], 0 ) . ' /> Display currency code</p><hr>', 'wp-listings-pro' );
 
 					echo '<h3>' . __( 'Archive Settings:', 'wp-listings-pro' ) . '</h3>';
 					echo '<p>Choose how many listings and employees to display on archive pages. There is a max of 50 to prevent performance issues.</p>';
@@ -306,12 +306,12 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					_e( '<p>Form shortcode: <input name="wplpro_plugin_settings[wplpro_default_form]" id="wplpro_default_form" type="text" value="' . esc_html( $options['wplpro_default_form'] ) . '" size="40" /></p><hr>', 'wp-listings-pro' );
 
 					if ( class_exists( 'Idx_Broker_Plugin' ) ) {
-						_e( '<h4>Add default form entries to IDX Broker?</h4><p>Check this option to enable form entries to be sent to IDX Broker as a lead.<br/><strong>Note: This only works if using the default contact form.</strong></p>', 'wp-listings-pro' );
-						_e( '<p><input name="wplpro_plugin_settings[wplpro_idx_lead_form]" id="wplpro_idx_lead_form" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_idx_lead_form'], 0 ) . ' /> Enable?</p><hr>', 'wp-listings-pro' );
+						_e( '<h4>Add default form entries to IDX Broker</h4><p>Check this option to enable form entries to be sent to IDX Broker as a lead.<br/><strong>Note: This only works if using the default contact form.</strong></p>', 'wp-listings-pro' );
+						_e( '<p><input name="wplpro_plugin_settings[wplpro_idx_lead_form]" id="wplpro_idx_lead_form" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_idx_lead_form'], 0 ) . ' /> Enable</p><hr>', 'wp-listings-pro' );
 					}
 
 					_e( "<h3>Custom Wrapper</h3><p>If your theme's content HTML ID's and Classes are different than the included template, you can enter the HTML of your content wrapper beginning and end:</p>", 'wp-listings-pro' );
-					_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_wrapper]" id="wplpro_custom_wrapper" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_wrapper'], false ) . ' /> Use Custom Wrapper?</p>', 'wp-listings-pro' );
+					_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_wrapper]" id="wplpro_custom_wrapper" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_wrapper'], false ) . ' /> Use Custom Wrapper</p>', 'wp-listings-pro' );
 					_e( '<p><label>Wrapper Start HTML: </p><input name="wplpro_plugin_settings[wplpro_start_wrapper]" id="wplpro_start_wrapper" type="text" value="' . esc_html( $options['wplpro_start_wrapper'] ) . '" size="80" /></label>', 'wp-listings-pro' );
 					_e( '<p><label>Wrapper End HTML: </p><input name="wplpro_plugin_settings[wplpro_end_wrapper]" id="wplpro_end_wrapper" type="text" value="' . esc_html( $options['wplpro_end_wrapper'] ) . '" size="80" /></label><hr>', 'wp-listings-pro' );
 
@@ -329,7 +329,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					echo '<h3>' . __( 'IDX Import Settings:', 'wp-listings-pro' ) . '</h3>';
 
 						// Listing sync settings.
-						_e( '<div style="width:99%;overflow: auto"><p>These settings apply to any imported IDX listings and agents. Imported agents and listings are updated via the latest API response twice daily.</p>', 'wp-listings-pro' );
+						_e( '<div style="width:99%;overflow: auto"><p>These settings apply to any imported IDX listings. Imported listings are updated via the latest API response twice daily. These settings can be overridden for individual listings in the listing detail page.</p>', 'wp-listings-pro' );
 						_e( '<h2>Update Listings</h2>', 'wp-listings-pro' );
 						_e( '<div class="idx-import-option update-all"><label><h4>Update All</h4> <span class="dashicons dashicons-update"></span><input name="wplpro_plugin_settings[wplpro_idx_update]" id="wplpro_idx_update_all" type="radio" value="update-all" class="code" ' . checked( 'update-all', $options['wplpro_idx_update'], false ) . ' /> <p>Update all imported fields including gallery and featured image. <br /><em>* Excludes Post Title and Post Content</em></p></label></div>', 'wp-listings-pro' );
 						_e( '<div class="idx-import-option update-none"><label><h4>Do Not Update</h4> <span class="dashicons dashicons-dismiss"></span><input name="wplpro_plugin_settings[wplpro_idx_update]" id="wplpro_idx_update_none" type="radio" value="update-none" class="code" ' . checked( 'update-none', $options['wplpro_idx_update'], false ) . ' /> <p><strong>Not recommended as displaying inaccurate MLS data may violate your IDX agreement.</strong><br /> Does not update any fields.<br /><em>* Listing will be changed to sold status if it exists in the sold data feed.</em></p></label></div>', 'wp-listings-pro' );
@@ -337,36 +337,38 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 						// Custom boxes for when sync setting is set to custom.
 						echo '<div class"custom-inputs"><fieldset id="wplpro_custom_inputs" disabled>';
-						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_featured]" id="wplpro_custom_sync_featured" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_featured'], false ) . ' /> Keep the featured image in sync?</p>', 'wp-listings-pro');
-						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_gallery]" id="wplpro_custom_sync_gallery" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_gallery'], false ) . ' /> Keep image gallery in sync?</p>', 'wp-listings-pro');
-						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_details]" id="wplpro_custom_sync_details" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_details'], false ) . ' /> Keep listing details in sync?</p>', 'wp-listings-pro');
+						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_featured]" id="wplpro_custom_sync_featured" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_featured'], false ) . ' /> Keep the featured image in sync</p>', 'wp-listings-pro');
+						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_gallery]" id="wplpro_custom_sync_gallery" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_gallery'], false ) . ' /> Keep image gallery in sync</p>', 'wp-listings-pro');
+						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_details]" id="wplpro_custom_sync_details" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_details'], false ) . ' /> Keep listing details in sync</p>', 'wp-listings-pro');
 						_e( '</fieldset></div>');
 
 						// What to do with listings set to sold.
 						_e( '<br style="clear: both;"><h2>Sold Listings</h2>', 'wp-listings-pro' );
+						_e( '<p>These settings apply to any imported IDX listings. When a listing is updated via the MLS feed, you can decide how it will be displayed on your website.</p>', 'wp-listings-pro' );
 						_e( '<div class="idx-import-option sold-keep"><label><h4>Keep All</h4> <span class="dashicons dashicons-admin-post"></span><input name="wplpro_plugin_settings[wplpro_idx_sold]" id="wplpro_idx_sold" type="radio" value="sold-keep" class="code" ' . checked( 'sold-keep', $options['wplpro_idx_sold'], false ) . ' /> <p>This will keep all imported listings published with the status changed to reflect as sold.</p></label></div>', 'wp-listings-pro' );
-						_e( '<div class="idx-import-option sold-draft"><label><h4>Keep as Draft</h4> <span class="dashicons dashicons-hidden"></span><input name="wplpro_plugin_settings[wplpro_idx_sold]" id="wplpro_idx_sold" type="radio" value="sold-draft" class="code" ' . checked( 'sold-draft', $options['wplpro_idx_sold'], false ) . ' /> <p>This will keep all imported listings that have been sold, but they will be changed to draft status in WordPress.</p></label></div>', 'wp-listings-pro' );
+						_e( '<div class="idx-import-option sold-draft"><label><h4>Keep as Draft</h4> <span class="dashicons dashicons-hidden"></span><input name="wplpro_plugin_settings[wplpro_idx_sold]" id="wplpro_idx_sold" type="radio" value="sold-draft" class="code" ' . checked( 'sold-draft', $options['wplpro_idx_sold'], false ) . ' /> <p>This will keep all imported listings that have been sold, but they will be changed to draft status in WordPress (AKA, not visible to front-end users, but not deleted).</p></label></div>', 'wp-listings-pro' );
 						_e( '<div class="idx-import-option sold-delete"><label><h4>Delete Sold</h4> <span class="dashicons dashicons-trash"></span><input name="wplpro_plugin_settings[wplpro_idx_sold]" id="wplpro_idx_sold" type="radio" value="sold-delete" class="code" ' . checked( 'sold-delete', $options['wplpro_idx_sold'], false ) . ' /> <p><strong>Not recommended</strong> <br />This will delete all sold listings and attached featured images from your WordPress database and media library.</p></label></div>', 'wp-listings-pro' );
 
 						// Agent sync settings.
 						echo '<div style="width:99%;overflow: auto">';
 						_e( '<h2>Update Agents</h2>', 'wp-listings-pro' );
+						_e( '<p>These settings apply to any imported IDX agents. Imported agents are updated twice daily, via the latest API response. These settings can be overridden for individual agents within the agent details page.</p>', 'wp-listings-pro' );
 						_e( '<div class="idx-import-option update-all"><label><h4>Update All</h4> <span class="dashicons dashicons-update"></span><input name="wplpro_plugin_settings[wplpro_idx_update_agents]" id="wplpro_idx_update_agents_all" type="radio" value="update-all" class="code" ' . checked( 'update-all', $options['wplpro_idx_update_agents'], false ) . ' /> <p>Update all imported fields including photo and contact information. <br /><em>* Excludes Post Title and Post Content</em></p></label></div>', 'wp-listings-pro' );
 						_e( '<div class="idx-import-option update-none"><label><h4>Do Not Update</h4> <span class="dashicons dashicons-dismiss"></span><input name="wplpro_plugin_settings[wplpro_idx_update_agents]" id="wplpro_idx_update_agents_none" type="radio" value="update-none" class="code" ' . checked( 'update-none', $options['wplpro_idx_update_agents'], false ) . ' /> <p><strong>Not recommended as displaying inaccurate MLS data may violate your IDX agreement.</strong><br /> Does not update any fields.<br /></p></label></div>', 'wp-listings-pro' );
 
 						_e( '<br style="clear: both;"><h2>Additional Options</h2>', 'wp-listings-pro' );
 						_e( '<p>Select an author to use when importing listings <br />' . wp_dropdown_users( array( 'selected' => $options['wplpro_import_author'], 'name' => 'wplpro_plugin_settings[wplpro_import_author]', 'id' => 'wplpro_import_author', 'echo' => false, 'who' => 'authors' ) ) . '</p>', 'wp-listings-pro' );
-						_e( '<p><input name="wplpro_plugin_settings[wplpro_display_idx_link]" id="wplpro_display_idx_link" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_display_idx_link'], false ) . ' /> Display a link to IDX Broker details page?</p><hr style="clear: both;">', 'wp-listings-pro' );
+						_e( '<p><input name="wplpro_plugin_settings[wplpro_display_idx_link]" id="wplpro_display_idx_link" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_display_idx_link'], false ) . ' /> Display a link to IDX Broker details page</p><hr style="clear: both;">', 'wp-listings-pro' );
 
 
-						_e( '<h3>Sort Listings (High to Low Price)?</h3>', 'wp-listings-pro' );
+						_e( '<h3>Sort Listings (High to Low Price)</h3>', 'wp-listings-pro' );
 
 						?>
 						<label> <input type="radio" name="wplpro_plugin_settings[enable_sort]" value="1" <?php if ( ! empty( $options['enable_sort'] ) == '1' ) {  echo 'checked="checked"'; } ?>> Yes</label><br>
 						<label> <input type="radio" name="wplpro_plugin_settings[enable_sort]" value="0" <?php if ( ! empty( $options['enable_sort'] ) == '0' ) {  echo 'checked="checked"'; } ?>> No</label><br><br>
 
 						<?php
-						_e( '<h3>Pin Listings?</h3>', 'wp-listings-pro' );
+						_e( '<h3>Pin Listings</h3>', 'wp-listings-pro' );
 
 						$selected = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
 						wplpro_post_select( 'wplpro_plugin_settings[pinned][]', 'listing', $selected );
