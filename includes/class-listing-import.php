@@ -774,7 +774,7 @@ function wp_listings_idx_listing_setting_page() {
 						);
 					}
 
-					// if(16176526 == $prop['listingID'] || 16108388 == $prop['listingID'] || 16167940 == $prop['listingID']){
+					// if(16176526 == $prop['listingID'] || 16108388 == $prop['listingID'] || 17199990 == $prop['listingID']){
 					// 	unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['status']);
 					// 	unset($idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id']);
 					// 	update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
