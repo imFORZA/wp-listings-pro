@@ -21,7 +21,7 @@ if($global_sync_setting == 'update-none'){
 
 
 
-echo "<div class='idx-import-wrap' style='height:600px;'>";
+echo "<div class='idx-import-wrap' style='overflow: auto'>";
 echo "<div class='fixer' style='width:99%;overflow: auto'>";
 _e( '<h2>Update Agent</h2>', 'wp-listings-pro' );
 _e( '<div class="idx-import-option ' . $global_sync_setting .  '"><label><h4>Follow Global Settings</h4> <span class="dashicons ' . ($global_sync_setting == 'update-all' ? 'dashicons-update' : 'dashicons-dismiss' ) . '"></span><input name="wplpro_agents[_listing_sync_update]" id="_listing_sync_update_global" type="radio" value="update-useglobal" class="code" ' . checked( 'update-useglobal', $sync_setting, false ) . ' /> <p>Follow global settings for updates (is currently set to update ' . ($current_setting) . ').</p></label></div>', 'wp-listings-pro' );
