@@ -122,19 +122,23 @@ function wplpro_single_listing_post_content() {
 
 	<?php
 	//echo do_shortcode( get_post_meta( $post->ID, '_listing_gallery', true ) );
+
 	$listing_image_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
-	$attachments = array_filter( explode( ',', $listing_image_gallery ) );
-	if ( ! empty( $attachments ) ) {
-		echo '<ul class="bxslider">';
-		foreach ( $attachments as $attachment_id ) {
-			echo '<li><img src="';
-			$url = wp_get_attachment_url( $attachment_id );
-			// @codingStandardsIgnoreStart
-			echo $url;
-			// @codingStandardsIgnoreEnd
-			echo '" /></li>';
+	if( ! empty( $listing_image_gallery ) ) {
+		$attachments = array_filter( explode( ',', $listing_image_gallery ) );
+		if ( ! empty( $attachments ) ) {
+			echo '<ul class="bxslider">';
+			foreach ( $attachments as $attachment_id ) {
+				echo '<li><img src="';
+				$url = wp_get_attachment_url( $attachment_id );
+				// @codingStandardsIgnoreStart
+				echo $url;
+				// @codingStandardsIgnoreEnd
+				echo '" /></li>';
+			}
+			echo '</ul>';
 		}
-		echo '</ul>';
+
 	}
 	?>
 
@@ -145,10 +149,11 @@ function wplpro_single_listing_post_content() {
 
       <li><a href="#listing-details">Details</a></li>
 
+      <?php
+			if ( empty( $listing_image_gallery ) && get_post_meta( $post->ID, '_listing_gallery', true ) !== '' ) { ?>
+        <li><a href="#listing-gallery">Photos</a></li>
+      <?php } ?>
 
-      <?php //if ( get_post_meta( $post->ID, '_listing_image_gallery', true ) !== '' ) { ?>
-        <!-- <li><a href="#listing-gallery">Photos</a></li> -->
-      <?php //} ?>
 
       <?php if ( get_post_meta( $post->ID, '_listing_video', true ) !== '' ) { ?>
         <li><a href="#listing-video">Video / Virtual Tour</a></li>
@@ -258,19 +263,20 @@ function wplpro_single_listing_post_content() {
 
     </div><!-- #listing-details -->
 
-    <?php if ( get_post_meta( $post->ID, '_listing_image_gallery', true ) !== '' ) { ?>
+    <?php if ( empty( $listing_image_gallery ) && get_post_meta( $post->ID, '_listing_gallery', true ) ) { ?>
     <div id="listing-gallery">
+			<?php echo do_shortcode( get_post_meta( $post->ID, '_listing_gallery', true ) ); ?>
     </div><!-- #listing-gallery -->
 
     <?php } ?>
 
     <?php	if ( get_post_meta( $post->ID, '_employee_responsibility', true) !== '' ) { ?>
     <div id="listing-agent-assignments">
-      <p>Howdy!</p>
+			<p>This listing is managed by</p>
       <?php
       $ids = explode( ',', get_post_meta( $post->ID, '_employee_responsibility', true ) );
       foreach ( $ids as $agent_id ) {
-        echo '<p><img style="min-height: 150px;min-width: 150px;max-width: 150px;max-height: 150px;margin-bottom: 10px;" src="' . esc_url( get_the_post_thumbnail_url( $agent_id ) ) . '" alt="Employee Thumbnail"/><br>';
+        echo '<p><img style="min-height: 150px;min-width: 120px;max-width: 120px;max-height: 150px;margin-bottom: 10px;" src="' . esc_url( get_the_post_thumbnail_url( $agent_id ) ) . '" alt="Employee Thumbnail"/><br>';
         echo get_post_meta( $agent_id, '_employee_first_name', true ) . ' ' . get_post_meta( $agent_id, '_employee_last_name', true ) . '.</p>';
       }
       ?>
