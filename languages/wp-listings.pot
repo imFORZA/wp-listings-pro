@@ -967,8 +967,8 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
-"Creates a real estate listing management system. Designed to work with any "
-"theme using built-in templates."
+"Manages both listings and agents through an IDX broker or invidually, along "
+"with linking them together. "
 msgstr ""
 
 #. Author of the plugin/theme

@@ -8,7 +8,7 @@
 /**
  * Plugin Name: WP Listings Pro
  * Plugin URI: http://wordpress.org/plugins/wp-listings/
- * Description: Creates a real estate listing management system. Designed to work with any theme using built-in templates.
+ * Description: Manages both listings and agents through an IDX broker or invidually, along with linking them together.
  * Author: imFORZA
  * Author URI: https://www.imforza.com
  * Text Domain: wp-listings-pro
@@ -27,6 +27,11 @@ register_activation_hook( __FILE__, 'wplpro_activation' );
  * @since 0.1.0
  */
 function wplpro_activation() {
+
+	if( function_exists('wp_listings_init') || function_exists('impress_agents_init') ) {
+	 	deactivate_plugins( basename(__FILE__));
+	 	wp_die("WP-Listings-Pro cannot be activated while either IMPress Listings or Agents is active. Please press the back button in your browser, and make sure both of those plugins are not enabled before reactivating WP Listings Pro.");
+	}
 
 	wplpro_init();
 
@@ -58,7 +63,6 @@ function wplpro_activation() {
 
 	// Should probably do a merge here... eh. TODO
 	update_option( 'wplpro_idx_featured_listing_wp_options', get_option( 'wp_listings_idx_featured_listing_wp_options' ) );
-	// error_log( print_r( get_option( 'wp_listings_idx_featured_listing_wp_options' ), true ) );
 
 	// Welcome Page Transient max age is 60 seconds.
 	set_transient( '_welcome_redirect_wplpro', true, 60 );
@@ -99,10 +103,14 @@ function wplpro_import_image_gallery() {
 
 		// If we already have a gallery, get it.
 		$listing_image_gallery;
+		$wplpro_images;
 		if ( metadata_exists( 'post', $listing->ID, '_listing_image_gallery' ) ) {
 			$listing_image_gallery = get_post_meta( $listing->ID, '_listing_image_gallery', true );
+			$wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
+		}else{
+			$wplpro_images = array();
 		}
-		$wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
+		//$wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
 
 		// Only add images that aren't already in the listing (in case the client jumps around plugins).
 		$images_to_append = $ids;
@@ -146,8 +154,15 @@ function wplpro_deactivation() {
 	delete_transient( '_welcome_redirect_wplpro' );
 }
 
-add_action( 'after_setup_theme', 'wplpro_init' );
+function wplpro_disable_notice() {
+  ?>
+	<div class="update-nag notice dismissable">
+		<p>WP Listings Pro has been deactivated, since it appears you've re-enabled IMPress Listings or Agents. Unfortunately, WP Listings Pro is incompatible with either of these plugins, and if you wish to re-enable it, please go to your plugins page, make sure both IMPress Agents and Listings are not enabled, and then re-enable WP Listings Pro.</p>
+	</div>
+  <?php
+}
 
+add_action( 'after_setup_theme', 'wplpro_init' );
 /**
  * Initialize Listings.
  *
@@ -350,7 +365,7 @@ function wplpro_init() {
 	$_wp_listings = new WP_Listings;
 	$wplpro_taxonomies_var = new WPLPRO_Taxonomies;
 
-	add_action( 'widgets_init', 'wp_listings_register_widgets' );
+	add_action( 'widgets_init', 'wplpro_register_widgets' );
 
 	/**
 	 * Function to add admin notices
@@ -393,7 +408,7 @@ function wplpro_init() {
  *
  * @since 0.1.0
  */
-function wp_listings_register_widgets() {
+function wplpro_register_widgets() {
 
 	$listing_widgets = array( 'WP_Listings_Featured_Listings_Widget', 'WP_Listings_Search_Widget' );
 

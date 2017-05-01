@@ -79,7 +79,7 @@ wplpro_import_image_gallery();
 		<div class="col">
 			<img src="http://placehold.it/600x180/0092F9/fff?text=WELCOME" />
 			<h3><?php _e( 'Import your Listings and Agents from IDX Broker', 'wp-listings-pro' ); ?></h3>
-			<p><?php _e( 'The IMPress Plugins limited to importing a single image, on top of that you could only import your featured properties, unless you are using the Equity Theme from Agent Evolution (A IDX Broker Company). WP-Listings-Pro aims to fix that, we import all of your images, and all properties available via the IDX Broker API.', 'wp-listings-pro' ); ?></p>
+			<p><?php _e( 'The IMPress Plugins limited to importing a single image, on top of that you could only import your featured properties, unless you are using the Equity Theme from Agent Evolution (An IDX Broker Company). WP-Listings-Pro aims to fix that, we import all of your images, and all properties available via the IDX Broker API.', 'wp-listings-pro' ); ?></p>
 		</div>
 	</div>
 
