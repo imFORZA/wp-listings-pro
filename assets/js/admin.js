@@ -146,6 +146,18 @@ jQuery(document).ready(function($) {
 		});
 	})
 
+	// mine feat. Finding Nemo
+	jQuery(document).on( 'click', '#sync-idx-settings-now', function(e){
+		console.log(e);
+		e.preventDefault();
+		jQuery.ajax({
+			type : "get",
+			dataType: "json",
+			url: "/wp-json/wp-listings-pro/v1/sync-all"
+		});
+		window.location.reload();
+	})
+
 	jQuery(document).on( 'click', '.delete-agent', function() {
 		var id = jQuery(this).data('id');
 		var nonce = jQuery(this).data('nonce');

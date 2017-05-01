@@ -5,6 +5,8 @@
  * @package wp-listings-pro
  */
 
+
+
 if ( isset( $_GET['settings-updated'] ) ) { ?>
 	<div id="message" class="updated">
 		<p><strong><?php esc_html_e( 'Settings saved.', 'wp-listings-pro' ); ?></strong></p>
@@ -61,10 +63,6 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					}
 				}
 
-				?>
-
-
-				<?php
 				if ( ! isset( $options['wplpro_stylesheet_load'] ) ) {
 					$options['wplpro_stylesheet_load'] = 0;
 				}
@@ -83,6 +81,10 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					<?php
 					settings_fields( 'wp_listings_options' );
 
+					?>
+					<h3>Update Listings and Employees</h3>
+					<input name="submit" type="submit" value="Sync now" class="button-primary" id="sync-idx-settings-now"></input>
+					<?
 
 					echo '<h3>';
 					esc_html_e( 'Disable CSS and/or Javascript:', 'wp-listings-pro' );

@@ -35,6 +35,8 @@ function wplpro_activation() {
 	 	wp_die("WP-Listings-Pro cannot be activated while either IMPress Listings or Agents is active. Please press the back button in your browser, and make sure both of those plugins are not enabled before reactivating WP Listings Pro.");
 	}
 
+	wplpro_import_image_gallery();
+
 	wplpro_init();
 
 	wplpro_setall_hidden_price();
