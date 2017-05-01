@@ -51,6 +51,9 @@ function wplpro_single_listing_post_content() {
 
   <?php
   $listing_meta = sprintf( '<ul class="listing-meta">' );
+	if( ! isset( $options['wplpro_currency_symbol'] ) ) {
+		$options['wplpro_currency_symbol'] = '';
+	}
 
   if ( get_post_meta( $post->ID, '_listing_hide_price', true ) === 1 ) {
     $listing_meta .= (get_post_meta( $post->ID, '_listing_price_alt', true )) ? sprintf( '<li class="listing-price">%s</li>', get_post_meta( $post->ID, '_listing_price_alt', true ) ) : '';
