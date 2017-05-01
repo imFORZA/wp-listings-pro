@@ -671,7 +671,6 @@ function wp_listings_idx_listing_delete_all() {
  * @return void
  */
 function wp_listings_idx_listing_setting_page() {
-	//wp_localize_script( 'wp-api', 'wpApiSettings', array( 'root' => esc_url_raw( rest_url() ), 'nonce' => wp_create_nonce( 'wp_rest' ) ) );
 	if ( get_option( 'wp_listings_import_progress' ) === true ) {
 		add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_import_progress', 'Your listings are being imported in the background. This notice will dismiss when all selected listings have been imported.', 'updated' );
 	}

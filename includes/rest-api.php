@@ -7,8 +7,8 @@
 /* Exit if accessed directly. */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'wp-listings-pro/v1', 'results/', array(
-		'methods'	 => 'GET',
+	register_rest_route( 'wp-listings-pro/v1', 'delete-listing/', array(
+		'methods'	 => 'POST',
 		'callback' => 'wplpro_send_delete_listing',
 	));
 } );

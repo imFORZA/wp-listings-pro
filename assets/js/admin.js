@@ -134,9 +134,9 @@ jQuery(document).ready(function($) {
 			itemSelector: '.grid-item'
 		});
 		jQuery.ajax({
-			type : "get",
+			type : "post",
 			dataType: "json",
-			url: "/wp-json/wp-listings-pro/v1/results/?id=" + id,
+			url: "/wp-json/wp-listings-pro/v1/delete-listing/?id=" + id,
 			data: {
 				id: id
 			},
