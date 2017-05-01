@@ -144,7 +144,6 @@ class WPL_Idx_Listing {
 						$item['property'] = $properties[$key];
 
 						// Background processing
-						error_log("pushing to queue");
 				    $listings_queue->push_to_queue( $item );
 						update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 
@@ -175,7 +174,6 @@ class WPL_Idx_Listing {
 						}
 					}
 				}
-				error_log("dispatching");
 				$listings_queue->save()->dispatch();
 			}
 			// Lastly update our options.=
@@ -194,7 +192,6 @@ class WPL_Idx_Listing {
 	 * @return void
 	 */
 	public static function wp_listings_update_post() {
-		error_log("SHOULD BE GETTING CALLED");
 		require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
 
 		// Load IDX Broker API Class and retrieve featured properties.
@@ -210,7 +207,6 @@ class WPL_Idx_Listing {
 			$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
 
 			if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
-				error_log("	once per post");
 
 				// Update property data.
 				$global_setting;
@@ -238,7 +234,6 @@ class WPL_Idx_Listing {
 				}
 
 				$listing_setting = get_post_meta( $post_id , '_listing_sync_update', true);
-				error_log("	made it this far");
 				if ( ! isset( $sync_setting ) || isset( $sync_setting ) && 'update-none' !== $sync_setting ) {
 					$update_image;
 					$update_gallery;
@@ -261,13 +256,10 @@ class WPL_Idx_Listing {
 						}else{
 							$update_details = 0;
 						}
-						error_log("		global custom input");
 						self::wp_listings_idx_insert_post_meta( $post_id, $properties[ $key ], true, $update_image , false, $update_details, $update_gallery );
 					} else if ( $listing_setting === 'update-custom' ) {
-						error_log("		custom listing input");
 						self::wp_listings_idx_insert_post_meta( $post_id, $properties[ $key ], true,  get_post_meta( $post_id, '_listing_custom_sync_featured', true ) , false,  get_post_meta( $post_id, '_listing_custom_sync_details', true ),  get_post_meta( $post_id, '_listing_custom_sync_gallery', true ) );
 					} else {
-						error_log("		generic input right?");
 						self::wp_listings_idx_insert_post_meta( $post_id, $properties[ $key ], true, true , false, true, true );
 					}
 				}
@@ -336,8 +328,6 @@ class WPL_Idx_Listing {
 	 * @return void
 	 */
 	public static function wp_listings_idx_insert_post_meta( $id, $idx_featured_listing_data, $update = false, $update_image = true, $sold = false, $update_details = true, $update_gallery = true ) {
-		error_log("			inserting at id=" . $id);
-		error_log("			update gallery: " . $update_gallery);
 
 		if ( false === $update  ||true === $update_image ) {
 			$imgs = '';
@@ -389,7 +379,6 @@ class WPL_Idx_Listing {
 
 		// Inserts image tags into Old Listing Gallery Box.
 		if ( $update_gallery ) {
-			error_log("			Adding images: " . $idx_featured_listing_data['image']['totalCount']);
 			$ids = array();
 			// Possible timeout here?
 			for( $i = 0; $i < $idx_featured_listing_data['image']['totalCount']; $i++ ) {
@@ -501,7 +490,6 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 	 * @return mixed       			False if done, $data if to be re-run
 	 */
 	protected function task($data){
-		error_log('Task being run.');
 
 		// Get important data.
 		$idx_options 	= get_option('wplpro_idx_featured_listing_wp_options');
@@ -516,7 +504,6 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 		));
 		foreach($stuff as $p){
 			if( $property['listingID'] == get_post_meta($p->ID, '_listing_mls', true) ){
-				error_log( "Breaking from task, MLS listing already detected." );
 				return false;
 			}
 		}
@@ -538,15 +525,7 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 			// Insert meta for post
 			WPL_Idx_Listing::wp_listings_idx_insert_post_meta( $add_post, $property );
 		}
-
-		error_log('Task complete.');
 		return false;
-	}
-
-	protected function complete(){
-		parent::complete();
-
-		error_log("Finished with import queue.");
 	}
 }
 
@@ -731,7 +710,6 @@ function wp_listings_idx_listing_setting_page() {
 
 				$_idx_api = new \IDX\Idx_Api();
 				$properties = $_idx_api->client_properties( 'featured' );
-				error_log(count($properties));
 				if ( is_wp_error( $properties ) ) {
 					$error_string = $properties->get_error_message();
 					add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_update', $error_string, 'error' );

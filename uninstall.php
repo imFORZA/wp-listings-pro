@@ -33,16 +33,16 @@ if ( true === $settings['wplpro_uninstall_delete'] ) {
  * @return void
  */
 function wplpro_delete_listings() {
-		global $wpdb;
+	global $wpdb;
 
-		// Get all Listings.
-	    $args = array(
-			'post_type' => array( 'listing' ),
-			'nopaging' => true,
-		);
+	// Get all Listings.
+  $args = array(
+		'post_type' => array( 'listing' ),
+		'nopaging' => true,
+	);
 
-		// Remove all Listings.
-		$query = new WP_Query( $args );
+	// Remove all Listings.
+	$query = new WP_Query( $args );
 	while ( $query->have_posts() ) {
 		$query->the_post();
 		$id = get_the_ID();
@@ -55,8 +55,8 @@ function wplpro_delete_listings() {
 		wp_delete_post( $id, true );
 	}
 
-		$wpdb->query( "DELETE FROM `{$wpdb->prefix}options` WHERE option_name LIKE '_transient_equity_listing_%'" );
+	$wpdb->query( "DELETE FROM `{$wpdb->prefix}options` WHERE option_name LIKE '_transient_equity_listing_%'" );
 
-		// Reset PostData.
-		wp_reset_postdata();
+	// Reset PostData.
+	wp_reset_postdata();
 }

@@ -80,24 +80,22 @@ function wplpro_activation() {
  */
 function wplpro_import_image_gallery() {
 
+	// Get all old listings
 	$old_listings = get_posts(array(
 		'post_type'       => 'listing',
-		'posts_per_page'  => -1,
-	));
-	$images = get_posts(array(
-		'post_type' 			=> 'attachment',
 		'posts_per_page'  => -1,
 	));
 	foreach ( $old_listings as $listing ) {
 		$old_gallery = get_post_meta( $listing->ID, '_listing_gallery', true );
 
+		// Get all http urls within the block gallery
 		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif|\.jpeg|\.svg)/', $old_gallery, $matches );
 		// Check for current listings.
 		$ids = array();
 		foreach ( $matches[0] as $image_url_dirty ) {
 			$pattern = '/\-*(\d+)x(\d+)\.(.*)$/';
 			$replacement = '.$3';
-
+			// Filter out URL from their form
 			$image_url_clean = preg_replace( $pattern, $replacement, $image_url_dirty );
 			$image_id = wplpro_get_image_id( $image_url_clean );
 
@@ -115,7 +113,7 @@ function wplpro_import_image_gallery() {
 		}
 		//$wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
 
-		// Only add images that aren't already in the listing (in case the client jumps around plugins).
+		// Only add images that aren't already in the listing (in case the client jumps around plugins, this is a non-duplicating merging).
 		$images_to_append = $ids;
 		$length_images = count( $wplpro_images );
 		$length_ids  	 = count( $ids );
@@ -134,6 +132,7 @@ function wplpro_import_image_gallery() {
 				$wplpro_images[ count( $wplpro_images ) ] = $image;
 			}
 		}
+		// Could probably also be done using array_filter... eh, TODO
 
 		update_post_meta( $listing->ID, '_listing_image_gallery', implode( ',', $wplpro_images ) );
 	}
@@ -177,10 +176,10 @@ function wplpro_init() {
 
 	if( function_exists('wp_listings_init') || function_exists('impress_agents_init') ) {
 	 	deactivate_plugins( basename(__FILE__));
+
 		// Since sometimes deactivate_plugins doesn't work so hot.
 		add_action( 'admin_notices', 'wplpro_disable_notice' );
 		return;
-	 	//wp_die("WP-Listings-Pro cannot be activated while either IMPress Listings or Agents is active. Please press the back button in your browser, and make sure both of those plugins are not enabled before reactivating WP Listings Pro.");
 	}
 
 	global $_wp_listings, $wplpro_taxonomies_var, $_wp_listings_templates, $_wplpro_agents, $_wplpro_agents_taxonomies;

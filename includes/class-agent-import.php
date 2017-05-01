@@ -77,6 +77,8 @@ class WPLPRO_Agents_Import {
 			$wplpro_agent_settings = get_option( 'wplpro_agents_settings' );
 
 			$agents_queue = new WPLPRO_Background_Agents();
+
+			// Object to be used with background_processing
 			$item = array();
 
 			foreach ( $agents['agent'] as $a ) {
@@ -147,7 +149,6 @@ class WPLPRO_Agents_Import {
 					}
 				}
 			}
-			error_log("dispatching");
 			$agents_queue->save()->dispatch();
 			update_option( 'wplpro_agents_idx_agent_wp_options', $idx_agent_wp_options );
 			return $idx_agent_wp_options;
@@ -341,8 +342,6 @@ class WPLPRO_Background_Agents extends WP_Background_Process {
 	 * @return mixed       			False if done, $data if to be re-run
 	 */
 	protected function task($data){
-		error_log('Task being run.');
-
 		// Get important data.
 		$idx_options 	= get_option('wplpro_agents_idx_agent_wp_options');
 		$a 						= $data['a'];
@@ -354,7 +353,6 @@ class WPLPRO_Background_Agents extends WP_Background_Process {
 		foreach($stuff as $temp_agent){
 			if( $a['agentID'] == get_post_meta($temp_agent->ID, '_employee_agent_id', true) ){
 				// Already exists
-				error_log("Cancelling task, user already exists.");
 				return false;
 			}
 		}
@@ -370,16 +368,9 @@ class WPLPRO_Background_Agents extends WP_Background_Process {
 			WPLPRO_Agents_Import::wplpro_agents_idx_insert_post_meta( $add_post, $a );
 			update_option( 'wplpro_agents_idx_agent_wp_options', $idx_options );
 		}
-
-		error_log('Task complete.');
 		return false;
 	}
 
-	protected function complete(){
-		parent::complete();
-
-		error_log("Finished with import queue.");
-	}
 }
 
 
