@@ -194,7 +194,7 @@ class WPL_Idx_Listing {
 	 * @return void
 	 */
 	public static function wp_listings_update_post() {
-
+		error_log("SHOULD BE GETTING CALLED");
 		require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
 
 		// Load IDX Broker API Class and retrieve featured properties.
@@ -210,8 +210,15 @@ class WPL_Idx_Listing {
 			$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
 
 			if ( isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] ) ) {
+				error_log("	once per post");
+
 				// Update property data.
-				$global_setting = $wpl_options['wplpro_idx_update'];
+				$global_setting;
+				if( isset( $wpl_options['wplpro_idx_update'] )){
+					$global_setting = $wpl_options['wplpro_idx_update'];
+				}else{
+					$global_setting = 'update-all';
+				}
 
 				$post_id = $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'];
 
@@ -231,11 +238,12 @@ class WPL_Idx_Listing {
 				}
 
 				$listing_setting = get_post_meta( $post_id , '_listing_sync_update', true);
+				error_log("	made it this far");
 				if ( ! isset( $sync_setting ) || isset( $sync_setting ) && 'update-none' !== $sync_setting ) {
 					$update_image;
 					$update_gallery;
 					$update_details;
-					if( $listing_setting === 'update-useglobal' ) {
+					if( $listing_setting === 'update-useglobal' && $global_setting == 'update-custom') {
 						if ( isset ( $wpl_options['wplpro_custom_sync_featured'] ) ) {
 							$update_image = $wpl_options['wplpro_custom_sync_featured'];
 						}else{
@@ -253,10 +261,13 @@ class WPL_Idx_Listing {
 						}else{
 							$update_details = 0;
 						}
+						error_log("		global custom input");
 						self::wp_listings_idx_insert_post_meta( $post_id, $properties[ $key ], true, $update_image , false, $update_details, $update_gallery );
 					} else if ( $listing_setting === 'update-custom' ) {
+						error_log("		custom listing input");
 						self::wp_listings_idx_insert_post_meta( $post_id, $properties[ $key ], true,  get_post_meta( $post_id, '_listing_custom_sync_featured', true ) , false,  get_post_meta( $post_id, '_listing_custom_sync_details', true ),  get_post_meta( $post_id, '_listing_custom_sync_gallery', true ) );
 					} else {
+						error_log("		generic input right?");
 						self::wp_listings_idx_insert_post_meta( $post_id, $properties[ $key ], true, true , false, true, true );
 					}
 				}
@@ -325,6 +336,9 @@ class WPL_Idx_Listing {
 	 * @return void
 	 */
 	public static function wp_listings_idx_insert_post_meta( $id, $idx_featured_listing_data, $update = false, $update_image = true, $sold = false, $update_details = true, $update_gallery = true ) {
+		error_log("			inserting at id=" . $id);
+		error_log("			update gallery: " . $update_gallery);
+
 		if ( false === $update  ||true === $update_image ) {
 			$imgs = '';
 			$featured_image = $idx_featured_listing_data['image']['0']['url'];
@@ -374,8 +388,10 @@ class WPL_Idx_Listing {
 		}
 
 		// Inserts image tags into Old Listing Gallery Box.
-		if ( false === $update || true === $update_gallery ) {
+		if ( $update_gallery ) {
+			error_log("			Adding images: " . $idx_featured_listing_data['image']['totalCount']);
 			$ids = array();
+			// Possible timeout here?
 			for( $i = 0; $i < $idx_featured_listing_data['image']['totalCount']; $i++ ) {
 				$image_url = $idx_featured_listing_data['image'][$i];
 				$ids[count($ids)] = wplpro_upload_image(array(

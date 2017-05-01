@@ -56,6 +56,10 @@ function wplpro_activation() {
 		delete_user_meta( get_current_user_id(), $notice );
 	}
 
+	// Should probably do a merge here... eh. TODO
+	update_option( 'wplpro_idx_featured_listing_wp_options', get_option( 'wp_listings_idx_featured_listing_wp_options' ) );
+	// error_log( print_r( get_option( 'wp_listings_idx_featured_listing_wp_options' ), true ) );
+
 	// Welcome Page Transient max age is 60 seconds.
 	set_transient( '_welcome_redirect_wplpro', true, 60 );
 }
