@@ -21,6 +21,8 @@
 
 register_activation_hook( __FILE__, 'wplpro_activation' );
 
+
+
 /**
  * This function runs on plugin activation. It flushes the rewrite rules to prevent 404's
  *
@@ -157,7 +159,7 @@ function wplpro_deactivation() {
 function wplpro_disable_notice() {
   ?>
 	<div class="update-nag notice dismissable">
-		<p>WP Listings Pro has been deactivated, since it appears you've re-enabled IMPress Listings or Agents. Unfortunately, WP Listings Pro is incompatible with either of these plugins, and if you wish to re-enable it, please go to your plugins page, make sure both IMPress Agents and Listings are not enabled, and then re-enable WP Listings Pro.</p>
+		<p>WP Listings Pro has been rendered non-functional (though not deactivated yet), since it appears you've re-enabled IMPress Listings or Agents. Unfortunately, WP Listings Pro is incompatible with either of these plugins, and we've disabled it for your safety. If you'd wish to re-enable it, please go to your plugins page, and make sure both IMPress Agents and Listings are not enabled, and then re-enable WP Listings Pro. Otherwise, to make this notice go away, please go to your plugins page, and disable WP Listings Pro</p>
 	</div>
   <?php
 }
@@ -171,6 +173,14 @@ add_action( 'after_setup_theme', 'wplpro_init' );
  * @since 0.1.0
  */
 function wplpro_init() {
+
+	if( function_exists('wp_listings_init') || function_exists('impress_agents_init') ) {
+	 	deactivate_plugins( basename(__FILE__));
+		// Since sometimes deactivate_plugins doesn't work so hot.
+		add_action( 'admin_notices', 'wplpro_disable_notice' );
+		return;
+	 	//wp_die("WP-Listings-Pro cannot be activated while either IMPress Listings or Agents is active. Please press the back button in your browser, and make sure both of those plugins are not enabled before reactivating WP Listings Pro.");
+	}
 
 	global $_wp_listings, $wplpro_taxonomies_var, $_wp_listings_templates, $_wplpro_agents, $_wplpro_agents_taxonomies;
 
