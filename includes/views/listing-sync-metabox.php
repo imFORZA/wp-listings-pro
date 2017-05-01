@@ -6,8 +6,15 @@ if( null == get_post_meta( $post->ID, '_listing_sync_update', true ) || '' == ge
 	update_post_meta( $post->ID, '_listing_sync_update', 'update-useglobal' );
 }
 $sync_setting = get_post_meta( $post->ID, '_listing_sync_update', true );
-$options = get_option('wp');
-$global_sync_setting = get_option( 'wplpro_plugin_settings' )['wplpro_idx_update'];
+
+$settings = get_option( 'wplpro_plugin_settings' );
+$global_sync_setting;
+if( isset( $settings['wplpro_idx_update'] ) ) {
+	$global_sync_setting = $settings['wplpro_idx_update'];
+}else{
+	$global_sync_setting = 'update-all';
+}
+
 $current_setting = 'everything';
 if($global_sync_setting != 'update-custom'){
 	if($global_sync_setting == 'update-none'){

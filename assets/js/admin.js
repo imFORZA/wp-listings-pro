@@ -134,9 +134,9 @@ jQuery(document).ready(function($) {
 			itemSelector: '.grid-item'
 		});
 		jQuery.ajax({
-			type : "get",
+			type : "post",
 			dataType: "json",
-			url: "/wp-json/wp-listings-pro/v1/results/?id=" + id,
+			url: "/wp-json/wp-listings-pro/v1/delete-listing/?id=" + id,
 			data: {
 				id: id
 			},
@@ -144,6 +144,18 @@ jQuery(document).ready(function($) {
 				window.location.reload();
 			}
 		});
+	})
+
+	// mine feat. Finding Nemo
+	jQuery(document).on( 'click', '#sync-idx-settings-now', function(e){
+		console.log(e);
+		e.preventDefault();
+		jQuery.ajax({
+			type : "get",
+			dataType: "json",
+			url: "/wp-json/wp-listings-pro/v1/sync-all"
+		});
+		window.location.reload();
 	})
 
 	jQuery(document).on( 'click', '.delete-agent', function() {
