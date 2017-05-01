@@ -94,10 +94,9 @@ class WPLPRO_Agents_Import {
 			 	}
 
 				// TODO: have better handling for this.
-				if( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status']) ){
-					$idx_agent_wp_options[ $a['agentID'] ]['status'] = "";
+				if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ) {
+					$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
 				}
-
 
 				if ( in_array( (string) $a['agentID'], $agent_ids, true ) && ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 
@@ -113,16 +112,14 @@ class WPLPRO_Agents_Import {
 
 					// $add_post = wp_insert_post( $opts, true );
 					// if ( is_wp_error( $add_post ) ) {
-					// 	$error_string = $add_post->get_error_message();
-					// 	add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
-					// 	return;
+					// $error_string = $add_post->get_error_message();
+					// add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
+					// return;
 					// } elseif ( $add_post ) {
-					// 	$idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $add_post;
-					// 	$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
-					// 	self::wplpro_agents_idx_insert_post_meta( $add_post, $a );
+					// $idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $add_post;
+					// $idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
+					// self::wplpro_agents_idx_insert_post_meta( $add_post, $a );
 					// }
-
-
 					$agents_queue->push_to_queue( $item );
 					update_option( 'wplpro_agents_idx_agent_wp_options', $idx_agent_wp_options );
 				} elseif ( in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
@@ -181,10 +178,10 @@ class WPLPRO_Agents_Import {
 
 				if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 					$current_setting = get_post_meta( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], '_listing_sync_update', true );
-					if( $current_setting == '' || $current_setting == 'update-useglobal'){ // Confirmed to follow global, or doesn't exist, need to set it to global.
-						if( isset( $wplpro_plugin_settings['wplpro_idx_update_agents'] ) ){
+					if ( $current_setting == '' || $current_setting == 'update-useglobal' ) { // Confirmed to follow global, or doesn't exist, need to set it to global.
+						if ( isset( $wplpro_plugin_settings['wplpro_idx_update_agents'] ) ) {
 							$current_setting = $wplpro_plugin_settings['wplpro_idx_update_agents'];
-						}else{ // Global doesn't exist, local setting doesn't exist, just sync it.
+						} else { // Global doesn't exist, local setting doesn't exist, just sync it.
 							$current_setting = 'update-all';
 						}
 					}
@@ -338,20 +335,21 @@ class WPLPRO_Background_Agents extends WP_Background_Process {
 
 	/**
 	 * Task to be run each iteration
-	 * @param  string 	$data 	ID of listing to be imported
+	 *
+	 * @param  string $data   ID of listing to be imported
 	 * @return mixed       			False if done, $data if to be re-run
 	 */
-	protected function task($data){
+	protected function task( $data ) {
 		// Get important data.
-		$idx_options 	= get_option('wplpro_agents_idx_agent_wp_options');
+		$idx_options 	= get_option( 'wplpro_agents_idx_agent_wp_options' );
 		$a 						= $data['a'];
 
 		// Check if it already exists
 		$stuff = get_posts(array(
 			'post_type'       => 'employee',
 		));
-		foreach($stuff as $temp_agent){
-			if( $a['agentID'] == get_post_meta($temp_agent->ID, '_employee_agent_id', true) ){
+		foreach ( $stuff as $temp_agent ) {
+			if ( $a['agentID'] == get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) ) {
 				// Already exists
 				return false;
 			}
@@ -510,7 +508,7 @@ function wplpro_agents_idx_agent_setting_page() {
 				return;
 			}
 
-			$nophoto = isset( get_option('wplpro_customizer_settings')['employee_nophoto'] ) ? get_option('wplpro_customizer_settings')['employee_nophoto'] : "";
+			$nophoto = isset( get_option( 'wplpro_customizer_settings' )['employee_nophoto'] ) ? get_option( 'wplpro_customizer_settings' )['employee_nophoto'] : '';
 
 			// Loop through agents.
 			foreach ( $agents as $agent ) {
@@ -525,13 +523,13 @@ function wplpro_agents_idx_agent_setting_page() {
 					$stuff = get_posts(array(
 						'post_type'       => 'employee',
 					));
-					foreach($stuff as $temp_agent){
-						if( $a['agentID'] == get_post_meta($temp_agent->ID, '_employee_agent_id', true) ){
-							if( !isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) || !$idx_agent_wp_options[ $a['agentID'] ]['status'] != "") {
-								$idx_agent_wp_options[ $a['agentID'] ]['status'] = "publish";
+					foreach ( $stuff as $temp_agent ) {
+						if ( $a['agentID'] == get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) ) {
+							if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) || ! $idx_agent_wp_options[ $a['agentID'] ]['status'] != '' ) {
+								$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
 							}
 
-							if( !isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) || $idx_agent_wp_options[ $a['agentID'] ]['post_id'] == "") {
+							if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) || $idx_agent_wp_options[ $a['agentID'] ]['post_id'] == '' ) {
 								$idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $temp_agent->ID;
 							}
 						}
@@ -545,8 +543,6 @@ function wplpro_agents_idx_agent_setting_page() {
 							$nonce
 						);
 					}
-
-
 
 					printf('<div class="grid-item post"><label for="%s" class="idx-agent"><li class="%s agent"><img class="agent" src="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_agents_idx_agent_options[]" value="%s" %s /><p><span class="agent-name">%s</span><br/><span class="agent-title">%s</span><br/><span class="agent-phone">%s</span><br/><span class="agent-id">Agent ID: %s</span></p><div class="controls">%s %s</div></li></label></div>',
 						// @codingStandardsIgnoreStart

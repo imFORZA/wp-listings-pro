@@ -36,7 +36,7 @@ function wplpro_delete_listings() {
 	global $wpdb;
 
 	// Get all Listings.
-  $args = array(
+	$args = array(
 		'post_type' => array( 'listing' ),
 		'nopaging' => true,
 	);

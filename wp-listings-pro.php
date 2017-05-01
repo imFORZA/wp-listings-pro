@@ -30,9 +30,9 @@ register_activation_hook( __FILE__, 'wplpro_activation' );
  */
 function wplpro_activation() {
 
-	if( function_exists('wp_listings_init') || function_exists('impress_agents_init') ) {
-	 	deactivate_plugins( basename(__FILE__));
-	 	wp_die("WP-Listings-Pro cannot be activated while either IMPress Listings or Agents is active. Please press the back button in your browser, and make sure both of those plugins are not enabled before reactivating WP Listings Pro.");
+	if ( function_exists( 'wp_listings_init' ) || function_exists( 'impress_agents_init' ) ) {
+	 	deactivate_plugins( basename( __FILE__ ) );
+	 	wp_die( 'WP-Listings-Pro cannot be activated while either IMPress Listings or Agents is active. Please press the back button in your browser, and make sure both of those plugins are not enabled before reactivating WP Listings Pro.' );
 	}
 
 	wplpro_init();
@@ -108,11 +108,10 @@ function wplpro_import_image_gallery() {
 		if ( metadata_exists( 'post', $listing->ID, '_listing_image_gallery' ) ) {
 			$listing_image_gallery = get_post_meta( $listing->ID, '_listing_image_gallery', true );
 			$wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
-		}else{
+		} else {
 			$wplpro_images = array();
 		}
-		//$wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
-
+		// $wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
 		// Only add images that aren't already in the listing (in case the client jumps around plugins, this is a non-duplicating merging).
 		$images_to_append = $ids;
 		$length_images = count( $wplpro_images );
@@ -133,7 +132,6 @@ function wplpro_import_image_gallery() {
 			}
 		}
 		// Could probably also be done using array_filter... eh, TODO
-
 		update_post_meta( $listing->ID, '_listing_image_gallery', implode( ',', $wplpro_images ) );
 	}
 }
@@ -157,11 +155,11 @@ function wplpro_deactivation() {
 }
 
 function wplpro_disable_notice() {
-  ?>
+	?>
 	<div class="update-nag notice dismissable">
 		<p>WP Listings Pro has been rendered non-functional (though not deactivated yet), since it appears you've re-enabled IMPress Listings or Agents. Unfortunately, WP Listings Pro is incompatible with either of these plugins, and we've disabled it for your safety. If you'd wish to re-enable it, please go to your plugins page, and make sure both IMPress Agents and Listings are not enabled, and then re-enable WP Listings Pro. Otherwise, to make this notice go away, please go to your plugins page, and disable WP Listings Pro</p>
 	</div>
-  <?php
+	<?php
 }
 
 add_action( 'after_setup_theme', 'wplpro_init' );
@@ -174,8 +172,8 @@ add_action( 'after_setup_theme', 'wplpro_init' );
  */
 function wplpro_init() {
 
-	if( function_exists('wp_listings_init') || function_exists('impress_agents_init') ) {
-	 	deactivate_plugins( basename(__FILE__));
+	if ( function_exists( 'wp_listings_init' ) || function_exists( 'impress_agents_init' ) ) {
+	 	deactivate_plugins( basename( __FILE__ ) );
 
 		// Since sometimes deactivate_plugins doesn't work so hot.
 		add_action( 'admin_notices', 'wplpro_disable_notice' );

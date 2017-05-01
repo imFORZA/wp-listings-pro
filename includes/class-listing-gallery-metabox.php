@@ -99,13 +99,14 @@ class WPLPRO_Meta_Box_Listing_Images {
 
 	/**
 	 * Provides support for the way that wp-listings manages galleries.
-	 * @param  array[post_ids] 	$ids 		Array of IDs to be included in the gallery.
+	 *
+	 * @param  array[post_ids] $ids        Array of IDs to be included in the gallery.
 	 * @return string      							HTML block of images, following specifications of old wp-listings gallery.
 	 */
-	public static function backwards_compatibility_gallery( $ids ){
+	public static function backwards_compatibility_gallery( $ids ) {
 		$s = '';
-		foreach( $ids as $image_id){
-			$s .= '<p><img class="alignnone size-medium wp-image-' . $image_id . '" src="' . wp_get_attachment_url( $image_id ) . '" alt="" width="' . wp_get_attachment_image_src($image_id)[1] . '" height="' . wp_get_attachment_image_src($image_id)[2] . '" /></p>';
+		foreach ( $ids as $image_id ) {
+			$s .= '<p><img class="alignnone size-medium wp-image-' . $image_id . '" src="' . wp_get_attachment_url( $image_id ) . '" alt="" width="' . wp_get_attachment_image_src( $image_id )[1] . '" height="' . wp_get_attachment_image_src( $image_id )[2] . '" /></p>';
 		}
 		return $s;
 	}
