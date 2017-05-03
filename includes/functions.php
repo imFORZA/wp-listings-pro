@@ -12,41 +12,40 @@
  *
  * @param  WP_Customizer_Object $wp_customize Callback var for WP_Customizer
  */
-function wplpro_customize_register($wp_customize){
+function wplpro_customize_register( $wp_customize ) {
 
-    $wp_customize->add_section('wplpro_customizer_settings', array(
-        'title'    => __('WPLPRO Page Settings', 'wplpro'),
-        'priority' => 120,
-    ));
+	$wp_customize->add_section('wplpro_customizer_settings', array(
+		'title'    => __( 'WPLPRO Page Settings', 'wplpro' ),
+		'priority' => 120,
+	));
 
+	// Image Upload Example
+	$wp_customize->add_setting('wplpro_customizer_settings[employee_nophoto]', array(
+		'default'           => plugin_dir_url( __FILE__ ) . '../assets/images/default.gif',
+		'capability'        => 'edit_theme_options',
+		'type'           => 'option',
+	));
 
-    //  Image Upload Example
-    $wp_customize->add_setting('wplpro_customizer_settings[employee_nophoto]', array(
-        'default'           => plugin_dir_url( __FILE__ ) . '../assets/images/default.gif',
-        'capability'        => 'edit_theme_options',
-        'type'           => 'option',
-    ));
-
-    $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'employee_nophoto', array(
-        'label'    => __('Default Employee Thumbnail', 'wplpro'),
-        'section'  => 'wplpro_customizer_settings',
-        'settings' => 'wplpro_customizer_settings[employee_nophoto]',
-    )));
+	$wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'employee_nophoto', array(
+		'label'    => __( 'Default Employee Thumbnail', 'wplpro' ),
+		'section'  => 'wplpro_customizer_settings',
+		'settings' => 'wplpro_customizer_settings[employee_nophoto]',
+	)));
 
 		$wp_customize->add_setting('wplpro_customizer_settings[listing_nophoto]', array(
-        'default'           => plugin_dir_url( __FILE__ ) . '../assets/images/listing-nophoto.jpg',
-        'capability'        => 'edit_theme_options',
-        'type'           => 'option',
-    ));
+			'default'           => plugin_dir_url( __FILE__ ) . '../assets/images/listing-nophoto.jpg',
+			'capability'        => 'edit_theme_options',
+			'type'           => 'option',
+		));
 
-    $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'listing_nophoto', array(
-        'label'    => __('Default Listing Thumbnail', 'wplpro'),
-        'section'  => 'wplpro_customizer_settings',
-        'settings' => 'wplpro_customizer_settings[listing_nophoto]',
-    )));
+	$wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'listing_nophoto', array(
+		'label'    => __( 'Default Listing Thumbnail', 'wplpro' ),
+		'section'  => 'wplpro_customizer_settings',
+		'settings' => 'wplpro_customizer_settings[listing_nophoto]',
+	)));
 
 }
-add_action('customize_register', 'wplpro_customize_register');
+add_action( 'customize_register', 'wplpro_customize_register' );
 
 /**
  * Holds miscellaneous functions for use in the WP Listings plugin
@@ -56,16 +55,16 @@ add_image_size( 'listings', 560, 380, true );
 
 add_filter( 'template_include', 'wplpro_template_include' );
 
-add_action('before_delete_post', 'wplpro_clear_references');
-function wplpro_clear_references( $post_id ){
-  $post_type = get_post($post_id)->post_type;
-  if( $post_type === 'listing' ){
+add_action( 'before_delete_post', 'wplpro_clear_references' );
+function wplpro_clear_references( $post_id ) {
+	$post_type = get_post( $post_id )->post_type;
+	if ( $post_type === 'listing' ) {
 		// Delete references
-		$idx_options = get_option( 'wplpro_idx_featured_listing_wp_options');
-		unset($idx_options[ get_post_meta( $post_id, '_listing_mls', true) ]['post_id']);
-		unset($idx_options[ get_post_meta( $post_id, '_listing_mls', true) ]['status']);
-		update_option( 'wplpro_idx_featured_listing_wp_options', $idx_options);
-  }
+		$idx_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
+		unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] );
+		unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] );
+		update_option( 'wplpro_idx_featured_listing_wp_options', $idx_options );
+	}
 }
 /**
  * Template Support.

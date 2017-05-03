@@ -30,9 +30,9 @@ register_activation_hook( __FILE__, 'wplpro_activation' );
  */
 function wplpro_activation() {
 
-	if( function_exists('wp_listings_init') || function_exists('impress_agents_init') ) {
-	 	deactivate_plugins( basename(__FILE__));
-	 	wp_die("WP-Listings-Pro cannot be activated while either IMPress Listings or Agents is active. Please press the back button in your browser, and make sure both of those plugins are not enabled before reactivating WP Listings Pro.");
+	if ( function_exists( 'wp_listings_init' ) || function_exists( 'impress_agents_init' ) ) {
+	 	deactivate_plugins( basename( __FILE__ ) );
+	 	wp_die( 'WP-Listings-Pro cannot be activated while either IMPress Listings or Agents is active. Please press the back button in your browser, and make sure both of those plugins are not enabled before reactivating WP Listings Pro.' );
 	}
 
 	wplpro_init();
@@ -65,7 +65,6 @@ function wplpro_activation() {
 		delete_user_meta( get_current_user_id(), $notice );
 	}
 
-	// Should probably do a merge here... eh. TODO
 	update_option( 'wplpro_idx_featured_listing_wp_options', get_option( 'wp_listings_idx_featured_listing_wp_options' ) );
 
 	// Welcome Page Transient max age is 60 seconds.
@@ -81,24 +80,22 @@ function wplpro_activation() {
  */
 function wplpro_import_image_gallery() {
 
+	// Get all old listings.
 	$old_listings = get_posts(array(
 		'post_type'       => 'listing',
-		'posts_per_page'  => -1,
-	));
-	$images = get_posts(array(
-		'post_type' 			=> 'attachment',
 		'posts_per_page'  => -1,
 	));
 	foreach ( $old_listings as $listing ) {
 		$old_gallery = get_post_meta( $listing->ID, '_listing_gallery', true );
 
+		// Get all http urls within the block gallery.
 		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif|\.jpeg|\.svg)/', $old_gallery, $matches );
 		// Check for current listings.
 		$ids = array();
 		foreach ( $matches[0] as $image_url_dirty ) {
 			$pattern = '/\-*(\d+)x(\d+)\.(.*)$/';
 			$replacement = '.$3';
-
+			// Filter out URL from their form.
 			$image_url_clean = preg_replace( $pattern, $replacement, $image_url_dirty );
 			$image_id = wplpro_get_image_id( $image_url_clean );
 
@@ -111,12 +108,11 @@ function wplpro_import_image_gallery() {
 		if ( metadata_exists( 'post', $listing->ID, '_listing_image_gallery' ) ) {
 			$listing_image_gallery = get_post_meta( $listing->ID, '_listing_image_gallery', true );
 			$wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
-		}else{
+		} else {
 			$wplpro_images = array();
 		}
-		//$wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
-
-		// Only add images that aren't already in the listing (in case the client jumps around plugins).
+		// $wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
+		// Only add images that aren't already in the listing (in case the client jumps around plugins, this is a non-duplicating merging).
 		$images_to_append = $ids;
 		$length_images = count( $wplpro_images );
 		$length_ids  	 = count( $ids );
@@ -130,6 +126,7 @@ function wplpro_import_image_gallery() {
 		}
 
 		// Now have array of what we need, only add elements that we need.
+		// Could probably also be done using array_filter...
 		foreach ( $images_to_append as $image ) {
 			if ( -1 !== $image ) {
 				$wplpro_images[ count( $wplpro_images ) ] = $image;
@@ -158,12 +155,15 @@ function wplpro_deactivation() {
 	delete_transient( '_welcome_redirect_wplpro' );
 }
 
+/**
+ * 	Displays nag stating that plugin has been disabled (in-case of incompatibility with other plugins that could try handling the same information we are).
+ */
 function wplpro_disable_notice() {
-  ?>
+	?>
 	<div class="update-nag notice dismissable">
 		<p>WP Listings Pro has been rendered non-functional (though not deactivated yet), since it appears you've re-enabled IMPress Listings or Agents. Unfortunately, WP Listings Pro is incompatible with either of these plugins, and we've disabled it for your safety. If you'd wish to re-enable it, please go to your plugins page, and make sure both IMPress Agents and Listings are not enabled, and then re-enable WP Listings Pro. Otherwise, to make this notice go away, please go to your plugins page, and disable WP Listings Pro</p>
 	</div>
-  <?php
+	<?php
 }
 
 add_action( 'after_setup_theme', 'wplpro_init' );
@@ -176,12 +176,12 @@ add_action( 'after_setup_theme', 'wplpro_init' );
  */
 function wplpro_init() {
 
-	if( function_exists('wp_listings_init') || function_exists('impress_agents_init') ) {
-	 	deactivate_plugins( basename(__FILE__));
+	if ( function_exists( 'wp_listings_init' ) || function_exists( 'impress_agents_init' ) ) {
+	 	deactivate_plugins( basename( __FILE__ ) );
+
 		// Since sometimes deactivate_plugins doesn't work so hot.
 		add_action( 'admin_notices', 'wplpro_disable_notice' );
 		return;
-	 	//wp_die("WP-Listings-Pro cannot be activated while either IMPress Listings or Agents is active. Please press the back button in your browser, and make sure both of those plugins are not enabled before reactivating WP Listings Pro.");
 	}
 
 	global $_wp_listings, $wplpro_taxonomies_var, $_wp_listings_templates, $_wplpro_agents, $_wplpro_agents_taxonomies;
@@ -336,6 +336,8 @@ function wplpro_init() {
 			'nonce'      => wp_create_nonce( $nonce_action ),
 			'wp_version' => $wp_version,
 			'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
+			'root'    		=> esc_url_raw( rest_url() ),
+			'better_nonce'      	=> wp_create_nonce( 'wp_rest' ),
 		) );
 
 		/* Pass custom variables to the script. */
@@ -447,7 +449,6 @@ function wplpro_agents_migrate() {
 }
 
 add_action( 'save_post', 'wplpro_save_post', 10, 2 );
-
 /**
  * Save price without extra chars.
  *

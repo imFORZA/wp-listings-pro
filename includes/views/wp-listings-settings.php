@@ -84,7 +84,7 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					?>
 					<h3>Update Listings and Employees</h3>
 					<input name="submit" type="submit" value="Sync now" class="button-primary" id="sync-idx-settings-now"></input>
-					<?
+					<?php
 
 					echo '<h3>';
 					esc_html_e( 'Disable CSS and/or Javascript:', 'wp-listings-pro' );
@@ -339,10 +339,10 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 						// Custom boxes for when sync setting is set to custom.
 						echo '<div class"custom-inputs"><fieldset id="wplpro_custom_inputs" disabled>';
-						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_featured]" id="wplpro_custom_sync_featured" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_featured'], false ) . ' /> Keep the featured image in sync</p>', 'wp-listings-pro');
-						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_gallery]" id="wplpro_custom_sync_gallery" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_gallery'], false ) . ' /> Keep image gallery in sync</p>', 'wp-listings-pro');
-						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_details]" id="wplpro_custom_sync_details" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_details'], false ) . ' /> Keep listing details in sync</p>', 'wp-listings-pro');
-						_e( '</fieldset></div>');
+						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_featured]" id="wplpro_custom_sync_featured" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_featured'], false ) . ' /> Keep the featured image in sync</p>', 'wp-listings-pro' );
+						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_gallery]" id="wplpro_custom_sync_gallery" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_gallery'], false ) . ' /> Keep image gallery in sync</p>', 'wp-listings-pro' );
+						_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_sync_details]" id="wplpro_custom_sync_details" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_sync_details'], false ) . ' /> Keep listing details in sync</p>', 'wp-listings-pro' );
+						_e( '</fieldset></div>' );
 
 						// What to do with listings set to sold.
 						_e( '<br style="clear: both;"><h2>Sold Listings</h2>', 'wp-listings-pro' );

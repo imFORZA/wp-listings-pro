@@ -34,7 +34,7 @@ add_action( 'rest_api_init', function () {
  * @return string       Formatted HTML block
  */
 function wplpro_send_delete_listing( $data ) {
-	return rest_ensure_response( wp_listings_idx_listing_delete($data['id']) );
+	return rest_ensure_response( wp_listings_idx_listing_delete( $data['id'] ) );
 }
 
 /**
@@ -44,7 +44,7 @@ function wplpro_send_delete_listing( $data ) {
  * @return string       Formatted HTML block
  */
 function wplpro_send_listings( $data ) {
-	return rest_ensure_response( WPL_Idx_Listing::wp_listings_idx_create_post( explode("z",$data['mlses']) ) );
+	return rest_ensure_response( WPL_Idx_Listing::wp_listings_idx_create_post( explode( 'z',$data['mlses'] ) ) );
 }
 
 function wplpro_sync_listings_and_agents( $data ) {
@@ -52,5 +52,5 @@ function wplpro_sync_listings_and_agents( $data ) {
 	WPL_Idx_Listing::wp_listings_update_post();
 
 	// Can take an unreasonable amount of time to get here, should force it to use WP Background Processing
-	return rest_ensure_response( "success" );
+	return rest_ensure_response( 'success' );
 }

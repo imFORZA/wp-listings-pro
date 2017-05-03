@@ -221,7 +221,7 @@ class WP_Listings {
 		add_meta_box( 'listing_sync_metabox' , __( 'Sync Settings', 'wp-listings-pro' ), array( &$this, 'listing_sync_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_details_metabox', __( 'Property Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
-		add_meta_box( 'listing_map_metabox', __( 'Map Options', 'wp-listings-pro' ), array (&$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
+		add_meta_box( 'listing_map_metabox', __( 'Map Options', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_contact_metabox', __( 'Lead Tools', 'wp-listings-pro' ), array( &$this, 'listing_contact_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_assignment_metabox', __( 'Agent Assignments', 'wp-listings-pro' ), array( &$this, 'listing_assignments_metabox' ), 'listing', 'normal', 'high' );
 
@@ -232,7 +232,7 @@ class WP_Listings {
 	/**
 	 * Metabox for listing sync settings
 	 */
-	function listing_sync_metabox(){
+	function listing_sync_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-sync-metabox.php' );
 	}
 	/**
@@ -256,9 +256,9 @@ class WP_Listings {
 		include( dirname( __FILE__ ) . '/views/listing-map-metabox.php' );
 	}
 
-  /**
-   * Metabox for lead/contact forms
-   */
+	/**
+	 * Metabox for lead/contact forms
+	 */
 	function listing_contact_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-contact-metabox.php' );
 	}
@@ -284,25 +284,28 @@ class WP_Listings {
 		}
 
 		if ( ! isset( $_POST['wp_listings_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['wp_listings_metabox_nonce'], 'wp_listings_metabox_save' ) ) {
-      return $post_id;
+			return $post_id;
 		}
 
 	    /** Don't try to save the data under autosave, ajax, or future post */
-    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
-    if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+		}
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			return;
-    if ( defined( 'DOING_CRON' ) && DOING_CRON )
+		}
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 			return;
-
-	    /** Check permissions */
-    if ( ! current_user_can( 'edit_post', $post_id ) ) {
-      return;
 		}
 
-    $property_details = $_POST['wp_listings'];
+	    /** Check permissions */
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			  return;
+		}
 
-    if ( ! isset( $property_details['_listing_hide_price'] ) ) {
+		$property_details = $_POST['wp_listings'];
+
+		if ( ! isset( $property_details['_listing_hide_price'] ) ) {
 			$property_details['_listing_hide_price'] = 0;
 		}
 
@@ -323,22 +326,21 @@ class WP_Listings {
 		));
 		$ids = array();
 		foreach ( $stuff as $agent ) {
-			if( isset( $property_details[ '_employee_responsibility_' . $agent->ID ] ) ){
-				$ids[count($ids)] = $agent->ID;
+			if ( isset( $property_details[ '_employee_responsibility_' . $agent->ID ] ) ) {
+				$ids[ count( $ids ) ] = $agent->ID;
 			}
 		}
-		$property_details['_employee_responsibility'] = implode(',',$ids);
+		$property_details['_employee_responsibility'] = implode( ',',$ids );
 
+		/** Store the property details custom fields */
+		foreach ( (array) $property_details as $key => $value ) {
 
-    /** Store the property details custom fields */
-    foreach ( (array) $property_details as $key => $value ) {
-
-      /** Save/Update/Delete */
-      if ( $value ) {
-          update_post_meta( $post->ID, $key, $value );
-      } else {
-          delete_post_meta( $post->ID, $key );
-      }
+			  /** Save/Update/Delete */
+			if ( $value ) {
+				update_post_meta( $post->ID, $key, $value );
+			} else {
+				  delete_post_meta( $post->ID, $key );
+			}
 		}
 
 	}
@@ -383,13 +385,13 @@ class WP_Listings {
 
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );
 		// Adds support for nophoto, as defined in the customizer.
-		if( $image == "" ){
+		if ( $image == '' ) {
 			$options = get_option( 'wplpro_plugin_settings' );
 
 			$image_url;
-			if( isset( get_option( 'wplpro_plugin_settings' )['listing_nophoto'] ) ) {
+			if ( isset( get_option( 'wplpro_plugin_settings' )['listing_nophoto'] ) ) {
 				$image_url = get_option( 'wplpro_plugin_settings' )['listing_nophoto'];
-			}else{
+			} else {
 				$image_url = plugin_dir_url( __FILE__ ) . '../assets/images/listing-nophoto.jpg';
 			}
 

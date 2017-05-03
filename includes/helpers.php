@@ -42,7 +42,7 @@ function wplpro_list_terms( $taxonomy ) {
  *                            you do not want to attach it to a post.
  * @return [Mixed]          : Post id of attachment on success, false on error.
  */
-function wplpro_upload_image( $image, $post_id = "") {
+function wplpro_upload_image( $image, $post_id = '' ) {
 	require_once( ABSPATH . 'wp-admin/includes/image.php' );
 	require_once( ABSPATH . 'wp-admin/includes/file.php' );
 	require_once( ABSPATH . 'wp-admin/includes/media.php' );
@@ -67,7 +67,7 @@ function wplpro_upload_image( $image, $post_id = "") {
 		// Set attachment data.
 		$post_data = array(
 			'post_title'     => sanitize_title( $image['title'] ),
-			'post_content'   => "",
+			'post_content'   => '',
 			'post_status'    => 'inherit',
 		);
 
@@ -88,7 +88,7 @@ function wplpro_upload_image( $image, $post_id = "") {
 function wplpro_get_image_id( $image_url ) {
 	global $wpdb;
 	$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ) );
-	if( isset( $attachment[0])){
+	if ( isset( $attachment[0] ) ) {
 		return $attachment[0];
 	}
 }
