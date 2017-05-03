@@ -608,6 +608,11 @@ function wp_listings_idx_listing_delete_all() {
  * @return void
  */
 function wp_listings_idx_listing_setting_page() {
+
+	if ( '' === get_option( 'permalink_structure' ) ) {
+		add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_import_progress', 'Within WordPress settings, you have Permalinks set to "Plain". Unfortunately, the import page will not work unless permalinks have been set to something else, so please go to your permalinks page under settings, and change them to something else (we recommend "Post name").', 'error' );
+	}
+
 	if ( get_option( 'wp_listings_import_progress' ) === true ) {
 		add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_import_progress', 'Your listings are being imported in the background. This notice will dismiss when all selected listings have been imported.', 'updated' );
 	}
