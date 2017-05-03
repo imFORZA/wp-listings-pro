@@ -26,7 +26,7 @@ if ( $global_sync_setting != 'update-custom' ) {
 
 
 
-echo "<div class='idx-import-wrap' style='height:600px;'>";
+echo "<div class='idx-import-wrap'>";
 echo "<div class='fixer' style='width:99%;overflow: auto'>";
 _e( '<p>Override global options for syncing with IDX feed. Occurs twice daily, select "Custom Sync Settings" to choose specific fields to update (or not to update).</p>', 'wp-listings-pro' );
 _e( '<div class="idx-import-option ' . $global_sync_setting . '"><label><h4>Follow Global Settings</h4> <span class="dashicons ' . ($global_sync_setting == 'update-none' ? 'dashicons-dismiss' : 'dashicons-update' ) . '"></span><input name="wp_listings[_listing_sync_update]" id="_listing_sync_update_global" type="radio" value="update-useglobal" class="code" ' . checked( 'update-useglobal', $sync_setting, false ) . ' /> <p>Follow global settings for updates (is currently set to update ' . ($current_setting) . ').</p></label></div>', 'wp-listings-pro' );
