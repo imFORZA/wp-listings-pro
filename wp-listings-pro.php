@@ -80,7 +80,7 @@ function wplpro_activation() {
  */
 function wplpro_import_image_gallery() {
 
-	// Get all old listings
+	// Get all old listings.
 	$old_listings = get_posts(array(
 		'post_type'       => 'listing',
 		'posts_per_page'  => -1,
@@ -88,14 +88,14 @@ function wplpro_import_image_gallery() {
 	foreach ( $old_listings as $listing ) {
 		$old_gallery = get_post_meta( $listing->ID, '_listing_gallery', true );
 
-		// Get all http urls within the block gallery
+		// Get all http urls within the block gallery.
 		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif|\.jpeg|\.svg)/', $old_gallery, $matches );
 		// Check for current listings.
 		$ids = array();
 		foreach ( $matches[0] as $image_url_dirty ) {
 			$pattern = '/\-*(\d+)x(\d+)\.(.*)$/';
 			$replacement = '.$3';
-			// Filter out URL from their form
+			// Filter out URL from their form.
 			$image_url_clean = preg_replace( $pattern, $replacement, $image_url_dirty );
 			$image_id = wplpro_get_image_id( $image_url_clean );
 
@@ -126,12 +126,13 @@ function wplpro_import_image_gallery() {
 		}
 
 		// Now have array of what we need, only add elements that we need.
+		// Could probably also be done using array_filter...
 		foreach ( $images_to_append as $image ) {
 			if ( -1 !== $image ) {
 				$wplpro_images[ count( $wplpro_images ) ] = $image;
 			}
 		}
-		// Could probably also be done using array_filter... eh, TODO
+
 		update_post_meta( $listing->ID, '_listing_image_gallery', implode( ',', $wplpro_images ) );
 	}
 }
@@ -154,6 +155,9 @@ function wplpro_deactivation() {
 	delete_transient( '_welcome_redirect_wplpro' );
 }
 
+/**
+ * 	Displays nag stating that plugin has been disabled (in-case of incompatibility with other plugins that could try handling the same information we are).
+ */
 function wplpro_disable_notice() {
 	?>
 	<div class="update-nag notice dismissable">
@@ -445,7 +449,6 @@ function wplpro_agents_migrate() {
 }
 
 add_action( 'save_post', 'wplpro_save_post', 10, 2 );
-
 /**
  * Save price without extra chars.
  *
