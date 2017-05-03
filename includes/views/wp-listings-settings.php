@@ -45,7 +45,6 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					'wplpro_custom_wrapper'								=> 0,
 					'wplpro_start_wrapper'								=> '',
 					'wplpro_end_wrapper'									=> '',
-					'wplpro_idx_lead_form'								=> 1,
 					'wplpro_idx_update'										=> 'update-all',
 					'wplpro_idx_update_agents'   					=> 'update-all',
 					'wplpro_custom_sync_featured'					=> 0,
@@ -306,11 +305,6 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 					_e( '<h4>Default Form shortcode</h4><p>If you use a Contact Form plugin, you may enter the form shortcode here to display on all listings. Additionally, each listing can use a custom form. If no shortcode is entered, the template will use a default contact form:</p>', 'wp-listings-pro' );
 					_e( '<p>Form shortcode: <input name="wplpro_plugin_settings[wplpro_default_form]" id="wplpro_default_form" type="text" value="' . esc_html( $options['wplpro_default_form'] ) . '" size="40" /></p><hr>', 'wp-listings-pro' );
-
-					if ( class_exists( 'Idx_Broker_Plugin' ) ) {
-						_e( '<h4>Add default form entries to IDX Broker</h4><p>Check this option to enable form entries to be sent to IDX Broker as a lead.<br/><strong>Note: This only works if using the default contact form.</strong></p>', 'wp-listings-pro' );
-						_e( '<p><input name="wplpro_plugin_settings[wplpro_idx_lead_form]" id="wplpro_idx_lead_form" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_idx_lead_form'], 0 ) . ' /> Enable</p><hr>', 'wp-listings-pro' );
-					}
 
 					_e( "<h3>Custom Wrapper</h3><p>If your theme's content HTML ID's and Classes are different than the included template, you can enter the HTML of your content wrapper beginning and end:</p>", 'wp-listings-pro' );
 					_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_wrapper]" id="wplpro_custom_wrapper" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_wrapper'], false ) . ' /> Use Custom Wrapper</p>', 'wp-listings-pro' );
