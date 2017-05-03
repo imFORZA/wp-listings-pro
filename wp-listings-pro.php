@@ -332,6 +332,8 @@ function wplpro_init() {
 			'nonce'      => wp_create_nonce( $nonce_action ),
 			'wp_version' => $wp_version,
 			'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
+			'root'    		=> esc_url_raw( rest_url() ),
+			'better_nonce'      	=> wp_create_nonce( 'wp_rest' ),
 		) );
 
 		/* Pass custom variables to the script. */

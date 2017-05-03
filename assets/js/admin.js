@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 		if( ! $this.parent().data( 'key' ) ){
 			return;
 		}
-		$.post( wp_listings_adminL10n.ajaxurl, {
+		jQuery.post( wp_listings_adminL10n.ajaxurl, {
 			action: "wp_listings_admin_notice",
 			url: wp_listings_adminL10n.ajaxurl,
 			nag: $this.parent().data( 'key' ),
@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
 	});
 
 	jQuery(document).on( 'click', '.submit-imports-button', function(event){
-		console.log("Can one ever truly prevent defaults?");
+														// Can one truly prevent nature's course?
 		event.preventDefault(); // Yes. Yes they can.
 		var all = jQuery('.selected').contents();
 		var mlses = [];
@@ -59,6 +59,9 @@ jQuery(document).ready(function($) {
 			url: "/wp-json/wp-listings-pro/v1/import-listings/?mlses=" + mlses,
 			data: {
 				mlses: mlses
+			},
+			beforeSend:function( xhr ){
+				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.better_nonce);
 			},
 			success:function(response){
 				window.location.reload();
@@ -140,6 +143,9 @@ jQuery(document).ready(function($) {
 			data: {
 				id: id
 			},
+			beforeSend:function( xhr ){
+				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.better_nonce);
+			},
 			success:function(response){
 				window.location.reload();
 			}
@@ -153,7 +159,10 @@ jQuery(document).ready(function($) {
 		jQuery.ajax({
 			type : "get",
 			dataType: "json",
-			url: "/wp-json/wp-listings-pro/v1/sync-all"
+			url: "/wp-json/wp-listings-pro/v1/sync-all",
+			beforeSend:function( xhr ){
+				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.better_nonce);
+			}
 		});
 		window.location.reload();
 	})
@@ -173,6 +182,9 @@ jQuery(document).ready(function($) {
 				action: 'impa_idx_agent_delete',
 				nonce: nonce,
 				id: id
+			},
+			beforeSend:function( xhr ){
+				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.better_nonce);
 			},
 			success: function( result ) {
 				window.location.reload();
