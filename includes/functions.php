@@ -384,50 +384,6 @@ function wplpro_term_image( $term_id, $html = true, $size = 'full' ) {
 /**
  * Holds miscellaneous functions for use with Agents.
  */
-add_action( 'pre_get_posts', 'wplpro_change_sort_order' );
-
-
-/**
- * Add pagination and sort by menu order for employee archives
- *
- * @access public
- * @param mixed $query Query.
- * @return void
- */
-function wplpro_change_sort_order( $query ) {
-
-	$paged = (get_query_var( 'paged' )) ? get_query_var( 'paged' ) : 1;
-
-	if ( $query->is_main_query() && ! is_admin() && is_post_type_archive( 'employee' ) || is_tax() ) {
-		$query->set( 'orderby', 'menu_order' );
-		$query->set( 'order', 'ASC' );
-		$query->set( 'paged', $paged );
-	}
-}
-
-add_action( 'p2p_init', 'wplpro_employee_connection_types' );
-
-
-/**
- * Connects employee post type to listing post type.
- *
- * @access public
- * @return void
- */
-function wplpro_employee_connection_types() {
-
-	if ( ! post_type_exists( 'listing' ) || ! post_type_exists( 'employee' ) ) {
-		return;
-	}
-
-	p2p_register_connection_type( array(
-		'name'      => 'agents_to_listings',
-		'from'      => 'employee',
-		'to'        => 'listing',
-		'sortable'  => 'any',
-	) );
-}
-
 add_image_size( 'employee-thumbnail', 150, 200, true );
 add_image_size( 'employee-full', 300, 400, true );
 
