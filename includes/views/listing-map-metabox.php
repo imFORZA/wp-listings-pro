@@ -7,7 +7,7 @@ echo '<div style="width: 90%; float: left;">';
 if ( get_post_meta( $post->ID, '_listing_automap', 1 ) == false ) {
 	update_post_meta( $post->ID, '_listing_automap', 'y' );
 }
-		printf( __( '<p><label>Automatically insert map based on latitude/longitude? <strong>Will be overridden if a shortode is entered below.</strong><br /> <input type="radio" name="wp_listings[_listing_automap]" value="y" %1$s>Yes</input> <input type="radio" name="wp_listings[_listing_automap]" value="n" %1$s>No</input></label></p>' ),
+		printf( __( '<p><label>Automatically insert map based on latitude/longitude? <strong>Will be overridden if a shortode is entered below.</strong><br /> <input type="radio" name="wp_listings[_listing_automap]" value="y" %s>Yes</input> <input type="radio" name="wp_listings[_listing_automap]" value="n" %s>No</input></label></p>' ),
 			checked( get_post_meta( $post->ID, '_listing_automap', true ), 'y', 0 ),
 		checked( get_post_meta( $post->ID, '_listing_automap', true ), 'n', 0 ) );
 		echo '</div>';
