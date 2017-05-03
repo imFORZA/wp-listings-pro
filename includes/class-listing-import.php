@@ -552,7 +552,6 @@ add_action( 'wp_ajax_wp_listings_idx_listing_delete', 'wp_listings_idx_listing_d
  * @return string 'success'.
  */
 function wp_listings_idx_listing_delete( $given_id ) {
-	error_log( 'type: ' . gettype( $given_id ) );
 	// Delete featured image.
 	$post_featured_image_id = get_post_thumbnail_id( $given_id );
 	wp_delete_attachment( $post_featured_image_id );
