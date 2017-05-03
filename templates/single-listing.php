@@ -172,7 +172,7 @@ function wplpro_single_listing_post_content() {
 
 		if ( get_post_meta( $post->ID, '_listing_disclaimer', true ) ) {
 			echo '<p class="wp-listings-disclaimer">' . get_post_meta( $post->ID, '_listing_disclaimer', true ) . '</p>';
-		} elseif ( $options['wplpro_global_disclaimer'] !== '' && $options['wplpro_global_disclaimer'] !== null ) {
+		} elseif ( isset( $options['wplpro_global_disclaimer']) && $options['wplpro_global_disclaimer'] !== '' && $options['wplpro_global_disclaimer'] !== null ) {
 			echo '<p class="wp-listings-disclaimer">' . $options['wplpro_global_disclaimer'] . '</p>';
 		}
 		if ( ! isset( $options['wplpro_display_idx_link'] ) ) {
