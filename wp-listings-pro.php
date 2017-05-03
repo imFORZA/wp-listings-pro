@@ -384,7 +384,7 @@ function wplpro_init() {
 	/**
 	 * Function to add admin notices
 	 *
-	 * @param  string  $message    the error messag text.
+	 * @param  string  $message    the error message text.
 	 * @param  boolean $error      html class - true for error false for updated.
 	 * @param  string  $cap_check  required capability.
 	 * @param  boolean $ignore_key ignore key.

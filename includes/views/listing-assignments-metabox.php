@@ -6,7 +6,7 @@ echo '<div>';
 _e( '<h4>Agent Assignments</h4><p>', 'wp-listings-pro' );
 $stuff = get_posts(array(
 	'post_type'       => 'employee',
-	'posts_per_page'  => -1,
+	'posts_per_page'  => 500,
 ));
 if ( count( $stuff ) === 0 ) {
 	echo __( 'No agents found.', 'wp-listings-pro' );
@@ -22,5 +22,3 @@ if ( count( $stuff ) === 0 ) {
 }
 
 echo '</p></div>';
-
-

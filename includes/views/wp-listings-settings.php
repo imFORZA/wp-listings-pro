@@ -40,7 +40,6 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					'wplpro_global_disclaimer'						=> '',
 					'wplpro_listings_slug'								=> 'listing',
 					'wplpro_employees_slug'								=> 'employee',
-					'wplpro_gmaps_api_key'								=> '',
 					'wplpro_default_form'									=> '',
 					'wplpro_custom_wrapper'								=> 0,
 					'wplpro_start_wrapper'								=> '',
@@ -299,9 +298,6 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 					_e( '<h3>Default Disclaimer</h3><p>Optionally enter a disclaimer to show on single listings. This can be overridden on individual listings.</p>', 'wp-listings-pro' );
 					_e( '<p><textarea name="wplpro_plugin_settings[wplpro_global_disclaimer]" id="wplpro_global_disclaimer" type="text" value="' . esc_html( $options['wplpro_global_disclaimer'] ) . '" rows="4" style="width: 80%">' . esc_html( $options['wplpro_global_disclaimer'] ) . '</textarea></p><hr>', 'wp-listings-pro' );
-
-					_e( '<h3>Maps</h3><h4>Google Maps</h4><p>Listings can be automatically mapped if they have a latitude and longitude. You will need a <a href="https://developers.google.com/maps/documentation/javascript/get-api-key">Google Maps API key</a> to use this feature. Enter your API key below.</p>', 'wp-listings-pro' );
-					_e( '<p>Browser key: <input name="wplpro_plugin_settings[wplpro_gmaps_api_key]" id="wplpro_gmaps_api_key" type="text" value="' . esc_html( $options['wplpro_gmaps_api_key'] ) . '" size="40" /></p><hr>', 'wp-listings-pro' );
 
 					_e( '<h4>Default Form shortcode</h4><p>If you use a Contact Form plugin, you may enter the form shortcode here to display on all listings. Additionally, each listing can use a custom form. If no shortcode is entered, the template will use a default contact form:</p>', 'wp-listings-pro' );
 					_e( '<p>Form shortcode: <input name="wplpro_plugin_settings[wplpro_default_form]" id="wplpro_default_form" type="text" value="' . esc_html( $options['wplpro_default_form'] ) . '" size="40" /></p><hr>', 'wp-listings-pro' );

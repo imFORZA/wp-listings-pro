@@ -360,20 +360,20 @@ class WPL_Idx_Listing {
 			wp_set_object_terms( $id, $propstatus, 'status', true );
 
 			// Add post meta for existing WPL fields.
-			update_post_meta( $id, '_listing_lot_sqft', $idx_featured_listing_data['acres'] . ' acres' );
-			update_post_meta( $id, '_listing_price', $idx_featured_listing_data['listingPrice'] );
-			update_post_meta( $id, '_listing_hidden_price', wplpro_strip_price( $idx_featured_listing_data['listingPrice'] ) );
-			update_post_meta( $id, '_listing_address', $idx_featured_listing_data['address'] );
-			update_post_meta( $id, '_listing_city', $idx_featured_listing_data['cityName'] );
-			update_post_meta( $id, '_listing_county', $idx_featured_listing_data['countyName'] );
-			update_post_meta( $id, '_listing_state', $idx_featured_listing_data['state'] );
-			update_post_meta( $id, '_listing_zip', $idx_featured_listing_data['zipcode'] );
-			update_post_meta( $id, '_listing_mls', $idx_featured_listing_data['listingID'] );
-			update_post_meta( $id, '_listing_sqft', $idx_featured_listing_data['sqFt'] );
-			update_post_meta( $id, '_listing_year_built', (isset( $idx_featured_listing_data['yearBuilt'] )) ? $idx_featured_listing_data['yearBuilt'] : '' );
-			update_post_meta( $id, '_listing_bedrooms', $idx_featured_listing_data['bedrooms'] );
-			update_post_meta( $id, '_listing_bathrooms', $idx_featured_listing_data['totalBaths'] );
-			update_post_meta( $id, '_listing_half_bath', $idx_featured_listing_data['partialBaths'] );
+			update_post_meta( $id, '_listing_lot_sqft', isset($idx_featured_listing_data['acres'])?$idx_featured_listing_data['acres'] . ' acres' :'');
+			update_post_meta( $id, '_listing_price', isset($idx_featured_listing_data['listingPrice'])?$idx_featured_listing_data['listingPrice']:'' );
+			update_post_meta( $id, '_listing_hidden_price', wplpro_strip_price( isset($idx_featured_listing_data['listingPrice'])?$idx_featured_listing_data['listingPrice']:'' ) );
+			update_post_meta( $id, '_listing_address', isset($idx_featured_listing_data['address'])?$idx_featured_listing_data['address']:'' );
+			update_post_meta( $id, '_listing_city', isset($idx_featured_listing_data['cityName'])?$idx_featured_listing_data['cityName']:'' );
+			update_post_meta( $id, '_listing_county', isset($idx_featured_listing_data['countyName'])?$idx_featured_listing_data['countyName']:'' );
+			update_post_meta( $id, '_listing_state', isset($idx_featured_listing_data['state'])?$idx_featured_listing_data['state']:'' );
+			update_post_meta( $id, '_listing_zip', isset($idx_featured_listing_data['zipcode'])?$idx_featured_listing_data['zipcode']:'' );
+			update_post_meta( $id, '_listing_mls', isset($idx_featured_listing_data['listingID'])?$idx_featured_listing_data['listingID']:'' );
+			update_post_meta( $id, '_listing_sqft', isset($idx_featured_listing_data['sqFt'])?$idx_featured_listing_data['sqFt']:'' );
+			update_post_meta( $id, '_listing_year_built', isset($idx_featured_listing_data['yearBuilt'])?$idx_featured_listing_data['yearBuilt']:'' );
+			update_post_meta( $id, '_listing_bedrooms', isset($idx_featured_listing_data['bedrooms'])?$idx_featured_listing_data['bedrooms']:'' );
+			update_post_meta( $id, '_listing_bathrooms', isset($idx_featured_listing_data['totalBaths'])?$idx_featured_listing_data['totalBaths']:'' );
+			update_post_meta( $id, '_listing_half_bath', isset($idx_featured_listing_data['partialBaths'])?$idx_featured_listing_data['partialBaths']:'' );
 		}
 
 		// Inserts image tags into Old Listing Gallery Box.
