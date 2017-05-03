@@ -55,9 +55,9 @@ if ( ! defined( 'WPINC' ) ) {
 		<ul>
 			<?php /* Thought about having this open in a new tab, but https://www.thesitewizard.com/html-tutorial/open-links-in-new-window-or-tab.shtml made a good case against that */ ?>
 			<li><strong><?php _e( 'Step #1:', 'wp-listings-pro' ); ?></strong> <a href="/wp-admin/options-general.php?page=wp-listings-settings"><?php _e( 'Review your Settings.', 'wp-listings-pro' ); ?></a></li>
-			<li><strong><?php _e( 'Step #2:', 'wp-listings-pro' ); ?></strong> <?php _e( 'Make sure you have an IDX Broker installed and registered', 'wp-listings-pro' ); ?> </li>
+			<li><strong><?php _e( 'Step #2:', 'wp-listings-pro' ); ?></strong> <?php _e( 'Add your IDX Broker API Key to your settings', 'wp-listings-pro' ); ?> </li>
 			<li><strong><?php _e( 'Step #3:', 'wp-listings-pro' ); ?></strong> <?php _e( 'Import any listings and agents (<a href="/wp-admin/edit.php?post_type=listing&page=wplistings-idx-listing">Listings</a>, <a href="/wp-admin/edit.php?post_type=employee&page=wplpro-idx-agent">Agents</a>)', 'wp-listings-pro' ); ?></li>
-			<li><strong><?php _e( 'Step #3.5:', 'wp-listings-pro' ); ?></strong> <?php _e( 'Run a manual IDX update from the settings page (recommended).', 'wp-listings-pro' ); ?> </li>
+			<li><strong><?php _e( 'Step #3.5:', 'wp-listings-pro' ); ?></strong> <?php _e( 'Run a manual IDX update from the settings page (recommended)', 'wp-listings-pro' ); ?> </li>
 			<li><strong><?php _e( 'Step #4:', 'wp-listings-pro' ); ?></strong> <?php _e( '????', 'wp-listings-pro' ); ?> </li>
 			<li><strong><?php _e( 'Step #5:', 'wp-listings-pro' ); ?></strong> <?php _e( 'Profit', 'wp-listings-pro' ); ?> </li>
 			<!-- Please don't leave this in the final version -->

@@ -40,12 +40,10 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					'wplpro_global_disclaimer'						=> '',
 					'wplpro_listings_slug'								=> 'listing',
 					'wplpro_employees_slug'								=> 'employee',
-					'wplpro_gmaps_api_key'								=> '',
 					'wplpro_default_form'									=> '',
 					'wplpro_custom_wrapper'								=> 0,
 					'wplpro_start_wrapper'								=> '',
 					'wplpro_end_wrapper'									=> '',
-					'wplpro_idx_lead_form'								=> 1,
 					'wplpro_idx_update'										=> 'update-all',
 					'wplpro_idx_update_agents'   					=> 'update-all',
 					'wplpro_custom_sync_featured'					=> 0,
@@ -301,16 +299,8 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 					_e( '<h3>Default Disclaimer</h3><p>Optionally enter a disclaimer to show on single listings. This can be overridden on individual listings.</p>', 'wp-listings-pro' );
 					_e( '<p><textarea name="wplpro_plugin_settings[wplpro_global_disclaimer]" id="wplpro_global_disclaimer" type="text" value="' . esc_html( $options['wplpro_global_disclaimer'] ) . '" rows="4" style="width: 80%">' . esc_html( $options['wplpro_global_disclaimer'] ) . '</textarea></p><hr>', 'wp-listings-pro' );
 
-					_e( '<h3>Maps</h3><h4>Google Maps</h4><p>Listings can be automatically mapped if they have a latitude and longitude. You will need a <a href="https://developers.google.com/maps/documentation/javascript/get-api-key">Google Maps API key</a> to use this feature. Enter your API key below.</p>', 'wp-listings-pro' );
-					_e( '<p>Browser key: <input name="wplpro_plugin_settings[wplpro_gmaps_api_key]" id="wplpro_gmaps_api_key" type="text" value="' . esc_html( $options['wplpro_gmaps_api_key'] ) . '" size="40" /></p><hr>', 'wp-listings-pro' );
-
 					_e( '<h4>Default Form shortcode</h4><p>If you use a Contact Form plugin, you may enter the form shortcode here to display on all listings. Additionally, each listing can use a custom form. If no shortcode is entered, the template will use a default contact form:</p>', 'wp-listings-pro' );
 					_e( '<p>Form shortcode: <input name="wplpro_plugin_settings[wplpro_default_form]" id="wplpro_default_form" type="text" value="' . esc_html( $options['wplpro_default_form'] ) . '" size="40" /></p><hr>', 'wp-listings-pro' );
-
-					if ( class_exists( 'Idx_Broker_Plugin' ) ) {
-						_e( '<h4>Add default form entries to IDX Broker</h4><p>Check this option to enable form entries to be sent to IDX Broker as a lead.<br/><strong>Note: This only works if using the default contact form.</strong></p>', 'wp-listings-pro' );
-						_e( '<p><input name="wplpro_plugin_settings[wplpro_idx_lead_form]" id="wplpro_idx_lead_form" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_idx_lead_form'], 0 ) . ' /> Enable</p><hr>', 'wp-listings-pro' );
-					}
 
 					_e( "<h3>Custom Wrapper</h3><p>If your theme's content HTML ID's and Classes are different than the included template, you can enter the HTML of your content wrapper beginning and end:</p>", 'wp-listings-pro' );
 					_e( '<p><label><input name="wplpro_plugin_settings[wplpro_custom_wrapper]" id="wplpro_custom_wrapper" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_custom_wrapper'], false ) . ' /> Use Custom Wrapper</p>', 'wp-listings-pro' );

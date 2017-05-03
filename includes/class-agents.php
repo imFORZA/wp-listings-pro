@@ -291,8 +291,8 @@ class WPLPRO_Agents {
 				}
 				break;
 			case 'employee_tags':
-				echo '<b>Job Type:</b> ' . esc_attr( get_the_term_list( $post->ID, 'job-types', '', ', ', '' ), 'wp-listings-pro' ) . '<br />';
-				echo '<b>Office:</b> ' . esc_attr( get_the_term_list( $post->ID, 'offices', '', ', ', '' ), 'wp-listings-pro' ) . '<br />';
+				echo '<b>Job Type:</b> ' . get_the_term_list( $post->ID, 'job-types', '', ', ', '' ) . '<br />';
+				echo '<b>Office:</b> ' . get_the_term_list( $post->ID, 'offices', '', ', ', '' ) . '<br />';
 break;
 		}
 

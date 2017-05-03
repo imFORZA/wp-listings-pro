@@ -82,7 +82,7 @@ class WPLPRO_Agents_Import {
 			$item = array();
 
 			foreach ( $agents['agent'] as $a ) {
-
+				error_log(print_r($a, true));
 				if ( ! in_array( (string) $a['agentID'], $agent_ids, true ) ) {
 					$idx_agent_wp_options[ $a['agentID'] ]['agentID'] = $a['agentID'];
 					$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
@@ -225,23 +225,22 @@ class WPLPRO_Agents_Import {
 	 * @return bool	true if featured image is set.
 	 */
 	public static function wplpro_agents_idx_insert_post_meta( $id, $idx_agent_data, $update = false, $update_image = true ) {
-
 		// Add or reset taxonomies terms for job-types = agentTitle.
 		wp_set_object_terms( $id, $idx_agent_data['agentTitle'], 'job-types' );
 
 		// Add post meta for existing fields.
-		if ( get_post_meta( $id, '_employee_title' ) === array() ) { update_post_meta( $id, '_employee_title', $idx_agent_data['agentTitle'] ); }
-		if ( get_post_meta( $id, '_employee_first_name' ) === array() ) { update_post_meta( $id, '_employee_first_name', $idx_agent_data['agentFirstName'] ); }
-		if ( get_post_meta( $id, '_employee_last_name' ) === array() ) { update_post_meta( $id, '_employee_last_name', $idx_agent_data['agentLastName'] ); }
-		if ( get_post_meta( $id, '_employee_agent_id' ) === array() ) { update_post_meta( $id, '_employee_agent_id', $idx_agent_data['agentID'] ); }
-		if ( get_post_meta( $id, '_employee_phone' ) === array() ) { update_post_meta( $id, '_employee_phone', $idx_agent_data['agentContactPhone'] ); }
-		if ( get_post_meta( $id, '_employee_mobile' ) === array() ) { update_post_meta( $id, '_employee_mobile', $idx_agent_data['agentCellPhone'] ); }
-		if ( get_post_meta( $id, '_employee_email' ) === array() ) { update_post_meta( $id, '_employee_email', $idx_agent_data['agentEmail'] ); }
-		if ( get_post_meta( $id, '_employee_website' ) === array() ) { update_post_meta( $id, '_employee_website', $idx_agent_data['agentURL'] ); }
-		if ( get_post_meta( $id, '_employee_address' ) === array() ) { update_post_meta( $id, '_employee_address', $idx_agent_data['address'] ); }
-		if ( get_post_meta( $id, '_employee_city' ) === array() ) { update_post_meta( $id, '_employee_city', $idx_agent_data['city'] ); }
-		if ( get_post_meta( $id, '_employee_state' ) === array() ) { update_post_meta( $id, '_employee_state', $idx_agent_data['stateProvince'] ); }
-		if ( get_post_meta( $id, '_employee_zip' ) === array() ) { update_post_meta( $id, '_employee_zip', $idx_agent_data['zipCode'] ); }
+		if ( get_post_meta( $id, '_employee_title' ) === array() ) { update_post_meta( $id, '_employee_title', isset($idx_agent_data['agentTitle'])?$idx_agent_data['agentTitle']:'' ); }
+		if ( get_post_meta( $id, '_employee_first_name' ) === array() ) { update_post_meta( $id, '_employee_first_name', isset($idx_agent_data['agentFirstName'])?$idx_agent_data['agentFirstName']:'' ); }
+		if ( get_post_meta( $id, '_employee_last_name' ) === array() ) { update_post_meta( $id, '_employee_last_name', isset($idx_agent_data['agentLastName'])?$idx_agent_data['agentLastName']:'' ); }
+		if ( get_post_meta( $id, '_employee_agent_id' ) === array() ) { update_post_meta( $id, '_employee_agent_id', isset($idx_agent_data['agentID'])?$idx_agent_data['agentID']:'' ); }
+		if ( get_post_meta( $id, '_employee_phone' ) === array() ) { update_post_meta( $id, '_employee_phone', isset($idx_agent_data['agentContactPhone'])?$idx_agent_data['agentContactPhone']:'' ); }
+		if ( get_post_meta( $id, '_employee_mobile' ) === array() ) { update_post_meta( $id, '_employee_mobile', isset($idx_agent_data['agentCellPhone'])?$idx_agent_data['agentCellPhone']:'' ); }
+		if ( get_post_meta( $id, '_employee_email' ) === array() ) { update_post_meta( $id, '_employee_email', isset($idx_agent_data['agentEmail'])?$idx_agent_data['agentEmail']:'' ); }
+		if ( get_post_meta( $id, '_employee_website' ) === array() ) { update_post_meta( $id, '_employee_website', isset($idx_agent_data['agentURL'])?$idx_agent_data['agentURL']:'' ); }
+		if ( get_post_meta( $id, '_employee_address' ) === array() ) { update_post_meta( $id, '_employee_address', isset($idx_agent_data['address'])?$idx_agent_data['address']:'' ); }
+		if ( get_post_meta( $id, '_employee_city' ) === array() ) { update_post_meta( $id, '_employee_city', isset($idx_agent_data['city'])?$idx_agent_data['city']:'' ); }
+		if ( get_post_meta( $id, '_employee_state' ) === array() ) { update_post_meta( $id, '_employee_state', isset($idx_agent_data['stateProvince'])?$idx_agent_data['stateProvince']:'' ); }
+		if ( get_post_meta( $id, '_employee_zip' ) === array() ) { update_post_meta( $id, '_employee_zip', isset($idx_agent_data['zipCode'])?$idx_agent_data['zipCode']:'' ); }
 
 		foreach ( $idx_agent_data as $metakey => $metavalue ) {
 			if ( isset( $metavalue ) && ! is_array( $metavalue ) && '' !== $metavalue ) {
