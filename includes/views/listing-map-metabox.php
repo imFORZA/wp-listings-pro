@@ -19,8 +19,6 @@ if ( get_post_meta( $post->ID, '_listing_automap', 1 ) == false ) {
 		echo '</div><br style="clear: both;" />';
 
 		_e( '<p><label>Or enter Map Embed Code or shortcode from Map plugin (such as <a href="http://jetpack.me/support/shortcode-embeds/" target="_blank" rel="nofollow">Jetpack Shortcodes</a>, <a href="https://wordpress.org/plugins/simple-google-maps-short-code/" target="_blank" rel="nofollow">Simple Google Maps Short Code</a> or <a href="https://wordpress.org/plugins/mappress-google-maps-for-wordpress/" target="_blank" rel="nofollow">MapPress</a>):<br /><em>Recommend size: 660x300 (If possible, use 100% width, or your themes content width)</em><br />', 'wp-listings-pro' );
-		printf( __( '<textarea name="wp_listings[_listing_map]" rows="5" cols="18" style="%1$s">%1$s</textarea></label></p>', 'wp-listings-pro' ), 'width: 99%;', htmlentities( get_post_meta( $post->ID, '_listing_map', true ) ) );
+		printf( __( '<textarea name="wp_listings[_listing_map]" rows="5" cols="18" style="%s">%s</textarea></label></p>', 'wp-listings-pro' ), 'width: 99%;', htmlentities( get_post_meta( $post->ID, '_listing_map', true ) ) );
 
 		echo '</div>';
-
-
