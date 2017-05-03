@@ -752,5 +752,5 @@ function wplpro_post_select( $select_id, $post_type, $selected = array() ) {
  * @return [String]        : Price without chars.
  */
 function wplpro_strip_price( $price ) {
-	return sanitize_text_field( preg_replace( '/[\€$,a-zA-Z]/', '', $price ) );
+	return sanitize_text_field( preg_replace( '/[^0-9.]/', '', $price ) );
 }
