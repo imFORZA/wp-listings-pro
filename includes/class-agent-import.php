@@ -109,16 +109,6 @@ class WPLPRO_Agents_Import {
 					$item['opts'] = $opts;
 					$item['a'] = $a;
 
-					// $add_post = wp_insert_post( $opts, true );
-					// if ( is_wp_error( $add_post ) ) {
-					// $error_string = $add_post->get_error_message();
-					// add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
-					// return;
-					// } elseif ( $add_post ) {
-					// $idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $add_post;
-					// $idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
-					// self::wplpro_agents_idx_insert_post_meta( $add_post, $a );
-					// }
 					$agents_queue->push_to_queue( $item );
 					update_option( 'wplpro_agents_idx_agent_wp_options', $idx_agent_wp_options );
 				} elseif ( in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
@@ -273,9 +263,7 @@ class WPLPRO_Agents_Import {
 				// Add Featured Image to Post.
 				$image_url  = $featured_image;  // Define the image URL here.
 				$upload_dir = wp_upload_dir();  // Set upload folder.
-				if(!file_exists( $image_url )){ // Missing file. AKA, we're done here.
-					return true;
-				}
+
 				$image_data = file_get_contents( $image_url ); // Get image data.
 
 				$filename   = basename( sanitize_file_name( strtolower( $idx_agent_data['agentDisplayName'] ) ) . '.jpg' ); // Create image file name.
