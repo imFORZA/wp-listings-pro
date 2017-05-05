@@ -52,7 +52,7 @@ jQuery(document).ready(function($) {
 				mlses[mlses.length] = all[i].id;
 			}
 		}
-		mlses = mlses.join('z'); // probably not the cleanest way of doing this...
+		mlses = mlses.join(','); // probably not the cleanest way of doing this...
 		jQuery.ajax({
 			type : "get",
 			dataType: "json",

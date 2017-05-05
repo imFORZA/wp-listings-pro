@@ -22,7 +22,7 @@ class WPLPRO_Meta_Box_Listing_Images {
 	 * @param WP_Post $post Post to be sent in.
 	 */
 	public static function output( $post = null ) {
-
+		wplpro_admin_scripts_styles();
 		wp_nonce_field( 'wplpro_image_gallery_metabox_save', 'wplpro_image_gallery_metabox_nonce' );
 		?>
 		<div id="listing_images_container">

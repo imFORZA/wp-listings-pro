@@ -82,7 +82,6 @@ class WPLPRO_Agents_Import {
 			$item = array();
 
 			foreach ( $agents['agent'] as $a ) {
-				error_log(print_r($a, true));
 				if ( ! in_array( (string) $a['agentID'], $agent_ids, true ) ) {
 					$idx_agent_wp_options[ $a['agentID'] ]['agentID'] = $a['agentID'];
 					$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
@@ -110,16 +109,6 @@ class WPLPRO_Agents_Import {
 					$item['opts'] = $opts;
 					$item['a'] = $a;
 
-					// $add_post = wp_insert_post( $opts, true );
-					// if ( is_wp_error( $add_post ) ) {
-					// $error_string = $add_post->get_error_message();
-					// add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
-					// return;
-					// } elseif ( $add_post ) {
-					// $idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $add_post;
-					// $idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
-					// self::wplpro_agents_idx_insert_post_meta( $add_post, $a );
-					// }
 					$agents_queue->push_to_queue( $item );
 					update_option( 'wplpro_agents_idx_agent_wp_options', $idx_agent_wp_options );
 				} elseif ( in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
@@ -272,9 +261,11 @@ class WPLPRO_Agents_Import {
 				wp_delete_attachment( $post_featured_image_id );
 
 				// Add Featured Image to Post.
-				$image_url  = $featured_image; // Define the image URL here.
-				$upload_dir = wp_upload_dir(); // Set upload folder.
+				$image_url  = $featured_image;  // Define the image URL here.
+				$upload_dir = wp_upload_dir();  // Set upload folder.
+
 				$image_data = file_get_contents( $image_url ); // Get image data.
+
 				$filename   = basename( sanitize_file_name( strtolower( $idx_agent_data['agentDisplayName'] ) ) . '.jpg' ); // Create image file name.
 
 				// Check folder permission and define file location.
@@ -452,13 +443,21 @@ function impa_idx_agent_delete() {
  * @return void
  */
 function wplpro_agents_idx_agent_setting_page() {
+
+	wplpro_admin_scripts_styles();
+
+	$do_button = true;
+	if ( '' === get_option( 'permalink_structure' ) ) {
+		add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'idx_agent_import_progress', 'Within WordPress settings, you have Permalinks set to "Plain". Unfortunately, the import page will not work unless permalinks have been set to something else. In order for the import page to work, please go to your Permalinks page under Settings, and change them to something else (we recommend "Post name").', 'error' );
+		$do_button = false;
+	}
 	?>
 			<h1>Import Agents</h1>
 			<p>Select the agents to import.</p>
 			<form id="wplpro-idx-agent-import" method="post" action="options.php">
 				<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all agents, it may take some time. <strong class="error">Please be patient.</strong></em></label>
 				<p>Please note that after pressing the "Import Agents" button, <em>there will be a time delay before all agents are visible depending on how many you are importing</em>. Don't worry, everything that was selected when you pressed "Import Agents" will still be imported, it just takes some time to pull multiple agents and their image from the API feed.</p>
-				<?php submit_button( 'Import Agents' ); ?>
+				<?php if ($do_button) submit_button( 'Import Agents' ); ?>
 
 			<?php
 
@@ -563,7 +562,8 @@ function wplpro_agents_idx_agent_setting_page() {
 				}
 			}
 			echo '</ol>';
-			submit_button( 'Import Agents' );
+			if ( $do_button)
+				submit_button( 'Import Agents' );
 			?>
 			</form>
 	<?php
