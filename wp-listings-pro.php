@@ -203,33 +203,33 @@ function wplpro_init() {
 	}
 
 	/** Includes. */
-	require_once( dirname( __FILE__ ) . '/includes/class-listings.php' );
-	require_once( dirname( __FILE__ ) . '/includes/class-agents.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listings.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-agents.php' );
 
-	require_once( dirname( __FILE__ ) . '/includes/helpers.php' );
-	require_once( dirname( __FILE__ ) . '/includes/functions.php' );
-	require_once( dirname( __FILE__ ) . '/includes/rest-api.php' );
-	require_once( dirname( __FILE__ ) . '/includes/shortcodes.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/helpers.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/functions.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/rest-api.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/shortcodes.php' );
 
-	require_once( dirname( __FILE__ ) . '/includes/class-taxonomies.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-taxonomies.php' );
 
-	require_once( dirname( __FILE__ ) . '/includes/class-admin-notice.php' );
-	require_once( dirname( __FILE__ ) . '/includes/wp-api.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-admin-notice.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/wp-api.php' );
 
-	require_once( dirname( __FILE__ ) . '/includes/widgets/class-listings-search-widget.php' );
-	require_once( dirname( __FILE__ ) . '/includes/widgets/class-featured-listings-widget.php' );
-	require_once( dirname( __FILE__ ) . '/includes/widgets/class-employee-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-listings-search-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-featured-listings-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-employee-widget.php' );
 
-	require_once( dirname( __FILE__ ) . '/includes/class-listing-gallery-metabox.php' );
-	require_once( dirname( __FILE__ ) . '/includes/class-listing-import.php' );
-	require_once( dirname( __FILE__ ) . '/includes/class-agent-import.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-gallery-metabox.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-import.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-agent-import.php' );
 
-	require_once( dirname( __FILE__ ) . '/includes/class-saved-searches.php' );
-	require_once( dirname( __FILE__ ) . '/includes/class-users.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-saved-searches.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-users.php' );
 
-	require_once( dirname( __FILE__ ) . '/includes/class-migrate-old-posts.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-migrate-old-posts.php' );
 
-	require_once( dirname( __FILE__ ) . '/welcome/welcome-logic.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'welcome/welcome-logic.php' );
 
 	/** Instantiate */
 	$_wplpro_agents = new WPLPRO_Agents;
