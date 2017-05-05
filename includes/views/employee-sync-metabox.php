@@ -11,7 +11,13 @@ $plugin_options = get_option( 'wplpro_plugin_settings' );
 if ( ! isset( $plugin_options['wplpro_idx_update_agents'] ) ) {
 	$plugin_options['wplpro_idx_update_agents'] = 'update-useglobal';
 }
-$global_sync_setting = get_option( 'wplpro_plugin_settings' )['wplpro_idx_update_agents'];
+$wplrpo_settings = get_option( 'wplpro_plugin_settings' );
+$global_sync_setting;
+if( isset( $wplrpo_settings['wplpro_idx_update_agents'] ) ) {
+	$global_sync_setting = $wplrpo_settings['wplpro_idx_update_agents'];
+}else{
+	$global_sync_setting = 'update-all';
+}
 
 if ( $global_sync_setting == 'update-none' ) {
 	$current_setting = 'nothing';
