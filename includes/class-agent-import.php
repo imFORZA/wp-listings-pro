@@ -452,13 +452,19 @@ function impa_idx_agent_delete() {
  * @return void
  */
 function wplpro_agents_idx_agent_setting_page() {
+
+	$do_button = true;
+	if ( '' === get_option( 'permalink_structure' ) ) {
+		add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'idx_agent_import_progress', 'Within WordPress settings, you have Permalinks set to "Plain". Unfortunately, the import page will not work unless permalinks have been set to something else. In order for the import page to work, please go to your Permalinks page under Settings, and change them to something else (we recommend "Post name").', 'error' );
+		$do_button = false;
+	}
 	?>
 			<h1>Import Agents</h1>
 			<p>Select the agents to import.</p>
 			<form id="wplpro-idx-agent-import" method="post" action="options.php">
 				<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all agents, it may take some time. <strong class="error">Please be patient.</strong></em></label>
 				<p>Please note that after pressing the "Import Agents" button, <em>there will be a time delay before all agents are visible depending on how many you are importing</em>. Don't worry, everything that was selected when you pressed "Import Agents" will still be imported, it just takes some time to pull multiple agents and their image from the API feed.</p>
-				<?php submit_button( 'Import Agents' ); ?>
+				<?php if ($do_button) submit_button( 'Import Agents' ); ?>
 
 			<?php
 
@@ -563,7 +569,8 @@ function wplpro_agents_idx_agent_setting_page() {
 				}
 			}
 			echo '</ol>';
-			submit_button( 'Import Agents' );
+			if ( $do_button)
+				submit_button( 'Import Agents' );
 			?>
 			</form>
 	<?php

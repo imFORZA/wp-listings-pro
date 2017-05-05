@@ -609,8 +609,10 @@ function wp_listings_idx_listing_delete_all() {
  */
 function wp_listings_idx_listing_setting_page() {
 
+	$do_button = true;
 	if ( '' === get_option( 'permalink_structure' ) ) {
-		add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_import_progress', 'Within WordPress settings, you have Permalinks set to "Plain". Unfortunately, the import page will not work unless permalinks have been set to something else, so please go to your permalinks page under settings, and change them to something else (we recommend "Post name").', 'error' );
+		add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_import_progress', 'Within WordPress settings, you have Permalinks set to "Plain". Unfortunately, the import page will not work unless permalinks have been set to something else. In order for the import page to work, please go to your Permalinks page under Settings, and change them to something else (we recommend "Post name").', 'error' );
+		$do_button = false;
 	}
 
 	if ( get_option( 'wp_listings_import_progress' ) === true ) {
@@ -625,8 +627,8 @@ function wp_listings_idx_listing_setting_page() {
 			<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all listings, it may take some time. <strong class="error">Please be patient.</strong></em></label>
 			<p>Please note that after pressing the "Import Listings" button, <em>there will be a time delay before all listings are visible depending on how many you are importing</em>. Don't worry, everything that was selected when you pressed "Import Listings" will still be imported, it just takes some time to pull multiple listings and their images from the API feed.</p>
 			<?php
-
-			submit_button( 'Import Listings', 'primary submit-imports-button' );
+			if( $do_button )
+				submit_button( 'Import Listings', 'primary submit-imports-button' );
 
 			settings_errors( 'wp_listings_idx_listing_settings_group' );
 			?>
@@ -715,7 +717,8 @@ function wp_listings_idx_listing_setting_page() {
 				}
 			}
 			echo '</ol>';
-			submit_button( 'Import Listings', 'primary submit-imports-button' );
+			if( $do_button )
+				submit_button( 'Import Listings', 'primary submit-imports-button' );
 			?>
 			</form>
 	<?php
