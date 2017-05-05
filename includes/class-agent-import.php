@@ -82,7 +82,6 @@ class WPLPRO_Agents_Import {
 			$item = array();
 
 			foreach ( $agents['agent'] as $a ) {
-				error_log(print_r($a, true));
 				if ( ! in_array( (string) $a['agentID'], $agent_ids, true ) ) {
 					$idx_agent_wp_options[ $a['agentID'] ]['agentID'] = $a['agentID'];
 					$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
@@ -272,9 +271,13 @@ class WPLPRO_Agents_Import {
 				wp_delete_attachment( $post_featured_image_id );
 
 				// Add Featured Image to Post.
-				$image_url  = $featured_image; // Define the image URL here.
-				$upload_dir = wp_upload_dir(); // Set upload folder.
+				$image_url  = $featured_image;  // Define the image URL here.
+				$upload_dir = wp_upload_dir();  // Set upload folder.
+				if(!file_exists( $image_url )){ // Missing file. AKA, we're done here.
+					return true;
+				}
 				$image_data = file_get_contents( $image_url ); // Get image data.
+
 				$filename   = basename( sanitize_file_name( strtolower( $idx_agent_data['agentDisplayName'] ) ) . '.jpg' ); // Create image file name.
 
 				// Check folder permission and define file location.
