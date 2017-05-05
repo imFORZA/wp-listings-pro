@@ -456,6 +456,8 @@ function impa_idx_agent_delete() {
  */
 function wplpro_agents_idx_agent_setting_page() {
 
+	wplpro_admin_scripts_styles();
+
 	$do_button = true;
 	if ( '' === get_option( 'permalink_structure' ) ) {
 		add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'idx_agent_import_progress', 'Within WordPress settings, you have Permalinks set to "Plain". Unfortunately, the import page will not work unless permalinks have been set to something else. In order for the import page to work, please go to your Permalinks page under Settings, and change them to something else (we recommend "Post name").', 'error' );

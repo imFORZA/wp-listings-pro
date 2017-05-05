@@ -227,7 +227,7 @@ class WP_Listings {
 
 		add_meta_box( 'wplpro-listing-images', __( 'Photo Gallery', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Images::output', 'listing', 'normal', 'high' );
 		add_meta_box( 'wplpro-listing-docs', __( 'Documents', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Docs::output', 'listing', 'normal', 'high' );
-
+		// wplpro_admin_scripts_styles();
 	}
 	/**
 	 * Metabox for listing sync settings
