@@ -48,7 +48,7 @@ if ( ! defined( 'WPINC' ) ) {
 		<?php printf( __( 'Manage your listings right from WordPress.', 'wp-listings-pro' ), WPLPRO_VERSION ); ?>
 	</div>
 
-	<div class="wp-badge welcome__logo"></div>
+	<!-- <div class="wp-badge welcome__logo"></div> -->
 
 	<div class="feature-section one-col">
 		<h3><?php _e( 'Welcome to WordPress Listings Professional.', 'wp-listings-pro' ); ?></h3>
@@ -58,12 +58,12 @@ if ( ! defined( 'WPINC' ) ) {
 			<li><strong><?php _e( 'Step #2:', 'wp-listings-pro' ); ?></strong> <?php _e( 'Add your IDX Broker API Key to your settings', 'wp-listings-pro' ); ?> </li>
 			<li><strong><?php _e( 'Step #3:', 'wp-listings-pro' ); ?></strong> <?php _e( 'Import any listings and agents (<a href="/wp-admin/edit.php?post_type=listing&page=wplistings-idx-listing">Listings</a>, <a href="/wp-admin/edit.php?post_type=employee&page=wplpro-idx-agent">Agents</a>)', 'wp-listings-pro' ); ?></li>
 			<li><strong><?php _e( 'Step #3.5:', 'wp-listings-pro' ); ?></strong> <?php _e( 'Run a manual IDX update from the settings page (recommended)', 'wp-listings-pro' ); ?> </li>
-			<li><strong><?php _e( 'Step #4:', 'wp-listings-pro' ); ?></strong> <?php _e( '????', 'wp-listings-pro' ); ?> </li>
-			<li><strong><?php _e( 'Step #5:', 'wp-listings-pro' ); ?></strong> <?php _e( 'Profit', 'wp-listings-pro' ); ?> </li>
+			<li><strong><?php _e( 'Step #4:', 'wp-listings-pro' ); ?></strong> <?php _e( 'Profit', 'wp-listings-pro' ); ?> </li>
 			<!-- Please don't leave this in the final version -->
 		</ul>
 	</div>
 
+<!--
 	<div class="feature-section one-col">
 		<h3><?php _e( 'Get Started', 'wp-listings-pro' ); ?></h3>
 		<div class="headline-feature feature-video">
@@ -72,6 +72,7 @@ if ( ! defined( 'WPINC' ) ) {
 			</div>
 		</div>
 	</div>
+	-->
 
 	<div class="feature-section two-col">
 		<div class="col">
@@ -80,7 +81,7 @@ if ( ! defined( 'WPINC' ) ) {
 			<p><?php _e( 'Before you needed multiple plugins to manage your agents, listings and link them together. Switching to WP Listings Pro, its the only plugin you need.', 'wp-listings-pro' ); ?></p>
 		</div>
 		<div class="col">
-			<img src="http://placehold.it/600x180/0092F9/fff?text=BE%20CONNECTED" />
+			<img src="http://placehold.it/600x180/0092F9/fff?text=IDX%20SUPPORT" />
 			<h3><?php _e( 'Import your Listings and Agents from IDX Broker', 'wp-listings-pro' ); ?></h3>
 			<p><?php _e( 'The IMPress Plugins limited to importing a single image, and on top of that you could only import your featured properties. WP-Listings-Pro aims to fix that, we import all of your images, and all properties available via the IDX Broker API.', 'wp-listings-pro' ); ?></p>
 		</div>
@@ -88,9 +89,9 @@ if ( ! defined( 'WPINC' ) ) {
 
 	<div class="feature-section two-col">
 		<div class="col">
-			<img src="http://placehold.it/600x180/0092F9/fff?text=OPEN%20SOURCE" />
-			<h3><?php _e( 'Always Open Source & Free', 'wp-listings-pro' ); ?></h3>
-			<p><?php _e( 'Our goal is to keep this plugin open source and free, the way the internet should be.', 'wp-listings-pro' ); ?></p>
+			<img src="http://placehold.it/600x180/0092F9/fff?text=MORE%20DATA" />
+			<h3><?php _e( 'More Fields, More Options', 'wp-listings-pro' ); ?></h3>
+			<p><?php _e( 'We have already begun to add more fields that are commonly requested by Real Estate Agents.', 'wp-listings-pro' ); ?></p>
 		</div>
 
 		<div class="col">
