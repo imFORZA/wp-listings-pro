@@ -2,25 +2,17 @@
 Contributors: bradleymoore111, bhubbard, sgarza
 Tags: listing search, listings, properties, property, real-estate, agent directory, agents, employee directory, employees
 Requires at least: 5.6
-Tested up to: 7.0
+Tested up to: 4.7.4
 Stable tag: 3.0.0
 
 WP Listings Pro is a plugin designed to manage both listings and agents, along with the integration of the two, for WordPress websites. Included is IDX Broker importing handling.
 
 == Description ==
-The next big thing is the internet.
+WP Listings Pro is a plugin to manage listings and agents on your WordPress website. Its based off of the original WP Listings plugin, along with the IMPress Agents plugin. This plugin manages listings and listing data, including property details, associated pictures, and sold status. Also included is full support for an IDX Broker API, for importing listings through an MLS feed.
 
-You want to learn something, you go on the internet. You want to know what\'s going on in the world, you go on the internet. You want to buy something, you go on the internet.
+Automatic support for switching from IMPress Listings! We automatically reformat data that needs to be reformatted, into a better display type, so your data will still be there. We also provide support for including agents, and assigning them to listings, along with editing their data as needed. This means you no longer need IMPress Agents or the Posts 2 Posts plugin.
 
-The same is true for the real estate market. 90% of people searching for a house have used the internet in their search, and 100% of people researching a specific house used the internet.
-
-100% doesn\'t lie.
-
-The internet is a crucial world to have a stake in for real estate, and that\'s where WP-Listings-Pro comes in. This plugin manages listings and listing data, including property details, associated pictures, and sold status. Also included is full support for an IDX Broker API, for importing listings through an MLS feed.
-
-Automatic support for switching from IMPress Listings! We automatically reformat data that needs to be reformatted, into a better display type, so your data will still be there.
-
-We also provide support for including agents, and assigning them to listings, along with editing their data as needed.
+We do recommend you also check out our other plugin [Real Estate Pro](https://wordpress.org/plugins/re-pro/) as well. 
 
 == Installation ==
 1. Deactivate any other listing/employee plugins.
