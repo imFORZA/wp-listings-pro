@@ -25,7 +25,7 @@ We do recommend you also check out our other plugin [Real Estate Pro](https://wo
 
 == Frequently Asked Questions ==
 Q: Will my previous listings/employees be migrated when installing this plugin?
-A: Yes! All data will be automatically migrated (MAKE SURE YOU DEACTIVATE ANY OTHER PLUGINS, AS THERE MAY BE CONFLICTS IN HANDLING YOUR DATA).
+A: Yes! All data will be automatically migrated (make sure to deactivate other conflicting plugins!).
 
 Q: The imports page is blank. What\'s up?
 A: Make sure to have an IDX plugin installed ([IDX Broker is a fine one](https://wordpress.org/plugins/idx-broker-platinum/)) and that you have an API key installed. MLS feeds are not mandatory for the plugin to work, but they do make your life easier.
