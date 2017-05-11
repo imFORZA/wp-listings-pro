@@ -1,13 +1,16 @@
 <?php
+/**
+ * Plugin Checks.
+ *
+ * @package wp-listings-pro
+ */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
-
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
-
 
 
 // Check for IMPress for IDX Broker.
@@ -19,7 +22,14 @@ include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 // Check for Simple Real Estate Pack.
 // Check for Easy Property Listings.
 // Check for Essential Real Estate.
-// Check for Genesis Agent Profiles Plugin.
+
+
+/**
+ * Check for Genesis Agent Profiles Plugin.
+ *
+ * @access public
+ * @return True or False.
+ */
 function is_genesis_agent_profiles_active() {
 	if ( is_plugin_active( 'genesis-agent-profiles/plugin.php' ) ) {
 		return true;

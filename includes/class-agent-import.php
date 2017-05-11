@@ -46,7 +46,7 @@ class WPLPRO_Agents_Import {
 		if ( ! $haystack ) { return false;
 		}
 		foreach ( $haystack as $item ) {
-			if ( ($strict ? $item === $needle : $item == $needle) || ( is_array( $item ) && self::in_array( $needle, $item, $strict ) ) ) {
+			if ( ($strict ? $item === $needle : $item === $needle) || ( is_array( $item ) && self::in_array( $needle, $item, $strict ) ) ) {
 				return true;
 			}
 		}
@@ -80,7 +80,7 @@ class WPLPRO_Agents_Import {
 
 			$agents_queue = new WPLPRO_Background_Agents();
 
-			// Object to be used with background_processing
+			// Object to be used with background_processing.
 			$item = array();
 
 			foreach ( $agents['agent'] as $a ) {
@@ -169,15 +169,17 @@ class WPLPRO_Agents_Import {
 
 				if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 					$current_setting = get_post_meta( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], '_listing_sync_update', true );
-					if ( $current_setting == '' || $current_setting == 'update-useglobal' ) { // Confirmed to follow global, or doesn't exist, need to set it to global.
+					if ( '' === $current_setting || 'update-useglobal' === $current_setting ) {
+						// Confirmed to follow global, or doesn't exist, need to set it to global.
 						if ( isset( $wplpro_plugin_settings['wplpro_idx_update_agents'] ) ) {
 							$current_setting = $wplpro_plugin_settings['wplpro_idx_update_agents'];
-						} else { // Global doesn't exist, local setting doesn't exist, just sync it.
+						} else {
+							// Global doesn't exist, local setting doesn't exist, just sync it.
 							$current_setting = 'update-all';
 						}
 					}
 					// Update agent data.
-					if ( $current_setting != 'update-none' ) {
+					if ( 'update-none' !== $current_setting ) {
 						self::wplpro_agents_idx_insert_post_meta( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], $a, true, false );
 					}
 					$idx_agent_wp_options[ $a['agentID'] ]['updated'] = date( 'm/d/Y h:i:sa' );
@@ -321,28 +323,43 @@ class WPLPRO_Agents_Import {
  */
 require_once plugin_dir_path( __FILE__ ) . 'wp-background-processing/wp-background-processing.php';
 
+
+
+/**
+ * WPLPRO_Background_Agents class.
+ *
+ * @extends WP_Background_Process
+ */
 class WPLPRO_Background_Agents extends WP_Background_Process {
 
+	/**
+	 * Action.
+	 *
+	 * (default value: 'background-processing-agents')
+	 *
+	 * @var string
+	 * @access protected
+	 */
 	protected $action = 'background-processing-agents';
 
 	/**
-	 * Task to be run each iteration
+	 * Task to be run each iteration.
 	 *
-	 * @param  string $data   ID of listing to be imported
-	 * @return mixed       			False if done, $data if to be re-run
+	 * @param  string $data   ID of listing to be imported.
+	 * @return mixed       			False if done, $data if to be re-run.
 	 */
 	protected function task( $data ) {
 		// Get important data.
 		$idx_options 	= get_option( 'wplpro_agents_idx_agent_wp_options' );
 		$a 						= $data['a'];
 
-		// Check if it already exists
+		// Check if it already exists.
 		$stuff = get_posts(array(
 			'post_type'       => 'employee',
 		));
 		foreach ( $stuff as $temp_agent ) {
-			if ( $a['agentID'] == get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) ) {
-				// Already exists
+			if ( $a['agentID'] === get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) ) {
+				// Already exists.
 				return false;
 			}
 		}
@@ -524,12 +541,12 @@ function wplpro_agents_idx_agent_setting_page() {
 						'post_type'       => 'employee',
 					));
 					foreach ( $stuff as $temp_agent ) {
-						if ( $a['agentID'] == get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) ) {
-							if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) || ! $idx_agent_wp_options[ $a['agentID'] ]['status'] != '' ) {
+						if ( $a['agentID'] === get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) ) {
+							if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) || ! $idx_agent_wp_options[ $a['agentID'] ]['status'] !== '' ) {
 								$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
 							}
 
-							if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) || $idx_agent_wp_options[ $a['agentID'] ]['post_id'] == '' ) {
+							if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) || '' === $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) {
 								$idx_agent_wp_options[ $a['agentID'] ]['post_id'] = $temp_agent->ID;
 							}
 						}

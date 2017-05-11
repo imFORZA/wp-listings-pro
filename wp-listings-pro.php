@@ -350,8 +350,8 @@ function wplpro_init() {
 		wp_enqueue_media();
 
 	}
-	// add_action( 'admin_enqueue_scripts', 'wplpro_admin_scripts_styles' ); // only enqueue/add scripts on our pages
-	/** Enqueues wp-listings-widgets.css style file if it exists and is not deregistered in settings. */
+
+	// Add our Widget Styles.
 	add_action( 'wp_enqueue_scripts', 'wplpro_add_widget_styles' );
 
 	/**
@@ -452,6 +452,7 @@ function wplpro_agents_migrate() {
 }
 
 add_action( 'save_post', 'wplpro_save_post', 10, 2 );
+
 /**
  * Save price without extra chars.
  *

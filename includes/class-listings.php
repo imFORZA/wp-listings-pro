@@ -231,16 +231,24 @@ class WP_Listings {
 
 		add_meta_box( 'wplpro-listing-images', __( 'Photo Gallery', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Images::output', 'listing', 'normal', 'high' );
 		add_meta_box( 'wplpro-listing-docs', __( 'Documents', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Docs::output', 'listing', 'normal', 'high' );
-		// wplpro_admin_scripts_styles();
+
 	}
+
 	/**
 	 * Metabox for listing sync settings
+	 *
+	 * @access public
+	 * @return void
 	 */
 	function listing_sync_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-sync-metabox.php' );
 	}
+
 	/**
 	 * Metabox for listing details
+	 *
+	 * @access public
+	 * @return void
 	 */
 	function listing_details_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-details-metabox.php' );
@@ -302,7 +310,7 @@ class WP_Listings {
 			return;
 		}
 
-	    /** Check permissions */
+	    /** Check permissions. */
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			  return;
 		}
@@ -323,7 +331,7 @@ class WP_Listings {
 			$property_details['_listing_custom_sync_details'] = 0;
 		}
 
-		// Saving Agent Assignments
+		// Saving Agent Assignments.
 		$stuff = get_posts(array(
 			'post_type'       => 'employee',
 			'posts_per_page'  => -1,
@@ -388,8 +396,9 @@ class WP_Listings {
 		}
 
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );
+
 		// Adds support for nophoto, as defined in the customizer.
-		if ( $image == '' || ! @getimagesize( $image[0] ) ) {
+		if ( '' === $image || ! getimagesize( $image[0] ) ) {
 			$options = get_option( 'wplpro_plugin_settings' );
 
 			$image_url;

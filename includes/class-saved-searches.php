@@ -1,12 +1,23 @@
 <?php
+/**
+ * Saved Searches.
+ *
+ * @package wp-listings-pro
+ */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 if ( ! function_exists( 'wplpro_saved_searches' ) ) {
 
-	// Register Saved Searches CPT.
+	/**
+	 * Register Saved Searches CPT.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	function wplpro_saved_searches() {
 
 		$labels = array(
