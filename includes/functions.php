@@ -6,14 +6,14 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
-}
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
- * Adding submenu for wplpro customizer, very nicely copied from https://gist.github.com/Abban/2968549
- * Really clean honestly
+ * WP Listing Pro Customizer Settings.
  *
- * @param  WP_Customizer_Object $wp_customize Callback var for WP_Customizer
+ * @access public
+ * @param mixed $wp_customize WP Customize.
+ * @return void
  */
 function wplpro_customize_register( $wp_customize ) {
 
@@ -22,7 +22,7 @@ function wplpro_customize_register( $wp_customize ) {
 		'priority' => 120,
 	));
 
-	// Image Upload Example
+	// Image Upload Example.
 	$wp_customize->add_setting('wplpro_customizer_settings[employee_nophoto]', array(
 		'default'           => plugin_dir_url( __FILE__ ) . '../assets/images/default.gif',
 		'capability'        => 'edit_theme_options',
@@ -59,10 +59,18 @@ add_image_size( 'listings', 560, 380, true );
 add_filter( 'template_include', 'wplpro_template_include' );
 
 add_action( 'before_delete_post', 'wplpro_clear_references' );
+
+/**
+ * Clear References.
+ *
+ * @access public
+ * @param mixed $post_id Post ID.
+ * @return void
+ */
 function wplpro_clear_references( $post_id ) {
 	$post_type = get_post( $post_id )->post_type;
-	if ( $post_type === 'listing' ) {
-		// Delete references
+	if ( 'listing' === $post_type ) {
+		// Delete references.
 		$idx_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
 		unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] );
 		unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] );
@@ -134,7 +142,7 @@ function wplpro_template_include( $template ) {
 }
 
 /**
- * Controls output of default state for the state custom field if there is one set
+ * Controls output of default state for the state custom field if there is one set.
  *
  * @access public
  * @param mixed $post_id (default: null) Post ID.
@@ -542,7 +550,7 @@ function wplpro_employee_archive_details() {
 	if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wplpro_init' ) ) {
 		$listings = wplpro_get_connected_posts_of_type( 'agents_to_listings' );
 		if ( ! empty( $listings ) ) {
-			echo '<p><a class="agent-listings-link" href="' . get_permalink() . '#agent-listings">View My Listings</a></p>';
+			echo '<p><a class="agent-listings-link" href="' . esc_url( get_permalink() ) . '#agent-listings">View My Listings</a></p>';
 		}
 	}
 
