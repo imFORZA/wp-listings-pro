@@ -23,9 +23,9 @@ function wplpro_enqueue_single_listing_scripts() {
 	wp_enqueue_style( 'wp-listings-single' );
 	wp_enqueue_style( 'font-awesome' );
 	wp_enqueue_style( 'bxslider' );
-	// wp_enqueue_script( 'jquery-validate', array( 'jquery' ), true, true );
+
 	wp_enqueue_script( 'fitvids', array( 'jquery' ), true, true );
-	wp_enqueue_script( 'wp-listings-single', array( 'jquery, jquery-ui-tabs', 'jquery-validate' ), true, true );
+	wp_enqueue_script( 'wp-listings-single', array( 'jquery, jquery-ui-tabs' ), true, true );
 	wp_enqueue_script( 'bxslider', array( 'jquery' ), true, true );
 }
 
@@ -43,23 +43,13 @@ function wplpro_single_listing_post_content() {
 	?>
 <div itemscope itemtype="https://schema.org/SingleFamilyResidence" class="entry-content wplistings-single-listing">
 
-	<!-- <div class="listing-image-wrap"> -->
-	<?php // echo '<div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">' . get_the_post_thumbnail( $post->ID, 'listings-full', array( 'class' => 'single-listing-image', 'itemprop' => 'contentUrl' ) ) . '</div>';
-	// if ( '' !== wplpro_get_status() ) {
-	// printf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wplpro_get_status() ) ), wplpro_get_status() );
-	// }
-	// if ( '' !== get_post_meta( $post->ID, '_listing_open_house', true ) ) {
-	// printf( '<span class="listing-open-house">Open House: %s</span>', get_post_meta( $post->ID, '_listing_open_house', true ) );
-	// } ?>
-	<!-- </div><!- .listing-image-wrap -->
-
 	<?php
 	$listing_meta = sprintf( '<ul class="listing-meta">' );
 	if ( ! isset( $options['wplpro_currency_symbol'] ) ) {
 		$options['wplpro_currency_symbol'] = '';
 	}
 
-	if ( get_post_meta( $post->ID, '_listing_hide_price', true ) === 1 ) {
+	if ( 1 === get_post_meta( $post->ID, '_listing_hide_price', true ) ) {
 		$listing_meta .= (get_post_meta( $post->ID, '_listing_price_alt', true )) ? sprintf( '<li class="listing-price">%s</li>', get_post_meta( $post->ID, '_listing_price_alt', true ) ) : '';
 	} else {
 		$listing_meta .= sprintf( '<li class="listing-price">%s %s %s</li>', '<span class="currency-symbol">' . $options['wplpro_currency_symbol'] . '</span>', get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wplpro_display_currency_code'] ) && $options['wplpro_display_currency_code'] === 1) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>' : '' );
@@ -128,7 +118,7 @@ function wplpro_single_listing_post_content() {
 	</style>
 
 	<?php
-	// echo do_shortcode( get_post_meta( $post->ID, '_listing_gallery', true ) );
+
 	$listing_image_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
 	if ( ! empty( $listing_image_gallery ) ) {
 		$attachments = array_filter( explode( ',', $listing_image_gallery ) );
@@ -137,9 +127,9 @@ function wplpro_single_listing_post_content() {
 			foreach ( $attachments as $attachment_id ) {
 				echo '<li><img src="';
 				$url = wp_get_attachment_url( $attachment_id );
-				// @codingStandardsIgnoreStart
+
 				echo $url;
-				// @codingStandardsIgnoreEnd
+
 				echo '" /></li>';
 			}
 			echo '</ul>';
@@ -176,7 +166,7 @@ function wplpro_single_listing_post_content() {
 
 		if ( get_post_meta( $post->ID, '_listing_disclaimer', true ) ) {
 			echo '<p class="wp-listings-disclaimer">' . get_post_meta( $post->ID, '_listing_disclaimer', true ) . '</p>';
-		} elseif ( isset( $options['wplpro_global_disclaimer'] ) && $options['wplpro_global_disclaimer'] !== '' && $options['wplpro_global_disclaimer'] !== null ) {
+		} elseif ( isset( $options['wplpro_global_disclaimer'] ) && '' !== $options['wplpro_global_disclaimer'] && null !== $options['wplpro_global_disclaimer'] ) {
 			echo '<p class="wp-listings-disclaimer">' . $options['wplpro_global_disclaimer'] . '</p>';
 		}
 		if ( ! isset( $options['wplpro_display_idx_link'] ) ) {
@@ -347,8 +337,6 @@ function wplpro_single_listing_post_content() {
 
 		echo do_shortcode( $options['wplpro_default_form'] );
 
-	} else {
-
 	}
 }
 
@@ -373,17 +361,17 @@ if ( function_exists( 'equity' ) ) {
 } elseif ( function_exists( 'genesis_init' ) ) {
 
 	remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
-	remove_action( 'genesis_entry_header', 'genesis_post_info', 12 ); // HTML5
-	remove_action( 'genesis_before_post_content', 'genesis_post_info' ); // XHTML
-	remove_action( 'genesis_entry_footer', 'genesis_post_meta' ); // HTML5
-	remove_action( 'genesis_after_post_content', 'genesis_post_meta' ); // XHTML
-	remove_action( 'genesis_after_entry', 'genesis_do_author_box_single', 8 ); // HTML5
-	remove_action( 'genesis_after_post', 'genesis_do_author_box_single' ); // XHTML
+	remove_action( 'genesis_entry_header', 'genesis_post_info', 12 ); // HTML5.
+	remove_action( 'genesis_before_post_content', 'genesis_post_info' ); // XHTML.
+	remove_action( 'genesis_entry_footer', 'genesis_post_meta' ); // HTML5.
+	remove_action( 'genesis_after_post_content', 'genesis_post_meta' ); // XHTML.
+	remove_action( 'genesis_after_entry', 'genesis_do_author_box_single', 8 ); // HTML5.
+	remove_action( 'genesis_after_post', 'genesis_do_author_box_single' ); // XHTML.
 
-	remove_action( 'genesis_entry_content', 'genesis_do_post_content' ); // HTML5
-	remove_action( 'genesis_post_content', 'genesis_do_post_content' ); // XHTML
-	add_action( 'genesis_entry_content', 'wplpro_single_listing_post_content' ); // HTML5
-	add_action( 'genesis_post_content', 'wplpro_single_listing_post_content' ); // XHTML
+	remove_action( 'genesis_entry_content', 'genesis_do_post_content' ); // HTML5.
+	remove_action( 'genesis_post_content', 'genesis_do_post_content' ); // XHTML.
+	add_action( 'genesis_entry_content', 'wplpro_single_listing_post_content' ); // HTML5.
+	add_action( 'genesis_post_content', 'wplpro_single_listing_post_content' ); // XHTML.
 
 	genesis();
 
@@ -392,7 +380,7 @@ if ( function_exists( 'equity' ) ) {
 	$options = get_option( 'wplpro_plugin_settings' );
 
 	get_header();
-	if ( isset( $options['wplpro_custom_wrapper'] ) && isset( $options['wplpro_start_wrapper'] ) && $options['wplpro_start_wrapper'] !== '' ) {
+	if ( isset( $options['wplpro_custom_wrapper'] ) && isset( $options['wplpro_start_wrapper'] ) && '' !== $options['wplpro_start_wrapper'] ) {
 		echo $options['wplpro_start_wrapper'];
 	} else {
 		echo '<div id="primary" class="content-area container inner">

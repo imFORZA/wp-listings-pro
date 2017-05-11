@@ -14,7 +14,7 @@ add_action( 'wp_enqueue_scripts', 'enqueue_single_employee_scripts' );
 
 
 /**
- * enqueue_single_employee_scripts function.
+ * Single Employee Scripts & Styles.
  *
  * @access public
  * @return void

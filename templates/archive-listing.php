@@ -9,13 +9,10 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
-}
-
-
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
- * wplpro_archive_listing_loop function.
+ * Archive Listing Loop.
  *
  * @access public
  * @return void
@@ -24,37 +21,34 @@ function wplpro_archive_listing_loop() {
 
 		global $post;
 
-		$count = 0; // start counter at 0
+		$count = 0; // Start counter at 0.
 
-		// Uncomment to use term image in your theme
-		// echo '<div class="wp-listings-term-image">' . wplpro_term_image(get_queried_object()->term_id, true, 'full') . '</div>';
-		// Start the Loop.
 	while ( have_posts() ) : the_post();
 
 		$count++; // add 1 to counter on each loop
-		$first = ($count == 1) ? 'first' : ''; // if counter is 1 add class of first
+		$first = ($count == 1) ? 'first' : ''; // If counter is 1 add class of first.
 
 		$loop = sprintf( '<div class="listing-widget-thumb"><a href="%s" class="listing-image-link">%s</a>', get_permalink(), get_the_post_thumbnail( $post->ID, 'listings' ) );
 
-		if ( '' != wplpro_get_status() ) {
+		if ( '' !== wplpro_get_status() ) {
 			$loop .= sprintf( '<span class="listing-status %s">%s</span>', strtolower( str_replace( ' ', '-', wplpro_get_status() ) ), wplpro_get_status() );
 		}
 
 		$loop .= sprintf( '<div class="listing-thumb-meta">' );
 
-		if ( '' != get_post_meta( $post->ID, '_listing_text', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_text', true ) ) {
 			$loop .= sprintf( '<span class="listing-text">%s</span>', get_post_meta( $post->ID, '_listing_text', true ) );
-		} elseif ( '' != wplpro_get_property_types() ) {
+		} elseif ( '' !== wplpro_get_property_types() ) {
 			$loop .= sprintf( '<span class="listing-property-type">%s</span>', wplpro_get_property_types() );
 		}
 
-		if ( '' != get_post_meta( $post->ID, '_listing_price', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_price', true ) ) {
 			$loop .= sprintf( '<span class="listing-price">%s</span>', get_post_meta( $post->ID, '_listing_price', true ) );
 		}
 
 		$loop .= sprintf( '</div><!-- .listing-thumb-meta --></div><!-- .listing-widget-thumb -->' );
 
-		if ( '' != get_post_meta( $post->ID, '_listing_open_house', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_open_house', true ) ) {
 			$loop .= sprintf( '<span class="listing-open-house">Open House: %s</span>', get_post_meta( $post->ID, '_listing_open_house', true ) );
 		}
 
@@ -62,7 +56,7 @@ function wplpro_archive_listing_loop() {
 		$loop .= sprintf( '<p class="listing-address"><span class="listing-address">%s</span><br />', wplpro_get_address() );
 		$loop .= sprintf( '<span class="listing-city-state-zip">%s, %s %s</span></p>', wplpro_get_city(), wplpro_get_state(), get_post_meta( $post->ID, '_listing_zip', true ) );
 
-		if ( '' != get_post_meta( $post->ID, '_listing_bedrooms', true ) || '' != get_post_meta( $post->ID, '_listing_bathrooms', true ) || '' != get_post_meta( $post->ID, '_listing_sqft', true ) ) {
+		if ( '' !== get_post_meta( $post->ID, '_listing_bedrooms', true ) || '' !== get_post_meta( $post->ID, '_listing_bathrooms', true ) || '' !== get_post_meta( $post->ID, '_listing_sqft', true ) ) {
 			$loop .= sprintf( '<ul class="listing-beds-baths-sqft"><li class="beds">%s<span>Beds</span></li> <li class="baths">%s<span>Baths</span></li> <li class="sqft">%s<span>Sq ft</span></li></ul>', get_post_meta( $post->ID, '_listing_bedrooms', true ), get_post_meta( $post->ID, '_listing_bathrooms', true ), get_post_meta( $post->ID, '_listing_sqft', true ) );
 		}
 
@@ -70,10 +64,10 @@ function wplpro_archive_listing_loop() {
 
 		$loop .= sprintf( '<a href="%s" class="button btn-primary more-link">%s</a>', get_permalink(), __( 'View Listing', 'wp-listings-pro' ) );
 
-		/** wrap in div with column class, and output */
+		/** Wrap in div with column class, and output. */
 		printf( '<article id="post-%s" class="listing entry one-third %s"><div class="listing-wrap">%s</div><!-- .listing-wrap --></article><!-- article#post-## -->', get_the_id(), $first, apply_filters( 'wp_listings_featured_listings_widget_loop', $loop ) );
 
-		if ( 3 == $count ) { // if counter is 3, reset to 0
+		if ( 3 === $count ) { // If counter is 3, reset to 0.
 			$count = 0;
 		}
 
