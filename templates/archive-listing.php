@@ -26,7 +26,7 @@ function wplpro_archive_listing_loop() {
 	while ( have_posts() ) : the_post();
 
 		$count++; // add 1 to counter on each loop
-		$first = ($count == 1) ? 'first' : ''; // If counter is 1 add class of first.
+		$first = ( 1 === $count ) ? 'first' : ''; // If counter is 1 add class of first.
 
 		$loop = sprintf( '<div class="listing-widget-thumb"><a href="%s" class="listing-image-link">%s</a>', get_permalink(), get_the_post_thumbnail( $post->ID, 'listings' ) );
 
