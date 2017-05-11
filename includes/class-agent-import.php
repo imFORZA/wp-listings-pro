@@ -425,7 +425,7 @@ function wplpro_agents_idx_agent_scripts() {
 		return;
 	}
 
-	wp_enqueue_script( 'images-loaded', 'https://unpkg.com/imagesloaded@4.1/imagesloaded.pkgd.min.js' );
+	wp_enqueue_script( 'images-loaded',  WPLPRO_URL . 'assets/js/imagesloaded.min.js' );
 	wp_localize_script( 'wplpro_agents_idx_agent_delete_script', 'DeleteAgentAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	wp_enqueue_style( 'wplpro_agents_idx_agent_style', WPLPRO_URL . 'assets/css/wplpro-import.min.css' );
 }
