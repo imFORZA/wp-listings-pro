@@ -706,7 +706,7 @@ function wp_listings_idx_listing_setting_page() {
 					printf('<div class="grid-item post"><label for="%s" class="idx-listing"><li class="%s"><img class="listing lazy" data-original="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_idx_featured_listing_options[]" value="%s" %s />%s<p><span class="price">%s</span><br/><span class="address">%s</span><br/><span class="mls">MLS#: </span>%s</p>%s</li></label></div>',
 						$prop['listingID'],
 						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'imported' : '') : '',
-						isset( $prop['image']['0']['url'] ) ? 'https://i0.wp.com/' . preg_replace( '#^https?://#', '', $prop['image']['0']['url'] ) : 'https://i0.wp.com/mlsphotos.idxbroker.com/defaultNoPhoto/noPhotoFull.png',
+						isset( $prop['image']['0']['url'] ) ? 'https://i0.wp.com/' . preg_replace( '#^https?://#', '', $prop['image']['0']['url'] ) : WPLPRO_URL . 'assets/images/no-photo-full.png',
 						$prop['listingID'],
 						$prop['listingID'],
 						isset( $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) ? ( 'publish' === $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ? 'checked' : '') : '',
