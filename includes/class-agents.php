@@ -5,7 +5,8 @@
  * @package wp-listings-pro
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * This class handles the creation of the "Employees" post type, and creates a

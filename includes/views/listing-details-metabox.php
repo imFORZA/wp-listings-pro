@@ -5,6 +5,9 @@
  * @package wp-listings-pro
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 wp_nonce_field( 'wp_listings_metabox_save', 'wp_listings_metabox_nonce' );
 
 global $post;

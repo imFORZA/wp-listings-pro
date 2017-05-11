@@ -1,4 +1,9 @@
 <?php
+
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * WP Background Process
  *

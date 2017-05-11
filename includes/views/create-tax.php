@@ -5,6 +5,9 @@
  * @package wp-listings-pro
  */
 
+ // Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 screen_icon( 'themes' );
 ?>
 <h2><?php esc_html_e( 'Listing Taxonomies', 'wp-listings-pro' ); ?></h2>

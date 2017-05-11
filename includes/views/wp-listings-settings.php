@@ -6,6 +6,9 @@
  */
 
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 
 if ( isset( $_GET['settings-updated'] ) ) { ?>
 	<div id="message" class="updated">

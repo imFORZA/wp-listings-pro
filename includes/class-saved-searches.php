@@ -1,5 +1,8 @@
 <?php
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 if ( ! function_exists( 'wplpro_saved_searches' ) ) {
 
 	// Register Saved Searches CPT.

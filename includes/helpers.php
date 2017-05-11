@@ -5,6 +5,9 @@
  * @package WP-Listings-Pro
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Lists all the terms of a given taxonomy.
  *

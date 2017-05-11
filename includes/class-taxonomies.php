@@ -5,6 +5,9 @@
  * @package wp-listings-pro
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * This class handles all the aspects of displaying, creating, and editing the
  * user-created taxonomies for the "Listings" post-type.

@@ -6,6 +6,9 @@
  * @since 0.1.0
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 add_action( 'wp_enqueue_scripts', 'wplpro_enqueue_single_listing_scripts' );
 
 

@@ -7,9 +7,8 @@
  * @package wp-listings-pro
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * WPLPRO_Meta_Box_Listing_Images Class.

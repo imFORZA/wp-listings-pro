@@ -6,7 +6,8 @@
  * @package WP-Listing-Pro
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * WPLPRO_Agents_Import class.

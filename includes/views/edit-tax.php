@@ -5,6 +5,9 @@
  * @package wp-listings-pro
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 $options = get_option( $this->settings_field );
 
 if ( array_key_exists( $_REQUEST['id'], (array) $options ) ) {

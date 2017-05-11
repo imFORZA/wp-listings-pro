@@ -5,6 +5,9 @@
  * @package wp-listings-pro
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 // Featured on.
 global $post;
 

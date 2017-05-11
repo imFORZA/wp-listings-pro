@@ -6,9 +6,8 @@
  * @package WPW
  */
 
-if ( ! defined( 'WPINC' ) ) {
-	die;
-}
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 ?>
 <style>

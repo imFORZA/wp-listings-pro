@@ -5,9 +5,8 @@
  * @package wp-listings-pro
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 wp_nonce_field( 'wplpro_agents_metabox_save', 'wplpro_agents_metabox_nonce' );
 

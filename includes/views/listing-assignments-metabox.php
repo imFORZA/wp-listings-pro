@@ -1,6 +1,9 @@
 <?php
 
-// * Agent Assignments
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+// * Agent Assignments.
 global $post;
 echo '<div>';
 _e( '<h4>Agent Assignments</h4><p>', 'wp-listings-pro' );

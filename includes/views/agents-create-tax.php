@@ -4,8 +4,11 @@
  *
  * @package wp-listings-pro
  */
-if ( ! defined( 'ABSPATH' ) ) { exit;
-}
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+
 screen_icon( 'themes' ); ?>
 <h2><?php _e( 'Employee Taxonomies', 'wp-listings-pro' ); ?></h2>
 

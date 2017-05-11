@@ -4,6 +4,11 @@
  *
  * @package WP-Background-Processing
  */
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+
 /*
 Plugin Name: WP Background Processing
 Plugin URI: https://github.com/A5hleyRich/wp-background-processing

@@ -5,8 +5,8 @@
  * @package WP-Listings-Pro
  */
 
-// No Direct Access.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Migrate Posts from Genesis Agent Profiles to WPL Pro Agents.

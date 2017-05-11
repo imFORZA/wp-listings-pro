@@ -8,6 +8,17 @@
  * @since 0.1.0
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+
+
+/**
+ * wplpro_archive_listing_loop function.
+ *
+ * @access public
+ * @return void
+ */
 function wplpro_archive_listing_loop() {
 
 		global $post;

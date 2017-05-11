@@ -1,5 +1,8 @@
 <?php
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 global $post;
 $string = get_post_meta( $post->ID, '_listing_featured_on', true );
 if ( null == get_post_meta( $post->ID, '_listing_sync_update', true ) || '' == get_post_meta( $post->ID, '_listing_sync_update', true ) ) {

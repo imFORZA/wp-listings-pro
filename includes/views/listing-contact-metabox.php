@@ -1,4 +1,10 @@
 <?php
+
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+
 global $post;
 
 echo '<div style="width: 90%; float: left;">';

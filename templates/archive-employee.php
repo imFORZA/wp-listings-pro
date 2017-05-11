@@ -8,6 +8,11 @@
  * @since 0.9.0
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+
+
 add_action( 'wp_enqueue_scripts', 'wplpro_enqueue_single_employee_scripts' );
 
 

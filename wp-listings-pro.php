@@ -19,9 +19,12 @@
  * License URI: http://www.opensource.org/licenses/gpl-license.php
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+
+// Register Activation Hook.
 register_activation_hook( __FILE__, 'wplpro_activation' );
-
-
 
 /**
  * This function runs on plugin activation. It flushes the rewrite rules to prevent 404's

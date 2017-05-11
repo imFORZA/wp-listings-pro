@@ -1,4 +1,8 @@
 <?php
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 echo '<div style="width: 90%; float: left;">';
 
 	echo '<div style="width: 45%; float: left">';

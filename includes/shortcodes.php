@@ -5,6 +5,9 @@
  * @package WP-Listings-Pro
  */
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Adds shortcode to display listings
  * Adds shortcode to display post meta
