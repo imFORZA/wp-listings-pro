@@ -11,8 +11,9 @@
  * @since 0.1.0
  */
 
- // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+	// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 
 add_action( 'admin_menu', 'wp_listings_tax_reorder_init', 20 );

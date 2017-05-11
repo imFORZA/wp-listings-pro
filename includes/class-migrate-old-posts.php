@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 /**
  * Migrate Posts from Genesis Agent Profiles to WPL Pro Agents.

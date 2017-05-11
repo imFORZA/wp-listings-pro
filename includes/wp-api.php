@@ -6,7 +6,8 @@
 	 */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 /**
  * Add the listing meta field keys to WP 4.4+ REST API responses for GET and POST

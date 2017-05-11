@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 /**
  * Adding submenu for wplpro customizer, very nicely copied from https://gist.github.com/Abban/2968549

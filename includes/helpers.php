@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 /**
  * Lists all the terms of a given taxonomy.
@@ -26,10 +27,10 @@ function wplpro_list_terms( $taxonomy ) {
 	$count = count( $terms );
 	$i = 0;
 	if ( $count > 0 ) {
-    foreach ( $terms as $term ) {
-        $i++;
-    	$term_list .= '<li><a href="' . site_url( $taxonomy . '/' . $term->slug ) . '" title="' . sprintf( __( 'View all post filed under %s', 'gbd' ), $term->name ) . '">' . $term->name . ' (' . $term->count . ')</a></li>';
-    }
+		foreach ( $terms as $term ) {
+			$i++;
+			$term_list .= '<li><a href="' . site_url( $taxonomy . '/' . $term->slug ) . '" title="' . sprintf( __( 'View all post filed under %s', 'gbd' ), $term->name ) . '">' . $term->name . ' (' . $term->count . ')</a></li>';
+		}
 		echo '<div class="' . $taxonomy . ' term-list-container">';
 		echo '<h3 class="taxonomy-name">' . $the_tax_object->label . '</h3>';
 		echo "<ul class=\"term-list\">{$term_list}</ul>";

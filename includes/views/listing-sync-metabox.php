@@ -1,7 +1,8 @@
 <?php
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 global $post;
 $string = get_post_meta( $post->ID, '_listing_featured_on', true );

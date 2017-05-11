@@ -1,11 +1,11 @@
 <?php
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 // add_action( 'show_user_profile', 'wplpro_saved_property_field' );
 // add_action( 'edit_user_profile', 'wplpro_saved_property_field' );
-
 /**
  * Wplpro_saved_property_field function.
  *

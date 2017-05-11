@@ -7,7 +7,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 /**
  * Welcome page redirect.
@@ -65,6 +66,14 @@ function wplpro_welcome_page() {
 add_action( 'admin_menu', 'wplpro_welcome_page' );
 
 add_action( 'admin_head', 'remove_menu_entry' );
+
+
+/**
+ * Remove Menu Entry.
+ *
+ * @access public
+ * @return void
+ */
 function remove_menu_entry() {
 	remove_submenu_page( 'plugins.php', 'wplpro_welcome_page' );
 }

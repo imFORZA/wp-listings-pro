@@ -1,7 +1,8 @@
 <?php
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 global $post;
 $string = get_post_meta( $post->ID, '_listing_featured_on', true );
@@ -16,9 +17,9 @@ if ( ! isset( $plugin_options['wplpro_idx_update_agents'] ) ) {
 }
 $wplrpo_settings = get_option( 'wplpro_plugin_settings' );
 $global_sync_setting;
-if( isset( $wplrpo_settings['wplpro_idx_update_agents'] ) ) {
+if ( isset( $wplrpo_settings['wplpro_idx_update_agents'] ) ) {
 	$global_sync_setting = $wplrpo_settings['wplpro_idx_update_agents'];
-}else{
+} else {
 	$global_sync_setting = 'update-all';
 }
 

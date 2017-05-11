@@ -5,8 +5,9 @@
  * @package wp-listings-pro
  */
 
- // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+	// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 screen_icon( 'themes' );
 ?>

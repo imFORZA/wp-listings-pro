@@ -4,9 +4,11 @@
  *
  * @package retirement-calc
  */
-/* Exit if accessed directly. */
+/*
+ Exit if accessed directly. */
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 
 add_action( 'rest_api_init', function () {

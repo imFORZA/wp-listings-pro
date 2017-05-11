@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 /**
  * This class handles the creation of the "Employees" post type, and creates a
@@ -267,7 +268,7 @@ class WPLPRO_Agents {
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );
 
 		// Adds support for nophoto, as defined in the customizer.
-		if ( $image == '' || !@getimagesize($image[0]) ) {
+		if ( $image == '' || ! @getimagesize( $image[0] ) ) {
 			$options = get_option( 'wplpro_plugin_settings' );
 
 			$image_url;

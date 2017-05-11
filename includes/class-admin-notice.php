@@ -7,7 +7,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 
 if ( class_exists( 'WP_Listings_Admin_Notice' ) ) {

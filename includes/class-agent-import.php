@@ -7,7 +7,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) { exit;
+}
 
 /**
  * WPLPRO_Agents_Import class.
@@ -219,18 +220,18 @@ class WPLPRO_Agents_Import {
 		wp_set_object_terms( $id, $idx_agent_data['agentTitle'], 'job-types' );
 
 		// Add post meta for existing fields.
-		if ( get_post_meta( $id, '_employee_title' ) === array() ) { update_post_meta( $id, '_employee_title', isset($idx_agent_data['agentTitle'])?$idx_agent_data['agentTitle']:'' ); }
-		if ( get_post_meta( $id, '_employee_first_name' ) === array() ) { update_post_meta( $id, '_employee_first_name', isset($idx_agent_data['agentFirstName'])?$idx_agent_data['agentFirstName']:'' ); }
-		if ( get_post_meta( $id, '_employee_last_name' ) === array() ) { update_post_meta( $id, '_employee_last_name', isset($idx_agent_data['agentLastName'])?$idx_agent_data['agentLastName']:'' ); }
-		if ( get_post_meta( $id, '_employee_agent_id' ) === array() ) { update_post_meta( $id, '_employee_agent_id', isset($idx_agent_data['agentID'])?$idx_agent_data['agentID']:'' ); }
-		if ( get_post_meta( $id, '_employee_phone' ) === array() ) { update_post_meta( $id, '_employee_phone', isset($idx_agent_data['agentContactPhone'])?$idx_agent_data['agentContactPhone']:'' ); }
-		if ( get_post_meta( $id, '_employee_mobile' ) === array() ) { update_post_meta( $id, '_employee_mobile', isset($idx_agent_data['agentCellPhone'])?$idx_agent_data['agentCellPhone']:'' ); }
-		if ( get_post_meta( $id, '_employee_email' ) === array() ) { update_post_meta( $id, '_employee_email', isset($idx_agent_data['agentEmail'])?$idx_agent_data['agentEmail']:'' ); }
-		if ( get_post_meta( $id, '_employee_website' ) === array() ) { update_post_meta( $id, '_employee_website', isset($idx_agent_data['agentURL'])?$idx_agent_data['agentURL']:'' ); }
-		if ( get_post_meta( $id, '_employee_address' ) === array() ) { update_post_meta( $id, '_employee_address', isset($idx_agent_data['address'])?$idx_agent_data['address']:'' ); }
-		if ( get_post_meta( $id, '_employee_city' ) === array() ) { update_post_meta( $id, '_employee_city', isset($idx_agent_data['city'])?$idx_agent_data['city']:'' ); }
-		if ( get_post_meta( $id, '_employee_state' ) === array() ) { update_post_meta( $id, '_employee_state', isset($idx_agent_data['stateProvince'])?$idx_agent_data['stateProvince']:'' ); }
-		if ( get_post_meta( $id, '_employee_zip' ) === array() ) { update_post_meta( $id, '_employee_zip', isset($idx_agent_data['zipCode'])?$idx_agent_data['zipCode']:'' ); }
+		if ( get_post_meta( $id, '_employee_title' ) === array() ) { update_post_meta( $id, '_employee_title', isset( $idx_agent_data['agentTitle'] )?$idx_agent_data['agentTitle']:'' ); }
+		if ( get_post_meta( $id, '_employee_first_name' ) === array() ) { update_post_meta( $id, '_employee_first_name', isset( $idx_agent_data['agentFirstName'] )?$idx_agent_data['agentFirstName']:'' ); }
+		if ( get_post_meta( $id, '_employee_last_name' ) === array() ) { update_post_meta( $id, '_employee_last_name', isset( $idx_agent_data['agentLastName'] )?$idx_agent_data['agentLastName']:'' ); }
+		if ( get_post_meta( $id, '_employee_agent_id' ) === array() ) { update_post_meta( $id, '_employee_agent_id', isset( $idx_agent_data['agentID'] )?$idx_agent_data['agentID']:'' ); }
+		if ( get_post_meta( $id, '_employee_phone' ) === array() ) { update_post_meta( $id, '_employee_phone', isset( $idx_agent_data['agentContactPhone'] )?$idx_agent_data['agentContactPhone']:'' ); }
+		if ( get_post_meta( $id, '_employee_mobile' ) === array() ) { update_post_meta( $id, '_employee_mobile', isset( $idx_agent_data['agentCellPhone'] )?$idx_agent_data['agentCellPhone']:'' ); }
+		if ( get_post_meta( $id, '_employee_email' ) === array() ) { update_post_meta( $id, '_employee_email', isset( $idx_agent_data['agentEmail'] )?$idx_agent_data['agentEmail']:'' ); }
+		if ( get_post_meta( $id, '_employee_website' ) === array() ) { update_post_meta( $id, '_employee_website', isset( $idx_agent_data['agentURL'] )?$idx_agent_data['agentURL']:'' ); }
+		if ( get_post_meta( $id, '_employee_address' ) === array() ) { update_post_meta( $id, '_employee_address', isset( $idx_agent_data['address'] )?$idx_agent_data['address']:'' ); }
+		if ( get_post_meta( $id, '_employee_city' ) === array() ) { update_post_meta( $id, '_employee_city', isset( $idx_agent_data['city'] )?$idx_agent_data['city']:'' ); }
+		if ( get_post_meta( $id, '_employee_state' ) === array() ) { update_post_meta( $id, '_employee_state', isset( $idx_agent_data['stateProvince'] )?$idx_agent_data['stateProvince']:'' ); }
+		if ( get_post_meta( $id, '_employee_zip' ) === array() ) { update_post_meta( $id, '_employee_zip', isset( $idx_agent_data['zipCode'] )?$idx_agent_data['zipCode']:'' ); }
 
 		foreach ( $idx_agent_data as $metakey => $metavalue ) {
 			if ( isset( $metavalue ) && ! is_array( $metavalue ) && '' !== $metavalue ) {
@@ -458,7 +459,7 @@ function wplpro_agents_idx_agent_setting_page() {
 			<form id="wplpro-idx-agent-import" method="post" action="options.php">
 				<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all agents, it may take some time. <strong class="error">Please be patient.</strong></em></label>
 				<p>Please note that after pressing the "Import Agents" button, <em>there will be a time delay before all agents are visible depending on how many you are importing</em>. Don't worry, everything that was selected when you pressed "Import Agents" will still be imported, it just takes some time to pull multiple agents and their image from the API feed.</p>
-				<?php if ($do_button) submit_button( 'Import Agents' ); ?>
+				<?php if ( $do_button ) { submit_button( 'Import Agents' );} ?>
 
 			<?php
 
@@ -563,8 +564,9 @@ function wplpro_agents_idx_agent_setting_page() {
 				}
 			}
 			echo '</ol>';
-			if ( $do_button)
+			if ( $do_button ) {
 				submit_button( 'Import Agents' );
+			}
 			?>
 			</form>
 	<?php
