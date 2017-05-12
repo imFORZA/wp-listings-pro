@@ -269,7 +269,7 @@ function wplpro_paging_nav_employee() {
 
 	?>
 	<nav class="navigation archive-employee-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Agents navigation', 'wp-listings-pro' ); ?></h1>
+		<h1 class="screen-reader-text"><?php esc_attr_e( 'Agents navigation', 'wp-listings-pro' ); ?></h1>
 		<div class="pagination loop-pagination">
 			<?php echo $links; ?>
 		</div><!-- .pagination -->
@@ -306,7 +306,7 @@ function wplpro_get_additional_image_sizes() {
  *
  * @access public
  * @param mixed $columns Columns.
- * @return void
+ * @return $column_class Column Class Name.
  */
 function get_column_class( $columns ) {
 	$column_class = '';
@@ -404,7 +404,7 @@ function wplpro_connected_listings_markup() {
 
 	echo apply_filters( 'wplpro_connected_listing_heading', $heading = '<h3><a name="agent-listings">My Listings</a></h3>' );
 
-	// That's interesting, grab global $post
+	// That's interesting, grab global $post.
 	global $post;
 
 	foreach ( $listings as $listing ) {
