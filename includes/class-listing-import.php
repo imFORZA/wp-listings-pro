@@ -602,6 +602,7 @@ function wp_listings_idx_listing_delete_all() {
 	}
 }
 
+
 /**
  * Wp_listings_idx_listing_setting_page function.
  *
@@ -621,12 +622,17 @@ function wp_listings_idx_listing_setting_page() {
 	}
 	$idx_featured_listing_wp_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
 
+
 	?>
 			<h1>IDX Broker: Import Listings</h1>
-			<p>Select the listings to import.</p>
+			<p>You can use this page to import listings from IDX Broker. Choose one or all, its up to you.</p>
+
+			<p><strong>Please note: The time to import your listings will vary based on the number of listings you choose to import, and the number of images for each listing. You can come back and refresh the page at anytime to check the status.</strong></p>
+
+
 			<form id="wplpro-idx-listing-import">
-			<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all listings, it may take some time. <strong class="error">Please be patient.</strong></em></label>
-			<p>Please note that after pressing the "Import Listings" button, <em>there will be a time delay before all listings are visible depending on how many you are importing</em>. Don't worry, everything that was selected when you pressed "Import Listings" will still be imported, it just takes some time to pull multiple listings and their images from the API feed.</p>
+			<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All</label>
+
 			<?php
 			if ( $do_button ) {
 				submit_button( 'Import Listings', 'primary submit-imports-button' );
