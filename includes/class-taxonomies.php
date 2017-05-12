@@ -95,23 +95,23 @@ class WPLPRO_Taxonomies {
 	 * @return void
 	 */
 	function actions() {
-		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] !== $this->menu_page ) {
+		if ( ! isset( $_REQUEST['page'] ) || sanitize_text_field( $_REQUEST['page'] ) !== $this->menu_page ) {
 			return;
 		}
 
 			/** This section handles the data if a new taxonomy is created */
-		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] ) {
-			$this->create_taxonomy( $_POST['wp_listings_taxonomy'] );
+		if ( isset( $_REQUEST['action'] ) && 'create' === sanitize_text_field( $_REQUEST['action'] ) ) {
+			$this->create_taxonomy( sanitize_key( $_POST['wp_listings_taxonomy'] ) );
 		}
 
 			/** This section handles the data if a taxonomy is deleted */
-		if ( isset( $_REQUEST['action'] ) && 'delete' === $_REQUEST['action'] ) {
-			$this->delete_taxonomy( $_REQUEST['id'] );
+		if ( isset( $_REQUEST['action'] ) && 'delete' === sanitize_text_field( $_REQUEST['action'] ) ) {
+			$this->delete_taxonomy( sanitize_key( $_REQUEST['id'] ) );
 		}
 
 			/** This section handles the data if a taxonomy is being edited */
-		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] ) {
-			$this->edit_taxonomy( $_POST['wp_listings_taxonomy'] );
+		if ( isset( $_REQUEST['action'] ) && 'edit' === sanitize_text_field( $_REQUEST['action'] ) ) {
+			$this->edit_taxonomy( sanitize_key( $_POST['wp_listings_taxonomy'] ) );
 		}
 	}
 

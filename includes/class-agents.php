@@ -205,7 +205,7 @@ class WPLPRO_Agents {
 		}
 
 		$employee_details = $_POST['wplpro_agents'];
-		/** Store the employee details custom fields */
+		/** Validate and store the employee details custom fields */
 		foreach ( (array) $employee_details as $key => $value ) {
 
 			$key = sanitize_key( $key );

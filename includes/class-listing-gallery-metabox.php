@@ -91,7 +91,7 @@ class WPLPRO_Meta_Box_Listing_Images {
 			return $post_id;
 		}
 
-		$attachment_ids = isset( $_POST['listing_image_gallery'] ) ? array_filter( explode( ',',  $_POST['listing_image_gallery'] ) ) : array();
+		$attachment_ids = isset( $_POST['listing_image_gallery'] ) ? array_filter( explode( ',',  sanitize_text_field( $_POST['listing_image_gallery'] ) ) ) : array();
 
 		update_post_meta( $post_id, '_listing_image_gallery', implode( ',', $attachment_ids ) );
 		update_post_meta( $post_id, '_listing_gallery', static::backwards_compatibility_gallery( $attachment_ids ) );
@@ -197,7 +197,7 @@ class WPLPRO_Meta_Box_Listing_Docs {
 			return $post_id;
 		}
 
-		$attachment_ids = isset( $_POST['listing_doc_gallery'] ) ? array_filter( explode( ',',  $_POST['listing_doc_gallery'] ) ) : array();
+		$attachment_ids = isset( $_POST['listing_doc_gallery'] ) ? array_filter( explode( ',',  sanitize_text_field( $_POST['listing_doc_gallery'] ) ) ) : array();
 
 		update_post_meta( $post_id, '_listing_doc_gallery', implode( ',', $attachment_ids ) );
 	}

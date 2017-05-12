@@ -315,7 +315,7 @@ class WP_Listings {
 			  return;
 		}
 
-		$property_details = $_POST['wp_listings'];
+		$property_details = $_POST['wp_listings']; // Grab informmation object from post, and validate before entering it
 
 		if ( ! isset( $property_details['_listing_hide_price'] ) ) {
 			$property_details['_listing_hide_price'] = 0;
@@ -344,12 +344,20 @@ class WP_Listings {
 		}
 		$property_details['_employee_responsibility'] = implode( ',',$ids );
 
-		/** Store the property details custom fields */
+		/** Validate and store the property details custom fields */
 		foreach ( (array) $property_details as $key => $value ) {
+
+			$key = sanitize_key( $key );
+
+			if ( '_employee_email' === $key ) {
+				$value = sanitize_email( $value );
+			} else {
+				$value = sanitize_text_field( $value );
+			}
 
 			  /** Save/Update/Delete */
 			if ( $value ) {
-				update_post_meta( $post->ID, $key, $value );
+				update_post_meta( $post->ID,  $key, $value );
 			} else {
 				  delete_post_meta( $post->ID, $key );
 			}
