@@ -396,7 +396,7 @@ add_action( 'admin_menu', 'wplpro_agents_idx_agent_register_menu_page' );
  * @return void
  */
 function wplpro_agents_idx_agent_register_menu_page() {
-	add_submenu_page( 'edit.php?post_type=employee', __( 'Import Agents', 'wp-listings-pro' ), __( 'Import Agents', 'wp-listings-pro' ), 'manage_options', 'wplpro-idx-agent', 'wplpro_agents_idx_agent_setting_page' );
+	add_submenu_page( 'edit.php?post_type=employee', __( 'IDX Broker Import', 'wp-listings-pro' ), __( 'IDX Broker Import', 'wp-listings-pro' ), 'manage_options', 'wplpro-idx-agent', 'wplpro_agents_idx_agent_setting_page' );
 	add_action( 'admin_init', 'wplpro_agents_idx_agent_register_settings' );
 }
 
@@ -471,7 +471,7 @@ function wplpro_agents_idx_agent_setting_page() {
 		$do_button = false;
 	}
 	?>
-			<h1>Import Agents</h1>
+			<h1>IDX Broker: Import Agents</h1>
 			<p>Select the agents to import.</p>
 			<form id="wplpro-idx-agent-import" method="post" action="options.php">
 				<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all agents, it may take some time. <strong class="error">Please be patient.</strong></em></label>

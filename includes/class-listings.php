@@ -402,7 +402,9 @@ class WP_Listings {
 			$options = get_option( 'wplpro_plugin_settings' );
 
 			$image_url;
+
 			if ( isset( get_option( 'wplpro_plugin_settings' )['listing_nophoto'] ) ) {
+
 				$image_url = get_option( 'wplpro_plugin_settings' )['listing_nophoto'];
 			} else {
 				$image_url = plugin_dir_url( __FILE__ ) . '../assets/images/listing-nophoto.jpg';

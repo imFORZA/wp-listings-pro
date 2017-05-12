@@ -522,7 +522,7 @@ add_action( 'admin_menu', 'wp_listings_idx_listing_register_menu_page' );
  * @return void
  */
 function wp_listings_idx_listing_register_menu_page() {
-	add_submenu_page( 'edit.php?post_type=listing', __( 'Import IDX Listings', 'wp-listings-pro' ), __( 'Import IDX Listings', 'wp-listings-pro' ), 'manage_options', 'wplistings-idx-listing', 'wp_listings_idx_listing_setting_page' );
+	add_submenu_page( 'edit.php?post_type=listing', __( 'IDX Broker Import', 'wp-listings-pro' ), __( 'IDX Broker Import', 'wp-listings-pro' ), 'manage_options', 'wplistings-idx-listing', 'wp_listings_idx_listing_setting_page' );
 }
 
 add_action( 'admin_enqueue_scripts', 'wp_listings_idx_listing_scripts' );
@@ -622,7 +622,7 @@ function wp_listings_idx_listing_setting_page() {
 	$idx_featured_listing_wp_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
 
 	?>
-			<h1>Import IDX Listings</h1>
+			<h1>IDX Broker: Import Listings</h1>
 			<p>Select the listings to import.</p>
 			<form id="wplpro-idx-listing-import">
 			<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all listings, it may take some time. <strong class="error">Please be patient.</strong></em></label>

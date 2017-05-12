@@ -273,6 +273,7 @@ class WPLPRO_Agents {
 
 			$image_url;
 			if ( isset( get_option( 'wplpro_plugin_settings' )['employee_nophoto'] ) ) {
+
 				$image_url = get_option( 'wplpro_plugin_settings' )['employee_nophoto'];
 			} else {
 				$image_url = plugin_dir_url( __FILE__ ) . '../assets/images/default.gif';
