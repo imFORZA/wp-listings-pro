@@ -63,7 +63,7 @@ class WPL_Idx_Listing {
 		if ( ! $haystack ) { return false;
 		}
 		foreach ( $haystack as $item ) {
-			if ( ($strict ? $item === $needle : $item == $needle) || (is_array( $item ) && self::in_array( $needle, $item, $strict )) ) {
+			if ( ($strict ? $item === $needle : $item === $needle) || ( is_array( $item ) && self::in_array( $needle, $item, $strict ) ) ) {
 				return true;
 			}
 		}
@@ -218,7 +218,7 @@ class WPL_Idx_Listing {
 				$post_id = $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'];
 
 				$sync_setting = get_post_meta( $post_id , '_listing_sync_update', true );
-				if ( 'update-useglobal' === $sync_setting || null == $sync_setting ) {
+				if ( 'update-useglobal' === $sync_setting || null === $sync_setting ) {
 					$sync_setting = $global_setting;
 				}
 
@@ -489,7 +489,7 @@ class WPLPRO_Background_Listings extends WP_Background_Process {
 			'post_type'       => 'listing',
 		));
 		foreach ( $stuff as $p ) {
-			if ( get_post_meta( $p->ID, '_listing_mls', true ) == $property['listingID'] ) {
+			if ( get_post_meta( $p->ID, '_listing_mls', true ) === $property['listingID'] ) {
 				return false;
 			}
 		}

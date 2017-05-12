@@ -22,8 +22,6 @@ include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 // Check for Simple Real Estate Pack.
 // Check for Easy Property Listings.
 // Check for Essential Real Estate.
-
-
 /**
  * Check for Genesis Agent Profiles Plugin.
  *
