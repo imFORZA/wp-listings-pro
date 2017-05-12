@@ -204,9 +204,7 @@ class WPLPRO_Agents {
 			  return;
 		}
 
-		// And there's an error here.
 		$employee_details = $_POST['wplpro_agents'];
-		// Fixed it.
 		/** Store the employee details custom fields */
 		foreach ( (array) $employee_details as $key => $value ) {
 
@@ -268,7 +266,7 @@ class WPLPRO_Agents {
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );
 
 		// Adds support for nophoto, as defined in the customizer.
-		if ( '' === $image || ! getimagesize( $image[0] ) ) {
+		if ( '' === $image || ! @getimagesize( $image[0] ) ) {
 			$options = get_option( 'wplpro_plugin_settings' );
 
 			$image_url;
@@ -283,6 +281,7 @@ class WPLPRO_Agents {
 				$image_url,
 			);
 		}
+
 
 		switch ( $column ) {
 			case 'employee_thumbnail':
