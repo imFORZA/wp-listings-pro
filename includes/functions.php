@@ -72,8 +72,8 @@ function wplpro_clear_references( $post_id ) {
 	if ( 'listing' === $post_type ) {
 		// Delete references.
 		$idx_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
-		unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] );
-		unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] );
+		if( isset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] ) ) unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] );
+		if( isset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] ) ) unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] );
 		update_option( 'wplpro_idx_featured_listing_wp_options', $idx_options );
 	}
 }
