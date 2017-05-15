@@ -137,17 +137,18 @@ class WPL_Idx_Listing {
 							'post_type' => 'listing',
 							'post_author' => (isset( $wpl_options['import_author'] )) ? $wpl_options['import_author'] : 1,
 						);
-						// $item['properties'].push($prop);
+
 						$item['opts'] = $opts;
 						$item['prop'] = $prop;
 						$item['key'] = $key;
 						$item['property'] = $properties[ $key ];
 
-						// * Background processing
+						// Background processing.
 						$listings_queue->push_to_queue( $item );
 						update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 
-					} // Change status to publish if it's not already.
+					} // End if().
+					// Change status to publish if it's not already.
 					elseif ( in_array( $prop['listingID'], $listings, true ) && 'publish' !== $idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] ) {
 						self::wp_listings_idx_change_post_status( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'], 'publish' );
 						$idx_featured_listing_wp_options[ $prop['listingID'] ]['status'] = 'publish';
@@ -173,14 +174,14 @@ class WPL_Idx_Listing {
 							wp_delete_post( $idx_featured_listing_wp_options[ $prop['listingID'] ]['post_id'] );
 						}
 					}
-				}
+				} // End foreach().
 				$listings_queue->save()->dispatch();
-			}
+			} // End if().
 			// Lastly update our options.
 			update_option( 'wplpro_idx_featured_listing_wp_options', $idx_featured_listing_wp_options );
 			delete_option( 'wp_listings_import_progress' );
 			return 'success';
-		}
+		} // End if().
 	}
 
 	/**
@@ -263,8 +264,8 @@ class WPL_Idx_Listing {
 					}
 				}
 				$idx_featured_listing_wp_options[ $prop['listingID'] ]['updated'] = date( 'm/d/Y h:i:sa' );
-			}
-		}
+			} // End if().
+		} // End foreach().
 
 		// Load and loop through Sold properties.
 		$sold_properties = $_idx_api->client_properties( 'soldpending' );
