@@ -281,7 +281,7 @@ class WPLPRO_Agents_Import {
 
 					// Create the image file on the server.
 					if ( ! file_exists( $file ) ) {
-						file_put_contents( $file, $image_data ); // wait what does this do
+						file_put_contents( $file, $image_data );
 					}
 
 					// Check image file type.
@@ -359,7 +359,7 @@ class WPLPRO_Background_Agents extends WP_Background_Process {
 			'post_type'       => 'employee',
 		));
 		foreach ( $stuff as $temp_agent ) {
-			if ( $a['agentID'] === get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) ) {
+			if ( get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) === $a['agentID'] ) {
 				// Already exists.
 				return false;
 			}
@@ -542,8 +542,8 @@ function wplpro_agents_idx_agent_setting_page() {
 						'post_type'       => 'employee',
 					));
 					foreach ( $stuff as $temp_agent ) {
-						if ( (string) $a['agentID'] === get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) ) {
-							if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) || ! $idx_agent_wp_options[ $a['agentID'] ]['status'] !== '' ) {
+						if ( get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) === (string) $a['agentID'] ) {
+							if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) || ! '' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) { // what.
 								$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
 							}
 
