@@ -605,7 +605,7 @@ function wplpro_employee_social() {
 		$output .= '</div><!-- .employee-social-profiles -->';
 
 		return $output;
-	}
+	} // End if().
 	return '';
 }
 

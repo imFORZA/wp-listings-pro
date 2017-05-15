@@ -128,7 +128,7 @@ function wplpro_single_listing_post_content() {
 				echo '<li><img src="';
 				$url = wp_get_attachment_url( $attachment_id );
 
-				echo $url;
+				echo esc_url( $url );
 
 				echo '" /></li>';
 			}
@@ -140,22 +140,22 @@ function wplpro_single_listing_post_content() {
 	<div id="listing-tabs" class="listing-data">
 
 	<ul class="tabs">
-	  <li><a href="#listing-description">Description</a></li>
+	  <li><a href="#listing-description"><?php esc_html_e( 'Description', 'wp-listings-pro' ); ?></a></li>
 
-	  <li><a href="#listing-details">Details</a></li>
+	  <li><a href="#listing-details"><?php esc_html_e( 'Details', 'wp-listings-pro' ); ?></a></li>
 
 		<?php
 		if ( empty( $listing_image_gallery ) && get_post_meta( $post->ID, '_listing_gallery', true ) !== '' ) { ?>
-		<li><a href="#listing-gallery">Photos</a></li>
+		<li><a href="#listing-gallery"><?php esc_html_e( 'Photos', 'wp-listings-pro' ); ?></a></li>
 		<?php } ?>
 
 
 		<?php if ( get_post_meta( $post->ID, '_listing_video', true ) !== '' ) { ?>
-		<li><a href="#listing-video">Video / Virtual Tour</a></li>
+		<li><a href="#listing-video"><?php esc_html_e( 'Video / Virtual Tour', 'wp-listings-pro' ); ?></a></li>
 		<?php } ?>
 
 		<?php if ( get_post_meta( $post->ID, '_listing_school_neighborhood', true ) !== '' ) { ?>
-	  <li><a href="#listing-school-neighborhood">Schools &amp; Neighborhood</a></li>
+	  <li><a href="#listing-school-neighborhood"><?php esc_attr_e( 'Schools &amp; Neighborhood', 'wp-listings-pro' ); ?></a></li>
 		<?php } ?>
 	</ul>
 
@@ -267,7 +267,7 @@ function wplpro_single_listing_post_content() {
 
 	<?php	if ( get_post_meta( $post->ID, '_employee_responsibility', true ) !== '' ) { ?>
 	<div id="listing-agent-assignments">
-			<p>This listing is managed by</p>
+			<p><?php esc_html_e( 'This listing is managed by', 'wp-listings-pro' ); ?></p>
 		<?php
 		$ids = explode( ',', get_post_meta( $post->ID, '_employee_responsibility', true ) );
 		foreach ( $ids as $agent_id ) {
@@ -304,24 +304,6 @@ function wplpro_single_listing_post_content() {
 	} elseif ( get_post_meta( $post->ID, '_listing_latitude', true ) && get_post_meta( $post->ID, '_listing_longitude', true ) && get_post_meta( $post->ID, '_listing_automap', true ) === 'y' ) {
 
 		$map_info_content = sprintf( '<p style="font-size: 14px; margin-bottom: 0;">%s<br />%s %s, %s</p>', get_post_meta( $post->ID, '_listing_address', true ), get_post_meta( $post->ID, '_listing_city', true ), get_post_meta( $post->ID, '_listing_state', true ), get_post_meta( $post->ID, '_listing_zip', true ) );
-	}
-	?>
-
-	<?php
-	if ( function_exists( '_p2p_init' ) && function_exists( 'agent_profiles_init' ) ) {
-		if ( wplpro_has_listings( $post->ID ) ) {
-			echo'<div id="listing-agent">
-        <div class="connected-agents">';
-			aeprofiles_connected_agents_markup();
-			echo '</div></div><!-- .listing-agent -->';
-		}
-	} elseif ( function_exists( '_p2p_init' ) && function_exists( 'wplpro_agents_init' ) ) {
-		if ( wplpro_has_listings( $post->ID ) ) {
-			echo'<div id="listing-agent">
-        <div class="connected-agents">';
-			wplpro_connected_agents_markup();
-			echo '</div></div><!-- .listing-agent -->';
-		}
 	}
 	?>
 
