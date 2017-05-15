@@ -330,7 +330,7 @@ class WPL_Idx_Listing {
 	 */
 	public static function wp_listings_idx_insert_post_meta( $id, $idx_featured_listing_data, $update = false, $update_image = true, $sold = false, $update_details = true, $update_gallery = true ) {
 
-		if ( false === $update  ||true === $update_image ) {
+		if ( (false === $update  || true === $update_image) && isset( $idx_featured_listing_data['image']['0']['url'] ) ) {
 			$imgs = '';
 			$featured_image = $idx_featured_listing_data['image']['0']['url'];
 
@@ -340,7 +340,7 @@ class WPL_Idx_Listing {
 				$img_markup = sprintf( '<img src="%s" alt="%s" />',  $img['url'], $idx_featured_listing_data['address'] );
 				$imgs .= apply_filters( 'wp_listings_imported_image_markup', $img_markup, $img, $idx_featured_listing_data );
 			}
-		} else {
+		} else if ( isset( $idx_featured_listing_data['image']['0']['url'] ) ) {
 			$featured_image = $idx_featured_listing_data['image']['0']['url'];
 		}
 
@@ -406,48 +406,52 @@ class WPL_Idx_Listing {
 			}
 
 			// Add Featured Image to Post.
-			$image_url  = $featured_image; // Define the image URL here.
-			$upload_dir = wp_upload_dir(); // Set upload folder.
-			$image_data = file_get_contents( $image_url ); // Get image data.
-			$filename   = basename( $image_url . '/' . $idx_featured_listing_data['listingID'] . '.jpg' ); // Create image file name.
 
-			// Check folder permission and define file location.
-			if ( wp_mkdir_p( $upload_dir['path'] ) ) {
-				$file = $upload_dir['path'] . '/' . $filename;
-			} else {
-				$file = $upload_dir['basedir'] . '/' . $filename;
+			if( isset( $featured_image) && '' !== $featured_image ){
+				$image_url  = $featured_image; // Define the image URL here.
+				$upload_dir = wp_upload_dir(); // Set upload folder.
+
+				$image_data = file_get_contents( $image_url ); // Get image data.
+				$filename   = basename( $image_url . '/' . $idx_featured_listing_data['listingID'] . '.jpg' ); // Create image file name.
+
+				// Check folder permission and define file location.
+				if ( wp_mkdir_p( $upload_dir['path'] ) ) {
+					$file = $upload_dir['path'] . '/' . $filename;
+				} else {
+					$file = $upload_dir['basedir'] . '/' . $filename;
+				}
+
+				// Create the image file on the server.
+				if ( ! file_exists( $file ) ) {
+					file_put_contents( $file, $image_data );
+				}
+
+				// Check image file type.
+				$wp_filetype = wp_check_filetype( $filename, null );
+
+				// Set attachment data.
+				$attachment = array(
+					'post_mime_type' => $wp_filetype['type'],
+					'post_title'     => $idx_featured_listing_data['listingID'] . ' - ' . $idx_featured_listing_data['address'],
+					'post_content'   => '',
+					'post_status'    => 'inherit',
+				);
+
+				// Create the attachment.
+				$attach_id = wp_insert_attachment( $attachment, $file, $id );
+
+				// Include image.php.
+				require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+				// Define attachment metadata.
+				$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+
+				// Assign metadata to attachment.
+				wp_update_attachment_metadata( $attach_id, $attach_data );
+
+				// Assign featured image to post.
+				set_post_thumbnail( $id, $attach_id );
 			}
-
-			// Create the image file on the server.
-			if ( ! file_exists( $file ) ) {
-				file_put_contents( $file, $image_data );
-			}
-
-			// Check image file type.
-			$wp_filetype = wp_check_filetype( $filename, null );
-
-			// Set attachment data.
-			$attachment = array(
-				'post_mime_type' => $wp_filetype['type'],
-				'post_title'     => $idx_featured_listing_data['listingID'] . ' - ' . $idx_featured_listing_data['address'],
-				'post_content'   => '',
-				'post_status'    => 'inherit',
-			);
-
-			// Create the attachment.
-			$attach_id = wp_insert_attachment( $attachment, $file, $id );
-
-			// Include image.php.
-			require_once( ABSPATH . 'wp-admin/includes/image.php' );
-
-			// Define attachment metadata.
-			$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
-
-			// Assign metadata to attachment.
-			wp_update_attachment_metadata( $attach_id, $attach_data );
-
-			// Assign featured image to post.
-			set_post_thumbnail( $id, $attach_id );
 		}
 	}
 
