@@ -462,7 +462,7 @@ function wplpro_save_post( $post_id, $post ) {
 	// Check the post type .
 	if ( 'listing' === $post->post_type ) {
 		// Check if price field has been set.
-		if ( isset( $_POST['wp_listings']['_listing_price'] ) ) {
+		if ( isset( $_POST['wp_listings']['_listing_price'] ) && isset( $_POST['wp-hide-price-name'] ) && wp_verify_nonce( $_POST['wp-hide-price-name'], 'wp-hide-price-action' )  ) {
 			// Set hidden price meta_field.
 			$price = filter_var( $_POST['wp_listings']['_listing_price'], FILTER_SANITIZE_STRING ); // Sanitize data, only allow it to be certain characters.
 			wplpro_set_hidden_price( $post_id, $price );
