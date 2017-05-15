@@ -532,8 +532,6 @@ function wplpro_agents_idx_agent_setting_page() {
 			foreach ( $agents as $agent ) {
 				foreach ( $agent as $a ) {
 
-					error_log(print_r( $a['agentFirstName'], true ));
-
 					if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) || ! get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 						$idx_agent_wp_options[ $a['agentID'] ] = array(
 							'agentID' => $a['agentID'],
