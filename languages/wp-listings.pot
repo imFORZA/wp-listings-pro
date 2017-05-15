@@ -371,7 +371,6 @@ msgid "Register Taxonomies"
 msgstr ""
 
 #: includes/class-taxonomies.php:60 includes/class-taxonomies.php:626
-#: includes/views/reorder-tax.php:17 includes/views/reorder-tax.php:40
 msgid "Reorder Taxonomies"
 msgstr ""
 

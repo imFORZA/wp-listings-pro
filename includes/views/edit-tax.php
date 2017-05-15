@@ -22,7 +22,7 @@ if ( array_key_exists( $_REQUEST['id'], (array) $options ) ) {
 <h2><?php esc_html_e( 'Edit Taxonomy', 'wp-listings-pro' ); ?></h2>
 
 <form method="post" action="<?php echo admin_url( 'admin.php?page=' . $this->menu_page . '&amp;action=edit' ); ?>">
-<?php wp_nonce_field( 'wp_listings-action_edit-taxonomy' ); ?>
+<?php wp_nonce_field( 'wp_listings-action_edit-taxonomy', 'wp_listings-action_edit-taxonomy' ); ?>
 <table class="form-table">
 
 	<tr class="form-field">

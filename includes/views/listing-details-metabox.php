@@ -2,7 +2,7 @@
 /**
  * Page for listing details
  *
- * @package wp-listings-pro
+ * @package WP-Listings-Pro
  */
 
 // Exit if accessed directly.
@@ -53,6 +53,7 @@ echo '</div><br style="clear: both;" />';
 	// Price Options.
 	echo '<div style="width: 45%; float: left">';
 	_e( '<h4>Price Options</h4>', 'wp-listings-pro' );
+	wp_nonce_field( 'wp-hide-price-action', 'wp-hide-price-name' );
 	printf( __( '<p><label>Hide the price from visitors?<br /> <input type="checkbox" name="wp_listings[_listing_hide_price]" value="1" %s /></label></p>' ),
 	checked( get_post_meta( $post->ID, '_listing_hide_price', true ), 1, 0 ) );
 
@@ -97,6 +98,6 @@ echo '</div><br style="clear: both;" />';
 	echo '<div style="width: 90%; float: left;">';
 
 	_e( '<p><label>Enter Video or Virtual Tour Embed Code (<a href="https://wordpress.org/plugins/jetpack/" target="_blank" rel="nofollow">Jetpack</a> offers several <a href="http://jetpack.me/support/shortcode-embeds/" target="_blank" rel="nofollow">video shortcodes</a>.):<br />', 'wp-listings-pro' );
-	printf( __( '<textarea name="wp_listings[_listing_video]" rows="5" cols="18" style="%s">%s</textarea></label></p>', 'wp-listings-pro' ), 'width: 99%;', htmlentities( get_post_meta( $post->ID, '_listing_video', true ) ) );
+	printf( __( '<textarea name="wp_listings[_listing_video]" rows="5" cols="18" style="%1$s">%2$s</textarea></label></p>', 'wp-listings-pro' ), 'width: 99%;', htmlentities( get_post_meta( $post->ID, '_listing_video', true ) ) );
 
 	echo '</div><br style="clear: both;" />';
