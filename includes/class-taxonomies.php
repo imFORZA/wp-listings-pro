@@ -104,7 +104,7 @@ class WPLPRO_Taxonomies {
 			$obj = array(
 				'id' => sanitize_key( $_POST['wp_listings_taxonomy']['id'] ),
 				'name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['name'] ),
-				'singular_name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['singular_name'] )
+				'singular_name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['singular_name'] ),
 			);
 			$this->create_taxonomy( $obj );
 		}
@@ -119,7 +119,7 @@ class WPLPRO_Taxonomies {
 			$obj = array(
 				'id' => sanitize_key( $_POST['wp_listings_taxonomy']['id'] ),
 				'name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['name'] ),
-				'singular_name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['singular_name'] )
+				'singular_name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['singular_name'] ),
 			);
 			$this->edit_taxonomy( $obj );
 		}

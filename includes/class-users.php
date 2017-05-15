@@ -12,7 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // add_action( 'show_user_profile', 'wplpro_saved_property_field' ); !
 // add_action( 'edit_user_profile', 'wplpro_saved_property_field' ); !
-
 /**
  * Wplpro_saved_property_field function.
  *
@@ -56,7 +55,6 @@ function wplpro_saved_property_field( $user ) {
 
 // add_action( 'personal_options_update', 'wplpro_save_property_field' ); !
 // add_action( 'edit_user_profile_update', 'wplpro_save_property_field' ); !
-
 /**
  * Save Property Field.
  *

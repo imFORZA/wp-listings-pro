@@ -267,7 +267,7 @@ class WPLPRO_Agents_Import {
 				$image_url  = $featured_image;  // Define the image URL here.
 				$upload_dir = wp_upload_dir();  // Set upload folder.
 
-				if( '' !== $image_url ) {
+				if ( '' !== $image_url ) {
 					$image_data = file_get_contents( $image_url ); // Get image data.
 
 					$filename   = basename( sanitize_file_name( strtolower( $idx_agent_data['agentDisplayName'] ) ) . '.jpg' ); // Create image file name.

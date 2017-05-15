@@ -340,7 +340,7 @@ class WPL_Idx_Listing {
 				$img_markup = sprintf( '<img src="%s" alt="%s" />',  $img['url'], $idx_featured_listing_data['address'] );
 				$imgs .= apply_filters( 'wp_listings_imported_image_markup', $img_markup, $img, $idx_featured_listing_data );
 			}
-		} else if ( isset( $idx_featured_listing_data['image']['0']['url'] ) ) {
+		} elseif ( isset( $idx_featured_listing_data['image']['0']['url'] ) ) {
 			$featured_image = $idx_featured_listing_data['image']['0']['url'];
 		}
 
@@ -406,8 +406,7 @@ class WPL_Idx_Listing {
 			}
 
 			// Add Featured Image to Post.
-
-			if( isset( $featured_image) && '' !== $featured_image ){
+			if ( isset( $featured_image ) && '' !== $featured_image ) {
 				$image_url  = $featured_image; // Define the image URL here.
 				$upload_dir = wp_upload_dir(); // Set upload folder.
 
@@ -625,7 +624,6 @@ function wp_listings_idx_listing_setting_page() {
 		add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_import_progress', 'Your listings are being imported in the background. This notice will dismiss when all selected listings have been imported.', 'updated' );
 	}
 	$idx_featured_listing_wp_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
-
 
 	?>
 			<h1>IDX Broker: Import Listings</h1>

@@ -281,7 +281,6 @@ class WPLPRO_Agents {
 			);
 		}
 
-
 		switch ( $column ) {
 			case 'employee_thumbnail':
 				echo '<p><img src="' . esc_url( $image[0] ) . '" alt="employee-thumbnail" ' . esc_attr( $image_size ) . ' /></p>';
