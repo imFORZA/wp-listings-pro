@@ -72,8 +72,10 @@ function wplpro_clear_references( $post_id ) {
 	if ( 'listing' === $post_type ) {
 		// Delete references.
 		$idx_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
-		unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] );
-		unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] );
+		if ( isset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] ) ) { unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] );
+		}
+		if ( isset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] ) ) { unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] );
+		}
 		update_option( 'wplpro_idx_featured_listing_wp_options', $idx_options );
 	}
 }
@@ -322,7 +324,9 @@ function wplpro_glance_items( $items = array() ) {
 			$post_type = get_post_type_object( $type );
 
 			// Clever... unfortunately not wp standards :/ that's a hard one.
+			// @codingStandardsIgnoreStart
 			$text = _n( '%s ' . $post_type->labels->singular_name, '%s ' . $post_type->labels->name, $published, 'wp-listings-pro' );
+			// @codingStandardsIgnoreEnd
 			$text = sprintf( $text, number_format_i18n( $published ) );
 
 			if ( current_user_can( $post_type->cap->edit_posts ) ) {
@@ -705,9 +709,9 @@ function wplpro_post_select( $select_id, $post_type, $selected = array() ) {
 	);
 
 	// Print Select box.
-	echo '<select name="' . $select_id . '" id="' . $select_id . '" multiple="multiple" class="feed-select widefat">';
+	echo '<select name="' . esc_attr( $select_id ) . '" id="' . esc_attr( $select_id ) . '" multiple="multiple" class="feed-select widefat">';
 	foreach ( $posts as $post ) {
-		echo '<option value="', $post->ID, '"', in_array( $post->ID, $selected ) ? ' selected="selected"' : '', '>', ( $post->ID . ' - ' . $post->post_title ), '</option>';
+		echo '<option value="', esc_attr( $post->ID ), '"', in_array( $post->ID, $selected ) ? ' selected="selected"' : '', '>', esc_html( $post->ID . ' - ' . $post->post_title ), '</option>';
 	}
 	echo '</select>';
 }

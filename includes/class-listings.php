@@ -124,7 +124,6 @@ class WP_Listings {
 		add_action( 'save_post', array( $this, 'metabox_save' ), 1, 2 );
 
 		add_action( 'save_post', array( $this, 'save_post' ), 1, 3 );
-		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 		add_action( 'admin_init', array( &$this, 'register_settings' ) );
 		add_action( 'admin_init', array( &$this, 'add_options' ) );
@@ -315,7 +314,7 @@ class WP_Listings {
 			  return;
 		}
 
-		$property_details = $_POST['wp_listings'];
+		$property_details = $_POST['wp_listings']; // Grab informmation object from post, and validate before entering it.
 
 		if ( ! isset( $property_details['_listing_hide_price'] ) ) {
 			$property_details['_listing_hide_price'] = 0;
@@ -344,12 +343,20 @@ class WP_Listings {
 		}
 		$property_details['_employee_responsibility'] = implode( ',',$ids );
 
-		/** Store the property details custom fields */
+		/** Validate and store the property details custom fields */
 		foreach ( (array) $property_details as $key => $value ) {
+
+			$key = sanitize_key( $key );
+
+			if ( '_employee_email' === $key ) {
+				$value = sanitize_email( $value );
+			} else {
+				$value = sanitize_text_field( $value );
+			}
 
 			  /** Save/Update/Delete */
 			if ( $value ) {
-				update_post_meta( $post->ID, $key, $value );
+				update_post_meta( $post->ID,  $key, $value );
 			} else {
 				  delete_post_meta( $post->ID, $key );
 			}
@@ -398,7 +405,7 @@ class WP_Listings {
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );
 
 		// Adds support for nophoto, as defined in the customizer.
-		if ( '' === $image || ! getimagesize( $image[0] ) ) {
+		if ( '' === $image || null === $image[0] ) {
 			$options = get_option( 'wplpro_plugin_settings' );
 
 			$image_url;
@@ -417,7 +424,7 @@ class WP_Listings {
 
 		switch ( $column ) {
 			case 'listing_thumbnail':
-				echo '<p><img src="' . $image[0] . '" alt="listing-thumbnail" ' . $image_size . '/></p>';
+				echo '<p><img src="' . esc_url( $image[0] ) . '" alt="listing-thumbnail" ' . esc_attr( $image_size ) . '/></p>';
 				break;
 			case 'listing_details':
 				foreach ( (array) $admin_details as $label => $key ) {
@@ -425,10 +432,10 @@ class WP_Listings {
 				}
 				break;
 			case 'listing_tags':
-				_e( '<b>Status</b>: ' . get_the_term_list( $post->ID, 'status', '', ', ', '' ) . '<br />', 'wp-listings-pro' );
-				_e( '<b>Property Type:</b> ' . get_the_term_list( $post->ID, 'property-types', '', ', ', '' ) . '<br />', 'wp-listings-pro' );
-				_e( '<b>Location:</b> ' . get_the_term_list( $post->ID, 'locations', '', ', ', '' ) . '<br />', 'wp-listings-pro' );
-				_e( '<b>Features:</b> ' . get_the_term_list( $post->ID, 'features', '', ', ', '' ), 'wp-listings-pro' );
+				echo '<b>Status</b>: ' . get_the_term_list( $post->ID, 'status', '', ', ', '' ) . '<br />', 'wp-listings-pro';
+				echo '<b>Property Type:</b> ' . get_the_term_list( $post->ID, 'property-types', '', ', ', '' ) . '<br />', 'wp-listings-pro';
+				echo '<b>Location:</b> ' . get_the_term_list( $post->ID, 'locations', '', ', ', '' ) . '<br />', 'wp-listings-pro';
+				echo '<b>Features:</b> ' . get_the_term_list( $post->ID, 'features', '', ', ', '' ), 'wp-listings-pro';
 				break;
 		}
 
@@ -457,26 +464,6 @@ class WP_Listings {
 	function add_notice_query_var( $location ) {
 		remove_filter( 'redirect_post_location', array( &$this, 'add_notice_query_var' ), 99 );
 		return add_query_arg( array( 'wp-listings-pro' => 'show-notice' ), $location );
-	}
-
-	/**
-	 * Displays admin notices if show-notice url param exists or edit listing page
-	 *
-	 * @return object current screen
-	 * @uses  wp_listings_admin_notice
-	 */
-	function admin_notices() {
-
-		$screen = get_current_screen();
-
-		if ( isset( $_GET['wp-listings-pro'] ) || 'edit-listing' === $screen->id ) {
-
-			if ( get_option( 'wp_listings_import_progress' ) === true ) {
-				echo wp_listings_admin_notice( __( '<strong>Your listings are being imported in the background. This notice will dismiss when all selected listings have been imported.</strong>', 'wp-listings-pro' ), false, 'activate_plugins', 'wpl_notice_import_progress' );
-			}
-		}
-
-		return $screen;
 	}
 
 }

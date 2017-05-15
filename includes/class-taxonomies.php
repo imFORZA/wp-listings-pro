@@ -95,23 +95,33 @@ class WPLPRO_Taxonomies {
 	 * @return void
 	 */
 	function actions() {
-		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] !== $this->menu_page ) {
+		if ( ! isset( $_REQUEST['page'] ) || sanitize_text_field( $_REQUEST['page'] ) !== $this->menu_page ) {
 			return;
 		}
 
-			/** This section handles the data if a new taxonomy is created */
-		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] ) {
-			$this->create_taxonomy( $_POST['wp_listings_taxonomy'] );
+		/** This section handles the data if a new taxonomy is created */
+		if ( isset( $_REQUEST['action'] ) && 'create' === sanitize_text_field( $_REQUEST['action'] ) && isset( $_POST['wp_listings_taxonomy']['id'] ) ) {
+			$obj = array(
+				'id' => sanitize_key( $_POST['wp_listings_taxonomy']['id'] ),
+				'name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['name'] ),
+				'singular_name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['singular_name'] ),
+			);
+			$this->create_taxonomy( $obj );
 		}
 
-			/** This section handles the data if a taxonomy is deleted */
-		if ( isset( $_REQUEST['action'] ) && 'delete' === $_REQUEST['action'] ) {
-			$this->delete_taxonomy( $_REQUEST['id'] );
+		/** This section handles the data if a taxonomy is deleted */
+		if ( isset( $_REQUEST['action'] ) && 'delete' === sanitize_text_field( $_REQUEST['action'] ) ) {
+			$this->delete_taxonomy( sanitize_key( $_REQUEST['id'] ) );
 		}
 
-			/** This section handles the data if a taxonomy is being edited */
-		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] ) {
-			$this->edit_taxonomy( $_POST['wp_listings_taxonomy'] );
+		/** This section handles the data if a taxonomy is being edited */
+		if ( isset( $_REQUEST['action'] ) && 'edit' === sanitize_text_field( $_REQUEST['action'] ) && isset( $_POST['wp_listings_taxonomy'] ) ) {
+			$obj = array(
+				'id' => sanitize_key( $_POST['wp_listings_taxonomy']['id'] ),
+				'name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['name'] ),
+				'singular_name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['singular_name'] ),
+			);
+			$this->edit_taxonomy( $obj );
 		}
 	}
 
@@ -148,37 +158,37 @@ class WPLPRO_Taxonomies {
 
 		/** No empty fields. */
 		if ( ! isset( $args['id'] ) || empty( $args['id'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 		if ( ! isset( $args['name'] ) || empty( $args['name'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 		if ( ! isset( $args['singular_name'] ) || empty( $args['singular_name'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 
-		extract( $args );
-
 		$labels = array(
-			'name'					=> strip_tags( $name ),
-			'singular_name' 		=> strip_tags( $singular_name ),
-			'menu_name'				=> strip_tags( $name ),
+			'name'					=> strip_tags( $args['name'] ),
+			'singular_name' 		=> strip_tags( $args['singular_name'] ),
+			'menu_name'				=> strip_tags( $args['name'] ),
 
-			'search_items'			=> sprintf( __( 'Search %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-			'popular_items'			=> sprintf( __( 'Popular %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-			'all_items'				=> sprintf( __( 'All %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-			'edit_item'				=> sprintf( __( 'Edit %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
-			'update_item'			=> sprintf( __( 'Update %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
-			'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
-			'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $singular_name ) ),
-			'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $name ) ),
-			'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $name ) ),
+			'search_items'			=> sprintf( __( 'Search %s', 'wp-listings-pro' ), strip_tags( $args['name'] ) ),
+			'popular_items'			=> sprintf( __( 'Popular %s', 'wp-listings-pro' ), strip_tags( $args['name'] ) ),
+			'all_items'				=> sprintf( __( 'All %s', 'wp-listings-pro' ), strip_tags( $args['name'] ) ),
+			'edit_item'				=> sprintf( __( 'Edit %s', 'wp-listings-pro' ), strip_tags( $args['singular_name'] ) ),
+			'update_item'			=> sprintf( __( 'Update %s', 'wp-listings-pro' ), strip_tags( $args['singular_name'] ) ),
+			'add_new_item'			=> sprintf( __( 'Add New %s', 'wp-listings-pro' ), strip_tags( $args['singular_name'] ) ),
+			'new_item_name'			=> sprintf( __( 'New %s Name', 'wp-listings-pro' ), strip_tags( $args['singular_name'] ) ),
+			'add_or_remove_items'	=> sprintf( __( 'Add or Remove %s', 'wp-listings-pro' ), strip_tags( $args['name'] ) ),
+			'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $args['name'] ) ),
 		);
+
+		$id = $args['id'];
 
 		$args = array(
 			'labels'		=> $labels,
 			'hierarchical'	=> true,
-			'rewrite'		=> array( 'slug' => $id, 'with_front' => false ),
+			'rewrite'		=> array( 'slug' => $args['id'], 'with_front' => false ),
 			'editable'		=> 1,
 		);
 
@@ -208,7 +218,7 @@ class WPLPRO_Taxonomies {
 
 		/** No empty ID */
 		if ( ! isset( $id ) || empty( $id ) ) {
-			wp_die( __( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
+			wp_die( esc_html__( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
 		}
 
 		$options = get_option( $this->settings_field );
@@ -217,7 +227,7 @@ class WPLPRO_Taxonomies {
 		if ( array_key_exists( $id, (array) $options ) ) {
 			unset( $options[ $id ] );
 		} else {
-			wp_die( __( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
+			wp_die( esc_html__( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
 		}
 
 		/** Update the DB */
@@ -238,16 +248,18 @@ class WPLPRO_Taxonomies {
 
 		/** No empty fields */
 		if ( ! isset( $args['id'] ) || empty( $args['id'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 		if ( ! isset( $args['name'] ) || empty( $args['name'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 		if ( ! isset( $args['singular_name'] ) || empty( $args['singular_name'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 
-		extract( $args );
+		$name = $args['name'];
+		$singular_name = $args['singular_name'];
+		$id = $args['id'];
 
 		$labels = array(
 			'name'					=> strip_tags( $name ),
@@ -295,17 +307,17 @@ class WPLPRO_Taxonomies {
 		$format = '<div id="message" class="updated"><p><strong>%s</strong></p></div>';
 
 		if ( isset( $_REQUEST['created'] ) && 'true' === $_REQUEST['created'] ) {
-			printf( $format, __( 'New taxonomy successfully created!', 'wp-listings-pro' ) );
+			printf( $format, esc_html__( 'New taxonomy successfully created!', 'wp-listings-pro' ) );
 			return;
 		}
 
 		if ( isset( $_REQUEST['edited'] ) && 'true' === $_REQUEST['edited'] ) {
-			printf( $format, __( 'Taxonomy successfully edited!', 'wp-listings-pro' ) );
+			printf( $format, esc_html__( 'Taxonomy successfully edited!', 'wp-listings-pro' ) );
 			return;
 		}
 
 		if ( isset( $_REQUEST['deleted'] ) && 'true' === $_REQUEST['deleted'] ) {
-			printf( $format, __( 'Taxonomy successfully deleted.', 'wp-listings-pro' ) );
+			printf( $format, esc_html__( 'Taxonomy successfully deleted.', 'wp-listings-pro' ) );
 			return;
 		}
 	}
@@ -623,7 +635,7 @@ class WPLPRO_Taxonomies {
 				$selected      = isset( $_GET[ $taxonomy ] ) ? $_GET[ $taxonomy ] : '';
 				$info_taxonomy = get_taxonomy( $taxonomy );
 				wp_dropdown_categories(array(
-					'show_option_all' => __( "Show All {$info_taxonomy->label}" ),
+					'show_option_all' => esc_html__( "Show All {$info_taxonomy->label}" ),
 					'taxonomy'        => $taxonomy,
 					'name'            => $taxonomy,
 					'orderby'         => 'name',
@@ -795,8 +807,13 @@ class WPLPro_Agents_Taxonomies {
 		}
 
 		/** This section handles the data if a new taxonomy is created */
-		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] ) {
-			$this->create_taxonomy( $_POST['wplpro_agents_taxonomy'] );
+		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] && isset( $_POST['wplpro_agents_taxonomy']['id'] ) ) {
+			$obj = array(
+				'id' => sanitize_key( $_POST['wplpro_agents_taxonomy']['id'] ),
+				'name' => sanitize_text_field( $_POST['wplpro_agents_taxonomy']['name'] ),
+				'singular_name' => sanitize_text_field( $_POST['wplpro_agents_taxonomy']['singular_name'] ),
+			);
+			$this->create_taxonomy( $obj );
 		}
 
 		/** This section handles the data if a taxonomy is deleted */
@@ -805,8 +822,13 @@ class WPLPro_Agents_Taxonomies {
 		}
 
 		/** This section handles the data if a taxonomy is being edited */
-		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] ) {
-			$this->edit_taxonomy( $_POST['wplpro_agents_taxonomy'] );
+		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_POST['wplpro_agents_taxonomy'] ) ) {
+			$obj = array(
+				'id' => sanitize_key( $_POST['wplpro_agents_taxonomy']['id'] ),
+				'name' => sanitize_text_field( $_POST['wplpro_agents_taxonomy']['name'] ),
+				'singular_name' => sanitize_text_field( $_POST['wplpro_agents_taxonomy']['singular_name'] ),
+			);
+			$this->edit_taxonomy( $obj );
 		}
 	}
 
@@ -868,16 +890,18 @@ class WPLPro_Agents_Taxonomies {
 
 		/** No empty fields */
 		if ( ! isset( $args['id'] ) || empty( $args['id'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 		if ( ! isset( $args['name'] ) || empty( $args['name'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 		if ( ! isset( $args['singular_name'] ) || empty( $args['singular_name'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 
-		extract( $args );
+		$name = $args['name'];
+		$singular_name = $args['singular_name'];
+		$id = $args['id'];
 
 		$labels = array(
 			'name'					=> strip_tags( $name ),
@@ -927,7 +951,7 @@ class WPLPro_Agents_Taxonomies {
 
 		/** No empty ID */
 		if ( ! isset( $id ) || empty( $id ) ) {
-			wp_die( __( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
+			wp_die( esc_html__( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
 			// * Why don't we just give up pardner?
 		}
 
@@ -937,7 +961,7 @@ class WPLPro_Agents_Taxonomies {
 		if ( array_key_exists( $id, (array) $options ) ) {
 			unset( $options[ $id ] );
 		} else {
-			wp_die( __( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
+			wp_die( esc_html__( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
 		}
 
 		/** Update the DB */
@@ -958,16 +982,18 @@ class WPLPro_Agents_Taxonomies {
 
 		/** No empty fields */
 		if ( ! isset( $args['id'] ) || empty( $args['id'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 		if ( ! isset( $args['name'] ) || empty( $args['name'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 		if ( ! isset( $args['singular_name'] ) || empty( $args['singular_name'] ) ) {
-			wp_die( __( 'Please complete all required fields.', 'wp-listings-pro' ) );
+			wp_die( esc_html__( 'Please complete all required fields.', 'wp-listings-pro' ) );
 		}
 
-		extract( $args );
+		$name = $args['name'];
+		$singular_name = $args['singular_name'];
+		$id = $args['id'];
 
 		$labels = array(
 			'name'					=> strip_tags( $name ),
@@ -1008,7 +1034,7 @@ class WPLPro_Agents_Taxonomies {
 	 */
 	function notices() {
 
-		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] != $this->menu_page ) {
+		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] !== $this->menu_page ) {
 			return;
 		}
 
