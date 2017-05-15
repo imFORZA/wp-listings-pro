@@ -707,15 +707,15 @@ class WPLPRO_Taxonomies {
 		?>
 
 			<tr class="form-field wpl-term-image-wrap">
-			<th scope="row"><label for="wpl-term-image"><?php _e( 'Image', 'wp-listings-pro' ); ?></label></th>
+			<th scope="row"><label for="wpl-term-image"><?php esc_html_e( 'Image', 'wp-listings-pro' ); ?></label></th>
 			<td>
 				<?php wp_nonce_field( basename( __FILE__ ), 'wplpro_term_image_nonce' ); ?>
 				<!-- Begin term image -->
 				<p>
 					<input type="hidden" name="wpl-term-image" id="wpl-term-image" value="<?php echo esc_attr( $image_id ); ?>" />
 					<a href="#" class="wpl-add-media wpl-add-media-img"><img class="wpl-term-image-url" src="<?php echo esc_url( $image_url ); ?>" style="max-width: 100%; max-height: 200px; height: auto; display: block;" /></a>
-					<a href="#" class="wpl-add-media wpl-add-media-text"><?php _e( 'Set term image', 'wp-listings-pro' ); ?></a>
-					<a href="#" class="wpl-remove-media"><?php _e( 'Remove term image', 'wp-listings-pro' ); ?></a>
+					<a href="#" class="wpl-add-media wpl-add-media-text"><?php esc_html_e( 'Set term image', 'wp-listings-pro' ); ?></a>
+					<a href="#" class="wpl-remove-media"><?php esc_html_e( 'Remove term image', 'wp-listings-pro' ); ?></a>
 				</p>
 				<!-- End term image -->
 			</td>
