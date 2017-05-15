@@ -25,13 +25,18 @@ add_shortcode( 'listings', 'wplpro_shortcode' );
  */
 function wplpro_shortcode( $atts, $content = null ) {
 
-	extract(shortcode_atts(array(
+	$obj = shortcode_atts(array(
 		'id'       => '',
 		'taxonomy' => '',
 		'term'     => '',
 		'limit'    => '',
 		'columns'  => '',
-	), $atts ) );
+	), $atts );
+	$id = $obj['id'];
+	$taxonomy = $obj['taxonomy'];
+	$term = $obj['term'];
+	$limit = $obj['limit'];
+	$columns = $obj['columns'];
 
 	 // If limit is empty set to all.
 	if ( ! $limit ) {
@@ -138,9 +143,9 @@ add_shortcode( 'wp_listings_meta', 'wplpro_meta_shortcode' );
  * @return string meta value wrapped in span.
  */
 function wplpro_meta_shortcode( $atts ) {
-	extract(shortcode_atts(array(
+	$key = shortcode_atts(array(
 		'key' => '',
-	), $atts ) );
+	), $atts )['key'];
 	$postid = get_the_id();
 
 	return '<span class=' . $key . '>' . get_post_meta( $postid, '_listing_' . $key, true ) . '</span>';
@@ -162,11 +167,14 @@ add_shortcode( 'employee_profiles', 'wplpro_profile_shortcode' );
  */
 function wplpro_profile_shortcode( $atts, $content = null ) {
 
-	extract(shortcode_atts(array(
+	$obj = shortcode_atts(array(
 		'id'   => '',
 		'orderby' => 'menu_order',
 		'order' => 'ASC',
-	), $atts ) );
+	), $atts );
+	$id = $obj['id'];
+	$orderby = $obj['orderby'];
+	$order = $obj['order'];
 
 	if ( '' === $id ) {
 		$query_args = array(

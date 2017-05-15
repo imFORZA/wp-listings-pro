@@ -31,10 +31,10 @@ function wplpro_list_terms( $taxonomy ) {
 			$i++;
 			$term_list .= '<li><a href="' . site_url( $taxonomy . '/' . $term->slug ) . '" title="' . sprintf( __( 'View all post filed under %s', 'gbd' ), $term->name ) . '">' . $term->name . ' (' . $term->count . ')</a></li>';
 		}
-		echo '<div class="' . $taxonomy . ' term-list-container">';
-		echo '<h3 class="taxonomy-name">' . $the_tax_object->label . '</h3>';
-		echo "<ul class=\"term-list\">{$term_list}</ul>";
-		echo '</div> <!-- .' . $taxonomy . ' .term-list-container -->';
+		echo '<div class="' . esc_attr( $taxonomy ) . ' term-list-container">';
+		echo '<h3 class="taxonomy-name">' . esc_html( $the_tax_object->label ) . '</h3>';
+		echo '<ul class="term-list">' . $term_list . '</ul>';
+		echo '</div> <!-- .' . esc_html( $taxonomy ) . ' .term-list-container -->'; // eh.
 	}
 }
 
@@ -411,9 +411,7 @@ function wplpro_connected_listings_markup() {
 
 		setup_postdata( $listing );
 
-		// Wait now we're editing it.
-		$post = $listing;
-		// Oh boy, looks Mr. Enforcer's not happy.
+		// $post = $listing;
 		$thumb_id = get_post_thumbnail_id();
 		$thumb_url = wp_get_attachment_image_src( $thumb_id, 'medium', true );
 
@@ -426,11 +424,11 @@ function wplpro_connected_listings_markup() {
 		$class = ( 1 === $count ) ? ' first' : '';
 
 		echo '
-		<div class="one-third ', $class, ' connected-listings" itemscope itemtype="https://schema.org/Offer">
-			<a href="', get_permalink( $listing->ID ), '"><img src="', $thumb_url[0], '" alt="', get_the_title(), ' photo" class="attachment-agent-profile-photo wp-post-image" itemprop="image" /></a>
-			<h4 itemprop="itemOffered"><a class="listing-title" href="', get_permalink( $listing->ID ), '" itemprop="url">', get_the_title( $listing->ID ), '</a></h4>
-			<p class="listing-price"><span class="label-price">Price: </span><span itemprop="price">', get_post_meta( $listing->ID, '_listing_price', true ), '</span></p>
-			<p class="listing-beds"><span class="label-beds">Beds: </span>', get_post_meta( $listing->ID, '_listing_bedrooms', true ), '</p><p class="listing-baths"><span class="label-baths">Baths: </span>', get_post_meta( $listing->ID, '_listing_bathrooms', true ),'</p>
+		<div class="one-third ', esc_attr( $class ), ' connected-listings" itemscope itemtype="https://schema.org/Offer">
+			<a href="', esc_url( get_permalink( $listing->ID ) ), '"><img src="', esc_url( $thumb_url[0] ), '" alt="', esc_attr( get_the_title() ), ' photo" class="attachment-agent-profile-photo wp-post-image" itemprop="image" /></a>
+			<h4 itemprop="itemOffered"><a class="listing-title" href="', esc_url( get_permalink( $listing->ID ) ), '" itemprop="url">', esc_html( get_the_title( $listing->ID ) ), '</a></h4>
+			<p class="listing-price"><span class="label-price">Price: </span><span itemprop="price">', esc_html( get_post_meta( $listing->ID, '_listing_price', true ) ), '</span></p>
+			<p class="listing-beds"><span class="label-beds">Beds: </span>', esc_html( get_post_meta( $listing->ID, '_listing_bedrooms', true ) ), '</p><p class="listing-baths"><span class="label-baths">Baths: </span>', esc_html( get_post_meta( $listing->ID, '_listing_bathrooms', true ) ),'</p>
 		</div><!-- .connected-listings -->';
 	}
 
@@ -475,14 +473,14 @@ function wplpro_connected_agents_markup() {
 
 		setup_postdata( $profile );
 
-		$post = $profile; // YIKES!!!!!!!
+		// $post = $profile; // So ya know what, we just won't do it.
 		$thumb_id = get_post_thumbnail_id();
 		$thumb_url = wp_get_attachment_image_src( $thumb_id, 'agent-profile-photo', true );
 
 		echo '
 		<div ', post_class( 'connected-agents vcard' ), ' itemscope itemtype="https://schema.org/Person">
-			<div class="agent-thumb"><a href="', get_permalink( $profile->ID ), '"><img src="', $thumb_url[0], '" alt="', get_the_title(), ' photo" class="attachment-agent-profile-photo wp-post-image alignleft" itemprop="image" /></a></div><!-- .agent-thumb -->
-			<div class="agent-details"><h5><a class="fn agent-name" itemprop="name" href="', get_permalink( $profile->ID ), '">', get_the_title( $profile->ID ), '</a></h5>';
+			<div class="agent-thumb"><a href="', esc_url( get_permalink( $profile->ID ) ), '"><img src="', esc_url( $thumb_url[0] ), '" alt="', esc_attr( get_the_title() ), ' photo" class="attachment-agent-profile-photo wp-post-image alignleft" itemprop="image" /></a></div><!-- .agent-thumb -->
+			<div class="agent-details"><h5><a class="fn agent-name" itemprop="name" href="', esc_url( get_permalink( $profile->ID ) ), '">', esc_html( get_the_title( $profile->ID ) ), '</a></h5>';
 			echo wplpro_employee_details();
 			echo wplpro_employee_social();
 		echo '</div><!-- .agent-details --></div><!-- .connected-agents .vcard -->';

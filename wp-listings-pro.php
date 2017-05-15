@@ -229,7 +229,6 @@ function wplpro_init() {
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-agent-import.php' );
 
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-saved-searches.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-users.php' );
 
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-migrate-old-posts.php' );
 
