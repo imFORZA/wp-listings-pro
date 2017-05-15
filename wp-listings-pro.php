@@ -516,8 +516,8 @@ function wplpro_setall_hidden_price() {
 		'order' => 'ASC',
 		'no_found_rows' => true,
 		'update_post_term_cache' => false,
-		//TODO: Don't use -1, https://10up.github.io/Engineering-Best-Practices/php/
-		'posts_per_page' => -1
+		// TODO: Don't use -1, https://10up.github.io/Engineering-Best-Practices/php/ !
+		'posts_per_page' => -1,
 	) );
 
 	// Loop and set hidden price.
