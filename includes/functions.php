@@ -704,6 +704,7 @@ function wplpro_post_select( $select_id, $post_type, $selected = array() ) {
 			'post_type' => $post_type,
 			'post_status' => 'publish',
 			'suppress_filters' => false,
+			//TODO: Don't use -1, https://10up.github.io/Engineering-Best-Practices/php/
 			'posts_per_page' => -1,
 		)
 	);

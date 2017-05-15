@@ -152,7 +152,11 @@ class WPLPRO_Agents_Widget extends WP_Widget {
 		echo '<label for="' . $this->get_field_id( 'post_id' ) . '">Select an Employee:</label>';
 		echo '<select id="' . $this->get_field_id( 'post_id' ) . '" name="' . $this->get_field_name( 'post_id' ) . '" class="widefat" style="width:100%;">';
 			global $post;
-			$args = array( 'post_type' => 'employee', 'posts_per_page' => -1 );
+			$args = array(
+				'post_type' => 'employee',
+				//TODO: Don't use -1, https://10up.github.io/Engineering-Best-Practices/php/
+				'posts_per_page' => -1
+			);
 			$agents = get_posts( $args );
 		foreach ( $agents as $post ) : setup_postdata( $post );
 			echo '<option style="margin-left: 8px; padding-right:10px;" value="' . $post->ID . ',' . $post->post_title . '" ' . selected( $post->ID . ',' . $post->post_title, $instance['post_id'], false ) . '>' . $post->post_title . '</option>';
