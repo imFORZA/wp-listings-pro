@@ -465,7 +465,7 @@ function wplpro_save_post( $post_id, $post ) {
 		// Check if price field has been set.
 		if ( isset( $_POST['wp_listings']['_listing_price'] ) ) {
 			// Set hidden price meta_field.
-			$price = $_POST['wp_listings']['_listing_price'];
+			$price = preg_replace("/[^0-9$,.]/", "", $_POST['wp_listings']['_listing_price']); // Sanitize data, only allow it to be certain characters.
 			wplpro_set_hidden_price( $post_id, $price );
 		}
 	}
