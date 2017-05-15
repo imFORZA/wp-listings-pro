@@ -60,6 +60,7 @@ class WPLPRO_Agents_Import {
 	 * @return [type] $featured Featured.
 	 */
 	public static function wplpro_agents_idx_create_post( $agent_ids ) {
+		error_log("here");
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 
 			// Load IDX Broker API Class and retrieve agents.
@@ -531,6 +532,8 @@ function wplpro_agents_idx_agent_setting_page() {
 			foreach ( $agents as $agent ) {
 				foreach ( $agent as $a ) {
 
+					error_log(print_r( $a['agentFirstName'], true ));
+
 					if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) || ! get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 						$idx_agent_wp_options[ $a['agentID'] ] = array(
 							'agentID' => $a['agentID'],
@@ -541,7 +544,7 @@ function wplpro_agents_idx_agent_setting_page() {
 						'post_type'       => 'employee',
 					));
 					foreach ( $stuff as $temp_agent ) {
-						if ( $a['agentID'] === get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) ) {
+						if ( (string) $a['agentID'] === get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) ) {
 							if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) || ! $idx_agent_wp_options[ $a['agentID'] ]['status'] !== '' ) {
 								$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
 							}
