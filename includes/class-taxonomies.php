@@ -100,7 +100,9 @@ class WPLPRO_Taxonomies {
 		}
 
 		/** This section handles the data if a new taxonomy is created */
-		if ( isset( $_REQUEST['action'] ) && 'create' === sanitize_text_field( $_REQUEST['action'] ) && isset( $_POST['wp_listings_taxonomy']['id'] ) ) {
+
+		if ( isset( $_REQUEST['action'] ) && 'create' === sanitize_text_field( $_REQUEST['action'] ) && isset( $_POST['wp_listings_taxonomy']['id'] ) && isset( $_POST['wp_listings-action_create-taxonomy'] ) && wp_verify_nonce( $_POST['wp_listings-action_create-taxonomy'], 'wp_listings-action_create-taxonomy' ) ) { // && isset( $_POST['wp_listings_taxonomy_nonce_name'] ) ) {
+
 			$obj = array(
 				'id' => sanitize_key( $_POST['wp_listings_taxonomy']['id'] ),
 				'name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['name'] ),
@@ -115,7 +117,7 @@ class WPLPRO_Taxonomies {
 		}
 
 		/** This section handles the data if a taxonomy is being edited */
-		if ( isset( $_REQUEST['action'] ) && 'edit' === sanitize_text_field( $_REQUEST['action'] ) && isset( $_POST['wp_listings_taxonomy'] ) ) {
+		if ( isset( $_REQUEST['action'] ) && 'edit' === sanitize_text_field( $_REQUEST['action'] ) && isset( $_POST['wp_listings_taxonomy'] ) && isset( $_POST['wp_listings-action_edit-taxonomy'] ) && wp_verify_nonce( $_POST['wp_listings-action_edit-taxonomy'], 'wp_listings-action_edit-taxonomy' ) ) {
 			$obj = array(
 				'id' => sanitize_key( $_POST['wp_listings_taxonomy']['id'] ),
 				'name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['name'] ),
@@ -135,7 +137,6 @@ class WPLPRO_Taxonomies {
 	function admin() {
 
 		echo '<div class="wrap">';
-
 		if ( isset( $_REQUEST['view'] ) && 'edit' === $_REQUEST['view'] ) {
 			require( dirname( __FILE__ ) . '/views/edit-tax.php' );
 		} else {
@@ -807,7 +808,7 @@ class WPLPro_Agents_Taxonomies {
 		}
 
 		/** This section handles the data if a new taxonomy is created */
-		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] && isset( $_POST['wplpro_agents_taxonomy']['id'] ) ) {
+		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] && isset( $_POST['wplpro_agents_taxonomy']['id'] ) && isset( $_POST['wplpro_agents-action_create-taxonomy'] ) && wp_verify_nonce( $_POST['wplpro_agents-action_create-taxonomy'], 'wplpro_agents-action_create-taxonomy' ) ) {
 			$obj = array(
 				'id' => sanitize_key( $_POST['wplpro_agents_taxonomy']['id'] ),
 				'name' => sanitize_text_field( $_POST['wplpro_agents_taxonomy']['name'] ),
@@ -822,7 +823,7 @@ class WPLPro_Agents_Taxonomies {
 		}
 
 		/** This section handles the data if a taxonomy is being edited */
-		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_POST['wplpro_agents_taxonomy'] ) ) {
+		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_POST['wplpro_agents_taxonomy'] ) && isset( $_POST['wplpro_agents-action_edit-taxonomy'] ) && wp_verify_nonce( $_POST['wplpro_agents-action_edit-taxonomy'], 'wplpro_agents-action_edit-taxonomy' ) ) {
 			$obj = array(
 				'id' => sanitize_key( $_POST['wplpro_agents_taxonomy']['id'] ),
 				'name' => sanitize_text_field( $_POST['wplpro_agents_taxonomy']['name'] ),

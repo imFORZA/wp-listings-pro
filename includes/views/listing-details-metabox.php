@@ -2,7 +2,7 @@
 /**
  * Page for listing details
  *
- * @package wp-listings-pro
+ * @package WP-Listings-Pro
  */
 
 // Exit if accessed directly.

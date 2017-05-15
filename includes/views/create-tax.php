@@ -84,7 +84,7 @@ screen_icon( 'themes' );
 			<h3><?php esc_html_e( 'Add New Listing Taxonomy', 'wp-listings-pro' ); ?></h3>
 
 			<form method="post" action="<?php echo admin_url( 'admin.php?page=register-taxonomies&amp;action=create' ); ?>">
-			<?php wp_nonce_field( 'wp_listings-action_create-taxonomy' ); ?>
+			<?php wp_nonce_field( 'wp_listings-action_create-taxonomy', 'wp_listings-action_create-taxonomy' ); ?>
 
 			<div class="form-field">
 				<label for="taxonomy-id"><?php _e( 'ID', 'wp-listings-pro' ); ?></label>

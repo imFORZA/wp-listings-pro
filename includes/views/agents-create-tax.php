@@ -84,7 +84,7 @@ screen_icon( 'themes' ); ?>
 			<h3><?php esc_html_e( 'Add New Employee Taxonomy', 'wp-listings-pro' ); ?></h3>
 
 			<form method="post" action="<?php echo admin_url( 'admin.php?page=wplpro-agents-taxonomies&amp;action=create' ); ?>">
-			<?php wp_nonce_field( 'wplpro_agents-action_create-taxonomy' ); ?>
+			<?php wp_nonce_field( 'wplpro_agents-action_create-taxonomy', 'wplpro_agents-action_create-taxonomy' ); ?>
 
 			<div class="form-field">
 				<label for="taxonomy-id"><?php _e( 'ID', 'wp-listings-pro' ); ?></label>

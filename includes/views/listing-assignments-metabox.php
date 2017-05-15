@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Listing metabox for agent assignments
+ *
+ * @package WP-Listings-Pro
+ */
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) { exit;
 }
