@@ -115,7 +115,7 @@ class WPLPRO_Taxonomies {
 		}
 
 			/** This section handles the data if a taxonomy is being edited */
-		if ( isset( $_REQUEST['action'] ) && 'edit' === sanitize_text_field( $_REQUEST['action'] ) ) {
+		if ( isset( $_REQUEST['action'] ) && 'edit' === sanitize_text_field( $_REQUEST['action'] ) && isset( $_POST['wp_listings_taxonomy'] ) ) {
 			$obj = array(
 				'id' => sanitize_key( $_POST['wp_listings_taxonomy']['id'] ),
 				'name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['name'] ),
@@ -815,7 +815,7 @@ class WPLPro_Agents_Taxonomies {
 		}
 
 		/** This section handles the data if a taxonomy is being edited */
-		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] ) {
+		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_POST['wplpro_agents_taxonomy'] ) ) {
 			$this->edit_taxonomy( $_POST['wplpro_agents_taxonomy'] );
 		}
 	}
