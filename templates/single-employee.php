@@ -39,7 +39,7 @@ function wplpro_single_employee_post_content() {
 		<?php
 			$thumb_id = get_post_thumbnail_id();
 			$thumb_url = wp_get_attachment_image_src( $thumb_id, 'employee-full', true );
-			echo '<img src="' . $thumb_url[0] . '" alt="' . get_the_title() . ' photo" class="attachment-employee-full wp-post-image" itemprop="image" />';
+			echo '<img src="' . esc_url( $thumb_url[0] ) . '" alt="' . get_the_title() . ' photo" class="attachment-employee-full wp-post-image" itemprop="image" />';
 		?>
 		<div class="agent-details vcard">
 			<span class="fn" style="display:none;" itemprop="name"><?php the_title(); ?></span>
