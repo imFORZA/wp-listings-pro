@@ -9,6 +9,8 @@
 if ( ! defined( 'ABSPATH' ) ) { exit;
 }
 
+
+if ( ! function_exists( 'WP_listings' ) ) {
 /**
  * This class handles the creation of the "Listings" post type, and creates a
  * UI to display the Listing-specific data on the admin screens.
@@ -466,4 +468,5 @@ class WP_Listings {
 		return add_query_arg( array( 'wp-listings-pro' => 'show-notice' ), $location );
 	}
 
+}
 }
