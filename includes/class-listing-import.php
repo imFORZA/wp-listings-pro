@@ -451,8 +451,8 @@ class WPLPROIdxListing {
 
 				// Assign featured image to post.
 				set_post_thumbnail( $id, $attach_id );
-			}
-		}
+			} // End if().
+		} // End if().
 	}
 
 }
@@ -728,7 +728,7 @@ function wp_listings_idx_listing_setting_page() {
 						// @codingStandardsIgnoreEnd
 					);
 				}
-			}
+			} // End foreach().
 			echo '</ol>';
 			if ( $do_button ) {
 				submit_button( 'Import Listings', 'primary submit-imports-button' );
