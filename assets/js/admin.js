@@ -35,7 +35,7 @@ jQuery(document).ready(function($) {
 			return;
 		}
 		jQuery.post( wp_listings_adminL10n.ajaxurl, {
-			action: "wp_listings_admin_notice",
+			action: "WPListingsAdminNotice",
 			url: wp_listings_adminL10n.ajaxurl,
 			nag: $this.parent().data( 'key' ),
 			nonce: wp_listings_adminL10n.nonce || ''

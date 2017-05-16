@@ -285,16 +285,16 @@ function wplpro_paging_nav_employee() {
  *
  * @since 1.0.1
  *
- * @global array $_wp_additional_image_sizes Additionally registered image sizes.
+ * @global array $_wp_add_image_sizes Additionally registered image sizes.
  *
  * @return array Two-dimensional, with width, height and crop sub-keys.
  */
 function wplpro_get_additional_image_sizes() {
 
-	global $_wp_additional_image_sizes;
+	global $_wp_add_image_sizes;
 
-	if ( $_wp_additional_image_sizes ) {
-		return $_wp_additional_image_sizes;
+	if ( $_wp_add_image_sizes ) {
+		return $_wp_add_image_sizes;
 	}
 
 	return array();

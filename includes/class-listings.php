@@ -129,8 +129,8 @@ class WP_Listings {
 		add_action( 'admin_init', array( &$this, 'add_options' ) );
 		add_action( 'admin_menu', array( &$this, 'settings_init' ), 15 );
 
-		add_action( 'save_post', 'WPLPRO_Meta_Box_Listing_Images::save', 20, 2 );
-		add_action( 'save_post', 'WPLPRO_Meta_Box_Listing_Docs::save', 20, 2 );
+		add_action( 'save_post', 'WPLPROMetaBoxListing_Images::save', 20, 2 );
+		add_action( 'save_post', 'WPLPROMetaBoxListing_Docs::save', 20, 2 );
 	}
 
 	/**
@@ -228,8 +228,8 @@ class WP_Listings {
 		add_meta_box( 'listing_contact_metabox', __( 'Lead Tools', 'wp-listings-pro' ), array( &$this, 'listing_contact_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_assignment_metabox', __( 'Agent Assignments', 'wp-listings-pro' ), array( &$this, 'listing_assignments_metabox' ), 'listing', 'normal', 'high' );
 
-		add_meta_box( 'wplpro-listing-images', __( 'Photo Gallery', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Images::output', 'listing', 'normal', 'high' );
-		add_meta_box( 'wplpro-listing-docs', __( 'Documents', 'wp-listings-pro' ), 'WPLPRO_Meta_Box_Listing_Docs::output', 'listing', 'normal', 'high' );
+		add_meta_box( 'wplpro-listing-images', __( 'Photo Gallery', 'wp-listings-pro' ), 'WPLPROMetaBoxListing_Images::output', 'listing', 'normal', 'high' );
+		add_meta_box( 'wplpro-listing-docs', __( 'Documents', 'wp-listings-pro' ), 'WPLPROMetaBoxListing_Docs::output', 'listing', 'normal', 'high' );
 
 	}
 

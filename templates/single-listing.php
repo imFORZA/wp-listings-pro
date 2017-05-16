@@ -119,9 +119,9 @@ function wplpro_single_listing_post_content() {
 
 	<?php
 
-	$listing_image_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
-	if ( ! empty( $listing_image_gallery ) ) {
-		$attachments = array_filter( explode( ',', $listing_image_gallery ) );
+	$listing_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
+	if ( ! empty( $listing_gallery ) ) {
+		$attachments = array_filter( explode( ',', $listing_gallery ) );
 		if ( ! empty( $attachments ) ) {
 			echo '<ul class="bxslider">';
 			foreach ( $attachments as $attachment_id ) {
@@ -145,7 +145,7 @@ function wplpro_single_listing_post_content() {
 	  <li><a href="#listing-details"><?php esc_html_e( 'Details', 'wp-listings-pro' ); ?></a></li>
 
 		<?php
-		if ( empty( $listing_image_gallery ) && get_post_meta( $post->ID, '_listing_gallery', true ) !== '' ) { ?>
+		if ( empty( $listing_gallery ) && get_post_meta( $post->ID, '_listing_gallery', true ) !== '' ) { ?>
 		<li><a href="#listing-gallery"><?php esc_html_e( 'Photos', 'wp-listings-pro' ); ?></a></li>
 		<?php } ?>
 
@@ -258,7 +258,7 @@ function wplpro_single_listing_post_content() {
 
 	</div><!-- #listing-details -->
 
-	<?php if ( empty( $listing_image_gallery ) && get_post_meta( $post->ID, '_listing_gallery', true ) ) { ?>
+	<?php if ( empty( $listing_gallery ) && get_post_meta( $post->ID, '_listing_gallery', true ) ) { ?>
 	<div id="listing-gallery">
 			<?php echo do_shortcode( get_post_meta( $post->ID, '_listing_gallery', true ) ); ?>
 	</div><!-- #listing-gallery -->

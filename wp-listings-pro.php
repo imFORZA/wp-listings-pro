@@ -50,16 +50,16 @@ function wplpro_activation() {
 	/** Flush rewrite rules. */
 	if ( ! post_type_exists( 'listing' ) ) {
 
-		global $_wp_listings, $wplpro_taxonomies_var, $_wp_listings_templates;
+		global $_wp_listings, $_wplpro_taxonomies, $_wp_listings_templ;
 		$_wp_listings->create_post_type();
-		$wplpro_taxonomies_var->register_taxonomies();
+		$_wplpro_taxonomies->register_taxonomies();
 	}
 
 	/** Flush rewrite rules. */
 	if ( ! post_type_exists( 'employee' ) ) {
-		global $_wplpro_agents, $_wplpro_agents_taxonomies;
-		$_wplpro_agents->create_post_type();
-		$_wplpro_agents_taxonomies->register_taxonomies();
+		global $_WPLPROAgents, $_WPLPROAgents_tax;
+		$_WPLPROAgents->create_post_type();
+		$_WPLPROAgents_tax->register_taxonomies();
 	}
 
 	flush_rewrite_rules();
@@ -107,11 +107,11 @@ function wplpro_import_image_gallery() {
 		}
 
 		// If we already have a gallery, get it.
-		$listing_image_gallery;
+		$listing_gallery;
 		$wplpro_images;
 		if ( metadata_exists( 'post', $listing->ID, '_listing_image_gallery' ) ) {
-			$listing_image_gallery = get_post_meta( $listing->ID, '_listing_image_gallery', true );
-			$wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
+			$listing_gallery = get_post_meta( $listing->ID, '_listing_image_gallery', true );
+			$wplpro_images = array_filter( explode( ',', $listing_gallery ) );
 		} else {
 			$wplpro_images = array();
 		}
@@ -188,7 +188,7 @@ function wplpro_init() {
 		return;
 	}
 
-	global $_wp_listings, $wplpro_taxonomies_var, $_wp_listings_templates, $_wplpro_agents, $_wplpro_agents_taxonomies;
+	global $_wp_listings, $_wplpro_taxonomies, $_wp_listings_templ, $_WPLPROAgents, $_WPLPROAgents_tax;
 
 	define( 'WPLPRO_URL', plugin_dir_url( __FILE__ ) );
 	define( 'WPLPRO_DIR', plugin_dir_path( __FILE__ ) );
@@ -203,7 +203,7 @@ function wplpro_init() {
 
 	// Check for Genesis Agent Profiles Plugin.
 	if ( is_plugin_active( 'genesis-agent-profiles/plugin.php' ) ) {
-		add_action( 'wp_loaded', 'wplpro_agents_migrate' );
+		add_action( 'wp_loaded', 'WPLPROAgents_migrate' );
 	}
 
 	/** Includes. */
@@ -235,8 +235,8 @@ function wplpro_init() {
 	require_once( plugin_dir_path( __FILE__ ) . 'welcome/welcome-logic.php' );
 
 	/** Instantiate */
-	$_wplpro_agents = new WPLPRO_Agents;
-	$_wplpro_agents_taxonomies = new WPLPRO_Agents_Taxonomies;
+	$_WPLPROAgents = new WPLPROAgents;
+	$_WPLPROAgents_tax = new WPLPROAgents_Taxonomies;
 
 	/** Add theme support for post thumbnails if it does not exist */
 	if ( ! current_theme_supports( 'post-thumbnails' ) ) {
@@ -332,7 +332,7 @@ function wplpro_init() {
 		}
 
 		global $wp_version;
-		$nonce_action = 'wp_listings_admin_notice';
+		$nonce_action = 'WPListingsAdminNotice';
 		wp_enqueue_script( 'wp-listings-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
 		wp_localize_script( 'wp-listings-admin', 'wp_listings_adminL10n', array(
 			'ajaxurl'    => admin_url( 'admin-ajax.php' ),
@@ -379,7 +379,7 @@ function wplpro_init() {
 
 	/** Instantiate. */
 	$_wp_listings = new WP_Listings;
-	$wplpro_taxonomies_var = new WPLPRO_Taxonomies;
+	$_wplpro_taxonomies = new WPLPRO_Taxonomies;
 
 	add_action( 'widgets_init', 'wplpro_register_widgets' );
 
@@ -394,8 +394,8 @@ function wplpro_init() {
 	 *
 	 * @since  1.3
 	 */
-	function wp_listings_admin_notice( $message, $error = false, $cap_check = 'activate_plugins', $ignore_key = false ) {
-		$_wp_listings_admin = new WP_Listings_Admin_Notice;
+	function WPListingsAdminNotice( $message, $error = false, $cap_check = 'activate_plugins', $ignore_key = false ) {
+		$_wp_listings_admin = new WPListingsAdminNotice;
 		return $_wp_listings_admin->notice( $message, $error, $cap_check, $ignore_key );
 	}
 
@@ -404,16 +404,16 @@ function wplpro_init() {
 	 *
 	 * @since  1.3
 	 */
-	add_action( 'wp_ajax_wp_listings_admin_notice', 'wp_listings_admin_notice_cb' );
+	add_action( 'wp_ajax_WPListingsAdminNotice', 'WPListingsAdminNotice_cb' );
 
 	/**
-	 * Wp_listings_admin_notice_cb function.
+	 * WPListingsAdminNotice_cb function.
 	 *
 	 * @access public
 	 * @return ajax call.
 	 */
-	function wp_listings_admin_notice_cb() {
-		$_wp_listings_admin = new WP_Listings_Admin_Notice;
+	function WPListingsAdminNotice_cb() {
+		$_wp_listings_admin = new WPListingsAdminNotice;
 		return $_wp_listings_admin->ajax_cb();
 	}
 
@@ -428,7 +428,7 @@ function wplpro_register_widgets() {
 
 	$listing_widgets = array( 'WP_Listings_Featured_Listings_Widget', 'WP_Listings_Search_Widget' );
 
-	$agent_widgets = array( 'WPLPRO_Agents_Widget' );
+	$agent_widgets = array( 'WPLPROAgents_Widget' );
 
 	foreach ( (array) $listing_widgets as $listing_widget ) {
 		register_widget( $listing_widget );
@@ -446,8 +446,8 @@ function wplpro_register_widgets() {
  * @access public
  * @return void
  */
-function wplpro_agents_migrate() {
-	new WPLPRO_Agents_Migrate();
+function WPLPROAgents_migrate() {
+	new WPLPROAgents_Migrate();
 }
 
 add_action( 'save_post', 'wplpro_save_post', 10, 2 );

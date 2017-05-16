@@ -60,7 +60,7 @@ screen_icon( 'themes' ); ?>
 
 						<div class="row-actions">
 							<span class="edit"><a href="<?php echo admin_url( 'admin.php?page=' . $this->menu_page . '&amp;view=edit&amp;id=' . esc_html( $id ) ); ?>"><?php _e( 'Edit', 'wp-listings-pro' ); ?></a> | </span>
-							<span class="delete"><a class="delete-tag" href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=' . $this->menu_page . '&amp;action=delete&amp;id=' . esc_html( $id ) ), 'wplpro_agents-action_delete-taxonomy' ); ?>"><?php _e( 'Delete', 'wp-listings-pro' ); ?></a></span>
+							<span class="delete"><a class="delete-tag" href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=' . $this->menu_page . '&amp;action=delete&amp;id=' . esc_html( $id ) ), 'WPLPROAgents-action_delete-taxonomy' ); ?>"><?php _e( 'Delete', 'wp-listings-pro' ); ?></a></span>
 						</div>
 					<?php endif; ?>
 
@@ -84,23 +84,23 @@ screen_icon( 'themes' ); ?>
 			<h3><?php esc_html_e( 'Add New Employee Taxonomy', 'wp-listings-pro' ); ?></h3>
 
 			<form method="post" action="<?php echo admin_url( 'admin.php?page=wplpro-agents-taxonomies&amp;action=create' ); ?>">
-			<?php wp_nonce_field( 'wplpro_agents-action_create-taxonomy', 'wplpro_agents-action_create-taxonomy' ); ?>
+			<?php wp_nonce_field( 'WPLPROAgents-action_create-taxonomy', 'WPLPROAgents-action_create-taxonomy' ); ?>
 
 			<div class="form-field">
 				<label for="taxonomy-id"><?php _e( 'ID', 'wp-listings-pro' ); ?></label>
-				<input name="wplpro_agents_taxonomy[id]" id="taxonomy-id" type="text" value="" size="40" />
+				<input name="WPLPROAgents_taxonomy[id]" id="taxonomy-id" type="text" value="" size="40" />
 				<p><?php _e( 'The unique ID is used to register the taxonomy.<br />(no spaces, underscores, or special characters)', 'wp-listings-pro' ); ?></p>
 			</div>
 
 			<div class="form-field form-required">
 				<label for="taxonomy-name"><?php _e( 'Plural Name', 'wp-listings-pro' ); ?></label>
-				<input name="wplpro_agents_taxonomy[name]" id="taxonomy-name" type="text" value="" size="40" />
+				<input name="WPLPROAgents_taxonomy[name]" id="taxonomy-name" type="text" value="" size="40" />
 				<p><?php esc_html_e( 'Example: "Job Types" or "Offices"', 'wp-listings-pro' ); ?></p>
 			</div>
 
 			<div class="form-field form-required">
 				<label for="taxonomy-singular-name"><?php _e( 'Singular Name', 'wp-listings-pro' ); ?></label>
-				<input name="wplpro_agents_taxonomy[singular_name]" id="taxonomy-singular-name" type="text" value="" size="40" />
+				<input name="WPLPROAgents_taxonomy[singular_name]" id="taxonomy-singular-name" type="text" value="" size="40" />
 				<p><?php esc_html_e( 'Example: "Job Type" or "Office"', 'wp-listings-pro' ); ?></p>
 			</div>
 
