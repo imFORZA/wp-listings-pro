@@ -731,14 +731,14 @@ class WPLPRO_Taxonomies {
  * This class handles all the aspects of displaying, creating, and editing the
  * user-created taxonomies for the "Employees" post-type.
  */
-class WPLPro_Agents_Taxonomies {
+class WPLPROAgents_Taxonomies {
 
 	/**
 	 * Settings fields
 	 *
 	 * @var string
 	 */
-	var $settings_field = 'wplpro_agents_taxonomies';
+	var $settings_field = 'WPLPROAgents_taxonomies';
 	/**
 	 * Menu Page
 	 *
@@ -762,17 +762,17 @@ class WPLPro_Agents_Taxonomies {
 			add_action( 'init', array( $this, 'register_term_meta' ), 17 );
 
 			foreach ( (array) $this->get_taxonomies() as $slug => $data ) {
-				add_action( "{$slug}_add_form_fields", array( $this, 'wplpro_agents_new_term_image_field' ) );
-				add_action( "{$slug}_edit_form_fields", array( $this, 'wplpro_agents_edit_term_image_field' ) );
-				add_action( "create_{$slug}", array( $this, 'wplpro_agents_save_term_image' ) );
-				add_action( "edit_{$slug}", array( $this, 'wplpro_agents_save_term_image' ) );
-				add_filter( "manage_edit-{$slug}_columns", array( $this, 'wplpro_agents_edit_term_columns' ) );
-				add_action( "manage_{$slug}_custom_column", array( $this, 'wplpro_agents_manage_term_custom_column' ), 10, 3 );
+				add_action( "{$slug}_add_form_fields", array( $this, 'WPLPROAgents_new_term_image_field' ) );
+				add_action( "{$slug}_edit_form_fields", array( $this, 'WPLPROAgents_edit_term_image_field' ) );
+				add_action( "create_{$slug}", array( $this, 'WPLPROAgents_save_term_image' ) );
+				add_action( "edit_{$slug}", array( $this, 'WPLPROAgents_save_term_image' ) );
+				add_filter( "manage_edit-{$slug}_columns", array( $this, 'WPLPROAgents_edit_term_columns' ) );
+				add_action( "manage_{$slug}_custom_column", array( $this, 'WPLPROAgents_manage_term_custom_column' ), 10, 3 );
 			}
 		}
 
-		add_action( 'restrict_manage_posts', array( $this, 'wplpro_agents_filter_post_type_by_taxonomy' ) );
-		add_filter( 'parse_query', array( $this, 'wplpro_agents_convert_id_to_term_in_query' ) );
+		add_action( 'restrict_manage_posts', array( $this, 'WPLPROAgents_filter_post_type_by_taxonomy' ) );
+		add_filter( 'parse_query', array( $this, 'WPLPROAgents_convert_id_to_term_in_query' ) );
 
 	}
 
@@ -808,11 +808,11 @@ class WPLPro_Agents_Taxonomies {
 		}
 
 		/** This section handles the data if a new taxonomy is created */
-		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] && isset( $_POST['wplpro_agents_taxonomy']['id'] ) && isset( $_POST['wplpro_agents-action_create-taxonomy'] ) && wp_verify_nonce( $_POST['wplpro_agents-action_create-taxonomy'], 'wplpro_agents-action_create-taxonomy' ) ) {
+		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] && isset( $_POST['WPLPROAgents_taxonomy']['id'] ) && isset( $_POST['WPLPROAgents-action_create-taxonomy'] ) && wp_verify_nonce( $_POST['WPLPROAgents-action_create-taxonomy'], 'WPLPROAgents-action_create-taxonomy' ) ) {
 			$obj = array(
-				'id' => sanitize_key( $_POST['wplpro_agents_taxonomy']['id'] ),
-				'name' => sanitize_text_field( $_POST['wplpro_agents_taxonomy']['name'] ),
-				'singular_name' => sanitize_text_field( $_POST['wplpro_agents_taxonomy']['singular_name'] ),
+				'id' => sanitize_key( $_POST['WPLPROAgents_taxonomy']['id'] ),
+				'name' => sanitize_text_field( $_POST['WPLPROAgents_taxonomy']['name'] ),
+				'singular_name' => sanitize_text_field( $_POST['WPLPROAgents_taxonomy']['singular_name'] ),
 			);
 			$this->create_taxonomy( $obj );
 		}
@@ -823,11 +823,11 @@ class WPLPro_Agents_Taxonomies {
 		}
 
 		/** This section handles the data if a taxonomy is being edited */
-		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_POST['wplpro_agents_taxonomy'] ) && isset( $_POST['wplpro_agents-action_edit-taxonomy'] ) && wp_verify_nonce( $_POST['wplpro_agents-action_edit-taxonomy'], 'wplpro_agents-action_edit-taxonomy' ) ) {
+		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_POST['WPLPROAgents_taxonomy'] ) && isset( $_POST['WPLPROAgents-action_edit-taxonomy'] ) && wp_verify_nonce( $_POST['WPLPROAgents-action_edit-taxonomy'], 'WPLPROAgents-action_edit-taxonomy' ) ) {
 			$obj = array(
-				'id' => sanitize_key( $_POST['wplpro_agents_taxonomy']['id'] ),
-				'name' => sanitize_text_field( $_POST['wplpro_agents_taxonomy']['name'] ),
-				'singular_name' => sanitize_text_field( $_POST['wplpro_agents_taxonomy']['singular_name'] ),
+				'id' => sanitize_key( $_POST['WPLPROAgents_taxonomy']['id'] ),
+				'name' => sanitize_text_field( $_POST['WPLPROAgents_taxonomy']['name'] ),
+				'singular_name' => sanitize_text_field( $_POST['WPLPROAgents_taxonomy']['singular_name'] ),
 			);
 			$this->edit_taxonomy( $obj );
 		}
@@ -861,10 +861,10 @@ class WPLPro_Agents_Taxonomies {
 	 * @param object       $column     Type checking if already in.
 	 * @param int          $term_id    Term id for image.
 	 */
-	function wplpro_agents_manage_term_custom_column( $out, $column, $term_id ) {
+	function WPLPROAgents_manage_term_custom_column( $out, $column, $term_id ) {
 
 		if ( 'wpmlpro_term_image' === $column ) {
-			$image_id = $this->wplpro_agents_get_term_image( $term_id, false );
+			$image_id = $this->WPLPROAgents_get_term_image( $term_id, false );
 
 			if ( ! $image_id ) {
 				return $out;
@@ -1154,7 +1154,7 @@ class WPLPro_Agents_Taxonomies {
 	 * @return void
 	 */
 	function register_term_meta() {
-		register_meta( 'term', 'wpmlpro_term_image', 'wplpro_agents_sanitize_term_image' );
+		register_meta( 'term', 'wpmlpro_term_image', 'WPLPROAgents_sanitize_term_image' );
 	}
 
 	/**
@@ -1163,7 +1163,7 @@ class WPLPro_Agents_Taxonomies {
 	 * @param object $wpmlpro_term_image 	Object that you want returned to you.
 	 * @return object 										Object that will be returned exactly as it was without any actual sanitizing.
 	 */
-	function wplpro_agents_sanitize_term_image( $wpmlpro_term_image ) {
+	function WPLPROAgents_sanitize_term_image( $wpmlpro_term_image ) {
 		return $wpmlpro_term_image;
 	}
 
@@ -1175,7 +1175,7 @@ class WPLPro_Agents_Taxonomies {
 	 * @uses  wp_get_attachment_image To return image id wrapped in markup.
 	 * @return string 								Formatted image to be injected, containing the image
 	 */
-	function wplpro_agents_get_term_image( $term_id, $html = true ) {
+	function WPLPROAgents_get_term_image( $term_id, $html = true ) {
 		$image_id = get_term_meta( $term_id, 'wpmlpro_term_image', true );
 		return $image_id && $html ? wp_get_attachment_image( $image_id, 'thumbnail' ) : $image_id;
 	}
@@ -1186,13 +1186,13 @@ class WPLPro_Agents_Taxonomies {
 	 * @param  string $term_id 	Term slug.
 	 * @return string 					Term ID.
 	 */
-	function wplpro_agents_save_term_image( $term_id ) {
+	function WPLPROAgents_save_term_image( $term_id ) {
 
 		if ( ! isset( $_POST['wpmlpro_term_image_nonce'] ) || ! wp_verify_nonce( $_POST['wpmlpro_term_image_nonce'], basename( __FILE__ ) ) ) {
 			return;
 		}
 
-		$old_image = $this->wplpro_agents_get_term_image( $term_id );
+		$old_image = $this->WPLPROAgents_get_term_image( $term_id );
 		$new_image = isset( $_POST['wplpro-term-image'] ) ? $_POST['wplpro-term-image'] : '';
 
 		if ( $old_image && '' === $new_image ) {
@@ -1212,7 +1212,7 @@ class WPLPro_Agents_Taxonomies {
 	 * @param object $columns Column object to append/add term image link to.
 	 * @return object 				Original column object with appended term image link.
 	 */
-	function wplpro_agents_edit_term_columns( $columns ) {
+	function WPLPROAgents_edit_term_columns( $columns ) {
 		$columns['wpmlpro_term_image'] = __( 'Image', 'wp-listings-pro' );
 
 		return $columns;
@@ -1223,7 +1223,7 @@ class WPLPro_Agents_Taxonomies {
 	/**
 	 * Display a custom taxonomy dropdown in admin
 	 */
-	function wplpro_agents_filter_post_type_by_taxonomy() {
+	function WPLPROAgents_filter_post_type_by_taxonomy() {
 		global $typenow;
 		$post_type = 'employee';
 		$taxonomies  = array( 'job-types', 'offices' );
@@ -1249,7 +1249,7 @@ class WPLPro_Agents_Taxonomies {
 	 *
 	 * @param object $query Query results to pass.
 	 */
-	function wplpro_agents_convert_id_to_term_in_query( $query ) {
+	function WPLPROAgents_convert_id_to_term_in_query( $query ) {
 		global $pagenow;
 		$post_type = 'employee';
 		$taxonomies  = array( 'job-types', 'offices' );
@@ -1269,7 +1269,7 @@ class WPLPro_Agents_Taxonomies {
 	 * @param mixed $term Term.
 	 * @return void
 	 */
-	function wplpro_agents_new_term_image_field( $term ) {
+	function WPLPROAgents_new_term_image_field( $term ) {
 
 		$image_id = '';
 
@@ -1295,9 +1295,9 @@ class WPLPro_Agents_Taxonomies {
 	 *
 	 * @param object $term Term image being passed for editing.
 	 */
-	function wplpro_agents_edit_term_image_field( $term ) {
+	function WPLPROAgents_edit_term_image_field( $term ) {
 
-		$image_id = $this->wplpro_agents_get_term_image( $term->term_id, false );
+		$image_id = $this->WPLPROAgents_get_term_image( $term->term_id, false );
 		$image_url = wp_get_attachment_url( $image_id );
 
 		if ( ! $image_url ) {

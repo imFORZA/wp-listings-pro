@@ -105,13 +105,13 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 			$query_args[ $posts_term['0'] ] = $posts_term['1'];
 		}
 
-			$wp_listings_widget_query = new WP_Query( $query_args );
+			$wpl_widget_query = new WP_Query( $query_args );
 
 			$count = 0;
 
 			global $post;
 
-		if ( $wp_listings_widget_query->have_posts() ) : while ( $wp_listings_widget_query->have_posts() ) : $wp_listings_widget_query->the_post();
+		if ( $wpl_widget_query->have_posts() ) : while ( $wpl_widget_query->have_posts() ) : $wpl_widget_query->the_post();
 
 				$count = ( $count === $instance['number_columns'] ) ? 1 : $count + 1;
 

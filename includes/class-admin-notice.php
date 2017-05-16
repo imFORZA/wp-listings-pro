@@ -11,16 +11,16 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
 }
 
 
-if ( class_exists( 'WP_Listings_Admin_Notice' ) ) {
+if ( class_exists( 'WPListingsAdminNotice' ) ) {
 	return;
 }
 
 /**
- * Class WP_Listings_Admin_Notice
+ * Class WPListingsAdminNotice
  *
- * @package   @WP_Listings_Admin_Notice
+ * @package   @WPListingsAdminNotice
  */
-class WP_Listings_Admin_Notice {
+class WPListingsAdminNotice {
 
 	/**
 	 * The action for the nonce
@@ -31,7 +31,7 @@ class WP_Listings_Admin_Notice {
 	 *
 	 * @var string
 	 */
-	protected static $nonce_action = 'wp_listings_admin_notice';
+	protected static $nonce_action = 'WPListingsAdminNotice';
 
 	/**
 	 * The nonce field
@@ -95,7 +95,7 @@ class WP_Listings_Admin_Notice {
 					$out[] = '</p></div>';
 
 					add_action( 'admin_enqueue_scripts', array( __CLASS__, 'js_css' ) );
-					add_action( 'wp_ajax_wp_listings_admin_notice', array( __CLASS__, 'ajax_cb' ) );
+					add_action( 'wp_ajax_WPListingsAdminNotice', array( __CLASS__, 'ajax_cb' ) );
 
 					return implode( '', $out );
 
@@ -127,7 +127,7 @@ class WP_Listings_Admin_Notice {
 	 *
 	 * @since 1.3
 	 *
-	 * @uses "wp_ajax_wp_listings_admin_notice"
+	 * @uses "wp_ajax_WPListingsAdminNotice"
 	 *
 	 * @return bool
 	 */

@@ -9,11 +9,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit;
 }
 
-wp_nonce_field( 'wplpro_agents_metabox_save', 'wplpro_agents_metabox_nonce' );
+wp_nonce_field( 'WPLPROAgents_metabox_save', 'WPLPROAgents_metabox_nonce' );
 
 global $post;
 
-$pattern = '<p><label>%s<br /><input type="text" name="wplpro_agents[%s]" value="%s" style="width:80&#37;;"/></label></p>';
+$pattern = '<p><label>%s<br /><input type="text" name="WPLPROAgents[%s]" value="%s" style="width:80&#37;;"/></label></p>';
 
 echo '<div style="width: 45%; display: inline-block;">';
 
@@ -31,7 +31,7 @@ foreach ( (array) $this->employee_details['col2'] as $label => $key ) {
 
 echo '</div>';
 
-$pattern = '<p><label>%s<br /><input type="url" name="wplpro_agents[%s]" value="%s" style="width:80&#37;;"/></label></p>';
+$pattern = '<p><label>%s<br /><input type="url" name="WPLPROAgents[%s]" value="%s" style="width:80&#37;;"/></label></p>';
 
 echo '<div style="width: 100%;"><h4>' . __( 'Social info:', 'wp-listings-pro' ) . '</h4><hr>';
 

@@ -11,9 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
 }
 
 /**
- * WPLPRO_Agents_Import class.
+ * WPLPROAgentsImport class.
  */
-class WPLPRO_Agents_Import {
+class WPLPROAgentsImport {
 
 	/**
 	 * _idx
@@ -59,7 +59,7 @@ class WPLPRO_Agents_Import {
 	 * @param  array $agent_ids agentID of the property.
 	 * @return [type] $featured Featured.
 	 */
-	public static function wplpro_agents_idx_create_post( $agent_ids ) {
+	public static function WPLPROAgents_idx_create_post( $agent_ids ) {
 		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 
 			// Load IDX Broker API Class and retrieve agents.
@@ -75,10 +75,10 @@ class WPLPRO_Agents_Import {
 			);
 
 			// Load WP options.
-			$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_wp_options' );
-			$wplpro_agent_settings = get_option( 'wplpro_agents_settings' );
+			$idx_agent_wp_options = get_option( 'WPLPROAgents_idx_agent_wp_options' );
+			$wplpro_settings = get_option( 'WPLPROAgents_settings' );
 
-			$agents_queue = new WPLPRO_Background_Agents();
+			$agents_queue = new WPLPROBackgroundAgents();
 
 			// Object to be used with background_processing.
 			$item = array();
@@ -111,25 +111,25 @@ class WPLPRO_Agents_Import {
 					$item['opts'] = $opts;
 					$item['a'] = $a;
 					$agents_queue->push_to_queue( $item );
-					update_option( 'wplpro_agents_idx_agent_wp_options', $idx_agent_wp_options );
+					update_option( 'WPLPROAgents_idx_agent_wp_options', $idx_agent_wp_options );
 				} elseif ( in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
-					self::wplpro_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'publish' );
+					self::WPLPROAgents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'publish' );
 					$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
 				} elseif ( ! in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
 
 					// change to draft or delete agent if the post exists but is not in the agent array based on settings.
-					if ( isset( $wplpro_agent_settings['wplpro_agents_idx_remove'] ) && 'remove-draft' === $wplpro_agent_settings['wplpro_agents_idx_remove'] ) {
+					if ( isset( $wplpro_settings['WPLPROAgents_idx_remove'] ) && 'remove-draft' === $wplpro_settings['WPLPROAgents_idx_remove'] ) {
 
 						// Change to draft.
-						self::wplpro_agents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'draft' );
+						self::WPLPROAgents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'draft' );
 						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'draft';
-					} elseif ( isset( $wplpro_agent_settings['wplpro_agents_idx_remove'] ) && 'remove-delete' === $wplpro_agent_settings['wplpro_agents_idx_remove'] ) {
+					} elseif ( isset( $wplpro_settings['WPLPROAgents_idx_remove'] ) && 'remove-delete' === $wplpro_settings['WPLPROAgents_idx_remove'] ) {
 
 						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'deleted';
 
 						// Delete featured image.
-						$post_featured_image_id = get_post_thumbnail_id( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
-						wp_delete_attachment( $post_featured_image_id );
+						$post_feat_image_id = get_post_thumbnail_id( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
+						wp_delete_attachment( $post_feat_image_id );
 
 						// Delete post.
 						wp_delete_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
@@ -137,7 +137,7 @@ class WPLPRO_Agents_Import {
 				}
 			}
 			$agents_queue->save()->dispatch();
-			update_option( 'wplpro_agents_idx_agent_wp_options', $idx_agent_wp_options );
+			update_option( 'WPLPROAgents_idx_agent_wp_options', $idx_agent_wp_options );
 			return $idx_agent_wp_options;
 		}
 	}
@@ -145,7 +145,7 @@ class WPLPRO_Agents_Import {
 	/**
 	 * Update existing post
 	 */
-	public static function wplpro_agents_update_post() {
+	public static function WPLPROAgents_update_post() {
 
 		// Load IDX Broker API Class and retrieve agents.
 		$_idx_api = new \IDX\Idx_Api();
@@ -160,8 +160,8 @@ class WPLPRO_Agents_Import {
 		);
 
 		// Load WP options.
-		$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_wp_options' );
-		$wplpro_plugin_settings = get_option( 'wplpro_plugin_settings' );
+		$idx_agent_wp_options = get_option( 'WPLPROAgents_idx_agent_wp_options' );
+		$plugin_settings = get_option( 'wplpro_plugin_settings' );
 
 		foreach ( $agents as $agent ) {
 			foreach ( $agent as $a ) {
@@ -170,8 +170,8 @@ class WPLPRO_Agents_Import {
 					$current_setting = get_post_meta( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], '_listing_sync_update', true );
 					if ( '' === $current_setting || 'update-useglobal' === $current_setting ) {
 						// Confirmed to follow global, or doesn't exist, need to set it to global.
-						if ( isset( $wplpro_plugin_settings['wplpro_idx_update_agents'] ) ) {
-							$current_setting = $wplpro_plugin_settings['wplpro_idx_update_agents'];
+						if ( isset( $plugin_settings['wplpro_idx_update_agents'] ) ) {
+							$current_setting = $plugin_settings['wplpro_idx_update_agents'];
 						} else {
 							// Global doesn't exist, local setting doesn't exist, just sync it.
 							$current_setting = 'update-all';
@@ -179,14 +179,14 @@ class WPLPRO_Agents_Import {
 					}
 					// Update agent data.
 					if ( 'update-none' !== $current_setting ) {
-						self::wplpro_agents_idx_insert_post_meta( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], $a, true, false );
+						self::WPLPROAgents_idx_insert_post_meta( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], $a, true, false );
 					}
 					$idx_agent_wp_options[ $a['agentID'] ]['updated'] = date( 'm/d/Y h:i:sa' );
 				}
 			}
 		}
 
-		update_option( 'wplpro_agents_idx_agent_wp_options', $idx_agent_wp_options );
+		update_option( 'WPLPROAgents_idx_agent_wp_options', $idx_agent_wp_options );
 
 	}
 
@@ -199,7 +199,7 @@ class WPLPRO_Agents_Import {
 	 * @param mixed $status Status.
 	 * @return void
 	 */
-	public static function wplpro_agents_idx_change_post_status( $post_id, $status ) {
+	public static function WPLPROAgents_idx_change_post_status( $post_id, $status ) {
 	    $current_post = get_post( $post_id, 'ARRAY_A' );
 	    $current_post['post_status'] = $status;
 	    wp_update_post( $current_post );
@@ -216,7 +216,7 @@ class WPLPRO_Agents_Import {
 	 * @param bool  $update_image (default: true) Update Image.
 	 * @return bool	true if featured image is set.
 	 */
-	public static function wplpro_agents_idx_insert_post_meta( $id, $idx_agent_data, $update = false, $update_image = true ) {
+	public static function WPLPROAgents_idx_insert_post_meta( $id, $idx_agent_data, $update = false, $update_image = true ) {
 		// Add or reset taxonomies terms for job-types = agentTitle.
 		wp_set_object_terms( $id, $idx_agent_data['agentTitle'], 'job-types' );
 
@@ -260,8 +260,8 @@ class WPLPRO_Agents_Import {
 		if ( isset( $featured_image ) && null !== $featured_image ) {
 			if ( false === $update || true === $update_image ) {
 				// Delete previously attached image.
-				$post_featured_image_id = get_post_thumbnail_id( $id );
-				wp_delete_attachment( $post_featured_image_id );
+				$post_feat_id = get_post_thumbnail_id( $id );
+				wp_delete_attachment( $post_feat_id );
 
 				// Add Featured Image to Post.
 				$image_url  = $featured_image;  // Define the image URL here.
@@ -327,11 +327,11 @@ require_once plugin_dir_path( __FILE__ ) . 'wp-background-processing/wp-backgrou
 
 
 /**
- * WPLPRO_Background_Agents class.
+ * WPLPROBackgroundAgents class.
  *
  * @extends WP_Background_Process
  */
-class WPLPRO_Background_Agents extends WP_Background_Process {
+class WPLPROBackgroundAgents extends WP_Background_Process {
 
 	/**
 	 * Action.
@@ -351,7 +351,7 @@ class WPLPRO_Background_Agents extends WP_Background_Process {
 	 */
 	protected function task( $data ) {
 		// Get important data.
-		$idx_options 	= get_option( 'wplpro_agents_idx_agent_wp_options' );
+		$idx_options 	= get_option( 'WPLPROAgents_idx_agent_wp_options' );
 		$a 						= $data['a'];
 
 		// Check if it already exists.
@@ -368,13 +368,13 @@ class WPLPRO_Background_Agents extends WP_Background_Process {
 		$add_post = wp_insert_post( $data['opts'], true );
 		if ( is_wp_error( $add_post ) ) {
 			$error_string = $add_post->get_error_message();
-			add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
+			add_settings_error( 'WPLPROAgents_idx_agent_settings_group', 'insert_post_failed', 'WordPress failed to insert the post. Error ' . $error_string, 'error' );
 			return;
 		} elseif ( $add_post ) {
 			$idx_options[ $a['agentID'] ]['post_id'] = $add_post;
 			$idx_options[ $a['agentID'] ]['status'] = 'publish';
-			WPLPRO_Agents_Import::wplpro_agents_idx_insert_post_meta( $add_post, $a );
-			update_option( 'wplpro_agents_idx_agent_wp_options', $idx_options );
+			WPLPROAgentsImport::WPLPROAgents_idx_insert_post_meta( $add_post, $a );
+			update_option( 'WPLPROAgents_idx_agent_wp_options', $idx_options );
 		}
 		return false;
 	}
@@ -387,7 +387,7 @@ class WPLPRO_Background_Agents extends WP_Background_Process {
  * Outputs cleints/agents api data to import.
  * Enqueues scripts for display. Deletes post and post thumbnail via ajax.
  */
-add_action( 'admin_menu', 'wplpro_agents_idx_agent_register_menu_page' );
+add_action( 'admin_menu', 'WPLPROAgents_idx_agent_register_menu_page' );
 
 
 /**
@@ -396,9 +396,9 @@ add_action( 'admin_menu', 'wplpro_agents_idx_agent_register_menu_page' );
  * @access public
  * @return void
  */
-function wplpro_agents_idx_agent_register_menu_page() {
-	add_submenu_page( 'edit.php?post_type=employee', __( 'IDX Broker Import', 'wp-listings-pro' ), __( 'IDX Broker Import', 'wp-listings-pro' ), 'manage_options', 'wplpro-idx-agent', 'wplpro_agents_idx_agent_setting_page' );
-	add_action( 'admin_init', 'wplpro_agents_idx_agent_register_settings' );
+function WPLPROAgents_idx_agent_register_menu_page() {
+	add_submenu_page( 'edit.php?post_type=employee', __( 'IDX Broker Import', 'wp-listings-pro' ), __( 'IDX Broker Import', 'wp-listings-pro' ), 'manage_options', 'wplpro-idx-agent', 'WPLPROAgents_idx_agent_setting_page' );
+	add_action( 'admin_init', 'WPLPROAgents_idx_agent_register_settings' );
 }
 
 /**
@@ -407,11 +407,11 @@ function wplpro_agents_idx_agent_register_menu_page() {
  * @access public
  * @return void
  */
-function wplpro_agents_idx_agent_register_settings() {
-	register_setting( 'wplpro_agents_idx_agent_settings_group', 'wplpro_agents_idx_agent_options', array( 'WPLPRO_Agents_Import', 'wplpro_agents_idx_create_post' ) );
+function WPLPROAgents_idx_agent_register_settings() {
+	register_setting( 'WPLPROAgents_idx_agent_settings_group', 'WPLPROAgents_idx_agent_options', array( 'WPLPROAgentsImport', 'WPLPROAgents_idx_create_post' ) );
 }
 
-add_action( 'admin_enqueue_scripts', 'wplpro_agents_idx_agent_scripts' );
+add_action( 'admin_enqueue_scripts', 'WPLPROAgents_idx_agent_scripts' );
 
 
 /**
@@ -420,15 +420,15 @@ add_action( 'admin_enqueue_scripts', 'wplpro_agents_idx_agent_scripts' );
  * @access public
  * @return void
  */
-function wplpro_agents_idx_agent_scripts() {
+function WPLPROAgents_idx_agent_scripts() {
 	$screen = get_current_screen();
 	if ( 'employee_page_wplpro-idx-agent' !== $screen->id ) {
 		return;
 	}
 
 	wp_enqueue_script( 'images-loaded',  WPLPRO_URL . 'assets/js/imagesloaded.min.js' );
-	wp_localize_script( 'wplpro_agents_idx_agent_delete_script', 'DeleteAgentAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-	wp_enqueue_style( 'wplpro_agents_idx_agent_style', WPLPRO_URL . 'assets/css/wplpro-import.min.css' );
+	wp_localize_script( 'WPLPROAgents_idx_agent_delete_script', 'DeleteAgentAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+	wp_enqueue_style( 'WPLPROAgents_idx_agent_style', WPLPRO_URL . 'assets/css/wplpro-import.min.css' );
 }
 add_action( 'wp_ajax_impa_idx_agent_delete', 'impa_idx_agent_delete' );
 
@@ -446,8 +446,8 @@ function impa_idx_agent_delete() {
 		echo 'error';
 	} else {
 		// Delete featured image.
-		$post_featured_image_id = get_post_thumbnail_id( $_REQUEST['id'] );
-		wp_delete_attachment( $post_featured_image_id );
+		$post_feat_id = get_post_thumbnail_id( $_REQUEST['id'] );
+		wp_delete_attachment( $post_feat_id );
 
 		// Delete post.
 		wp_delete_post( $_REQUEST['id'] );
@@ -462,13 +462,13 @@ function impa_idx_agent_delete() {
  * @access public
  * @return void
  */
-function wplpro_agents_idx_agent_setting_page() {
+function WPLPROAgents_idx_agent_setting_page() {
 
 	wplpro_admin_scripts_styles();
 
 	$do_button = true;
 	if ( '' === get_option( 'permalink_structure' ) ) {
-		add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'idx_agent_import_progress', 'Within WordPress settings, you have Permalinks set to "Plain". Unfortunately, the import page will not work unless permalinks have been set to something else. In order for the import page to work, please go to your Permalinks page under Settings, and change them to something else (we recommend "Post name").', 'error' );
+		add_settings_error( 'WPLPROAgents_idx_agent_settings_group', 'idx_agent_import_progress', 'Within WordPress settings, you have Permalinks set to "Plain". Unfortunately, the import page will not work unless permalinks have been set to something else. In order for the import page to work, please go to your Permalinks page under Settings, and change them to something else (we recommend "Post name").', 'error' );
 		$do_button = false;
 	}
 	?>
@@ -481,7 +481,7 @@ function wplpro_agents_idx_agent_setting_page() {
 
 			<?php
 
-			settings_errors( 'wplpro_agents_idx_agent_settings_group' );
+			settings_errors( 'WPLPROAgents_idx_agent_settings_group' );
 			?>
 
 			<ol id="selectable" class="grid">
@@ -495,8 +495,8 @@ function wplpro_agents_idx_agent_setting_page() {
 			if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 				// Bail if IDX plugin version is not at least 2.0.
 				if ( $plugin_data['idx-broker-platinum/idx-broker-platinum.php']['Version'] < 2.0 ) {
-					add_settings_error( 'wplpro_agents_idx_agent_settings_group', 'idx_agent_update', 'You must update to <a href="' . admin_url( 'update-core.php' ) . '">IMPress for IDX Broker</a> version 2.0.0 or higher to import listings.', 'error' );
-					settings_errors( 'wplpro_agents_idx_agent_settings_group' );
+					add_settings_error( 'WPLPROAgents_idx_agent_settings_group', 'idx_agent_update', 'You must update to <a href="' . admin_url( 'update-core.php' ) . '">IMPress for IDX Broker</a> version 2.0.0 or higher to import listings.', 'error' );
+					settings_errors( 'WPLPROAgents_idx_agent_settings_group' );
 					return;
 				}
 
@@ -515,10 +515,10 @@ function wplpro_agents_idx_agent_setting_page() {
 				return;
 			}
 
-			$idx_agent_wp_options = get_option( 'wplpro_agents_idx_agent_options' );
+			$idx_agent_wp_options = get_option( 'WPLPROAgents_idx_agent_options' );
 
-			settings_fields( 'wplpro_agents_idx_agent_settings_group' );
-			do_settings_sections( 'wplpro_agents_idx_agent_settings_group' );
+			settings_fields( 'WPLPROAgents_idx_agent_settings_group' );
+			do_settings_sections( 'WPLPROAgents_idx_agent_settings_group' );
 
 			// No agents found.
 			if ( ! $agents ) {
@@ -562,7 +562,7 @@ function wplpro_agents_idx_agent_setting_page() {
 						);
 					}
 
-					printf('<div class="grid-item post"><label for="%s" class="idx-agent"><li class="%s agent"><img class="agent" src="%s"><input type="checkbox" id="%s" class="checkbox" name="wplpro_agents_idx_agent_options[]" value="%s" %s /><p><span class="agent-name">%s</span><br/><span class="agent-title">%s</span><br/><span class="agent-phone">%s</span><br/><span class="agent-id">Agent ID: %s</span></p><div class="controls">%s %s</div></li></label></div>',
+					printf('<div class="grid-item post"><label for="%s" class="idx-agent"><li class="%s agent"><img class="agent" src="%s"><input type="checkbox" id="%s" class="checkbox" name="WPLPROAgents_idx_agent_options[]" value="%s" %s /><p><span class="agent-name">%s</span><br/><span class="agent-title">%s</span><br/><span class="agent-phone">%s</span><br/><span class="agent-id">Agent ID: %s</span></p><div class="controls">%s %s</div></li></label></div>',
 						// @codingStandardsIgnoreStart
 						$a['agentID'],
 						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ( 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ? 'imported' : '') : '',
@@ -597,7 +597,7 @@ function wplpro_agents_idx_agent_setting_page() {
  * @since 2.0
  */
 if ( class_exists( 'IDX_Broker_Plugin' ) ) {
-	add_action( 'admin_init', 'wplpro_agents_idx_update_schedule' );
+	add_action( 'admin_init', 'WPLPROAgents_idx_update_schedule' );
 }
 
 
@@ -607,16 +607,16 @@ if ( class_exists( 'IDX_Broker_Plugin' ) ) {
  * @access public
  * @return void
  */
-function wplpro_agents_idx_update_schedule() {
-	if ( ! wp_next_scheduled( 'wplpro_agents_idx_update' ) ) {
-		wp_schedule_event( time(), 'daily', 'wplpro_agents_idx_update' );
+function WPLPROAgents_idx_update_schedule() {
+	if ( ! wp_next_scheduled( 'WPLPROAgents_idx_update' ) ) {
+		wp_schedule_event( time(), 'daily', 'WPLPROAgents_idx_update' );
 	}
 }
 /**
- * On the scheduled update event, run wplpro_agents_update_post with activation status.
+ * On the scheduled update event, run WPLPROAgents_update_post with activation status.
  *
  * @since 2.0
  */
-add_action( 'wplpro_agents_idx_update', array( 'WPLPRO_Agents_Import', 'wplpro_agents_update_post' ) );
+add_action( 'WPLPROAgents_idx_update', array( 'WPLPROAgentsImport', 'WPLPROAgents_update_post' ) );
 
-new WPLPRO_Background_Agents();
+new WPLPROBackgroundAgents();

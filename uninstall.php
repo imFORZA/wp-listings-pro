@@ -17,7 +17,7 @@ if ( true === $settings['wplpro_uninstall_delete'] ) {
 	delete_site_option( 'wplpro_plugin_settings' );
 	delete_site_option( 'wplpro_idx_featured_listing_wp_options' );
 	delete_site_option( 'WPLPRO_Taxonomies' );
-	delete_site_option( 'wplpro_agents_taxonomies' );
+	delete_site_option( 'WPLPROAgents_taxonomies' );
 	delete_site_option( 'widget_wplistings-featured-listings' );
 	delete_site_option( 'widget_listings-search' );
 
@@ -47,9 +47,9 @@ function wplpro_delete_listings() {
 		$query->the_post();
 		$id = get_the_ID();
 		$taxonomies = array( 'status', 'locations', 'features', 'property-types' );
-		$post_featured_image_id = get_post_thumbnail_id( $id );
+		$post_feat_id = get_post_thumbnail_id( $id );
 
-		wp_delete_attachment( $post_featured_image_id );
+		wp_delete_attachment( $post_feat_id );
 		delete_post_meta_by_key( ! empty( $id->ID ) );
 		wp_delete_object_term_relationships( $id, $taxonomies );
 		wp_delete_post( $id, true );

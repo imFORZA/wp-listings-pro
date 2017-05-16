@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
  *
  * @since 1.1.0
  */
-class WPLPRO_Agents_Migrate {
+class WPLPROAgents_Migrate {
 
 	/**
 	 * __construct function.

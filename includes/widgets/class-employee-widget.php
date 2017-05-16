@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
  * @since 0.9.0
  * @author Agent Evolution
  */
-class WPLPRO_Agents_Widget extends WP_Widget {
+class WPLPROAgents_Widget extends WP_Widget {
 
 	/**
 	 * __construct function.

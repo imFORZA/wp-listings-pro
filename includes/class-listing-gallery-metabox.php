@@ -12,9 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
 }
 
 /**
- * WPLPRO_Meta_Box_Listing_Images Class.
+ * WPLPROMetaBoxListing_Images Class.
  */
-class WPLPRO_Meta_Box_Listing_Images {
+class WPLPROMetaBoxListing_Images {
 
 	/**
 	 * Output the metabox.
@@ -29,13 +29,13 @@ class WPLPRO_Meta_Box_Listing_Images {
 			<ul class="listing_images">
 				<?php
 				if ( metadata_exists( 'post', $post->ID, '_listing_image_gallery' ) ) {
-					$listing_image_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
+					$listing_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
 				} else {
 					// Backwards compatability.
-					$listing_image_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
+					$listing_gallery = get_post_meta( $post->ID, '_listing_image_gallery', true );
 				}
 
-				$attachments         = array_filter( explode( ',', $listing_image_gallery ) );
+				$attachments         = array_filter( explode( ',', $listing_gallery ) );
 				$update_meta         = false;
 				$updated_gallery_ids = array();
 
@@ -69,7 +69,7 @@ class WPLPRO_Meta_Box_Listing_Images {
 				?>
 			</ul>
 
-			<input type="hidden" id="listing_image_gallery" name="listing_image_gallery" value="<?php echo esc_attr( $listing_image_gallery ); ?>" />
+			<input type="hidden" id="listing_image_gallery" name="listing_image_gallery" value="<?php echo esc_attr( $listing_gallery ); ?>" />
 
 		</div>
 		<p class="add_listing_images hide-if-no-js">
@@ -113,9 +113,9 @@ class WPLPRO_Meta_Box_Listing_Images {
 }
 
 /**
- * WPLPRO_Meta_Box_Listing_Docs Class.
+ * WPLPROMetaBoxListing_Docs Class.
  */
-class WPLPRO_Meta_Box_Listing_Docs {
+class WPLPROMetaBoxListing_Docs {
 
 		/**
 		 * Output the metabox.

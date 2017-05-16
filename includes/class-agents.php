@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the wplpro_Agents class.
+ * This file contains the WPLPROAgents class.
  *
  * @package wp-listings-pro
  */
@@ -13,14 +13,14 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
  * This class handles the creation of the "Employees" post type, and creates a
  * UI to display the Employee-specific data on the admin screens.
  */
-class WPLPRO_Agents {
+class WPLPROAgents {
 
 	/**
 	 * Settings field
 	 *
 	 * @var string
 	 */
-	var $settings_field = 'wplpro_agents_taxonomies';
+	var $settings_field = 'WPLPROAgents_taxonomies';
 
 	/**
 	 * Page from which to be called
@@ -30,7 +30,7 @@ class WPLPRO_Agents {
 	var $menu_page = 'wplpro-agents-taxonomies';
 
 	/**
-	 * Global access var for options, loaded from wplpro_agents_settings.
+	 * Global access var for options, loaded from WPLPROAgents_settings.
 	 *
 	 * @var object
 	 */
@@ -55,9 +55,9 @@ class WPLPRO_Agents {
 	 */
 	function __construct() {
 
-		$this->options = get_option( 'wplpro_agents_settings' );
+		$this->options = get_option( 'WPLPROAgents_settings' );
 
-		$this->employee_details = apply_filters( 'wplpro_agents_employee_details', array(
+		$this->employee_details = apply_filters( 'WPLPROAgents_employee_details', array(
 			'col1' => array(
 				__( 'First Name:', 'wp-listings-pro' ) 		=> '_employee_first_name',
 				__( 'Last Name:', 'wp-listings-pro' ) 		=> '_employee_last_name',
@@ -78,7 +78,7 @@ class WPLPRO_Agents {
 			),
 		) );
 
-		$this->employee_social = apply_filters( 'wplpro_agents_employee_social', array(
+		$this->employee_social = apply_filters( 'WPLPROAgents_employee_social', array(
 				__( 'Facebook URL:', 'wp-listings-pro' ) 	=> '_employee_facebook',
 				__( 'Twitter URL:', 'wp-listings-pro' )		=> '_employee_twitter',
 				__( 'LinkedIn URL:', 'wp-listings-pro' )		=> '_employee_linkedin',
@@ -106,7 +106,7 @@ class WPLPRO_Agents {
 	 */
 	function create_post_type() {
 
-		$args = apply_filters( 'wplpro_agents_post_type_args',
+		$args = apply_filters( 'WPLPROAgents_post_type_args',
 			array(
 				'labels' => array(
 					'name'					=> __( 'Employees', 'wp-listings-pro' ),
@@ -187,7 +187,7 @@ class WPLPRO_Agents {
 			return;
 		}
 
-		if ( ! isset( $_POST['wplpro_agents_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['wplpro_agents_metabox_nonce'], 'wplpro_agents_metabox_save' ) ) {
+		if ( ! isset( $_POST['WPLPROAgents_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['WPLPROAgents_metabox_nonce'], 'WPLPROAgents_metabox_save' ) ) {
 	        return $post_id;
 		}
 
@@ -204,7 +204,7 @@ class WPLPRO_Agents {
 			  return;
 		}
 
-		$employee_details = $_POST['wplpro_agents'];
+		$employee_details = $_POST['WPLPROAgents'];
 		/** Validate and store the employee details custom fields */
 		foreach ( (array) $employee_details as $key => $value ) {
 
@@ -257,10 +257,10 @@ class WPLPRO_Agents {
 		// So because of the way that esc_attr works, quotation marks will break it. OK then.
 		$image_size = 'style=min-width:150px;min-height:150px;width:150px;height:150px';
 
-		apply_filters( 'wplpro_agents_admin_employee_details', $admin_details = $this->employee_details['col1'] );
+		apply_filters( 'WPLPROAgents_admin_employee_details', $admin_details = $this->employee_details['col1'] );
 
 		if ( isset( $_GET['mode'] ) && trim( $_GET['mode'] ) === 'excerpt' ) {
-			apply_filters( 'wplpro_agents_admin_extended_details', $admin_details = $this->employee_details['col1'] + $this->employee_details['col2'] );
+			apply_filters( 'WPLPROAgents_admin_extended_details', $admin_details = $this->employee_details['col1'] + $this->employee_details['col2'] );
 		}
 
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id(), 'thumbnail' );

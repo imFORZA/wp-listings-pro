@@ -261,12 +261,12 @@ function wplpro_get_property_types( $post_id = null ) {
 		$post_id = $post->ID;
 	}
 
-	$listing_property_types = wp_get_object_terms( $post_id, 'property-types' );
-	if ( empty( $listing_property_types ) || is_wp_error( $listing_property_types ) ) {
+	$listing_prop_types = wp_get_object_terms( $post_id, 'property-types' );
+	if ( empty( $listing_prop_types ) || is_wp_error( $listing_prop_types ) ) {
 		return;
 	}
 
-	foreach ( $listing_property_types as $type ) {
+	foreach ( $listing_prop_types as $type ) {
 		return $type->name;
 	}
 }
