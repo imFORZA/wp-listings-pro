@@ -47,8 +47,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 				?>
 
 				<tr <?php if ( $alt ) { echo 'class="alternate"';
-					$alt = false;
-} else { $alt = true; } ?>>
+						$alt = false;
+					} else {
+						$alt = true;
+					} ?>>
 					<td class="slug column-slug">
 
 					<?php if ( isset( $data['editable'] ) && 0 === $data['editable'] ) : ?>
@@ -59,8 +61,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<br />
 
 						<div class="row-actions">
-							<span class="edit"><a href="<?php echo admin_url( 'admin.php?page=' . $this->menu_page . '&amp;view=edit&amp;id=' . esc_html( $id ) ); ?>"><?php _e( 'Edit', 'wp-listings-pro' ); ?></a> | </span>
-							<span class="delete"><a class="delete-tag" href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=' . $this->menu_page . '&amp;action=delete&amp;id=' . esc_html( $id ) ), 'wp_listings-action_delete-taxonomy' ); ?>"><?php _e( 'Delete', 'wp-listings-pro' ); ?></a></span>
+							<span class="edit"><a href="<?php echo esc_url( admin_url( 'admin.php?page=' . $this->menu_page . '&amp;view=edit&amp;id=' . esc_html( $id ) ) ); ?>"><?php esc_html_e( 'Edit', 'wp-listings-pro' ); ?></a> | </span>
+							<span class="delete"><a class="delete-tag" href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=' . $this->menu_page . '&amp;action=delete&amp;id=' . esc_html( $id ) ), 'wp_listings-action_delete-taxonomy' ); ?>"><?php esc_html_e( 'Delete', 'wp-listings-pro' ); ?></a></span>
 						</div>
 					<?php endif; ?>
 
