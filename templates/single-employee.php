@@ -140,4 +140,4 @@ if ( function_exists( 'equity' ) ) {
 	get_sidebar();
 	get_footer();
 
-}
+} // End if().
