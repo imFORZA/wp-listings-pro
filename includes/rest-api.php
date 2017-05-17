@@ -12,14 +12,16 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 add_action( 'rest_api_init', function () {
 	register_rest_route( 'wp-listings-pro/v1', 'delete-listing/', array(
 		'methods'	 => 'POST',
-		'callback' => 'wplpro_send_delete_listing',
+		'callback' => 'wplpro_rest_delete_listing',
+		'permission_callback' => 'wplpro_rest_permission_check'
 	));
 } );
 
 add_action( 'rest_api_init', function () {
 	register_rest_route( 'wp-listings-pro/v1', 'import-listings/', array(
 		'methods'	 => 'GET',
-		'callback' => 'wplpro_send_listings',
+		'callback' => 'wplpro_rest_import_listings',
+		'permission_callback' => 'wplpro_rest_permission_check'
 	));
 } );
 
@@ -27,6 +29,7 @@ add_action( 'rest_api_init', function () {
 	register_rest_route( 'wp-listings-pro/v1', 'sync-all/', array(
 		'methods'	 => 'GET',
 		'callback' => 'wplpro_sync_listings_and_agents',
+		'permission_callback' => 'wplpro_rest_permission_check'
 	));
 } );
 
@@ -36,7 +39,7 @@ add_action( 'rest_api_init', function () {
  * @param  array $data  array block of data.
  * @return string       Formatted HTML block
  */
-function wplpro_send_delete_listing( $data ) {
+function wplpro_rest_delete_listing( $data ) {
 	return rest_ensure_response( wp_listings_idx_listing_delete( $data['id'] ) );
 }
 
@@ -46,7 +49,7 @@ function wplpro_send_delete_listing( $data ) {
  * @param  array $data  array block of data.
  * @return string       Formatted HTML block
  */
-function wplpro_send_listings( $data ) {
+function wplpro_rest_import_listings( $data ) {
 	return rest_ensure_response( WPLPROIdxListing::wp_listings_idx_create_post( explode( ',',$data['mlses'] ) ) );
 }
 
@@ -63,4 +66,8 @@ function wplpro_sync_listings_and_agents( $data ) {
 
 	// Can take an unreasonable amount of time to get here, should force it to use WP Background Processing.
 	return rest_ensure_response( 'success' );
+}
+
+function wplpro_rest_permission_check() {
+	return current_user_can( 'edit_posts' );
 }

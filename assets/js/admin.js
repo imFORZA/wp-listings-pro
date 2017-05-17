@@ -38,7 +38,7 @@ jQuery(document).ready(function($) {
 			action: "WPListingsAdminNotice",
 			url: wp_listings_adminL10n.ajaxurl,
 			nag: $this.parent().data( 'key' ),
-			nonce: wp_listings_adminL10n.nonce || ''
+			nonce: wp_listings_adminL10n.othernonce || ''
 		});
 	});
 
@@ -61,10 +61,13 @@ jQuery(document).ready(function($) {
 				mlses: mlses
 			},
 			beforeSend:function( xhr ){
-				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.better_nonce);
+				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.nonce);
 			},
 			success:function(response){
 				window.location.reload();
+				console.log(response);
+			},
+			error:function(response){
 				console.log(response);
 			}
 		});
@@ -144,7 +147,7 @@ jQuery(document).ready(function($) {
 				id: id
 			},
 			beforeSend:function( xhr ){
-				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.better_nonce);
+				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.nonce);
 			},
 			success:function(response){
 				window.location.reload();
@@ -161,7 +164,7 @@ jQuery(document).ready(function($) {
 			dataType: "json",
 			url: "/wp-json/wp-listings-pro/v1/sync-all",
 			beforeSend:function( xhr ){
-				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.better_nonce);
+				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.nonce);
 			}
 		});
 		window.location.reload();
@@ -184,10 +187,13 @@ jQuery(document).ready(function($) {
 				id: id
 			},
 			beforeSend:function( xhr ){
-				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.better_nonce);
+				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.nonce);
 			},
 			success: function( result ) {
 				window.location.reload();
+			},
+			error: function( result) {
+				console.log(result);
 			}
 		});
 		//return false;

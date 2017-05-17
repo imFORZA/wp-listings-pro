@@ -336,11 +336,11 @@ function wplpro_init() {
 		wp_enqueue_script( 'wp-listings-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
 		wp_localize_script( 'wp-listings-admin', 'wp_listings_adminL10n', array(
 			'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-			'nonce'      => wp_create_nonce( $nonce_action ),
+			'othernonce'      => wp_create_nonce( $nonce_action ),
 			'wp_version' => $wp_version,
 			'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
 			'root'    		=> esc_url_raw( rest_url() ),
-			'better_nonce'      	=> wp_create_nonce( 'wp_rest' ),
+			'nonce'      	=> wp_create_nonce( 'wp_rest' ),
 		) );
 
 		/* Pass custom variables to the script. */
