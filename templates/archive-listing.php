@@ -65,7 +65,7 @@ function wplpro_archive_listing_loop() {
 		$loop .= sprintf( '<a href="%s" class="button btn-primary more-link">%s</a>', get_permalink(), __( 'View Listing', 'wp-listings-pro' ) );
 
 		/** Wrap in div with column class, and output. */
-		printf( '<article id="post-%s" class="listing entry one-third %s"><div class="listing-wrap">%s</div><!-- .listing-wrap --></article><!-- article#post-## -->', get_the_id(), $first, apply_filters( 'wp_listings_featured_listings_widget_loop', $loop ) );
+		printf( '<article id="post-%s" class="listing entry one-third %s"><div class="listing-wrap">%s</div><!-- .listing-wrap --></article><!-- article#post-## -->', esc_attr( get_the_id() ), esc_attr( $first ), apply_filters( 'wp_listings_featured_listings_widget_loop', $loop ) );
 
 		if ( 3 === $count ) { // If counter is 3, reset to 0.
 			$count = 0;
@@ -120,12 +120,12 @@ if ( function_exists( 'equity' ) ) {
 					$object = get_queried_object();
 
 					if ( ! isset( $object->label ) ) {
-						$title = '<h1 class="archive-title">' . $object->name . '</h1>';
+						echo '<h1 class="archive-title">' . esc_html( $object->name ) . '</h1>';
 					} else {
-						$title = '<h1 class="archive-title">' . get_bloginfo( 'name' ) . ' Listings</h1>';
+						echo '<h1 class="archive-title">' . esc_html( get_bloginfo( 'name' ) ) . ' Listings</h1>';
 					}
 
-					echo $title; ?>
+					?>
 
 					<small><?php if ( function_exists( 'yoast_breadcrumb' ) ) { yoast_breadcrumb( '<p id="breadcrumbs">','</p>' ); } ?></small>
 				</header><!-- .archive-header -->
@@ -150,4 +150,4 @@ get_sidebar( 'content' );
 get_sidebar();
 get_footer();
 
-}
+} // End if().

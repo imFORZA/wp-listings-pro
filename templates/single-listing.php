@@ -50,40 +50,40 @@ function wplpro_single_listing_post_content() {
 	}
 
 	if ( 1 === get_post_meta( $post->ID, '_listing_hide_price', true ) ) {
-		$listing_meta .= (get_post_meta( $post->ID, '_listing_price_alt', true )) ? sprintf( '<li class="listing-price">%s</li>', get_post_meta( $post->ID, '_listing_price_alt', true ) ) : '';
+		$listing_meta .= (get_post_meta( $post->ID, '_listing_price_alt', true )) ? sprintf( '<li class="listing-price">%s</li>', esc_html( get_post_meta( $post->ID, '_listing_price_alt', true ) ) ) : '';
 	} else {
-		$listing_meta .= sprintf( '<li class="listing-price">%s %s %s</li>', '<span class="currency-symbol">' . $options['wplpro_currency_symbol'] . '</span>', get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wplpro_display_currency_code'] ) && $options['wplpro_display_currency_code'] === 1) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>' : '' );
+		$listing_meta .= sprintf( '<li class="listing-price">%s %s %s</li>', '<span class="currency-symbol">' . esc_html( $options['wplpro_currency_symbol'] ) . '</span>', esc_html( get_post_meta( $post->ID, '_listing_price', true ) ), (isset( $options['wplpro_display_currency_code'] ) && 1 === $options['wplpro_display_currency_code'] ) ? '<span class="currency-code">' . esc_html( $options['wplpro_currency_code'] ) . '</span>' : '' );
 	}
 
 	if ( '' !== wplpro_get_property_types() ) {
-		$listing_meta .= sprintf( '<li class="listing-property-type"><span class="label">Property Type: </span>%s</li>', get_the_term_list( get_the_ID(), 'property-types', '', ', ', '' ) );
+		$listing_meta .= sprintf( '<li class="listing-property-type"><span class="label">Property Type: </span>%s</li>', esc_html( get_the_term_list( get_the_ID(), 'property-types', '', ', ', '' ) ) );
 	}
 
 	if ( '' !== wplpro_get_locations() ) {
-		$listing_meta .= sprintf( '<li class="listing-location"><span class="label">Location: </span>%s</li>', get_the_term_list( get_the_ID(), 'locations', '', ', ', '' ) );
+		$listing_meta .= sprintf( '<li class="listing-location"><span class="label">Location: </span>%s</li>', esc_html( get_the_term_list( get_the_ID(), 'locations', '', ', ', '' ) ) );
 	}
 
 	if ( '' !== get_post_meta( $post->ID, '_listing_bedrooms', true ) ) {
-		$listing_meta .= sprintf( '<li class="listing-bedrooms"><span class="label">Beds: </span>%s</li>', get_post_meta( $post->ID, '_listing_bedrooms', true ) );
+		$listing_meta .= sprintf( '<li class="listing-bedrooms"><span class="label">Beds: </span>%s</li>', esc_html( get_post_meta( $post->ID, '_listing_bedrooms', true ) ) );
 	}
 
 	if ( '' !== get_post_meta( $post->ID, '_listing_bathrooms', true ) ) {
-		$listing_meta .= sprintf( '<li class="listing-bathrooms"><span class="label">Baths: </span>%s</li>', get_post_meta( $post->ID, '_listing_bathrooms', true ) );
+		$listing_meta .= sprintf( '<li class="listing-bathrooms"><span class="label">Baths: </span>%s</li>', esc_html( get_post_meta( $post->ID, '_listing_bathrooms', true ) ) );
 	}
 
 	if ( '' !== get_post_meta( $post->ID, '_listing_sqft', true ) ) {
-		$listing_meta .= sprintf( '<li class="listing-sqft"><span class="label">Sq Ft: </span>%s</li>', get_post_meta( $post->ID, '_listing_sqft', true ) );
+		$listing_meta .= sprintf( '<li class="listing-sqft"><span class="label">Sq Ft: </span>%s</li>', esc_html( get_post_meta( $post->ID, '_listing_sqft', true ) ) );
 	}
 
 	if ( '' !== get_post_meta( $post->ID, '_listing_lot_sqft', true ) ) {
-		$listing_meta .= sprintf( '<li class="listing-lot-sqft"><span class="label">Lot Sq Ft: </span>%s</li>', get_post_meta( $post->ID, '_listing_lot_sqft', true ) );
+		$listing_meta .= sprintf( '<li class="listing-lot-sqft"><span class="label">Lot Sq Ft: </span>%s</li>', esc_html( get_post_meta( $post->ID, '_listing_lot_sqft', true ) ) );
 	}
 
 	$listing_meta .= sprintf( '</ul>' );
 
 	echo $listing_meta;
 
-	echo (get_post_meta( $post->ID, '_listing_courtesy', true )) ? '<p class="wp-listings-courtesy">' . get_post_meta( $post->ID, '_listing_courtesy', true ) . '</p>' : '';
+	echo (get_post_meta( $post->ID, '_listing_courtesy', true )) ? '<p class="wp-listings-courtesy">' . esc_html( get_post_meta( $post->ID, '_listing_courtesy', true ) ) . '</p>' : '';
 
 	?>
 	<style type="text/css">

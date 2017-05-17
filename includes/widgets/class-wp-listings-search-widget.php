@@ -21,11 +21,15 @@ class WP_Listings_Search_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		$widget_ops = array(
-			'classname' => 'listings-search wp-listings-search',
-			'description' => __( 'Display listings search dropdown', 'wp-listings-pro' ),
+			'classname' 									=> 'listings-search wp-listings-search',
+			'description' 								=> __( 'Display listings search dropdown', 'wp-listings-pro' ),
 			'customize_selective_refresh' => true,
 		);
-		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'listings-search' );
+		$control_ops = array(
+			'width' 	=> 300,
+			'height' 	=> 350,
+			'id_base' => 'listings-search'
+		);
 		parent::__construct( 'wplpro_listings_search', __( 'WP Listings Pro - Search', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
 
@@ -61,16 +65,20 @@ class WP_Listings_Search_Widget extends WP_Widget {
 				continue;
 			}
 
-			$terms = get_terms( $tax, array( 'orderby' => 'title', 'number' => 100, 'hierarchical' => false ) );
+			$terms = get_terms( $tax, array(
+				'orderby' 			=> 'title',
+				'number' 				=> 100,
+				'hierarchical' 	=> false
+			) );
 			if ( empty( $terms ) ) {
 				continue;
 			}
 
 			$current = ! empty( $wp_query->query_vars[ $tax ] ) ? $wp_query->query_vars[ $tax ] : '';
-			echo "<select name='$tax' id='$tax' class='wp-listings-taxonomy'>\n\t";
-			echo '<option value="" ' . selected( '' === $current, true, false ) . ">{$data['labels']['name']}</option>\n";
+			echo "<select name='" . esc_attr( $tax ) . "' id='" . esc_attr( $tax ) . "' class='wp-listings-taxonomy'>\n\t";
+			echo '<option value="" ' . esc_attr( selected( '' === $current, true, false ) ) . ">{$data['labels']['name']}</option>\n";
 			foreach ( (array) $terms as $term ) {
-				echo "\t<option value='{$term->slug}' " . selected( $current, $term->slug, false ) . ">{$term->name}</option>\n";
+				echo "\t<option value='" . esc_attr( $term->slug ) . "' " . esc_attr( selected( $current, $term->slug, false ) ) . ">" . $term->name . "</option>\n";
 			}
 
 			echo '</select>';

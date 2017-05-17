@@ -220,9 +220,9 @@ function wplpro_init() {
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-admin-notice.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/wp-api.php' );
 
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-listings-search-widget.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-featured-listings-widget.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-employee-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wp-listings-search-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wp-listings-featured-listings-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wplproagents-widget.php' );
 
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-gallery-metabox.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-import.php' );

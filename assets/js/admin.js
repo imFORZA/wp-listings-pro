@@ -25,7 +25,6 @@ jQuery(document).ready(function($) {
 	foobar_gallery_popup(listing_image_gallery_frame, image_gallery_link, image_gallery_id, image_gallery_container, image_gallery_listing, true, image_types);
 	foobar_gallery_popup(listing_doc_gallery_frame, doc_gallery_link, doc_gallery_id, doc_gallery_container, doc_gallery_listing, false, doc_types);
 
-	jQuery(".feed-select").select2();
 	jQuery("#wplpro_custom_inputs").attr("disabled", true);
 	// Save dismiss state
 	jQuery( '.notice.is-dismissible' ).on('click', '.notice-dismiss', function ( event ) {

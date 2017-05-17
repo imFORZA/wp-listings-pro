@@ -25,7 +25,10 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 			'description' => __( 'Display grid-style featured listings', 'wp-listings-pro' ),
 			'customize_selective_refresh' => true,
 		);
-		$control_ops = array( 'width' => 300, 'height' => 350 );
+		$control_ops = array(
+			'width' 	=> 300,
+			'height' 	=> 350
+		);
 		parent::__construct( 'wplpro_listings_showcase', __( 'WP Listings Pro - Listings Showcase', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
 
@@ -151,10 +154,10 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 
 				$loop .= sprintf( '</div><!-- .listing-widget-details -->' );
 
-				$loop .= sprintf( '<a href="%s" class="button btn-primary more-link">%s</a>', get_permalink(), __( 'View Listing', 'wp-listings-pro' ) );
+				$loop .= sprintf( '<a href="%s" class="button btn-primary more-link">%s</a>', esc_url( get_permalink() ), esc_html__( 'View Listing', 'wp-listings-pro' ) );
 
 				/** Wrap in div with possible column class, and output. */
-				printf( '<div class="listing %s post-%s"><div class="listing-wrap">%s</div></div>', $column_class . $first_class, $post->ID, apply_filters( 'wp_listings_featured_listings_widget_loop', $loop ) );
+				printf( '<div class="listing %s post-%s"><div class="listing-wrap">%s</div></div>', esc_attr( $column_class . $first_class ), esc_attr( $post->ID ), esc_html( apply_filters( 'wp_listings_featured_listings_widget_loop', $loop ) ) );
 
 			endwhile;
 endif;
@@ -205,18 +208,18 @@ endif;
 
 		printf(
 			'<p><label for="%s">%s</label><input type="text" id="%s" name="%s" value="%s" style="%s" /></p>',
-			$this->get_field_id( 'title' ),
+			esc_attr( $this->get_field_id( 'title' ) ),
 			esc_html_e( 'Title:', 'wp-listings-pro' ),
-			$this->get_field_id( 'title' ),
-			$this->get_field_name( 'title' ),
+			esc_attr( $this->get_field_id( 'title' ) ),
+			esc_attr( $this->get_field_name( 'title' ) ),
 			esc_attr( $instance['title'] ),
 			'width: 95%;'
 		); ?>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'image_size' ); ?>"><?php esc_html_e( 'Image Size', 'wp-listings-pro' ); ?>:</label>
-			<select id="<?php echo $this->get_field_id( 'image_size' ); ?>" class="wp-listings-image-size-selector" name="<?php echo $this->get_field_name( 'image_size' ); ?>">
-				<option value="thumbnail">thumbnail (<?php echo absint( get_option( 'thumbnail_size_w' ) ); ?>x<?php echo absint( get_option( 'thumbnail_size_h' ) ); ?>)</option>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'image_size' ) ); ?>"><?php esc_html_e( 'Image Size', 'wp-listings-pro' ); ?>:</label>
+			<select id="<?php echo esc_attr( $this->get_field_id( 'image_size' ) ); ?>" class="wp-listings-image-size-selector" name="<?php echo esc_attr( $this->get_field_name( 'image_size' ) ); ?>">
+				<option value="thumbnail">thumbnail (<?php echo esc_html( absint( get_option( 'thumbnail_size_w' ) ) ); ?>x<?php echo esc_html( absint( get_option( 'thumbnail_size_h' ) ) ); ?>)</option>
 				<?php
 				$sizes = wplpro_get_additional_image_sizes();
 				foreach ( (array) $sizes as $name => $size ) {
@@ -230,14 +233,14 @@ endif;
 		printf(
 			'<p>%s <input type="text" name="%s" value="%s" size="3" /></p>',
 			esc_html_e( 'How many results should be returned?', 'wp-listings-pro' ),
-			$this->get_field_name( 'posts_per_page' ),
+			esc_attr( $this->get_field_name( 'posts_per_page' ) ),
 			esc_attr( $instance['posts_per_page'] )
 		);
 
-		echo '<p><label for="' . $this->get_field_id( 'posts_term' ) . '">Display by term:</label>
+		echo '<p><label for="' . esc_attr( $this->get_field_id( 'posts_term' ) ) . '">Display by term:</label>
 
-		<select id="' . $this->get_field_id( 'posts_term' ) . '" name="' . $this->get_field_name( 'posts_term' ) . '">
-			<option style="padding-right:10px;" value="" ' . selected( '', $instance['posts_term'], false ) . '>' . __( 'All Taxonomies and Terms', 'wp-listings-pro' ) . '</option>';
+		<select id="' . esc_attr( $this->get_field_id( 'posts_term' ) ) . '" name="' . esc_attr( $this->get_field_name( 'posts_term' ) ) . '">
+			<option style="padding-right:10px;" value="" ' . selected( '', $instance['posts_term'], false ) . '>' . esc_html__( 'All Taxonomies and Terms', 'wp-listings-pro' ) . '</option>';
 
 			$taxonomies = get_object_taxonomies( 'listing' );
 
@@ -249,7 +252,7 @@ endif;
 			$terms = get_terms( $taxonomy, 'orderby=name&hide_empty=1' );
 
 			foreach ( $terms as $term ) {
-				echo '<option style="margin-left: 8px; padding-right:10px;" value="' . esc_attr( $the_tax_object->query_var ) . ',' . $term->slug . '" ' . selected( esc_attr( $the_tax_object->query_var ) . ',' . $term->slug, $instance['posts_term'], false ) . '>-' . esc_attr( $term->name ) . '</option>';
+				echo '<option style="margin-left: 8px; padding-right:10px;" value="' . esc_attr( $the_tax_object->query_var ) . ',' . esc_attr( $term->slug ) . '" ' . selected( esc_attr( $the_tax_object->query_var ) . ',' . $term->slug, $instance['posts_term'], false ) . '>-' . esc_attr( $term->name ) . '</option>';
 			}
 
 			echo '</optgroup>';
@@ -261,12 +264,12 @@ endif;
 		?>
 
 		<p>
-			<input class="checkbox" type="checkbox" <?php checked( $instance['use_columns'], 1 ); ?> id="<?php echo $this->get_field_id( 'use_columns' ); ?>" name="<?php echo $this->get_field_name( 'use_columns' ); ?>" value="1" />
-			<label for="<?php echo $this->get_field_id( 'use_columns' ); ?>">Split listings into columns?</label>
+			<input class="checkbox" type="checkbox" <?php checked( $instance['use_columns'], 1 ); ?> id="<?php echo esc_attr( $this->get_field_id( 'use_columns' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'use_columns' ) ); ?>" value="1" />
+			<label for="<?php echo esc_attr( $this->get_field_id( 'use_columns' ) ); ?>">Split listings into columns?</label>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'number_columns' ); ?>">Number of columns</label>
-			<select class="widefat" id="<?php echo $this->get_field_id( 'number_columns' ); ?>" name="<?php echo $this->get_field_name( 'number_columns' ); ?>">
+			<label for="<?php echo esc_attr( $this->get_field_id( 'number_columns' ) ); ?>">Number of columns</label>
+			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'number_columns' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number_columns' ) ); ?>">
 				<option <?php selected( $instance['number_columns'], 2 ); ?> value="2">2</option>
 				<option <?php selected( $instance['number_columns'], 3 ); ?> value="3">3</option>
 				<option <?php selected( $instance['number_columns'], 4 ); ?> value="4">4</option>

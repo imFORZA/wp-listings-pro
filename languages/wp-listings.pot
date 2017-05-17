@@ -28,34 +28,34 @@ msgstr ""
 msgid "Dismiss this notice"
 msgstr ""
 
-#: includes/class-featured-listings-widget.php:11
+#: includes/class-wp-listings-featured-listings-widget.php:11
 msgid "Display grid-style featured listings"
 msgstr ""
 
-#: includes/class-featured-listings-widget.php:13
+#: includes/class-wp-listings-featured-listings-widget.php:13
 msgid "WP Listings - Featured Listings"
 msgstr ""
 
-#: includes/class-featured-listings-widget.php:129
+#: includes/class-wp-listings-featured-listings-widget.php:129
 #: includes/class-listings.php:153 includes/class-listings.php:154
 #: includes/views/archive-listing.php:61
 msgid "View Listing"
 msgstr ""
 
-#: includes/class-featured-listings-widget.php:176
-#: includes/class-listings-search-widget.php:76
+#: includes/class-wp-listings-featured-listings-widget.php:176
+#: includes/class-wp-listings-search-widget.php:76
 msgid "Title:"
 msgstr ""
 
-#: includes/class-featured-listings-widget.php:184
+#: includes/class-wp-listings-featured-listings-widget.php:184
 msgid "Image Size"
 msgstr ""
 
-#: includes/class-featured-listings-widget.php:198
+#: includes/class-wp-listings-featured-listings-widget.php:198
 msgid "How many results should be returned?"
 msgstr ""
 
-#: includes/class-featured-listings-widget.php:206
+#: includes/class-wp-listings-featured-listings-widget.php:206
 msgid "All Taxonomies and Terms"
 msgstr ""
 
@@ -82,24 +82,24 @@ msgid ""
 "you will see them above."
 msgstr ""
 
-#: includes/class-listings-search-widget.php:11
+#: includes/class-wp-listings-search-widget.php:11
 msgid "Display listings search dropdown"
 msgstr ""
 
-#: includes/class-listings-search-widget.php:13
+#: includes/class-wp-listings-search-widget.php:13
 msgid "WP Listings - Search"
 msgstr ""
 
-#: includes/class-listings-search-widget.php:20
-#: includes/class-listings-search-widget.php:68 includes/class-listings.php:155
+#: includes/class-wp-listings-search-widget.php:20
+#: includes/class-wp-listings-search-widget.php:68 includes/class-listings.php:155
 msgid "Search Listings"
 msgstr ""
 
-#: includes/class-listings-search-widget.php:78
+#: includes/class-wp-listings-search-widget.php:78
 msgid "Include these taxonomies in the search widget"
 msgstr ""
 
-#: includes/class-listings-search-widget.php:91
+#: includes/class-wp-listings-search-widget.php:91
 msgid "Button Text:"
 msgstr ""
 
