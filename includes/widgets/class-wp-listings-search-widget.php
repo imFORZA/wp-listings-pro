@@ -28,7 +28,7 @@ class WP_Listings_Search_Widget extends WP_Widget {
 		$control_ops = array(
 			'width' 	=> 300,
 			'height' 	=> 350,
-			'id_base' => 'listings-search'
+			'id_base' => 'listings-search',
 		);
 		parent::__construct( 'wplpro_listings_search', __( 'WP Listings Pro - Search', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
@@ -68,7 +68,7 @@ class WP_Listings_Search_Widget extends WP_Widget {
 			$terms = get_terms( $tax, array(
 				'orderby' 			=> 'title',
 				'number' 				=> 100,
-				'hierarchical' 	=> false
+				'hierarchical' 	=> false,
 			) );
 			if ( empty( $terms ) ) {
 				continue;
@@ -78,7 +78,7 @@ class WP_Listings_Search_Widget extends WP_Widget {
 			echo "<select name='" . esc_attr( $tax ) . "' id='" . esc_attr( $tax ) . "' class='wp-listings-taxonomy'>\n\t";
 			echo '<option value="" ' . esc_attr( selected( '' === $current, true, false ) ) . ">{$data['labels']['name']}</option>\n";
 			foreach ( (array) $terms as $term ) {
-				echo "\t<option value='" . esc_attr( $term->slug ) . "' " . esc_attr( selected( $current, $term->slug, false ) ) . ">" . $term->name . "</option>\n";
+				echo "\t<option value='" . esc_attr( $term->slug ) . "' " . esc_attr( selected( $current, $term->slug, false ) ) . '>' . $term->name . "</option>\n";
 			}
 
 			echo '</select>';

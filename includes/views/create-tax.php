@@ -48,9 +48,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<tr <?php if ( $alt ) { echo 'class="alternate"';
 						$alt = false;
-					} else {
-						$alt = true;
-					} ?>>
+} else {
+	$alt = true;
+} ?>>
 					<td class="slug column-slug">
 
 					<?php if ( isset( $data['editable'] ) && 0 === $data['editable'] ) : ?>

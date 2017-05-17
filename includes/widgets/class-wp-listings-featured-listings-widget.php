@@ -27,7 +27,7 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 		);
 		$control_ops = array(
 			'width' 	=> 300,
-			'height' 	=> 350
+			'height' 	=> 350,
 		);
 		parent::__construct( 'wplpro_listings_showcase', __( 'WP Listings Pro - Listings Showcase', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
