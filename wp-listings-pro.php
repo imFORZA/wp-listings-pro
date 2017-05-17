@@ -62,9 +62,9 @@ function wplpro_activation() {
 		$_wplpro_agents_tax->register_taxonomies();
 	}
 
-	if (! wp_next_scheduled ( 'wplpro_clear_transients' )) {
-		wp_schedule_event(time(), 'daily', 'wplpro_clear_transients');
-  }
+	if ( ! wp_next_scheduled( 'wplpro_clear_transients' ) ) {
+		wp_schedule_event( time(), 'daily', 'wplpro_clear_transients' );
+	}
 
 	flush_rewrite_rules();
 
@@ -153,7 +153,7 @@ register_deactivation_hook( __FILE__, 'wplpro_deactivation' );
  */
 function wplpro_deactivation() {
 
-	wp_clear_scheduled_hook('wplpro_clear_transients');
+	wp_clear_scheduled_hook( 'wplpro_clear_transients' );
 
 	flush_rewrite_rules();
 
@@ -411,7 +411,7 @@ function wplpro_init() {
 	add_action( 'wp_ajax_WPListingsAdminNotice', 'wplpro_adminnotice_cb' );
 
 	/**
-	 * wplpro_adminnotice_cb function.
+	 * WPLPRO Admin notice callback function.
 	 *
 	 * @access public
 	 * @return ajax call.
@@ -488,9 +488,7 @@ function wplpro_set_hidden_price( $post_id, $price, $posts = null ) {
 		// If posts passed in use those.
 		if ( isset( $posts ) ) {
 			$pinned = $posts;
-		}
-
-		// Else grab pinned posts from WP options.
+		} // Else grab pinned posts from WP options.
 		else {
 			$options = get_option( 'wplpro_plugin_settings' );
 			$pinned = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
@@ -574,7 +572,7 @@ function wplpro_pre_get_listings( $query ) {
 function wplpro_add_user_role_lead() {
 	add_role( 'lead', 'Lead', array(
 		'read' => true,
-		'level_0' => true
+		'level_0' => true,
 	) );
 }
 

@@ -490,11 +490,10 @@ function WPLPROAgents_idx_agent_setting_page() {
 
 				// Bail if IDX plugin version is not at least 2.0.
 				// if ( $plugin_data['idx-broker-platinum/idx-broker-platinum.php']['Version'] < 2.0 ) {
-				// 	add_settings_error( 'WPLPROAgents_idx_agent_settings_group', 'idx_agent_update', 'You must update to <a href="' . admin_url( 'update-core.php' ) . '">IMPress for IDX Broker</a> version 2.0.0 or higher to import listings.', 'error' );
-				// 	settings_errors( 'WPLPROAgents_idx_agent_settings_group' );
-				// 	return;
+				// add_settings_error( 'WPLPROAgents_idx_agent_settings_group', 'idx_agent_update', 'You must update to <a href="' . admin_url( 'update-core.php' ) . '">IMPress for IDX Broker</a> version 2.0.0 or higher to import listings.', 'error' );
+				// settings_errors( 'WPLPROAgents_idx_agent_settings_group' );
+				// return;
 				// }
-
 			$_idx_api = new WPLPRO_Idx_Api();
 			$agents = $_idx_api->idx_api(
 				'agents',
@@ -506,8 +505,6 @@ function WPLPROAgents_idx_agent_setting_page() {
 				$json_decode_type = true
 			);
 			// $agents = $_idx_api->idx_api('agents');
-
-
 			$idx_agent_wp_options = get_option( 'WPLPROAgents_idx_agent_options' );
 
 			settings_fields( 'WPLPROAgents_idx_agent_settings_group' );

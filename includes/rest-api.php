@@ -13,7 +13,7 @@ add_action( 'rest_api_init', function () {
 	register_rest_route( 'wp-listings-pro/v1', 'delete-listing/', array(
 		'methods'	 => 'POST',
 		'callback' => 'wplpro_rest_delete_listing',
-		'permission_callback' => 'wplpro_rest_permission_check'
+		'permission_callback' => 'wplpro_rest_permission_check',
 	));
 } );
 
@@ -21,7 +21,7 @@ add_action( 'rest_api_init', function () {
 	register_rest_route( 'wp-listings-pro/v1', 'import-listings/', array(
 		'methods'	 => 'GET',
 		'callback' => 'wplpro_rest_import_listings',
-		'permission_callback' => 'wplpro_rest_permission_check'
+		'permission_callback' => 'wplpro_rest_permission_check',
 	));
 } );
 
@@ -29,7 +29,7 @@ add_action( 'rest_api_init', function () {
 	register_rest_route( 'wp-listings-pro/v1', 'sync-all/', array(
 		'methods'	 => 'GET',
 		'callback' => 'wplpro_sync_listings_and_agents',
-		'permission_callback' => 'wplpro_rest_permission_check'
+		'permission_callback' => 'wplpro_rest_permission_check',
 	));
 } );
 

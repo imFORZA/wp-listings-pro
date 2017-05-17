@@ -85,12 +85,12 @@ if ( isset( $_GET['settings-updated'] ) ) {
 					<?php
 					settings_fields( 'wp_listings_options' );
 
-					if( isset( $options['wplpro_api_key'] ) ) {
+					if ( isset( $options['wplpro_api_key'] ) ) {
 					?>
 						<h3>Update Listings and Employees</h3>
 						<input name="submit" type="submit" value="Sync now" class="button-primary" id="sync-idx-settings-now"></input>
 					<?php
-					}else{
+					} else {
 
 					}
 
@@ -377,9 +377,10 @@ if ( isset( $_GET['settings-updated'] ) ) {
 						$selected = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
 						wplpro_post_select( 'wplpro_plugin_settings[pinned][]', 'listing', $selected );
 
-						$symbol = "cmd";
-						if(strpos(getenv("HTTP_USER_AGENT"), "Mac") !== FALSE)
-							$symbol = "⌘";
+						$symbol = 'cmd';
+						if ( strpos( getenv( 'HTTP_USER_AGENT' ), 'Mac' ) !== false ) {
+							$symbol = '⌘';
+						}
 						echo '<p class="description">' . esc_attr( 'You can select one or more listings to pin to the top of the search results by holding down the ' . $symbol . ' key and clicking on additional listings.', 'impresspro' ) . '</p>';
 
 						echo '<hr>';
