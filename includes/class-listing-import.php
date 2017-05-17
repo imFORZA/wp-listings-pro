@@ -77,111 +77,101 @@ class WPLPROIdxListing {
 	 * @return [type] $featured Featured.
 	 */
 	public static function wp_listings_idx_create_post( $listings ) {
-		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
-			require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
+		// Load IDX Broker API Class and retrieve featured properties.
+		$_idx_api = new WPLPRO_Idx_Api();
+		$properties = $_idx_api->client_properties( 'featured?disclaimers=true' );
 
-			// Load Equity API if it exists.
-			if ( class_exists( 'Equity_Idx_Api' ) ) {
-				require_once( ABSPATH . 'wp-content/themes/equity/lib/idx/class.Equity_Idx_Api.inc.php' );
-				$_equity_idx = new Equity_Idx_Api;
-			}
+		// Load WP options.
+		$idx_feat_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
+		$wpl_options = get_option( 'wplpro_plugin_settings' );
+		update_option( 'wp_listings_import_progress', true );
 
-			// Load IDX Broker API Class and retrieve featured properties.
-			$_idx_api = new \IDX\Idx_Api();
-			$properties = $_idx_api->client_properties( 'featured?disclaimers=true' );
+		if ( is_array( $listings ) && is_array( $properties ) ) {
 
-			// Load WP options.
-			$idx_feat_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
-			$wpl_options = get_option( 'wplpro_plugin_settings' );
-			update_option( 'wp_listings_import_progress', true );
+			// Loop through featured properties.
+			$listings_queue = new WPLPROBackgroundListings();
+			$item = array();
 
-			if ( is_array( $listings ) && is_array( $properties ) ) {
+			foreach ( $properties as $prop ) {
+				// this is too dangerous of a command
+				// Get the listing ID.
+				$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
 
-				// Loop through featured properties.
-				$listings_queue = new WPLPROBackgroundListings();
-				$item = array();
+				// Add options.
+				if ( ! in_array( $prop['listingID'], $listings, true ) ) {
+					$idx_feat_options[ $prop['listingID'] ]['listingID'] = $prop['listingID'];
+					$idx_feat_options[ $prop['listingID'] ]['status'] = '';
+				}
 
-				foreach ( $properties as $prop ) {
-					// this is too dangerous of a command
-					// Get the listing ID.
-					$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
+				// Unset options if they don't exist.
+				if ( isset( $idx_feat_options[ $prop['listingID'] ]['post_id'] ) && ! get_post( $idx_feat_options[ $prop['listingID'] ]['post_id'] ) ) {
+					unset( $idx_feat_options[ $prop['listingID'] ]['post_id'] );
+					unset( $idx_feat_options[ $prop['listingID'] ]['status'] );
+			 	}
 
-					// Add options.
-					if ( ! in_array( $prop['listingID'], $listings, true ) ) {
-						$idx_feat_options[ $prop['listingID'] ]['listingID'] = $prop['listingID'];
-						$idx_feat_options[ $prop['listingID'] ]['status'] = '';
+			 	// Add post and update post meta.
+				if ( in_array( $prop['listingID'], $listings, true ) && ! isset( $idx_feat_options[ $prop['listingID'] ]['post_id'] ) ) {
+					$idx_feat_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
+
+					if ( '' === $properties[ $key ]['address'] || null === $properties[ $key ]['address'] ) {
+						$properties[ $key ]['address'] = 'Address unlisted';
+					}
+					if ( '' === $properties[ $key ]['remarksConcat'] || null === $properties[ $key ]['remarksConcat'] ) {
+						$properties[ $key ]['remarksConcat'] = $properties[ $key ]['listingID'];
 					}
 
-					// Unset options if they don't exist.
-					if ( isset( $idx_feat_options[ $prop['listingID'] ]['post_id'] ) && ! get_post( $idx_feat_options[ $prop['listingID'] ]['post_id'] ) ) {
-						unset( $idx_feat_options[ $prop['listingID'] ]['post_id'] );
-						unset( $idx_feat_options[ $prop['listingID'] ]['status'] );
-				 	}
+					// Post creation options.
+					$opts = array(
+						'post_content' => $properties[ $key ]['remarksConcat'],
+						'post_title' => $properties[ $key ]['address'],
+						'post_status' => 'publish',
+						'post_type' => 'listing',
+						'post_author' => (isset( $wpl_options['import_author'] )) ? $wpl_options['import_author'] : 1,
+					);
 
-				 	// Add post and update post meta.
-					if ( in_array( $prop['listingID'], $listings, true ) && ! isset( $idx_feat_options[ $prop['listingID'] ]['post_id'] ) ) {
-						$idx_feat_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
+					$item['opts'] = $opts;
+					$item['prop'] = $prop;
+					$item['key'] = $key;
+					$item['property'] = $properties[ $key ];
 
-						if ( '' === $properties[ $key ]['address'] || null === $properties[ $key ]['address'] ) {
-							$properties[ $key ]['address'] = 'Address unlisted';
-						}
-						if ( '' === $properties[ $key ]['remarksConcat'] || null === $properties[ $key ]['remarksConcat'] ) {
-							$properties[ $key ]['remarksConcat'] = $properties[ $key ]['listingID'];
-						}
+					// Background processing.
+					$listings_queue->push_to_queue( $item );
+					update_option( 'wplpro_idx_featured_listing_wp_options', $idx_feat_options );
 
-						// Post creation options.
-						$opts = array(
-							'post_content' => $properties[ $key ]['remarksConcat'],
-							'post_title' => $properties[ $key ]['address'],
-							'post_status' => 'publish',
-							'post_type' => 'listing',
-							'post_author' => (isset( $wpl_options['import_author'] )) ? $wpl_options['import_author'] : 1,
-						);
+				} // End if().
+				// Change status to publish if it's not already.
+				elseif ( in_array( $prop['listingID'], $listings, true ) && 'publish' !== $idx_feat_options[ $prop['listingID'] ]['status'] ) {
+					self::wp_listings_idx_change_post_status( $idx_feat_options[ $prop['listingID'] ]['post_id'], 'publish' );
+					$idx_feat_options[ $prop['listingID'] ]['status'] = 'publish';
 
-						$item['opts'] = $opts;
-						$item['prop'] = $prop;
-						$item['key'] = $key;
-						$item['property'] = $properties[ $key ];
+				} // Change post status or delete post based on options.
+				elseif ( ! in_array( $prop['listingID'], $listings, true ) && isset( $idx_feat_options[ $prop['listingID'] ]['status'] ) && 'publish' === $idx_feat_options[ $prop['listingID'] ]['status'] ) {
 
-						// Background processing.
-						$listings_queue->push_to_queue( $item );
-						update_option( 'wplpro_idx_featured_listing_wp_options', $idx_feat_options );
+					// Change to draft or delete listing if the post exists but is not in the listing array based on settings.
+					if ( isset( $wpl_options['wplpro_idx_sold'] ) && 'sold-draft' === $wpl_options['wplpro_idx_sold'] ) {
 
-					} // End if().
-					// Change status to publish if it's not already.
-					elseif ( in_array( $prop['listingID'], $listings, true ) && 'publish' !== $idx_feat_options[ $prop['listingID'] ]['status'] ) {
-						self::wp_listings_idx_change_post_status( $idx_feat_options[ $prop['listingID'] ]['post_id'], 'publish' );
-						$idx_feat_options[ $prop['listingID'] ]['status'] = 'publish';
+						// Change to draft.
+						self::wp_listings_idx_change_post_status( $idx_feat_options[ $prop['listingID'] ]['post_id'], 'draft' );
+						$idx_feat_options[ $prop['listingID'] ]['status'] = 'draft';
+					} elseif ( isset( $wpl_options['wplpro_idx_sold'] ) && 'sold-delete' === $wpl_options['wplpro_idx_sold'] ) {
 
-					} // Change post status or delete post based on options.
-					elseif ( ! in_array( $prop['listingID'], $listings, true ) && isset( $idx_feat_options[ $prop['listingID'] ]['status'] ) && 'publish' === $idx_feat_options[ $prop['listingID'] ]['status'] ) {
+						$idx_feat_options[ $prop['listingID'] ]['status'] = 'deleted';
 
-						// Change to draft or delete listing if the post exists but is not in the listing array based on settings.
-						if ( isset( $wpl_options['wplpro_idx_sold'] ) && 'sold-draft' === $wpl_options['wplpro_idx_sold'] ) {
+						// Delete featured image.
+						$post_feat_id = get_post_thumbnail_id( $idx_feat_options[ $prop['listingID'] ]['post_id'] );
+						wp_delete_attachment( $post_feat_id );
 
-							// Change to draft.
-							self::wp_listings_idx_change_post_status( $idx_feat_options[ $prop['listingID'] ]['post_id'], 'draft' );
-							$idx_feat_options[ $prop['listingID'] ]['status'] = 'draft';
-						} elseif ( isset( $wpl_options['wplpro_idx_sold'] ) && 'sold-delete' === $wpl_options['wplpro_idx_sold'] ) {
-
-							$idx_feat_options[ $prop['listingID'] ]['status'] = 'deleted';
-
-							// Delete featured image.
-							$post_feat_id = get_post_thumbnail_id( $idx_feat_options[ $prop['listingID'] ]['post_id'] );
-							wp_delete_attachment( $post_feat_id );
-
-							// Delete post.
-							wp_delete_post( $idx_feat_options[ $prop['listingID'] ]['post_id'] );
-						}
+						// Delete post.
+						wp_delete_post( $idx_feat_options[ $prop['listingID'] ]['post_id'] );
 					}
-				} // End foreach().
-				$listings_queue->save()->dispatch();
-			} // End if().
-			// Lastly update our options.
-			update_option( 'wplpro_idx_featured_listing_wp_options', $idx_feat_options );
-			delete_option( 'wp_listings_import_progress' );
-			return 'success';
+				}
+			} // End foreach().
+			$listings_queue->save()->dispatch();
 		} // End if().
+		// Lastly update our options.
+		update_option( 'wplpro_idx_featured_listing_wp_options', $idx_feat_options );
+		delete_option( 'wp_listings_import_progress' );
+		return 'success';
 	}
 
 	/**
@@ -195,7 +185,7 @@ class WPLPROIdxListing {
 		require_once( ABSPATH . 'wp-content/plugins/idx-broker-platinum/idx/idx-api.php' );
 
 		// Load IDX Broker API Class and retrieve featured properties.
-		$_idx_api = new \IDX\Idx_Api();
+		$_idx_api = new WPLPRO_Idx_Api();
 		$properties = $_idx_api->client_properties( 'featured?disclaimers=true' );
 
 		// Load WP options.
@@ -221,16 +211,6 @@ class WPLPROIdxListing {
 				$sync_setting = get_post_meta( $post_id , '_listing_sync_update', true );
 				if ( 'update-useglobal' === $sync_setting || null === $sync_setting ) {
 					$sync_setting = $global_setting;
-				}
-
-				if ( class_exists( 'Equity_Idx_Api' ) ) {
-					require_once( ABSPATH . 'wp-content/themes/equity/lib/idx/class.Equity_Idx_Api.inc.php' );
-					$_equity_idx = new Equity_Idx_Api;
-					$equity_properties = $_equity_idx->equity_listing_ID( $prop['idxID'], $prop['listingID'] );
-					if ( false === $equity_properties ) {
-						$equity_properties = $properties[ $key ];
-						delete_transient( 'equity_listing_' . $prop['listingID'] );
-					}
 				}
 
 				$listing_setting = get_post_meta( $post_id , '_listing_sync_update', true );
@@ -651,26 +631,23 @@ function wp_listings_idx_listing_setting_page() {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			$plugin_data = get_plugins();
 
-			// Get properties from IDX Broker plugin.
-			if ( class_exists( 'IDX_Broker_Plugin' ) ) {
-				// Bail if IDX plugin version is not at least 2.0.
-				if ( $plugin_data['idx-broker-platinum/idx-broker-platinum.php']['Version'] < 2.0 ) {
-					add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_update', 'You must update to <a href="' . admin_url( 'update-core.php' ) . '">IMPress for IDX Broker</a> version 2.0.0 or higher to import listings.', 'error' );
-					settings_errors( 'wp_listings_idx_listing_settings_group' );
-					return;
-				}
 
-				$_idx_api = new \IDX\Idx_Api();
-				$properties = $_idx_api->client_properties( 'featured' );
-				if ( is_wp_error( $properties ) ) {
-					$error_string = $properties->get_error_message();
-					add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_update', $error_string, 'error' );
-					settings_errors( 'wp_listings_idx_listing_settings_group' );
-					return;
-				}
-			} else {
+			// Bail if IDX plugin version is not at least 2.0.
+			// if ( $plugin_data['idx-broker-platinum/idx-broker-platinum.php']['Version'] < 2.0 ) {
+			// 	add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_update', 'You must update to <a href="' . admin_url( 'update-core.php' ) . '">IMPress for IDX Broker</a> version 2.0.0 or higher to import listings.', 'error' );
+			// 	settings_errors( 'wp_listings_idx_listing_settings_group' );
+			// 	return;
+			// }
+
+			$_idx_api = new WPLPRO_Idx_Api();
+			$properties = $_idx_api->client_properties( 'featured' );
+			if ( is_wp_error( $properties ) ) {
+				$error_string = $properties->get_error_message();
+				add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_update', $error_string, 'error' );
+				settings_errors( 'wp_listings_idx_listing_settings_group' );
 				return;
 			}
+
 
 			settings_fields( 'wp_listings_idx_listing_settings_group' );
 			do_settings_sections( 'wp_listings_idx_listing_settings_group' );

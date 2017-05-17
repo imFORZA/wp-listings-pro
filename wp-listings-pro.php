@@ -62,6 +62,10 @@ function wplpro_activation() {
 		$_wplpro_agents_tax->register_taxonomies();
 	}
 
+	if (! wp_next_scheduled ( 'wplpro_clear_transients' )) {
+		wp_schedule_event(time(), 'daily', 'wplpro_clear_transients');
+  }
+
 	flush_rewrite_rules();
 
 	$notice_keys = array( 'wpl_notice_idx', 'wpl_listing_notice_idx', 'wpl_notice_equity' );
@@ -149,6 +153,8 @@ register_deactivation_hook( __FILE__, 'wplpro_deactivation' );
  */
 function wplpro_deactivation() {
 
+	wp_clear_scheduled_hook('wplpro_clear_transients');
+
 	flush_rewrite_rules();
 
 	$notice_keys = array( 'wpl_notice_idx', 'wpl_listing_notice_idx', 'wpl_notice_equity' );
@@ -227,6 +233,7 @@ function wplpro_init() {
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-gallery-metabox.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-import.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-agent-import.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-wplpro-idx-api.php' );
 
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-saved-searches.php' );
 

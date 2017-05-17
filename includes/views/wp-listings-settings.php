@@ -85,10 +85,18 @@ if ( isset( $_GET['settings-updated'] ) ) {
 					<?php
 					settings_fields( 'wp_listings_options' );
 
+					if( isset( $options['wplpro_api_key'] ) ) {
 					?>
-					<h3>Update Listings and Employees</h3>
-					<input name="submit" type="submit" value="Sync now" class="button-primary" id="sync-idx-settings-now"></input>
+						<h3>Update Listings and Employees</h3>
+						<input name="submit" type="submit" value="Sync now" class="button-primary" id="sync-idx-settings-now"></input>
 					<?php
+					}else{
+
+					}
+
+					_e( '<h4>IDX Broker API Key</h4><p>For this plugin to be able to import listings/agents, an API key is required.</p>', 'wp-listings-pro' );
+					_e( '<p>API Key: <input name="wplpro_plugin_settings[wplpro_api_key]" id="wplpro_default_form" type="text" value="' . esc_html( ( isset( $options['wplpro_api_key'] ) ? $options['wplpro_api_key'] : '' ) ) . '" size="40" /></p><hr>', 'wp-listings-pro' );
+
 
 					echo '<h3>';
 					esc_html_e( 'Disable CSS and/or Javascript:', 'wp-listings-pro' );
