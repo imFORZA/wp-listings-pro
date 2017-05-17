@@ -10,7 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
 }
 
 
-if ( ! function_exists( 'WP_listings' ) ) {
+if ( function_exists( 'WP_listings' ) ) {
+	exit;
+}
 /**
  * This class handles the creation of the "Listings" post type, and creates a
  * UI to display the Listing-specific data on the admin screens.
@@ -174,6 +176,7 @@ class WP_Listings {
 	 * Creates display of settings page along with form fields
 	 */
 	function settings_page() {
+		wplpro_admin_scripts_styles();
 		include( dirname( __FILE__ ) . '/views/wp-listings-settings.php' );
 	}
 
@@ -467,6 +470,4 @@ class WP_Listings {
 		remove_filter( 'redirect_post_location', array( &$this, 'add_notice_query_var' ), 99 );
 		return add_query_arg( array( 'wp-listings-pro' => 'show-notice' ), $location );
 	}
-
-}
 }

@@ -11,7 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
 }
 
 
-if ( isset( $_GET['settings-updated'] ) ) { ?>
+if ( isset( $_GET['settings-updated'] ) ) {
+
+	?>
 	<div id="message" class="updated">
 		<p><strong><?php esc_html_e( 'Settings saved.', 'wp-listings-pro' ); ?></strong></p>
 	</div>

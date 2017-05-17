@@ -19,9 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  */
 function wplpro_archive_listing_loop() {
 
-		global $post;
+	global $post;
 
-		$count = 0; // Start counter at 0.
+	$count = 0; // Start counter at 0.
 
 	while ( have_posts() ) : the_post();
 
