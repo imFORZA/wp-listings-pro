@@ -28,6 +28,7 @@ $white: #ffffff;
     clear: both;
   }
 }
+
 @mixin icon_dashicons( $glyph: "\f333"){
   font-family: 'Dashicons';
   speak: none;
@@ -46,6 +47,7 @@ $white: #ffffff;
   text-align: center;
   content: $glyph;
 }
+
 @mixin ir(){
   display: block;
   text-indent: -99999px;
@@ -59,6 +61,7 @@ $white: #ffffff;
 #idx_metabox h2.hndle {
   display: none;
 }
+
 .js #equity_metabox .handlediv,
 #equity_metabox h2.hndle {
   display: none;
@@ -73,6 +76,7 @@ $white: #ffffff;
 #idx_metabox h2.hndle {
   display: none;
 }
+
 .js #equity_metabox .handlediv,
 #equity_metabox h2.hndle {
   display: none;
@@ -85,6 +89,7 @@ $white: #ffffff;
   float: left;
   text-align: center;
 }
+
 .idx-import-option .dashicons {
   display: block;
   font-size: 50px;
@@ -107,30 +112,39 @@ $white: #ffffff;
 .idx-import-option.update-all .dashicons {
   color: $color-light-green;
 }
+
 .idx-import-option.update-nodetails .dashicons {
   color: #4286f4;
 }
+
 .idx-import-option.update-noimage .dashicons {
   color: $color-yellow-orange;
 }
+
 .idx-import-option.update-custom .dashicons {
   color: $color-yellow-orange;
 }
+
 .idx-import-option.update-none .dashicons {
   color: $color-kinda-pale-red;
 }
+
 .idx-import-option.sold-keep .dashicons {
   color: $color-light-green;
 }
+
 .idx-import-option.sold-draft .dashicons {
   color: $color-kinda-pale-blue;
 }
+
 .idx-import-option.sold-delete .dashicons {
   color: $color-kinda-pale-red;
 }
+
 .idx-import-option input[type=radio] + p {
   padding: 15px;
 }
+
 .idx-import-option input[type=radio]:checked + p {
   background: $white;
 }
@@ -386,6 +400,7 @@ $white: #ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .notice-dismiss {
   position: absolute;
   top: 0;

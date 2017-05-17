@@ -57,9 +57,9 @@ function wplpro_activation() {
 
 	/** Flush rewrite rules. */
 	if ( ! post_type_exists( 'employee' ) ) {
-		global $_WPLPROAgents, $_WPLPROAgents_tax;
-		$_WPLPROAgents->create_post_type();
-		$_WPLPROAgents_tax->register_taxonomies();
+		global $_wplpro_agents, $_wplpro_agents_tax;
+		$_wplpro_agents->create_post_type();
+		$_wplpro_agents_tax->register_taxonomies();
 	}
 
 	flush_rewrite_rules();
@@ -138,7 +138,7 @@ function wplpro_import_image_gallery() {
 		}
 
 		update_post_meta( $listing->ID, '_listing_image_gallery', implode( ',', $wplpro_images ) );
-	}
+	} // End foreach().
 }
 
 register_deactivation_hook( __FILE__, 'wplpro_deactivation' );
@@ -188,7 +188,7 @@ function wplpro_init() {
 		return;
 	}
 
-	global $_wp_listings, $_wplpro_taxonomies, $_wp_listings_templ, $_WPLPROAgents, $_WPLPROAgents_tax;
+	global $_wp_listings, $_wplpro_taxonomies, $_wp_listings_templ, $_wplpro_agents, $_wplpro_agents_tax;
 
 	define( 'WPLPRO_URL', plugin_dir_url( __FILE__ ) );
 	define( 'WPLPRO_DIR', plugin_dir_path( __FILE__ ) );
@@ -203,7 +203,7 @@ function wplpro_init() {
 
 	// Check for Genesis Agent Profiles Plugin.
 	if ( is_plugin_active( 'genesis-agent-profiles/plugin.php' ) ) {
-		add_action( 'wp_loaded', 'WPLPROAgents_migrate' );
+		add_action( 'wp_loaded', 'wplpro_agents_migrate' );
 	}
 
 	/** Includes. */
@@ -220,9 +220,9 @@ function wplpro_init() {
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-admin-notice.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/wp-api.php' );
 
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-listings-search-widget.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-featured-listings-widget.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-employee-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wp-listings-search-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wp-listings-featured-listings-widget.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wplproagents-widget.php' );
 
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-gallery-metabox.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-import.php' );
@@ -235,8 +235,8 @@ function wplpro_init() {
 	require_once( plugin_dir_path( __FILE__ ) . 'welcome/welcome-logic.php' );
 
 	/** Instantiate */
-	$_WPLPROAgents = new WPLPROAgents;
-	$_WPLPROAgents_tax = new WPLPROAgents_Taxonomies;
+	$_wplpro_agents = new WPLPROAgents;
+	$_wplpro_agents_tax = new WPLPROAgents_Taxonomies;
 
 	/** Add theme support for post thumbnails if it does not exist */
 	if ( ! current_theme_supports( 'post-thumbnails' ) ) {
@@ -318,9 +318,6 @@ function wplpro_init() {
 
 		wp_enqueue_script( 'jquery-masonry' );
 		wp_enqueue_style( 'wp_listings_admin_css', WPLPRO_URL . 'assets/css/wplpro-admin.min.css' );
-
-		wp_enqueue_style( 'select2', WPLPRO_URL . 'assets/css/select2.min.css', null, null, 'screen' );
-		wp_enqueue_script( 'select2', WPLPRO_URL . 'assets/js/select2.min.js', 'jquery', null, true );
 
 		wp_enqueue_script( 'wp_listings_idx_listing_lazyload', WPLPRO_URL . 'assets/js/jquery.lazyload.min.js', array( 'jquery' ), true );
 		wp_enqueue_script( 'images-loaded', WPLPRO_URL . 'assets/js/imagesloaded.min.js' );
@@ -404,15 +401,15 @@ function wplpro_init() {
 	 *
 	 * @since  1.3
 	 */
-	add_action( 'wp_ajax_WPListingsAdminNotice', 'WPListingsAdminNotice_cb' );
+	add_action( 'wp_ajax_WPListingsAdminNotice', 'wplpro_adminnotice_cb' );
 
 	/**
-	 * WPListingsAdminNotice_cb function.
+	 * wplpro_adminnotice_cb function.
 	 *
 	 * @access public
 	 * @return ajax call.
 	 */
-	function WPListingsAdminNotice_cb() {
+	function wplpro_adminnotice_cb() {
 		$_wp_listings_admin = new WPListingsAdminNotice;
 		return $_wp_listings_admin->ajax_cb();
 	}
@@ -446,7 +443,7 @@ function wplpro_register_widgets() {
  * @access public
  * @return void
  */
-function WPLPROAgents_migrate() {
+function wplpro_agents_migrate() {
 	new WPLPROAgents_Migrate();
 }
 
@@ -484,7 +481,9 @@ function wplpro_set_hidden_price( $post_id, $price, $posts = null ) {
 		// If posts passed in use those.
 		if ( isset( $posts ) ) {
 			$pinned = $posts;
-		} // Else grabbed pinned posts from WP options.
+		}
+
+		// Else grab pinned posts from WP options.
 		else {
 			$options = get_option( 'wplpro_plugin_settings' );
 			$pinned = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
@@ -566,7 +565,10 @@ function wplpro_pre_get_listings( $query ) {
  * @return void
  */
 function wplpro_add_user_role_lead() {
-	add_role( 'lead', 'Lead', array( 'read' => true, 'level_0' => true ) );
+	add_role( 'lead', 'Lead', array(
+		'read' => true,
+		'level_0' => true
+	) );
 }
 
 

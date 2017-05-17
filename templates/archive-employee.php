@@ -18,7 +18,7 @@ add_action( 'wp_enqueue_scripts', 'wplpro_enqueue_single_employee_scripts' );
 
 
 /**
- * wplpro_enqueue_single_employee_scripts function.
+ * Function wplpro_enqueue_single_employee_scripts.
  *
  * @access public
  * @return void
@@ -30,11 +30,11 @@ function wplpro_enqueue_single_employee_scripts() {
 add_filter( 'body_class', 'wplpro_add_employee_body_class' );
 
 /**
- * wplpro_add_employee_body_class
+ * Function for wplpro_add_employee_body_class.
  *
  * @access public
  * @param mixed $classes Classes.
- * @return void
+ * @return array[] containing 'archive-employee'.
  */
 function wplpro_add_employee_body_class( $classes ) {
 	$classes[] = 'archive-employee';
@@ -42,7 +42,7 @@ function wplpro_add_employee_body_class( $classes ) {
 }
 
 /**
- * wplpro_archive_employee_loop function.
+ * Function wplpro_archive_employee_loop.
  *
  * @access public
  * @return void
@@ -54,15 +54,15 @@ function wplpro_archive_employee_loop() {
 
 	if ( have_posts() ) : while ( have_posts() ) : the_post();
 
-			// starting at 4
-			if ( $i == 4 ) {
+			// Starting at 4. que.
+			if ( 4 === $i ) {
 				$class = 'first one-fourth agent-wrap';
 				$i = 0;
 			} else {
 				$class = 'one-fourth agent-wrap';
 			}
 
-			// increase count by 1
+			// Increase count by 1.
 			$i++;
 
 			$post_id = get_the_id();
@@ -72,22 +72,21 @@ function wplpro_archive_employee_loop() {
 	?>
 
 	<div <?php post_class( $class ); ?> itemscope itemtype="https://schema.org/Person">
-	<?php echo '<a href="' . get_permalink() . '"><img src="' . $thumb_url[0] . '" alt="' . get_the_title() . ' photo" class="attachment-employee-thumbnail wp-post-image" itemprop="image" /></a>'; ?>
+	<?php echo '<a href="' . esc_url( get_permalink() ) . '"><img src="' . esc_url( $thumb_url[0] ) . '" alt="' . esc_attr( get_the_title() ) . ' photo" class="attachment-employee-thumbnail wp-post-image" itemprop="image" /></a>'; ?>
 		<div class="agent-details vcard">
 		<?php
 
-		printf( '<p><a class="fn" href="%s" itemprop="name">%s</a></p>', get_permalink(), get_the_title() );
+		printf( '<p><a class="fn" href="%s" itemprop="name">%s</a></p>', esc_url( get_permalink() ), esc_html( get_the_title() ) );
 
 		echo wplpro_employee_archive_details();
 		if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wplpro_init' ) ) {
 
 			$has_listings = wplpro_has_listings( $post_id );
 			if ( ! empty( $has_listings ) ) {
-				echo '<p><a class="agent-listings-link" href="' . get_permalink() . '#agent-listings">View My Listings</a></p>';
+				echo '<p><a class="agent-listings-link" href="' . esc_url( get_permalink() ) . '#agent-listings">' . __( 'View My Listings', 'wp-listings-pro' ) . '</a></p>';
 			}
 		}
 
-		// echo wplpro_employee_social();
 		?>
 		</div><!-- .agent-details -->
 	</div> <!-- .agent-wrap -->
@@ -146,12 +145,12 @@ if ( function_exists( 'equity' ) ) {
 			$object = get_queried_object();
 
 			if ( ! isset( $object->label ) ) {
-				$title = '<h1 class="archive-title">' . $object->name . '</h1>';
+				echo '<h1 class="archive-title">' . esc_html( $object->name ) . '</h1>';
 			} else {
-				$title = '<h1 class="archive-title">' . get_bloginfo( 'name' ) . ' Employees</h1>';
+				echo '<h1 class="archive-title">' . esc_html( get_bloginfo( 'name' ) ) . ' Employees</h1>';
 			}
 
-			echo $title; ?>
+			?>
 
 			<small><?php if ( function_exists( 'yoast_breadcrumb' ) ) { yoast_breadcrumb( '<p id="breadcrumbs">','</p>' ); } ?></small>
 		</header><!-- .archive-header -->
@@ -175,4 +174,4 @@ if ( function_exists( 'equity' ) ) {
 	get_sidebar();
 	get_footer();
 
-}
+} // End if().

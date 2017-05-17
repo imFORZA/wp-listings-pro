@@ -11,7 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
 }
 
 
-if ( isset( $_GET['settings-updated'] ) ) { ?>
+if ( isset( $_GET['settings-updated'] ) ) {
+
+	?>
 	<div id="message" class="updated">
 		<p><strong><?php esc_html_e( 'Settings saved.', 'wp-listings-pro' ); ?></strong></p>
 	</div>
@@ -366,7 +368,11 @@ if ( isset( $_GET['settings-updated'] ) ) { ?>
 
 						$selected = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
 						wplpro_post_select( 'wplpro_plugin_settings[pinned][]', 'listing', $selected );
-						echo '<p class="description">' . esc_attr( 'You can select one or more listings to pin to the top of the search results', 'impresspro' ) . '</p>';
+
+						$symbol = "cmd";
+						if(strpos(getenv("HTTP_USER_AGENT"), "Mac") !== FALSE)
+							$symbol = "⌘";
+						echo '<p class="description">' . esc_attr( 'You can select one or more listings to pin to the top of the search results by holding down the ' . $symbol . ' key and clicking on additional listings.', 'impresspro' ) . '</p>';
 
 						echo '<hr>';
 						echo '<h3>' . __( 'Uninstall:', 'wp-listings-pro' ) . '</h3>';

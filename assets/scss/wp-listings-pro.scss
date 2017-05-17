@@ -9,15 +9,18 @@
 .full-width .site-content .has-post-thumbnail header.entry-header {
   margin-top: 0;
 }
+
 .single-listing.full-width .hentry {
   width: 672px;
 }
+
 .single-listing .site-content .entry-header,
 .single-listing .site-content .entry-meta,
 .single-listing .site-content .entry-content {
   width: 100%;
   max-width: 100%;
 }
+
 .site-content .has-post-thumbnail .entry-header {
   padding-top: 0
 }
@@ -238,16 +241,19 @@ div.content-area {
   background: #53c331;
   background: rgba(83, 195, 49, 0.80);
 }
+
 .archive .listing-wrap span.listing-status.sold,
 .wplpro-shortcode .listing-wrap span.listing-status.sold {
   background: #be1d2c;
   background: rgba(190, 29, 44, 0.80);
 }
+
 .archive .listing-wrap span.listing-status.pending,
 .wplpro-shortcode .listing-wrap span.listing-status.pending {
   background: #db8323;
   background: rgba(219, 131, 35, 0.80);
 }
+
 .archive .listing-wrap span.listing-status.new,
 .archive .listing-wrap span.listing-status.reduced,
 .archive .listing-wrap span.listing-status.for-rent,

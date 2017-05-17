@@ -31,14 +31,15 @@ function wplpro_safe_welcome_redirect() {
 
 	// Bail if activating from network or bulk sites.
 	if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
-
 		return;
-
 	}
 
 	// Redirect to Welcome Page.
 	// Redirects to `your-domain.com/wp-admin/plugin.php?page=wplpro_welcome_page`.
-	wp_safe_redirect( add_query_arg( array( 'page' => 'wplpro_welcome_page' ), admin_url( 'plugins.php' ) ) );
+	wp_safe_redirect( add_query_arg( array(
+		'page' => 'wplpro_welcome_page' ),
+		admin_url( 'plugins.php' )
+	) );
 
 }
 

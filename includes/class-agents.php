@@ -149,8 +149,8 @@ class WPLPROAgents {
 	 * @return void
 	 */
 	function register_meta_boxes() {
+		wplpro_admin_scripts_styles();
 		add_meta_box( 'employee_details_metabox', __( 'Employee Info', 'wp-listings-pro' ), array( &$this, 'employee_details_metabox' ), 'employee', 'normal', 'high' );
-
 		add_meta_box( 'employee_sync_metabox', __( 'Synchronization Settings', 'wp-listings-pro' ), array( &$this, 'employee_sync_metabox' ), 'employee', 'normal', 'high' );
 	}
 
