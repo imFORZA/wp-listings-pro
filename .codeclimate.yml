@@ -47,6 +47,9 @@ ratings:
   - "**.py"
   - "**.rb"
 exclude_paths:
+  - "assets/js/imagesloaded.js"
+  - "includes/wp-background-processing/*"
+  - "tests/*"
   - "**.png"
   - "**.jpg"
   - "**.gif"

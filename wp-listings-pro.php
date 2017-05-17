@@ -319,9 +319,6 @@ function wplpro_init() {
 		wp_enqueue_script( 'jquery-masonry' );
 		wp_enqueue_style( 'wp_listings_admin_css', WPLPRO_URL . 'assets/css/wplpro-admin.min.css' );
 
-		wp_enqueue_style( 'select2', WPLPRO_URL . 'assets/css/select2.min.css', null, null, 'screen' );
-		wp_enqueue_script( 'select2', WPLPRO_URL . 'assets/js/select2.min.js', 'jquery', null, true );
-
 		wp_enqueue_script( 'wp_listings_idx_listing_lazyload', WPLPRO_URL . 'assets/js/jquery.lazyload.min.js', array( 'jquery' ), true );
 		wp_enqueue_script( 'images-loaded', WPLPRO_URL . 'assets/js/imagesloaded.min.js' );
 		/** Enqueue Font Awesome in the Admin if IDX Broker is not installed */
