@@ -314,6 +314,12 @@ function wplpro_get_locations( $post_id = null ) {
 	}
 }
 
+add_action( 'wplpro_clear_transients', 'wplpro_clear_transient_cache');
+function wplpro_clear_transient_cache(){
+	delete_option( 'idx_featured?disclaimers=true_cache' );
+	delete_option( 'idx_agents_cache' );
+}
+
 /**
  * Add Listings to "At a glance" Dashboard widget.
  */

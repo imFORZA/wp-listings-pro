@@ -62,6 +62,10 @@ function wplpro_activation() {
 		$_wplpro_agents_tax->register_taxonomies();
 	}
 
+	if (! wp_next_scheduled ( 'wplpro_clear_transients' )) {
+		wp_schedule_event(time(), 'daily', 'wplpro_clear_transients');
+  }
+
 	flush_rewrite_rules();
 
 	$notice_keys = array( 'wpl_notice_idx', 'wpl_listing_notice_idx', 'wpl_notice_equity' );
@@ -148,6 +152,8 @@ register_deactivation_hook( __FILE__, 'wplpro_deactivation' );
  * @since 1.0.8
  */
 function wplpro_deactivation() {
+
+	wp_clear_scheduled_hook('wplpro_clear_transients');
 
 	flush_rewrite_rules();
 
