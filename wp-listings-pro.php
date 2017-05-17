@@ -227,6 +227,7 @@ function wplpro_init() {
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-gallery-metabox.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-import.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-agent-import.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-wplpro-idx-api.php' );
 
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-saved-searches.php' );
 
