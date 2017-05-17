@@ -61,6 +61,7 @@ function wplpro_rest_import_listings( $data ) {
  * @return Rest Response.
  */
 function wplpro_sync_listings_and_agents( $data ) {
+	wplpro_clear_transient_cache();
 	WPLPROAgentsImport::WPLPROAgents_update_post();
 	WPLPROIdxListing::wp_listings_update_post();
 

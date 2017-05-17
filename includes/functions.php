@@ -143,6 +143,26 @@ function wplpro_template_include( $template ) {
 	return $template;
 }
 
+function idx_clean_transients()
+{
+		global $wpdb;
+		$wpdb->query(
+				$wpdb->prepare(
+						"
+						DELETE FROM $wpdb->options
+		 WHERE option_name LIKE %s
+		",
+						'%idx_%_cache'
+				)
+		);
+
+		$this->clear_wrapper_cache();
+
+		//Update IDX Pages Immediately.
+		wp_schedule_single_event(time(), 'idx_create_idx_pages');
+		wp_schedule_single_event(time(), 'idx_delete_idx_pages');
+}
+
 /**
  * Controls output of default state for the state custom field if there is one set.
  *
@@ -292,6 +312,12 @@ function wplpro_get_locations( $post_id = null ) {
 	foreach ( $listing_locations as $location ) {
 		return $location->name;
 	}
+}
+
+add_action( 'wplpro_clear_transients', 'wplpro_clear_transient_cache');
+function wplpro_clear_transient_cache(){
+	delete_option( 'idx_featured?disclaimers=true_cache' );
+	delete_option( 'idx_agents_cache' );
 }
 
 /**

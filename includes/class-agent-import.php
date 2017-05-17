@@ -60,86 +60,83 @@ class WPLPROAgentsImport {
 	 * @return [type] $featured Featured.
 	 */
 	public static function WPLPROAgents_idx_create_post( $agent_ids ) {
-		if ( class_exists( 'IDX_Broker_Plugin' ) ) {
+		// Load IDX Broker API Class and retrieve agents.
+		$_idx_api = new WPLPRO_Idx_Api();
+		$agents = $_idx_api->idx_api(
+			'agents',
+			$apiversion = '1.2.2',
+			$level = 'clients',
+			$params = array(),
+			$expiration = 7200,
+			$request_type = 'GET',
+			$json_decode_type = true
+		);
 
-			// Load IDX Broker API Class and retrieve agents.
-			$_idx_api = new \IDX\Idx_Api();
-			$agents = $_idx_api->idx_api(
-				'agents',
-				$apiversion = '1.2.2',
-				$level = 'clients',
-				$params = array(),
-				$expiration = 7200,
-				$request_type = 'GET',
-				$json_decode_type = true
-			);
+		// Load WP options.
+		$idx_agent_wp_options = get_option( 'WPLPROAgents_idx_agent_wp_options' );
+		$wplpro_settings = get_option( 'WPLPROAgents_settings' );
 
-			// Load WP options.
-			$idx_agent_wp_options = get_option( 'WPLPROAgents_idx_agent_wp_options' );
-			$wplpro_settings = get_option( 'WPLPROAgents_settings' );
+		$agents_queue = new WPLPROBackgroundAgents();
 
-			$agents_queue = new WPLPROBackgroundAgents();
+		// Object to be used with background_processing.
+		$item = array();
 
-			// Object to be used with background_processing.
-			$item = array();
+		foreach ( $agents['agent'] as $a ) {
+			if ( ! in_array( (string) $a['agentID'], $agent_ids, true ) ) {
+				$idx_agent_wp_options[ $a['agentID'] ]['agentID'] = $a['agentID'];
+				$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
+			}
 
-			foreach ( $agents['agent'] as $a ) {
-				if ( ! in_array( (string) $a['agentID'], $agent_ids, true ) ) {
-					$idx_agent_wp_options[ $a['agentID'] ]['agentID'] = $a['agentID'];
-					$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
-				}
+			if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) && ! get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
+				unset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
+				unset( $idx_agent_wp_options[ $a['agentID'] ]['status'] );
+		 	}
 
-				if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) && ! get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
-					unset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
-					unset( $idx_agent_wp_options[ $a['agentID'] ]['status'] );
-			 	}
+			// TODO: have better handling for this.
+			if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ) {
+				$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
+			}
 
-				// TODO: have better handling for this.
-				if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ) {
-					$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
-				}
+			if ( in_array( (string) $a['agentID'], $agent_ids, true ) && ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 
-				if ( in_array( (string) $a['agentID'], $agent_ids, true ) && ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
+				$opts = array(
+					'post_content' => $a['bioDetails'],
+					'post_title' => $a['agentDisplayName'],
+					'post_status' => 'publish',
+					'post_type' => 'employee',
+				);
 
-					$opts = array(
-						'post_content' => $a['bioDetails'],
-						'post_title' => $a['agentDisplayName'],
-						'post_status' => 'publish',
-						'post_type' => 'employee',
-					);
+				$item['opts'] = $opts;
+				$item['a'] = $a;
+				$agents_queue->push_to_queue( $item );
+				update_option( 'WPLPROAgents_idx_agent_wp_options', $idx_agent_wp_options );
+			} elseif ( in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
+				self::WPLPROAgents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'publish' );
+				$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
+			} elseif ( ! in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
 
-					$item['opts'] = $opts;
-					$item['a'] = $a;
-					$agents_queue->push_to_queue( $item );
-					update_option( 'WPLPROAgents_idx_agent_wp_options', $idx_agent_wp_options );
-				} elseif ( in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
-					self::WPLPROAgents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'publish' );
-					$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'publish';
-				} elseif ( ! in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
+				// change to draft or delete agent if the post exists but is not in the agent array based on settings.
+				if ( isset( $wplpro_settings['WPLPROAgents_idx_remove'] ) && 'remove-draft' === $wplpro_settings['WPLPROAgents_idx_remove'] ) {
 
-					// change to draft or delete agent if the post exists but is not in the agent array based on settings.
-					if ( isset( $wplpro_settings['WPLPROAgents_idx_remove'] ) && 'remove-draft' === $wplpro_settings['WPLPROAgents_idx_remove'] ) {
+					// Change to draft.
+					self::WPLPROAgents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'draft' );
+					$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'draft';
+				} elseif ( isset( $wplpro_settings['WPLPROAgents_idx_remove'] ) && 'remove-delete' === $wplpro_settings['WPLPROAgents_idx_remove'] ) {
 
-						// Change to draft.
-						self::WPLPROAgents_idx_change_post_status( $idx_agent_wp_options[ $a['agentID'] ]['post_id'], 'draft' );
-						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'draft';
-					} elseif ( isset( $wplpro_settings['WPLPROAgents_idx_remove'] ) && 'remove-delete' === $wplpro_settings['WPLPROAgents_idx_remove'] ) {
+					$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'deleted';
 
-						$idx_agent_wp_options[ $a['agentID'] ]['status'] = 'deleted';
+					// Delete featured image.
+					$post_feat_image_id = get_post_thumbnail_id( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
+					wp_delete_attachment( $post_feat_image_id );
 
-						// Delete featured image.
-						$post_feat_image_id = get_post_thumbnail_id( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
-						wp_delete_attachment( $post_feat_image_id );
-
-						// Delete post.
-						wp_delete_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
-					}
+					// Delete post.
+					wp_delete_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
 				}
 			}
-			$agents_queue->save()->dispatch();
-			update_option( 'WPLPROAgents_idx_agent_wp_options', $idx_agent_wp_options );
-			return $idx_agent_wp_options;
 		}
+		$agents_queue->save()->dispatch();
+		update_option( 'WPLPROAgents_idx_agent_wp_options', $idx_agent_wp_options );
+		return $idx_agent_wp_options;
 	}
 
 	/**
@@ -148,7 +145,7 @@ class WPLPROAgentsImport {
 	public static function WPLPROAgents_update_post() {
 
 		// Load IDX Broker API Class and retrieve agents.
-		$_idx_api = new \IDX\Idx_Api();
+		$_idx_api = new WPLPRO_Idx_Api();
 		$agents = $_idx_api->idx_api(
 			'agents',
 			$apiversion = '1.2.2',
@@ -491,29 +488,25 @@ function WPLPROAgents_idx_agent_setting_page() {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			$plugin_data = get_plugins();
 
-			// Get agents from IDX Broker plugin.
-			if ( class_exists( 'IDX_Broker_Plugin' ) ) {
 				// Bail if IDX plugin version is not at least 2.0.
-				if ( $plugin_data['idx-broker-platinum/idx-broker-platinum.php']['Version'] < 2.0 ) {
-					add_settings_error( 'WPLPROAgents_idx_agent_settings_group', 'idx_agent_update', 'You must update to <a href="' . admin_url( 'update-core.php' ) . '">IMPress for IDX Broker</a> version 2.0.0 or higher to import listings.', 'error' );
-					settings_errors( 'WPLPROAgents_idx_agent_settings_group' );
-					return;
-				}
+				// if ( $plugin_data['idx-broker-platinum/idx-broker-platinum.php']['Version'] < 2.0 ) {
+				// 	add_settings_error( 'WPLPROAgents_idx_agent_settings_group', 'idx_agent_update', 'You must update to <a href="' . admin_url( 'update-core.php' ) . '">IMPress for IDX Broker</a> version 2.0.0 or higher to import listings.', 'error' );
+				// 	settings_errors( 'WPLPROAgents_idx_agent_settings_group' );
+				// 	return;
+				// }
 
-				$_idx_api = new \IDX\Idx_Api();
-				$agents = $_idx_api->idx_api(
-					'agents',
-					$apiversion = '1.2.2',
-					$level = 'clients',
-					$params = array(),
-					$expiration = 7200,
-					$request_type = 'GET',
-					$json_decode_type = true
-				);
-				// $agents = $_idx_api->idx_api('agents');
-			} else {
-				return;
-			}
+			$_idx_api = new WPLPRO_Idx_Api();
+			$agents = $_idx_api->idx_api(
+				'agents',
+				$apiversion = '1.2.2',
+				$level = 'clients',
+				$params = array(),
+				$expiration = 7200,
+				$request_type = 'GET',
+				$json_decode_type = true
+			);
+			// $agents = $_idx_api->idx_api('agents');
+
 
 			$idx_agent_wp_options = get_option( 'WPLPROAgents_idx_agent_options' );
 
