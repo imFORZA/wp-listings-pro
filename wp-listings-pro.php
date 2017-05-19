@@ -44,8 +44,8 @@ function wplpro_activation() {
 	wplpro_import_image_gallery();
 
 	$options = get_option( 'wplpro_plugin_settings' );
-	if ( ! isset( $options['wplpro_api_key'] ) || get_option('idx_broker_apikey') !== false ) {
-		$options['wplpro_api_key'] = get_option('idx_broker_apikey');
+	if ( ! isset( $options['wplpro_api_key'] ) || get_option( 'idx_broker_apikey' ) !== false ) {
+		$options['wplpro_api_key'] = get_option( 'idx_broker_apikey' );
 		update_option( 'wplpro_plugin_settings', $options );
 	}
 
@@ -494,9 +494,7 @@ function wplpro_set_hidden_price( $post_id, $price, $posts = null ) {
 		// If posts passed in use those.
 		if ( isset( $posts ) ) {
 			$pinned = $posts;
-		}
-		// Else grab pinned posts from WP options.
-		else {
+		} else {
 			$options = get_option( 'wplpro_plugin_settings' );
 			$pinned = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
 		}

@@ -32,7 +32,7 @@ function wplpro_shortcode( $atts, $content = null ) {
 		'limit'    => '',
 		'columns'  => '',
 	), $atts );
-	$id = $obj['id'];
+	$identifier = $obj['id'];
 	$taxonomy = $obj['taxonomy'];
 	$term = $obj['term'];
 	$limit = $obj['limit'];
@@ -54,10 +54,10 @@ function wplpro_shortcode( $atts, $content = null ) {
 		'posts_per_page'  => $limit,
 	);
 
-	if ( $id ) {
+	if ( $identifier ) {
 		$query_args = array(
 			'post_type'       => 'listing',
-			'post__in'        => explode( ',', $id ),
+			'post__in'        => explode( ',', $identifier ),
 		);
 	}
 

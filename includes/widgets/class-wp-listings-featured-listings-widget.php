@@ -81,10 +81,16 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 	 * @return void
 	 */
 	function widget( $args, $instance ) {
-
-		error_log(print_r($args, true));
-
-		extract( $args );
+		$before_widget 	= $args['before_widget'	];
+		$after_widget 	= $args['after_widget'	];
+		$name 					= $args['name'					];
+		$id 						= $args['id'						];
+		$description 		= $args['description'		];
+		$class 					= $args['class'					];
+		$before_title 	= $args['before_title'	];
+		$after_title 		= $args['after_title'		];
+		$widget_id 			= $args['widget_id'			];
+		$widget_name 		= $args['widget_name'		];
 
 		$options = get_option( 'wplpro_plugin_settings' );
 

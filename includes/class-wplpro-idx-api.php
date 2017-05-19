@@ -676,16 +676,16 @@ class WPLPRO_Idx_Api {
 	 * @param array $b	God I love when I'm given documentation.
 	 * @return int			Don't you just love documentation.
 	 */
-	public function price_cmp( $a, $b ) {
+	public function price_cmp( $first, $second ) {
 
-		$a = $this->clean_price( $a['listingPrice'] );
-		$b = $this->clean_price( $b['listingPrice'] );
+		$first = $this->clean_price( $first['listingPrice'] );
+		$second = $this->clean_price( $second['listingPrice'] );
 
-		if ( $a === $b ) {
+		if ( $first === $second ) {
 			return 0;
 		}
 
-		return ($a < $b) ? -1 : 1;
+		return ($first < $second) ? -1 : 1;
 	}
 
 	/**
