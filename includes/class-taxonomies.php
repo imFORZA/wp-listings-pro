@@ -184,7 +184,7 @@ class WPLPRO_Taxonomies {
 			'choose_from_most_used'	=> sprintf( __( 'Choose from the most used %s', 'wp-listings-pro' ), strip_tags( $args['name'] ) ),
 		);
 
-		$id = $args['id'];
+		$identifier = $args['id'];
 
 		$args = array(
 			'labels'		=> $labels,
@@ -193,7 +193,7 @@ class WPLPRO_Taxonomies {
 			'editable'		=> 1,
 		);
 
-		$tax = array( $id => $args );
+		$tax = array( $identifier => $args );
 
 		$options = get_option( $this->settings_field );
 
@@ -213,20 +213,20 @@ class WPLPRO_Taxonomies {
 	 * @param string $id (default: '').
 	 * @return void
 	 */
-	function delete_taxonomy( $id = '' ) {
+	function delete_taxonomy( $identifier = '' ) {
 
 		/**** VERIFY THE NONCE ****/
 
 		/** No empty ID */
-		if ( ! isset( $id ) || empty( $id ) ) {
+		if ( ! isset( $identifier ) || empty( $identifier ) ) {
 			wp_die( esc_html__( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
 		}
 
 		$options = get_option( $this->settings_field );
 
 		/** Look for the ID, delete if it exists */
-		if ( array_key_exists( $id, (array) $options ) ) {
-			unset( $options[ $id ] );
+		if ( array_key_exists( $identifier, (array) $options ) ) {
+			unset( $options[ $identifier ] );
 		} else {
 			wp_die( esc_html__( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
 		}
@@ -260,7 +260,7 @@ class WPLPRO_Taxonomies {
 
 		$name = $args['name'];
 		$singular_name = $args['singular_name'];
-		$id = $args['id'];
+		$identifier = $args['id'];
 
 		$labels = array(
 			'name'					=> strip_tags( $name ),
@@ -281,11 +281,11 @@ class WPLPRO_Taxonomies {
 		$args = array(
 			'labels'		=> $labels,
 			'hierarchical'	=> true,
-			'rewrite'		=> array( 'slug' => $id, 'with_front' => false ),
+			'rewrite'		=> array( 'slug' => $identifier, 'with_front' => false ),
 			'editable'		=> 1,
 		);
 
-		$tax = array( $id => $args );
+		$tax = array( $identifier => $args );
 
 		$options = get_option( $this->settings_field );
 
@@ -470,8 +470,8 @@ class WPLPRO_Taxonomies {
 	 * Create the taxonomies.
 	 */
 	function register_taxonomies() {
-		foreach ( (array) $this->get_taxonomies() as $id => $data ) {
-			register_taxonomy( $id, array( 'listing' ), $data );
+		foreach ( (array) $this->get_taxonomies() as $identifier => $data ) {
+			register_taxonomy( $identifier, array( 'listing' ), $data );
 		}
 	}
 
@@ -902,7 +902,7 @@ class WPLPROAgents_Taxonomies {
 
 		$name = $args['name'];
 		$singular_name = $args['singular_name'];
-		$id = $args['id'];
+		$identifier = $args['id'];
 
 		$labels = array(
 			'name'					=> strip_tags( $name ),
@@ -923,11 +923,11 @@ class WPLPROAgents_Taxonomies {
 		$args = array(
 			'labels'		=> $labels,
 			'hierarchical'	=> true,
-			'rewrite'		=> array( 'slug' => $id, 'with_front' => false ),
+			'rewrite'		=> array( 'slug' => $identifier, 'with_front' => false ),
 			'editable'		=> 1,
 		);
 
-		$tax = array( $id => $args );
+		$tax = array( $identifier => $args );
 
 		$options = get_option( $this->settings_field );
 
@@ -946,12 +946,12 @@ class WPLPROAgents_Taxonomies {
 	 * @param string $id (default: '').
 	 * @return void
 	 */
-	function delete_taxonomy( $id = '' ) {
+	function delete_taxonomy( $identifier = '' ) {
 
 		/**** VERIFY THE NONCE ****/
 
 		/** No empty ID */
-		if ( ! isset( $id ) || empty( $id ) ) {
+		if ( ! isset( $identifier ) || empty( $identifier ) ) {
 			wp_die( esc_html__( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
 			// * Why don't we just give up pardner?
 		}
@@ -959,8 +959,8 @@ class WPLPROAgents_Taxonomies {
 		$options = get_option( $this->settings_field );
 
 		/** Look for the ID, delete if it exists */
-		if ( array_key_exists( $id, (array) $options ) ) {
-			unset( $options[ $id ] );
+		if ( array_key_exists( $identifier, (array) $options ) ) {
+			unset( $options[ $identifier ] );
 		} else {
 			wp_die( esc_html__( "Nice try, partner. But that taxonomy doesn't exist. Click back and try again.", 'wp-listings-pro' ) );
 		}

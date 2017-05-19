@@ -60,7 +60,7 @@
   padding: 5px 10px;
   color: #111;
   background: #fff;
-  background: rgba(255,255,255,0.80);
+  background: rgba(255,255,255,.80);
   font-size: 14px;
   line-height: 14px;
   display: table;
@@ -73,7 +73,7 @@
   line-height: 18px;
   font-weight: 700;
   background: #53c331;
-  background: rgba(83, 195, 49, 0.80);
+  background: rgba(83, 195, 49, .80);
 }
 
 .widget .listing-wrap span.listing-open-house {
@@ -170,7 +170,7 @@
 .widget .listing-wrap span.listing-status {
   color: #fff;
   background: #53c331;
-  background: rgba(83, 195, 49, 0.80);
+  background: rgba(83, 195, 49, .80);
   font-weight: 700;
   text-align: center;
   text-transform: uppercase;
@@ -179,24 +179,24 @@
 
 .widget .listing-wrap span.listing-status.active {
   background: #53c331;
-  background: rgba(83, 195, 49, 0.80);
+  background: rgba(83, 195, 49, .80);
 }
 
 .widget .listing-wrap span.listing-status.sold {
   background: #be1d2c;
-  background: rgba(190, 29, 44, 0.80);
+  background: rgba(190, 29, 44, .80);
 }
 
 .widget .listing-wrap span.listing-status.pending {
   background: #db8323;
-  background: rgba(219, 131, 35, 0.80);
+  background: rgba(219, 131, 35, .80);
 }
 
 .widget .listing-wrap span.listing-status.new,
 .widget .listing-wrap span.listing-status.reduced,
 .widget .listing-wrap span.listing-status.for-rent {
   background: #24a4ea;
-  background: rgba(36, 164, 234, 0.80);
+  background: rgba(36, 164, 234, .80);
 }
 
 

@@ -43,6 +43,12 @@ function wplpro_activation() {
 
 	wplpro_import_image_gallery();
 
+	$options = get_option( 'wplpro_plugin_settings' );
+	if ( ! isset( $options['wplpro_api_key'] ) || get_option( 'idx_broker_apikey' ) !== false ) {
+		$options['wplpro_api_key'] = get_option( 'idx_broker_apikey' );
+		update_option( 'wplpro_plugin_settings', $options );
+	}
+
 	wplpro_setall_hidden_price();
 
 	wplpro_add_user_role_lead();
@@ -336,7 +342,7 @@ function wplpro_init() {
 		}
 
 		global $wp_version;
-		$nonce_action = 'WPListingsAdminNotice';
+		$nonce_action = 'WPLPRO_Admin_Notice';
 		wp_enqueue_script( 'wp-listings-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
 		wp_localize_script( 'wp-listings-admin', 'wp_listings_adminL10n', array(
 			'ajaxurl'    => admin_url( 'admin-ajax.php' ),
@@ -398,8 +404,8 @@ function wplpro_init() {
 	 *
 	 * @since  1.3
 	 */
-	function WPListingsAdminNotice( $message, $error = false, $cap_check = 'activate_plugins', $ignore_key = false ) {
-		$_wp_listings_admin = new WPListingsAdminNotice;
+	function WPLPRO_Admin_Notice( $message, $error = false, $cap_check = 'activate_plugins', $ignore_key = false ) {
+		$_wp_listings_admin = new WPLPRO_Admin_Notice;
 		return $_wp_listings_admin->notice( $message, $error, $cap_check, $ignore_key );
 	}
 
@@ -408,7 +414,7 @@ function wplpro_init() {
 	 *
 	 * @since  1.3
 	 */
-	add_action( 'wp_ajax_WPListingsAdminNotice', 'wplpro_adminnotice_cb' );
+	add_action( 'wp_ajax_WPLPRO_Admin_Notice', 'wplpro_adminnotice_cb' );
 
 	/**
 	 * WPLPRO Admin notice callback function.
@@ -417,7 +423,7 @@ function wplpro_init() {
 	 * @return ajax call.
 	 */
 	function wplpro_adminnotice_cb() {
-		$_wp_listings_admin = new WPListingsAdminNotice;
+		$_wp_listings_admin = new WPLPRO_Admin_Notice;
 		return $_wp_listings_admin->ajax_cb();
 	}
 
@@ -488,8 +494,7 @@ function wplpro_set_hidden_price( $post_id, $price, $posts = null ) {
 		// If posts passed in use those.
 		if ( isset( $posts ) ) {
 			$pinned = $posts;
-		} // Else grab pinned posts from WP options.
-		else {
+		} else {
 			$options = get_option( 'wplpro_plugin_settings' );
 			$pinned = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
 		}

@@ -83,7 +83,7 @@ class WPLPROAgents_Widget extends WP_Widget {
 				'orderby' 				=> 'rand',
 				'order' 					=> $order,
 			);
-		} elseif ( ! empty( $instance['post_id'] ) ) {
+		} else {
 			$post_id = explode( ',', $instance['post_id'] );
 			echo $before_title . apply_filters( 'widget_title', $title, $instance, $this->id_base ) . $after_title;
 			$query_args = array(

@@ -280,17 +280,15 @@ img.listing {
   background: rgba(0, 0, 0, 0.6); }
 
 .idx-import.thickbox a {
-  display: block;
-  position: absolute;
+  background: #ffffff;
   left: 20%;
   margin: auto;
-  background: #fff; }
+  position: absolute; }
 
 .idx-import.thickbox a img {
-  display: block;
   margin: 0 auto;
-  padding: 25px;
-  max-width: 320px; }
+  max-width: 320px;
+  padding: 25px; }
 
 .idx-import.bkg {
   max-width: 100%; }

@@ -45,14 +45,14 @@ function wplpro_delete_listings() {
 	$query = new WP_Query( $args );
 	while ( $query->have_posts() ) {
 		$query->the_post();
-		$id = get_the_ID();
+		$identifier = get_the_ID();
 		$taxonomies = array( 'status', 'locations', 'features', 'property-types' );
-		$post_feat_id = get_post_thumbnail_id( $id );
+		$post_feat_id = get_post_thumbnail_id( $identifier );
 
 		wp_delete_attachment( $post_feat_id );
-		delete_post_meta_by_key( ! empty( $id->ID ) );
-		wp_delete_object_term_relationships( $id, $taxonomies );
-		wp_delete_post( $id, true );
+		delete_post_meta_by_key( ! empty( $identifier->ID ) );
+		wp_delete_object_term_relationships( $identifier, $taxonomies );
+		wp_delete_post( $identifier, true );
 	}
 
 	$wpdb->query( "DELETE FROM `{$wpdb->prefix}options` WHERE option_name LIKE '_transient_equity_listing_%'" );

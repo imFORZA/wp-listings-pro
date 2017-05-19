@@ -81,11 +81,22 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 	 * @return void
 	 */
 	function widget( $args, $instance ) {
-
-		extract( $args );
+		$before_widget 	= $args['before_widget'	];
+		$after_widget 	= $args['after_widget'	];
+		$name 					= $args['name'					];
+		$id 						= $args['id'						];
+		$description 		= $args['description'		];
+		$class 					= $args['class'					];
+		$before_title 	= $args['before_title'	];
+		$after_title 		= $args['after_title'		];
+		$widget_id 			= $args['widget_id'			];
+		$widget_name 		= $args['widget_name'		];
 
 		$options = get_option( 'wplpro_plugin_settings' );
 
+		if ( ! isset( $instance['use_columns'] ) ) {
+			$instance['use_columns'] = false;
+		}
 		$column_class = $instance['use_columns'] ? $this->get_column_class( $instance['number_columns'] ) : '';
 
 		echo $before_widget;
@@ -157,7 +168,7 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 				$loop .= sprintf( '<a href="%s" class="button btn-primary more-link">%s</a>', esc_url( get_permalink() ), esc_html__( 'View Listing', 'wp-listings-pro' ) );
 
 				/** Wrap in div with possible column class, and output. */
-				printf( '<div class="listing %s post-%s"><div class="listing-wrap">%s</div></div>', esc_attr( $column_class . $first_class ), esc_attr( $post->ID ), esc_html( apply_filters( 'wp_listings_featured_listings_widget_loop', $loop ) ) );
+				echo sprintf( '<div class="listing %s post-%s"><div class="listing-wrap">%s</div></div>', esc_attr( $column_class . $first_class ), esc_attr( $post->ID ), apply_filters( 'wp_listings_featured_listings_widget_loop', $loop ) );
 
 			endwhile;
 endif;
