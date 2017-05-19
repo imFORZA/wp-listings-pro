@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 			return;
 		}
 		jQuery.post( wp_listings_adminL10n.ajaxurl, {
-			action: "WPListingsAdminNotice",
+			action: "WPLPRO_Admin_Notice",
 			url: wp_listings_adminL10n.ajaxurl,
 			nag: $this.parent().data( 'key' ),
 			nonce: wp_listings_adminL10n.othernonce || ''
@@ -442,7 +442,6 @@ function foobar_gallery_popup(listing_gallery_frame, link, gallery_id, listing_i
 
               attachment_ids   = attachment_ids ? attachment_ids + ',' + attachment.id : attachment.id;
               var attachment_doc;
-							// TODO: add more types for other spreadsheets, ie videos, or whatnot
   						if(el == "xls" || el == "xlsx"){
   							attachment_doc = "/wp-includes/images/media/spreadsheet.png";
   						}else{

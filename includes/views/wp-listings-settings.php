@@ -380,7 +380,7 @@ if ( isset( $_GET['settings-updated'] ) ) {
 						$selected = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
 						wplpro_post_select( 'wplpro_plugin_settings[pinned][]', 'listing', $selected );
 
-						$symbol = 'cmd';
+						$symbol = 'ctrl';
 						if ( strpos( getenv( 'HTTP_USER_AGENT' ), 'Mac' ) !== false ) {
 							$symbol = '⌘';
 						}
