@@ -43,6 +43,12 @@ function wplpro_activation() {
 
 	wplpro_import_image_gallery();
 
+	$options = get_option( 'wplpro_plugin_settings' );
+	if ( ! isset( $options['wplpro_api_key'] ) || get_option('idx_broker_apikey') !== false ) {
+		$options['wplpro_api_key'] = get_option('idx_broker_apikey');
+		update_option( 'wplpro_plugin_settings', $options );
+	}
+
 	wplpro_setall_hidden_price();
 
 	wplpro_add_user_role_lead();
