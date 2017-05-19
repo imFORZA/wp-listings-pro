@@ -443,11 +443,12 @@ function impa_idx_agent_delete() {
 		echo 'error';
 	} else {
 		// Delete featured image.
-		$post_feat_id = get_post_thumbnail_id( $_REQUEST['id'] );
+		$requested_id = intval( sanitize_text_field( $_REQUEST['id'] ) );
+		$post_feat_id = get_post_thumbnail_id( $requested_id );
 		wp_delete_attachment( $post_feat_id );
 
 		// Delete post.
-		wp_delete_post( $_REQUEST['id'] );
+		wp_delete_post( $requested_id );
 		echo 'success';
 	}
 	die();
