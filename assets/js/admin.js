@@ -132,8 +132,9 @@ jQuery(document).ready(function($) {
 
 	// mine feat. Finding Nemo
 	jQuery(document).on( 'click', '.delete-listing', function(){
-		var id = jQuery(this).data('id');
-		var post = jQuery(this).parents('.post:first');
+		var el = jQuery(this);
+		var id = el.data('id');
+		var post = el.parents('.post:first');
 		var grid = jQuery('.grid').masonry({
 			columnWidth: '.grid-sizer',
 			itemSelector: '.grid-item'
@@ -149,7 +150,13 @@ jQuery(document).ready(function($) {
 				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.nonce);
 			},
 			success:function(response){
-				window.location.reload();
+				el.parent().removeClass("imported selected");
+				el.parent().find("input.checkbox").removeAttr('checked');
+				el.parent().find("span.imported").remove();
+				el.remove(); // Has to be done last, since it IS the jQuery(this) that is being referred to.)
+			},
+			error:function(response){
+				console.log(response);
 			}
 		});
 	})
@@ -170,9 +177,10 @@ jQuery(document).ready(function($) {
 	})
 
 	jQuery(document).on( 'click', '.delete-agent', function() {
-		var id = jQuery(this).data('id');
-		var nonce = jQuery(this).data('nonce');
-		var post = jQuery(this).parents('.post:first');
+		var el = jQuery(this);
+		var id = el.data('id');
+		var nonce = el.data('nonce');
+		var post = el.parents('.post:first');
 		var grid = jQuery('.grid').masonry({
 			columnWidth: '.grid-sizer',
 			itemSelector: '.grid-item'
@@ -189,7 +197,10 @@ jQuery(document).ready(function($) {
 				xhr.setRequestHeader( 'X-WP-Nonce', wp_listings_adminL10n.nonce);
 			},
 			success: function( result ) {
-				window.location.reload();
+				el.parent().parent().removeClass("imported selected");
+				el.parent().parent().find("input.checkbox").removeAttr('checked');
+				el.parent().find("span.imported").remove();
+				el.remove(); // Has to be done last, since it IS the jQuery(this) that is being referred to.)
 			},
 			error: function( result) {
 				console.log(result);
