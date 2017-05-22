@@ -21,20 +21,20 @@ WP Listings Pro makes it simple to manage real estate listings, and real estate 
 3. Activate the plugin from the Plugins page on the WP Admin page.
 
 == Frequently Asked Questions ==
-Q: Will my previous listings/employees be migrated when installing this plugin?
-A: Probably, while we do our best not all plugins are the same, migrating from IMPress Listings (or AgentPress Listings) and IMPress Agents should be a smooth experience. If you find any issues please submit an issue on Github.
+= Will my previous listings/employees be migrated when installing this plugin? =
+Probably, while we do our best not all plugins are the same, migrating from IMPress Listings (or AgentPress Listings) and IMPress Agents should be a smooth experience. If you find any issues please submit an issue on Github.
 
-Q: Whats the big difference between WP Listings Pro and IMPress Listings (formally WP Listings)/IMPress Agents?
-A: Currently WP Listings Pro has a few extra fields for listings, such as a much better field for gallery images. The IDX Broker sync/import tool has been rewritten to sync all photos and all property types provided by the IDX Broker API. As Agents (aka employees) are built into the plugin, there is no need to use the legacy Post 2 Post plugin which was required to connect agents to listings in the IMPress Listings plugin.
+= Whats the big difference between WP Listings Pro and IMPress Listings (formally WP Listings)/IMPress Agents? =
+Currently WP Listings Pro has a few extra fields for listings, such as a much better field for gallery images. The IDX Broker sync/import tool has been rewritten to sync all photos and all property types provided by the IDX Broker API. As Agents (aka employees) are built into the plugin, there is no need to use the legacy Post 2 Post plugin which was required to connect agents to listings in the IMPress Listings plugin.
 
-Q: Who maintains WP Listings Pro?
-A: WP Listings Pro is open source, and managed on Github, but the primary development is managed by imFORZA. The code is based on the original WP Listings plugin, now called IMPress Listings built by Agent Evolution.  Be sure to check out our other plugin Real Estate Pro!
+= Who maintains WP Listings Pro? =
+WP Listings Pro is open source, and managed on Github, but the primary development is managed by imFORZA. The code is based on the original WP Listings plugin, now called IMPress Listings built by Agent Evolution.  Be sure to check out our other plugin Real Estate Pro!
 
-Q: Can I contribute to the project, submit bugs or feature requests?
+= Can I contribute to the project, submit bugs or feature requests? =
 You can contribute, or submit bugs and feature requests on Github at https://github.com/imFORZA/wp-listings-pro.
 
-Q: That\\\'s not a lot of FAQ\\\'s, where else can I ask questions?
-A: Please use the support forums for this plugin on the wordpress.org website or submit an issue on Github. We'd love to hear from you!
+= That\\\'s not a lot of FAQ\\\'s, where else can I ask questions? =
+Please use the support forums for this plugin on the wordpress.org website or submit an issue on Github. We'd love to hear from you!
 
 == Changelog ==
 - 3.0.1
