@@ -13,7 +13,9 @@ WP Listings Pro makes it simple to manage real estate listings, and real estate 
 == Description ==
 WP Listings Pro makes it simple to manage real estate listings, and real estate agent profiles on a WordPress website. Based on the original WP Listings (now known as IMPress Listings), we have updated it with new features and improved integration with IDX Broker.
 
-
+== Screenshots ==
+1. Listings in WP Admin
+2. Edit Listings Agents, Images, and Documents
 
 == Installation ==
 1. Deactivate any other Listings, Agent, or Employee plugins.
