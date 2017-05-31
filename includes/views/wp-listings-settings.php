@@ -92,7 +92,7 @@ if ( isset( $_GET['settings-updated'] ) ) {
 					<?php
 					}
 
-					if ( ! isset( $options['wplpro_api_key'] ) || get_option('idx_broker_apikey') !== false ) {
+					if ( ! isset( $options['wplpro_api_key'] ) && get_option('idx_broker_apikey') !== false ) {
 						$options['wplpro_api_key'] = get_option('idx_broker_apikey');
 						update_option( 'wplpro_plugin_settings', $options );
 					}
