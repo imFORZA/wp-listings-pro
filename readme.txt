@@ -4,7 +4,7 @@ Tags: listings, listing search, properties, property, real-estate, real estate, 
 Donate link: https://www.imforza.com
 Requires at least: 4.7
 Tested up to: 4.7.5
-Stable tag: 3.0.0
+Stable tag: 3.0.4
 License: GPL v3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -37,6 +37,12 @@ Q: That\\\'s not a lot of FAQ\\\'s, where else can I ask questions?
 A: Please use the support forums for this plugin on the wordpress.org website or submit an issue on Github. We'd love to hear from you!
 
 == Changelog ==
+
+- 3.0.4
+-- Fixed bug with API keys being overwritten
+-- Updating clearing of cache to clear all transients for API
+-- Updated background processing to go through REST rather than AJAX
+
 - 3.0.1
 -- First release of WP Listings Pro
 
