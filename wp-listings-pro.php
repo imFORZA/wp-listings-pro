@@ -13,7 +13,7 @@
  * Author URI: https://www.imforza.com
  * Text Domain: wp-listings-pro
  *
- * Version: 3.0.3
+ * Version: 3.0.4
  *
  * License: GNU General Public License v2.0 (or later)
  * License URI: http://www.opensource.org/licenses/gpl-license.php
@@ -204,7 +204,7 @@ function wplpro_init() {
 
 	define( 'WPLPRO_URL', plugin_dir_url( __FILE__ ) );
 	define( 'WPLPRO_DIR', plugin_dir_path( __FILE__ ) );
-	define( 'WPLPRO_VERSION', '3.0.0' );
+	define( 'WPLPRO_VERSION', '3.0.4' );
 	define( 'WPLPRO_DB_VERSION', '1.0.0' );
 
 	/** Load textdomain for translation. */
