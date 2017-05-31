@@ -300,8 +300,9 @@ function wplpro_get_locations( $post_id = null ) {
  * @return void
  */
 function wplpro_clear_transient_cache() {
-	delete_option( 'idx_featured?disclaimers=true_cache' );
-	delete_option( 'idx_agents_cache' );
+	$idx_api = new WPLPRO_IDX_API();
+
+	$idx_api->idx_clean_transients();
 }
 add_action( 'wplpro_clear_transients', 'wplpro_clear_transient_cache' );
 
