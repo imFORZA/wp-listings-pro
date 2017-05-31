@@ -45,18 +45,18 @@ Please use the support forums for this plugin on the wordpress.org website or su
 -- Updating clearing of cache to clear all transients for API
 -- Updated background processing to go through REST rather than AJAX
 
-- 3.0.1
--- First release of WP Listings Pro
-
-- 3.0.2
--- Bug fixes with data sanitation
--- Code quality improvements
-
 - 3.0.3
 -- More data sanitation bug fives
 -- Code quality improvements
 -- Updated localization files
 -- Added feature to deleting a listing/agent on import page, to not require total refresh of the page
+
+- 3.0.2
+-- Bug fixes with data sanitation
+-- Code quality improvements
+
+- 3.0.1
+-- First release of WP Listings Pro
 
 == Upgrade Notice ==
 We encourage all site owners to migrate from IMPress Listings to WP Listings Pro.
