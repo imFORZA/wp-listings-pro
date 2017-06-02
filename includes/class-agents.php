@@ -94,7 +94,7 @@ class WPLPROAgents {
 		add_filter( 'manage_edit-employee_columns', array( $this, 'columns_filter' ) );
 		add_action( 'manage_posts_custom_column', array( $this, 'columns_data' ) );
 
-		add_action( 'admin_menu', array( $this, 'register_meta_boxes' ), 5 );
+		add_action( 'add_meta_boxes', array( $this, 'register_meta_boxes' ), 5 );
 		add_action( 'save_post', array( $this, 'metabox_save' ), 1, 2 );
 
 	}
