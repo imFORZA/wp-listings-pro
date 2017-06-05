@@ -103,12 +103,14 @@ class WPLPRO_Taxonomies {
 
 		if ( isset( $_REQUEST['action'] ) && 'create' === sanitize_text_field( $_REQUEST['action'] ) && isset( $_POST['wp_listings_taxonomy']['id'] ) && isset( $_POST['wp_listings-action_create-taxonomy'] ) && wp_verify_nonce( $_POST['wp_listings-action_create-taxonomy'], 'wp_listings-action_create-taxonomy' ) ) { // && isset( $_POST['wp_listings_taxonomy_nonce_name'] ) ) {
 
-			$obj = array(
-				'id' => sanitize_key( $_POST['wp_listings_taxonomy']['id'] ),
-				'name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['name'] ),
-				'singular_name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['singular_name'] ),
-			);
-			$this->create_taxonomy( $obj );
+			if( strlen( sanitize_key( $_POST['wp_listings_taxonomy']['id'] ) ) < 33 ) {
+				$obj = array(
+					'id' => tolower( sanitize_key( $_POST['wp_listings_taxonomy']['id'] ) ),
+					'name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['name'] ),
+					'singular_name' => sanitize_text_field( $_POST['wp_listings_taxonomy']['singular_name'] ),
+				);
+				$this->create_taxonomy( $obj );
+			}
 		}
 
 		/** This section handles the data if a taxonomy is deleted */
@@ -809,12 +811,15 @@ class WPLPROAgents_Taxonomies {
 
 		/** This section handles the data if a new taxonomy is created */
 		if ( isset( $_REQUEST['action'] ) && 'create' === $_REQUEST['action'] && isset( $_POST['WPLPROAgents_taxonomy']['id'] ) && isset( $_POST['WPLPROAgents-action_create-taxonomy'] ) && wp_verify_nonce( $_POST['WPLPROAgents-action_create-taxonomy'], 'WPLPROAgents-action_create-taxonomy' ) ) {
-			$obj = array(
-				'id' => sanitize_key( $_POST['WPLPROAgents_taxonomy']['id'] ),
-				'name' => sanitize_text_field( $_POST['WPLPROAgents_taxonomy']['name'] ),
-				'singular_name' => sanitize_text_field( $_POST['WPLPROAgents_taxonomy']['singular_name'] ),
-			);
-			$this->create_taxonomy( $obj );
+
+			if( strlen( sanitize_key( $_POST['WPLPROAgents_taxonomy']['id'] ) ) < 33 ) {
+				$obj = array(
+					'id' => tolower( sanitize_key( $_POST['WPLPROAgents_taxonomy']['id'] ) ),
+					'name' => sanitize_text_field( $_POST['WPLPROAgents_taxonomy']['name'] ),
+					'singular_name' => sanitize_text_field( $_POST['WPLPROAgents_taxonomy']['singular_name'] ),
+				);
+				$this->create_taxonomy( $obj );
+			}
 		}
 
 		/** This section handles the data if a taxonomy is deleted */
