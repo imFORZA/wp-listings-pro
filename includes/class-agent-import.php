@@ -331,6 +331,14 @@ require_once plugin_dir_path( __FILE__ ) . 'wp-background-processing/wp-backgrou
 class WPLPROBackgroundAgents extends WP_Background_Process {
 
 	/**
+	 * State that defines whether to use rest (if null would be over AJAX).
+	 *
+	 * @var bool true
+	 * @access protected
+	 */
+	protected $use_rest = true;
+
+	/**
 	 * Action.
 	 *
 	 * (default value: 'background-processing-agents')

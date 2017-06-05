@@ -448,6 +448,13 @@ require_once plugin_dir_path( __FILE__ ) . 'wp-background-processing/wp-backgrou
 class WPLPROBackgroundListings extends WP_Background_Process {
 
 	/**
+	 * State that defines whether to use rest (if null would be over AJAX).
+	 *
+	 * @var bool true
+	 */
+	protected $use_rest = true;
+
+	/**
 	 * Protected ID that is single title (for working with super::)
 	 *
 	 * @var protected 'background-processing-listings'
