@@ -11,9 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
 
 echo '<div>';
 
-
-
-		echo '<h4>' . __( 'Map Details', 'wp-listings-pro' ) . '</h4>';
+		echo '<h4>' . __( 'Location Details', 'wp-listings-pro' ) . '</h4>';
 
 		if ( get_post_meta( $post->ID, '_listing_automap', 1 ) === false ) {
 			update_post_meta( $post->ID, '_listing_automap', 'y' );
@@ -55,8 +53,6 @@ echo '<div>';
 		echo '<li><a href="https://wordpress.org/plugins/simple-google-maps-short-code/" target="_blank" rel="nofollow">Simple Google Maps Short Code</a></li>';
 		echo '<li><a href="https://wordpress.org/plugins/mappress-google-maps-for-wordpress/" target="_blank" rel="nofollow">MapPress</a></li>';
 		echo '</ul>';
-
-
 
 
 
