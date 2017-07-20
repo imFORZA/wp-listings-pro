@@ -29,7 +29,7 @@ echo '<div>';
 
 		echo '<input type="radio" name="wp_listings[_listing_automap]" value="y" '. checked( get_post_meta( $post->ID, '_listing_automap', true ), 'y', 0 ) .'>Yes</input>';
 
-		echo '<input type="radio" name="wp_listings[_listing_automap]" value="n" '. checked( get_post_meta( $post->ID, '_listing_automap', true ), 'n', 0 ) ) .'>No</input>';
+		echo '<input type="radio" name="wp_listings[_listing_automap]" value="n" '. checked( get_post_meta( $post->ID, '_listing_automap', true ), 'n', 0 ) .'>No</input>';
 
 
 		echo '<p>';
