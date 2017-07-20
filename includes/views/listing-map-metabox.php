@@ -37,8 +37,8 @@ echo '<div>';
 		echo '</p>';
 
 		echo '<p>';
-		echo '<label>' . __('Longitudee','') . '</label>';
-		echo '<input type="text" name="wp_listings[_listing_longitude]" placeholder=" value="' . get_post_meta( $post->ID, '_listing_longitude', true ) . '" />';
+		echo '<label>' . __('Longitude','') . '</label>';
+		echo '<input type="text" name="wp_listings[_listing_longitude]" placeholder="" value="' . get_post_meta( $post->ID, '_listing_longitude', true ) . '" />';
 
 		echo '</p>';
 
