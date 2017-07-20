@@ -25,7 +25,7 @@ echo '<div>';
 
 		echo '</p>';
 
-		echo __( 'Will be overridden if a shortode is entered below.', '');
+		echo __( 'Will be overridden if a shortode is entered below.', 'wp-listings-pro');
 
 		echo '<input type="radio" name="wp_listings[_listing_automap]" value="y" '. checked( get_post_meta( $post->ID, '_listing_automap', true ), 'y', 0 ) .'>Yes</input>';
 
