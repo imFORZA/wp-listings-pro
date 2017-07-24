@@ -4,7 +4,7 @@ Tags: listings, wp-listings, wp-listings-pro, listings, properties, property, re
 Donate link: https://www.imforza.com
 Requires at least: 4.7
 Tested up to: 4.7.5
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 License: GPL v3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -40,7 +40,7 @@ Please use the support forums for this plugin on the wordpress.org website or su
 
 == Changelog ==
 
-- 3.0.5
+- 3.0.6
 -- Fixed bug where featured images couldnt be set manually.
 
 - 3.0.4
