@@ -43,11 +43,13 @@ echo '<div>';
 		echo '<label>' . __('Longitude','') . '</label>';
 		echo '<input type="text" name="wp_listings[_listing_longitude]" placeholder="" value="' . get_post_meta( $post->ID, '_listing_longitude', true ) . '" />';
 
+		echo '</p><p>';
+
+		_e( 'Enter a Map Embed Code or shortcode from any map plugin.<br>', 'wp-listings-pro' );
+
+		_e( 'Recommend size: 660x300 (If possible, use 100% width, or your themes content width)', 'wp-listings-pro' );
+
 		echo '</p>';
-
-		__( 'Enter a Map Embed Code or shortcode from any map plugin', 'wp-listings-pro' );
-
-		__( 'Recommend size: 660x300 (If possible, use 100% width, or your themes content width)', 'wp-listings-pro' );
 
 		echo '<textarea name="wp_listings[_listing_map]" rows="5" cols="18">'. htmlentities( get_post_meta( $post->ID, '_listing_map', true ) )  .'</textarea>';
 
