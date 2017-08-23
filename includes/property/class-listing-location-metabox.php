@@ -93,6 +93,7 @@ class location_metabox {
 		// Form fields.
 		echo '<table class="form-table">';
 
+		// Carrier Route.
 		echo '	<tr>';
 		echo '		<th><label for="listing_carrier_route" class="listing_carrier_route_label">' . __( 'Carrier Route', 'wp-listings-pro' ) . '</label></th>';
 		echo '		<td>';
@@ -101,6 +102,7 @@ class location_metabox {
 		echo '		</td>';
 		echo '	</tr>';
 
+		// City.
 		echo '	<tr>';
 		echo '		<th><label for="listing_city" class="listing_city_label">' . __( 'City', 'wp-listings-pro' ) . '</label></th>';
 		echo '		<td>';
@@ -109,6 +111,7 @@ class location_metabox {
 		echo '		</td>';
 		echo '	</tr>';
 
+		// Country.
 		echo '	<tr>';
 		echo '		<th><label for="listing_country" class="listing_country_label">' . __( 'Country', 'wp-listings-pro' ) . '</label></th>';
 		echo '		<td>';
@@ -117,6 +120,7 @@ class location_metabox {
 		echo '		</td>';
 		echo '	</tr>';
 
+		// County or Parish.
 		echo '	<tr>';
 		echo '		<th><label for="listing_county_or_parish" class="listing_county_or_parish_label">' . __( 'County or Parish', 'wp-listings-pro' ) . '</label></th>';
 		echo '		<td>';
@@ -125,6 +129,7 @@ class location_metabox {
 		echo '		</td>';
 		echo '	</tr>';
 
+		// Postal City
 		echo '	<tr>';
 		echo '		<th><label for="listing_postal_city" class="listing_postal_city_label">' . __( 'Postal City', 'wp-listings-pro' ) . '</label></th>';
 		echo '		<td>';
@@ -133,6 +138,7 @@ class location_metabox {
 		echo '		</td>';
 		echo '	</tr>';
 
+		// Postal Code
 		echo '	<tr>';
 		echo '		<th><label for="listing_postal_code" class="listing_postal_code_label">' . __( 'Postal Code', 'wp-listings-pro' ) . '</label></th>';
 		echo '		<td>';
@@ -141,6 +147,7 @@ class location_metabox {
 		echo '		</td>';
 		echo '	</tr>';
 
+		// PostalCode +4
 		echo '	<tr>';
 		echo '		<th><label for="listing_postalcode_plus4" class="listing_postalcode_plus4_label">' . __( 'Postal Code plus 4', 'wp-listings-pro' ) . '</label></th>';
 		echo '		<td>';
@@ -149,6 +156,7 @@ class location_metabox {
 		echo '		</td>';
 		echo '	</tr>';
 
+		// Listing State or Province.
 		echo '	<tr>';
 		echo '		<th><label for="listing_state_or_province" class="listing_state_or_province_label">' . __( 'State or Province', 'wp-listings-pro' ) . '</label></th>';
 		echo '		<td>';
@@ -157,6 +165,7 @@ class location_metabox {
 		echo '		</td>';
 		echo '	</tr>';
 
+		// Listing Street Additional Info.
 		echo '	<tr>';
 		echo '		<th><label for="listing_street_additional_info" class="listing_street_additional_info_label">' . __( 'Street Additional Info', 'wp-listings-pro' ) . '</label></th>';
 		echo '		<td>';
