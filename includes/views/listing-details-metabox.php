@@ -15,44 +15,11 @@ global $post;
 
 	echo '<div style="width: 45%; float: left">';
 
-	echo '<h3>'. __( 'Pricing', 'wp-listings-pro') .'</h3>';
-	echo '<hr>';
-
-	// Listing Price.
-	echo '<label><strong>' . __('Price:','wp-listings-pro') . '</strong></label>';
-	echo '<p><input type="text" name="wp_listings[_listing_price]" id="wp_listings[_listing_price]" style="width:80%" class="" value="' . htmlentities( get_post_meta( $post->ID, '_listing_price', true ) ) . '"></p>';
-	echo '<p class="description">'. __( 'Listing Price.', 'wp-listings-pro') .'</p>';
-
-
-	// Sold Price.
-	echo '<label><strong>' . __('Sold Price:','wp-listings-pro') . '</strong></label>';
-	echo '<p><input type="text" name="wp_listings[_listing_sold_price]" id="wp_listings[_listing_sold_price]" style="width:80%" class="" value="' . htmlentities( get_post_meta( $post->ID, '_listing_sold_price', true ) ) . '"></p>';
-	echo '<p class="description">'. __( 'Sold Price.', 'wp-listings-pro') .'</p>';
-
 	// Sold Date
 	echo '<label><strong>' . __('Sold Date:','wp-listings-pro') . '</strong></label>';
-	echo '<p><input type="text" name="wp_listings[_listing_sold_date]" id="wp_listings[_listing_sold_date]" style="width:80%" class="" value="' . htmlentities( get_post_meta( $post->ID, '_listing_sold_date', true ) ) . '"></p>';
+	echo '<input name="wp_listings[_listing_sold_date]" id="" type="date" class="" placeholder="" rows="3" cols="18" style="width:100%;">' . htmlentities( get_post_meta( $post->ID, '_listing_sold_date', true ) ) . '</input>';
 	echo '<p class="description">'. __( '', 'wp-listings-pro') .'</p>';
 
-	// Rent Price.
-	echo '<label><strong>' . __('Rent Price:','wp-listings-pro') . '</strong></label>';
-	echo '<p><input type="text" name="wp_listings[_listing_rent_price]" id="wp_listings[_listing_rent_price]" style="width:80%" class="" value="' . htmlentities( get_post_meta( $post->ID, '_listing_rent_price', true ) ) . '"></p>';
-	echo '<p class="description">'. __( '', 'wp-listings-pro') .'</p>';
-
-		// Hide Price from Visitors?
-	echo '<label><strong>' . __('Hide Price:','wp-listings-pro') . '</strong></label>';
-	wp_nonce_field( 'wp-hide-price-action', 'wp-hide-price-name' );
-	echo '<p><input type="checkbox" name="wp_listings[_listing_hide_price]" value="1" '. checked( get_post_meta( $post->ID, '_listing_hide_price', true ), 1, 0 ) .' /></p>';
-	echo '<p class="description">'. __( 'Hide the price from visitors?', 'wp-listings-pro') .'</p>';
-
-	// Alt Text for Price.
-	echo '<label><strong>' . __('Alternate Text to Display:','wp-listings-pro') . '</strong></label>';
-	echo '<p><input type="text" name="wp_listings[_listing_price_alt]" style="width: 80%" value="'. htmlentities( get_post_meta( $post->ID, '_listing_price_alt', true ) ) .'" /></p>';
-	echo '<p class="description">'. __( 'Text to display instead of price (or leave blank)', 'wp-listings-pro') .'</p>';
-
-	echo '</div>';
-
-	echo '<div style="width: 45%; float: left;">';
 
 	echo '<h3>'. __( 'Location', 'wp-listings-pro') .'</h3>';
 	echo '<hr>';
