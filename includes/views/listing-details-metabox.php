@@ -24,34 +24,14 @@ global $post;
 	echo '<h3>'. __( 'Location', 'wp-listings-pro') .'</h3>';
 	echo '<hr>';
 
-	// Address.
-	echo '<label><strong>' . __('Address:','wp-listings-pro') . '</strong></label>';
-	echo '<p><input type="text" name="wp_listings[_listing_address]" id="wp_listings[_listing_address]" style="width:80%" class="" value="' . htmlentities( get_post_meta( $post->ID, '_listing_address', true ) ) . '"></p>';
+	// Latitude.
+	echo '<label><strong>' . __('Latitude:','wp-listings-pro') . '</strong></label>';
+	echo '<textarea name="wp_listings[_listing_latitude]" id="" class="" placeholder="" rows="3" cols="18" style="width:100%;">' . htmlentities( get_post_meta( $post->ID, '_listing_latitude', true ) ) . '</textarea>';
 	echo '<p class="description">'. __( '', 'wp-listings-pro') .'</p>';
 
-	// City.
-	echo '<label><strong>' . __('City:','wp-listings-pro') . '</strong></label>';
-	echo '<p><input type="text" name="wp_listings[_listing_city]" id="wp_listings[_listing_city]" style="width:80%" class="" value="' . htmlentities( get_post_meta( $post->ID, '_listing_city', true ) ) . '"></p>';
-	echo '<p class="description">'. __( '', 'wp-listings-pro') .'</p>';
-
-	// County.
-	echo '<label><strong>' . __('County:','wp-listings-pro') . '</strong></label>';
-	echo '<p><input type="text" name="wp_listings[_listing_county]" id="wp_listings[_listing_county]" style="width:80%" class="" value="' . htmlentities( get_post_meta( $post->ID, '_listing_county', true ) ) . '"></p>';
-	echo '<p class="description">'. __( '', 'wp-listings-pro') .'</p>';
-
-	// State.
-	echo '<label><strong>' . __('State:','wp-listings-pro') . '</strong></label>';
-	echo '<p><input type="text" name="wp_listings[_listing_state]" id="wp_listings[_listing_state]" style="width:80%" class="" value="' . htmlentities( get_post_meta( $post->ID, '_listing_state', true ) ) . '"></p>';
-	echo '<p class="description">'. __( '', 'wp-listings-pro') .'</p>';
-
-	// Country.
-	echo '<label><strong>' . __('Country:','wp-listings-pro') . '</strong></label>';
-	echo '<p><input type="text" name="wp_listings[_listing_country]" id="wp_listings[_listing_country]" style="width:80%" class="" value="' . htmlentities( get_post_meta( $post->ID, '_listing_country', true ) ) . '"></p>';
-	echo '<p class="description">'. __( '', 'wp-listings-pro') .'</p>';
-
-	// Zip.
-	echo '<label><strong>' . __('Zip:','wp-listings-pro') . '</strong></label>';
-	echo '<p><input type="text" name="wp_listings[_listing_zip]" id="wp_listings[_listing_zip]" style="width:80%" class="" value="' . htmlentities( get_post_meta( $post->ID, '_listing_zip', true ) ) . '"></p>';
+	// Longitude.
+	echo '<label><strong>' . __('Longitude:','wp-listings-pro') . '</strong></label>';
+	echo '<textarea name="wp_listings[_listing_longitude]" id="" class="" placeholder="" rows="3" cols="18" style="width:100%;">' . htmlentities( get_post_meta( $post->ID, '_listing_longitude', true ) ) . '</textarea>';
 	echo '<p class="description">'. __( '', 'wp-listings-pro') .'</p>';
 
 	// Location.
