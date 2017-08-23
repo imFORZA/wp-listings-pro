@@ -65,7 +65,7 @@ class location_metabox {
 		wp_nonce_field( 'listing_nonce_action', 'listing_nonce' );
 
 		//TODO - Finish Fields - http://ddwiki.reso.org/display/DDW16/Location+Group
-
+		// State, City, Zip, should be taxonomies
 		// TODO  _listing_address, _listing_city, _listing_county, _listing_state, _listing_country, _listing_zip
 
 		// Retrieve an existing value from the database.
