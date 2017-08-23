@@ -66,6 +66,8 @@ class location_metabox {
 
 		//TODO - Finish Fields - http://ddwiki.reso.org/display/DDW16/Location+Group
 
+		// TODO  _listing_address, _listing_city, _listing_county, _listing_state, _listing_country, _listing_zip
+
 		// Retrieve an existing value from the database.
 		$listing_carrier_route = get_post_meta( $post->ID, 'listing_carrier_route', true );
 		$listing_city = get_post_meta( $post->ID, 'listing_city', true );
