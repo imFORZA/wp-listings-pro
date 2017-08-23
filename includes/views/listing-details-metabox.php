@@ -14,43 +14,10 @@ wp_nonce_field( 'wp_listings_metabox_save', 'wp_listings_metabox_nonce' );
 global $post;
 
 
-	echo '<h3>'. __( 'Pricing', 'wp-listings-pro') .'</h3>';
-	echo '<p></p>';
-	echo '<hr>';
-
-	// Listing Price.
-	echo '<label><strong>' . __('Price:','wp-listings-pro') . '</strong></label>';
-	echo '<textarea name="wp_listings[_listing_price]" id="" class="" placeholder="" rows="3" cols="18" style="width:100%;">' . htmlentities( get_post_meta( $post->ID, '_listing_price', true ) ) . '</textarea>';
-	echo '<p class="description">'. __( 'Listing Price.', 'wp-listings-pro') .'</p>';
-
-
-	// Sold Price.
-	echo '<label><strong>' . __('Sold Price:','wp-listings-pro') . '</strong></label>';
-	echo '<textarea name="wp_listings[_listing_sold_price]" id="" class="" placeholder="" rows="3" cols="18" style="width:100%;">' . htmlentities( get_post_meta( $post->ID, '_listing_sold_price', true ) ) . '</textarea>';
-	echo '<p class="description">'. __( 'Sold Price.', 'wp-listings-pro') .'</p>';
-
 	// Sold Date
 	echo '<label><strong>' . __('Sold Date:','wp-listings-pro') . '</strong></label>';
-	echo '<textarea name="wp_listings[_listing_sold_date]" id="" class="" placeholder="" rows="3" cols="18" style="width:100%;">' . htmlentities( get_post_meta( $post->ID, '_listing_sold_date', true ) ) . '</textarea>';
+	echo '<input name="wp_listings[_listing_sold_date]" id="" type="date" class="" placeholder="" rows="3" cols="18" style="width:100%;">' . htmlentities( get_post_meta( $post->ID, '_listing_sold_date', true ) ) . '</input>';
 	echo '<p class="description">'. __( '', 'wp-listings-pro') .'</p>';
-
-	// Rent Price.
-	echo '<label><strong>' . __('Rent Price:','wp-listings-pro') . '</strong></label>';
-	echo '<textarea name="wp_listings[_listing_rent_price]" id="" class="" placeholder="" rows="3" cols="18" style="width:100%;">' . htmlentities( get_post_meta( $post->ID, '_listing_rent_price', true ) ) . '</textarea>';
-	echo '<p class="description">'. __( '', 'wp-listings-pro') .'</p>';
-
-		// Hide Price from Visitors?
-	echo '<label><strong>' . __('Hide Price:','wp-listings-pro') . '</strong></label>';
-	wp_nonce_field( 'wp-hide-price-action', 'wp-hide-price-name' );
-	echo '<input type="checkbox" name="wp_listings[_listing_hide_price]" value="1" '. checked( get_post_meta( $post->ID, '_listing_hide_price', true ), 1, 0 ) .' />';
-	echo '<p class="description">'. __( 'Hide the price from visitors?', 'wp-listings-pro') .'</p>';
-
-	// Alt Text for Price.
-	echo '<label><strong>' . __('Alternate Text to Display:','wp-listings-pro') . '</strong></label>';
-	echo '<input type="text" placeholder="" name="wp_listings[_listing_price_alt]" value="'. htmlentities( get_post_meta( $post->ID, '_listing_price_alt', true ) ) .'" />';
-	echo '<p class="description">'. __( 'Text to display instead of price (or leave blank)', 'wp-listings-pro') .'</p>';
-
-
 
 
 	echo '<h3>'. __( 'Location', 'wp-listings-pro') .'</h3>';
@@ -243,11 +210,6 @@ global $post;
 	echo '<label><strong>' . __('Virtual Tour:','wp-listings-pro') . '</strong></label>';
 	echo '<textarea name="wp_listings[_listing_virtualtour]" id="" class="" placeholder="" rows="3" cols="18" style="width:100%;">' . htmlentities( get_post_meta( $post->ID, '_listing_virtualtour', true ) ) . '</textarea>';
 	echo '<p class="description">'. __( '', 'wp-listings-pro') .'</p>';
-
-
-
-
-
 
 
 	// Custom Overlay Text.
