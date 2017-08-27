@@ -1,0 +1,221 @@
+{
+  "SavedSearchKey": {
+    "definition": "A unique identifier for this record from the immediate source. This may be a number, or string that can include URI or other forms.  This is the system you are connecting to and not necessarily the original source of the record.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "gold",
+    "primary": true
+  },
+  "SavedSearchKeyNumeric": {
+    "definition": "A unique identifier for this record from the immediate source. This may be a number, or string that can include URI or other forms.  This is the system you are connecting to and not necessarily the original source of the record.  This is the numeric only key and used as an alternative to the SavedSearchKey field.",
+    "type": "number",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "SavedSearchName": {
+    "definition": "The name given to the search by the member inputting the saved search.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "gold"
+  },
+  "SavedSearchDescription": {
+    "definition": "A textual description of the saved search input by the member who created the saved search.",
+    "type": "string",
+    "maxLength": 4000,
+    "level": "gold"
+  },
+  "SavedSearchType": {
+    "definition": "Is the saved search used to pass criteria to be stored and executed by the client or is the saved search a key to be passed to the host for execution.  i.e. Client Receives Criteria, Host Returns Listings.  \r\n\r\nThis may be described at the record level with this field, or at some other level of implementation to be determined by RESO R&D.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "gold"
+  },
+  "OriginatingSystemKey": {
+    "definition": "The system key, a unique record identifier, from the Originating system.  The Originating system is the system with authoritative control over the record.  For example, the Multiple Listing Service where the Saved Search was input.  There may be cases where the Source System (how you received the record) is not the Originating System.  See Source System Key for more information. ",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderKey"
+    ],
+    "level": "gold"
+  },
+  "OriginatingSystemName": {
+    "definition": "The name of the Originating record provider.  Most commonly the name of the MLS. The place where the Saved Search is originally input.  The legal name of the company.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderName",
+      "MLSID"
+    ],
+    "level": "gold"
+  },
+  "OriginatingSystemID": {
+    "definition": "The RESO OUID's OrganizationUniqueId of the Originating record provider.  The Originating system is the system with authoritative control over the record.  For example; the name of the MLS where the Saved Search was input.  In cases where the Originating system was not where the record originated (the authoritative system), see the Originating System fields.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "platinum"
+  },
+  "SourceSystemKey": {
+    "definition": "The system key, a unique record identifier, from the Source System.  The Source System is the system from which the record was directly received.  In cases where the Source System was not where the record originated (the authoritative system), see the Originating System fields. ",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderKey"
+    ],
+    "level": "silver"
+  },
+  "SourceSystemName": {
+    "definition": "The name of the Saved Search record provider.  The system from which the record was directly received.  The legal name of the company.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderName",
+      "MLSID"
+    ],
+    "level": "silver"
+  },
+  "SourceSystemID": {
+    "definition": "The RESO OUID's OrganizationUniqueId of the Source record provider.  The source system is the system from which the record was directly received.  In cases where the source system was not where the record originated (the authoritative system), see the Originating System fields.",
+    "type": "string",
+    "maxLength": 25,
+    "synonyms": [
+      "MLSID"
+    ],
+    "level": "platinum"
+  },
+  "SearchQuery": {
+    "definition": "Textual representation of the search performed by the member that was saved.  It is required to present in ODATA's $filter format.  Additional formats are under review.  See additional documentation for specific requirements for this field.",
+    "type": "string",
+    "maxLength": 8000,
+    "synonyms": [
+      "SearchCriteria"
+    ],
+    "level": "gold"
+  },
+  "SearchQueryType": {
+    "definition": "A picklist of the type of query language used in the SearchQuery field.  i.e. DMQL2, $filter, etc.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "gold"
+  },
+  "SearchQueryExceptions": {
+    "definition": "A list of exceptions or errors with the given search query during it's creation by the host.  Analogous to an error code this is the host's opportunity to describe an inability to fully express a saved search under the constraints of the given protocol.  i.e. $filter.  The client may use this information to bring attention to the user about a given saved search and a need to review or recreate the search.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "gold"
+  },
+  "SearchQueryExceptionDetails": {
+    "definition": "A free text description used to expand on the SearchQueryExceptions selections made by the host.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "gold"
+  },
+  "SearchQueryHumanReadable": {
+    "definition": "A human readable version of the search query that is commonly used for display and may not contain all actual criteria.  For actual search criteria, use the SearchQuery field.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "gold"
+  },
+  "OriginalEntryTimestamp": {
+    "definition": "The transactional timestamp automatically recorded by the MLS system representing the date/time the listing was entered and made visible to members of the MLS.",
+    "type": "date",
+    "maxLength": 27,
+    "synonyms": [
+      "EntryDate",
+      "InputDate",
+      "DateTimeCreated",
+      "CreatedDate."
+    ],
+    "level": "gold"
+  },
+  "ModificationTimestamp": {
+    "definition": "The transactional timestamp automatically recorded by the MLS system representing the date/time the listing was last modified.",
+    "type": "date",
+    "maxLength": 27,
+    "synonyms": [
+      "ModificationDateTime",
+      "DateTimeModified",
+      "ModDate",
+      "DateMod",
+      "UpdateDate",
+      "UpdateTimestamp"
+    ],
+    "level": "gold"
+  },
+  "ResourceName": {
+    "definition": "The resource to which the SearchQuery criteria refers. i.e. Property, Open House, Agent, Office, Contact, etc.",
+    "type": "string",
+    "maxLength": 50,
+    "lookup": "ResourceName",
+    "level": "gold",
+    "enum": [
+      "Property",
+      "Member",
+      "Office",
+      "Contacts"
+    ]
+  },
+  "ClassName": {
+    "definition": "The class or table to which the SearchQuery criteria refers.  i.e. Residential, Residential Lease, Income, Mobile, etc.",
+    "type": "string",
+    "maxLength": 50,
+    "lookup": "ClassName",
+    "level": "gold",
+    "enum": [
+      "Business Opportunity",
+      "Commercial Lease",
+      "Commercial Sale",
+      "Contacts",
+      "Cross Property",
+      "Farm",
+      "History Transactional",
+      "Land",
+      "Manufactured In Park",
+      "Media",
+      "Member",
+      "Office",
+      "Open House",
+      "Residential",
+      "Residential Income",
+      "Residential Lease",
+      "Saved Search"
+    ]
+  },
+  "MemberKey": {
+    "definition": "A system unique identifier. Specifically, in aggregation systems, the MemberKey is the system unique identifier from the system that the record was retrieved. This may be identical to the related xxxId.  This is a foreign key relating to the Member resource's MemberKey.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "gold"
+  },
+  "MemberKeyNumeric": {
+    "definition": "A system unique identifier. Specifically, in aggregation systems, the MemberKey is the system unique identifier from the system that the record was retrieved. This may be identical to the related xxxId.  This is a foreign key relating to the Member resource's MemberKey.  This is the numeric only key and used as an alternative to the MemberKey field.",
+    "type": "number",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "OriginatingSystemMemberKey": {
+    "definition": "Unique identifier from the originating system which is commonly a key to that system.  In the case where data is passed through more than one system, this is the originating system key.  This is a foreign key relating to the system where this record was originated.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderKey"
+    ],
+    "level": "gold"
+  },
+  "OriginatingSystemMemberName": {
+    "definition": "The name of the originating record provider.  Most commonly the name of the MLS. The place where the listing is originally input by the member.  The legal name of the company.  To be used for display.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderName",
+      "MLSID"
+    ],
+    "level": "gold"
+  },
+  "MemberMlsId": {
+    "definition": "The local, well-known identifier for the member. This value may not be unique, specifically in the case of aggregation systems, this value should be the identifier from the original system.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "gold"
+  }
+}

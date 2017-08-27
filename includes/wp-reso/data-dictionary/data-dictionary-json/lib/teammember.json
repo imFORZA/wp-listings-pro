@@ -1,0 +1,155 @@
+{
+  "TeamMemberKey": {
+    "definition": "A system unique identifier. Specifically, the local key to the TeamMembers resource.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "platinum",
+    "primary": true
+  },
+  "TeamMemberKeyNumeric": {
+    "definition": "A system unique identifier. Specifically, the local key to the TeamMembers resource.  This is the numeric only key and used as an alternative to the TeamKey field.",
+    "type": "number",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "OriginatingSystemKey": {
+    "definition": "The system key, a unique record identifier, from the Originating system.  The Originating system is the system with authoritative control over the record.  For example, the Multiple Listing Service where the Team Member was input.  There may be cases where the Source System (how you received the record) is not the Originating System.  See Source System Key for more information. ",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderKey"
+    ],
+    "level": "platinum"
+  },
+  "OriginatingSystemName": {
+    "definition": "The name of the Originating record provider.  Most commonly the name of the MLS. The place where the Team Member is originally input.  The legal name of the company.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderName",
+      "MLSID"
+    ],
+    "level": "platinum"
+  },
+  "OriginatingSystemID": {
+    "definition": "The RESO OUID's OrganizationUniqueId of the Originating record provider.  The Originating system is the system with authoritative control over the record.  For example; the name of the MLS where the Team Member was input.  In cases where the Originating system was not where the record originated (the authoritative system), see the Originating System fields.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "platinum"
+  },
+  "SourceSystemKey": {
+    "definition": "The system key, a unique record identifier, from the Source System.  The Source System is the system from which the record was directly received.  In cases where the Source System was not where the record originated (the authoritative system), see the Originating System fields. ",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderKey"
+    ],
+    "level": "silver"
+  },
+  "SourceSystemName": {
+    "definition": "The name of the Team Member record provider.  The system from which the record was directly received.  The legal name of the company.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderName",
+      "MLSID"
+    ],
+    "level": "silver"
+  },
+  "SourceSystemID": {
+    "definition": "The RESO OUID's OrganizationUniqueId of the Source record provider.  The source system is the system from which the record was directly received.  In cases where the source system was not where the record originated (the authoritative system), see the Originating System fields.",
+    "type": "string",
+    "maxLength": 25,
+    "synonyms": [
+      "MLSID"
+    ],
+    "level": "platinum"
+  },
+  "TeamKey": {
+    "definition": "A system unique identifier. Specifically, a foreign key referencing the Teams resource's primary key.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "TeamKeyNumeric": {
+    "definition": "A system unique identifier. Specifically, a foreign key referencing the Teams resource's primary key.  This is the numeric only key and used as an alternative to the TeamKey field.",
+    "type": "number",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "MemberKey": {
+    "definition": "A system unique identifier. Specifically, the foreign key relating to the Member resource's MemberKey.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "MemberKeyNumeric": {
+    "definition": "A system unique identifier. Specifically, the foreign key relating to the Member resource's MemberKey.  This is the numeric only key and used as an alternative to the MemberKey field.",
+    "type": "number",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "MemberMlsId": {
+    "definition": "The local, well-known identifier for the member. This value may not be unique, specifically in the case of aggregation systems, this value should be the identifier from the original system.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "platinum"
+  },
+  "MemberLoginId": {
+    "definition": "The ID used to logon to the MLS system.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "platinum"
+  },
+  "TeamMemberNationalAssociationId": {
+    "definition": "The national association ID of the member.  i.e. in the U.S. is the NRDS number.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "platinum"
+  },
+  "TeamMemberStateLicense": {
+    "definition": "The license of the member. Separate multiple licenses with a comma and space.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "platinum"
+  },
+  "TeamMemberType": {
+    "definition": "The role of the member within the team.  i.e. team lead, principle, associate, assistant, etc.",
+    "type": "string",
+    "maxLength": 50,
+    "lookup": "MemberType",
+    "level": "platinum",
+    "enum": [
+      "Association Staff",
+      "Designated REALTOR Appraiser",
+      "Designated REALTOR Participant",
+      "MLS Only Appraiser",
+      "MLS Only Broker",
+      "MLS Only Salesperson",
+      "MLS Staff",
+      "Non Member/Vendor",
+      "Office Manager",
+      "REALTOR Appraiser",
+      "REALTOR Salesperson",
+      "Unlicensed Assistant"
+    ]
+  },
+  "TeamImpersonationLevel": {
+    "definition": "The level of impersonation the member is allowed within the team.  i.e. Impersonate (to work as the team), On Behalf (to show the team name, but also show the member's info, None (don't allow this member to appear as part of team).",
+    "type": "string",
+    "maxLength": 50,
+    "level": "platinum"
+  },
+  "OriginalEntryTimestamp": {
+    "definition": "Date/time the roster (member or office) record was originally input into the source system.",
+    "type": "date",
+    "maxLength": 27,
+    "level": "platinum"
+  },
+  "ModificationTimestamp": {
+    "definition": "Date/time the roster (member or office) record was last modified.",
+    "type": "date",
+    "maxLength": 27,
+    "level": "platinum"
+  }
+}

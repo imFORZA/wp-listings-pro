@@ -1,0 +1,407 @@
+{
+  "MediaKey": {
+    "definition": "A unique identifier for this record from the immediate source. This may be a number, or string that can include URI or other forms.  This is the system you are connecting to and not necessarily the original source of the record.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "SystemUniqueID",
+      "ImmediateSourceID"
+    ],
+    "level": "core",
+    "primary": true
+  },
+  "MediaKeyNumeric": {
+    "definition": "A unique identifier for this record from the immediate source. This may be a number, or string that can include URI or other forms.  This is the system you are connecting to and not necessarily the original source of the record.  This is the numeric only key and used as an alternative to the MediaKey field.",
+    "type": "number",
+    "maxLength": 255,
+    "synonyms": [
+      "SystemUniqueID",
+      "ImmediateSourceID"
+    ],
+    "level": "platinum"
+  },
+  "ResourceRecordKey": {
+    "definition": "The primary key of the related record from the source resource. For example the ListingKey, AgentKey, OfficeKey, TeamKey, etc.  This is the system you are connecting to and not necessarily the original source of the record.  This is a foreign key from the resource selected in the ResourceName field.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "SystemUniqueID",
+      "ImmediateSourceID"
+    ],
+    "level": "core"
+  },
+  "ResourceRecordKeyNumeric": {
+    "definition": "The primary key of the related record from the source resource. For example the ListingKey, AgentKey, OfficeKey, TeamKey, etc.  This is the system you are connecting to and not necessarily the original source of the record.  This is a foreign key from the resource selected in the ResourceName field.  This is the numeric only key and used as an alternative to the ResourceRecordKey field.",
+    "type": "number",
+    "maxLength": 255,
+    "synonyms": [
+      "SystemUniqueID",
+      "ImmediateSourceID"
+    ],
+    "level": "platinum"
+  },
+  "ResourceRecordID": {
+    "definition": "The well known identifier of the related record from the source resource. The value may be identical to that of the Listing Key, but the Listing ID is intended to be the value used by a human to retrieve the information about a specific listing. In a multiple originating system or a merged system, this value may not be unique and may require the use of the provider system to create a synthetic unique value.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "MLNumber",
+      "MLSNumber",
+      "ListingNumber",
+      "AgentID",
+      "OfficeID",
+      "ContactID"
+    ],
+    "level": "core"
+  },
+  "OriginatingSystemMediaKey": {
+    "definition": "The system key, a unique record identifier, from the Originating system.  The Originating system is the system with authoritative control over the record.  For example, the Multiple Listing Service where the Media was input.  There may be cases where the Source System (how you received the record) is not the Originating System.  See Source System Key for more information. ",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderKey"
+    ],
+    "level": "core"
+  },
+  "OriginatingSystemName": {
+    "definition": "The name of the Originating record provider.  Most commonly the name of the MLS. The place where the Media is originally input by the member.  The legal name of the company.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderName",
+      "MLSID"
+    ],
+    "level": "bronze"
+  },
+  "OriginatingSystemID": {
+    "definition": "The RESO OUID's OrganizationUniqueId of the Originating record provider.  The Originating system is the system with authoritative control over the record.  For example; the name of the MLS where the Media was input.  In cases where the Originating system was not where the record originated (the authoritative system), see the Originating System fields.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "platinum"
+  },
+  "SourceSystemMediaKey": {
+    "definition": "The system key, a unique record identifier, from the Source System.  The Source System is the system from which the record was directly received.  In cases where the Source System was not where the record originated (the authoritative system), see the Originating System fields. ",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderKey"
+    ],
+    "level": "silver"
+  },
+  "SourceSystemName": {
+    "definition": "The name of the immediate record provider.  The system from which the record was directly received.  The legal name of the company.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderName",
+      "MLSID"
+    ],
+    "level": "silver"
+  },
+  "SourceSystemID": {
+    "definition": "The RESO OUID's OrganizationUniqueId of the Source record provider.  The source system is the system from which the record was directly received.  In cases where the source system was not where the record originated (the authoritative system), see the Originating System fields.",
+    "type": "string",
+    "maxLength": 25,
+    "synonyms": [
+      "MLSID"
+    ],
+    "level": "platinum"
+  },
+  "MediaObjectID": {
+    "definition": "ID of the image, supplement or other object specified by the given media record.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "core"
+  },
+  "ChangedByMemberID": {
+    "definition": "ID of the user, agent, member, etc., that uploaded the media this record refers to.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "core"
+  },
+  "ChangedByMemberKey": {
+    "definition": "The primary key of the member who uploaded the media this record refers to.  This is a foreign key relating to the Member resource's MemberKey.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "core"
+  },
+  "ChangedByMemberKeyNumeric": {
+    "definition": "The primary key of the member who uploaded the media this record refers to.  This is a foreign key relating to the Member resource's MemberKey.  This is the numeric only key and used as an alternative to the ChangedByMemberKey field.",
+    "type": "number",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "MediaCategory": {
+    "definition": "Category describing the , Photos, Documents, Video, Unbranded Virtual Tour, Branded Virtual Tour, Floor Plan, Logo",
+    "type": "string",
+    "maxLength": 50,
+    "lookup": "MediaCategory",
+    "level": "bronze",
+    "enum": [
+      "Photo",
+      "Video",
+      "Branded Virtual Tour",
+      "Unbranded Virtual Tour",
+      "Document",
+      "Floor Plan",
+      "Office Logo",
+      "Office Photo",
+      "Agent Photo"
+    ]
+  },
+  "MediaType": {
+    "definition": "Media Types as defined by IANA.\r\nhttp://www.iana.org/assignments/media-types/index.html.  Note that the former name of MimeType, used by both IANA and RESO may still be in use by some systems/entities.",
+    "type": "string",
+    "maxLength": 50,
+    "synonyms": [
+      "MimeType"
+    ],
+    "lookup": "MediaType",
+    "level": "bronze",
+    "enum": [
+      "gif",
+      "jpeg",
+      "png",
+      "tiff",
+      "mpeg",
+      "mp4",
+      "quicktime",
+      "wmv",
+      "pdf",
+      "rtf",
+      "txt",
+      "doc",
+      "docx",
+      "xls",
+      "xlsx"
+    ]
+  },
+  "ImageOf": {
+    "definition": "When the media is an image, a list of possible matches such as kitchen, bathroom, front of structure, etc.  This field may be used to identify a required image under association or MLS rules.",
+    "type": "string",
+    "maxLength": 50,
+    "lookup": "ImageOf",
+    "level": "platinum",
+    "enum": [
+      "Aerial View",
+      "Atrium",
+      "Attic",
+      "Back of Structure",
+      "Balcony",
+      "Bar",
+      "Barn",
+      "Basement",
+      "Bathroom",
+      "Bedroom",
+      "Bonus Room",
+      "Breakfast Area",
+      "Closet",
+      "Community",
+      "Courtyard",
+      "Deck",
+      "Den",
+      "Dining Area",
+      "Dining Room",
+      "Dock",
+      "Entry",
+      "Exercise Room",
+      "Family Room",
+      "Fence",
+      "Fireplace",
+      "Floor Plan",
+      "Front of Structure",
+      "Game Room",
+      "Garage",
+      "Garden",
+      "Golf Course",
+      "Great Room",
+      "Guest Quarters",
+      "Gym",
+      "Hobby Room",
+      "Inlaw",
+      "Kitchen",
+      "Lake",
+      "Laundry",
+      "Library",
+      "Living Room",
+      "Loading Dock",
+      "Lobby",
+      "Loft",
+      "Lot",
+      "Master Bathroom",
+      "Master Bedroom",
+      "Media Room",
+      "Mud Room",
+      "Nursery",
+      "Office",
+      "Other",
+      "Out Buildings",
+      "Pantry",
+      "Parking",
+      "Patio",
+      "Pier",
+      "Plat Map",
+      "Pond",
+      "Pool",
+      "Reception",
+      "Recreation Room",
+      "Sauna",
+      "Showroom",
+      "Side of Structure",
+      "Sitting Room",
+      "Spa",
+      "Stable",
+      "Storage",
+      "Studio",
+      "Study",
+      "Sun Room",
+      "View",
+      "Waterfront",
+      "Wine Cellar",
+      "Workshop",
+      "Yard"
+    ]
+  },
+  "ShortDescription": {
+    "definition": "The short text given to summarize the object.  Commonly used as the short description displayed under a photo.",
+    "type": "string",
+    "maxLength": 50,
+    "synonyms": [
+      "Caption",
+      "Name"
+    ],
+    "level": "bronze"
+  },
+  "LongDescription": {
+    "definition": "The full robust description of the object.",
+    "type": "string",
+    "maxLength": 1024,
+    "synonyms": [
+      "FullDescription"
+    ],
+    "level": "bronze"
+  },
+  "ModificationTimestamp": {
+    "definition": "The transactional timestamp automatically recorded by the MLS system representing the date/time the media record was last modified.",
+    "type": "date",
+    "maxLength": 27,
+    "synonyms": [
+      "ModificationDateTime",
+      "DateTimeModified",
+      "ModDate",
+      "DateMod",
+      "UpdateDate",
+      "UpdateTimestamp"
+    ],
+    "level": "core"
+  },
+  "MediaModificationTimestamp": {
+    "definition": "This timestamp is updated when a change to the object has been made, which may differ from a change to the Media Resource.",
+    "type": "date",
+    "maxLength": 27,
+    "synonyms": [
+      "MediaTimestamp"
+    ],
+    "level": "bronze"
+  },
+  "MediaURL": {
+    "definition": "The URI to the media file referenced by this record.",
+    "type": "string",
+    "maxLength": 8000,
+    "level": "core"
+  },
+  "MediaHTML": {
+    "definition": "The JavaScript or other method to embed a video, image, virtual tour or other media.",
+    "type": "string",
+    "maxLength": 8500,
+    "level": "bronze"
+  },
+  "Order": {
+    "definition": "Only a positive integer including zero.  Element zero is the primary photo per RETS convention.",
+    "type": "number",
+    "maxLength": 4,
+    "level": "core"
+  },
+  "Group": {
+    "definition": "A placeholder for media classification such as elevation, exterior, interior, community, view, plan, plat.  The purpose is to allow media items to be grouped.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "bronze"
+  },
+  "ImageWidth": {
+    "definition": "The width of the image expressed in pixels.",
+    "type": "number",
+    "maxLength": 8,
+    "level": "bronze"
+  },
+  "ImageHeight": {
+    "definition": "The height of the image expressed in pixels.",
+    "type": "number",
+    "maxLength": 8,
+    "level": "bronze"
+  },
+  "ImageSizeDescription": {
+    "definition": "A text description of the size of the image.  i.e. Small, Thumbnail, Medium, Large, X-Large.  The largest image must be described as \"Largest\".  Thumbnail must also be included.  Pick List will remain open/extendable.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "bronze"
+  },
+  "ResourceName": {
+    "definition": "The resource or table of the listing or other record the media relates to.  i.e. Property, Member, Office, etc.",
+    "type": "string",
+    "maxLength": 50,
+    "lookup": "ResourceName",
+    "level": "core",
+    "enum": [
+      "Property",
+      "Member",
+      "Office",
+      "Contacts"
+    ]
+  },
+  "ClassName": {
+    "definition": "The class or table of the listing or other record the media.  Residential, Lease, Agent, Office, Contact, etc.",
+    "type": "string",
+    "maxLength": 50,
+    "lookup": "ClassName",
+    "level": "bronze",
+    "enum": [
+      "Business Opportunity",
+      "Commercial Lease",
+      "Commercial Sale",
+      "Contacts",
+      "Cross Property",
+      "Farm",
+      "History Transactional",
+      "Land",
+      "Manufactured In Park",
+      "Media",
+      "Member",
+      "Office",
+      "Open House",
+      "Residential",
+      "Residential Income",
+      "Residential Lease",
+      "Saved Search"
+    ]
+  },
+  "Permission": {
+    "definition": "Public, Private, IDX, VOW, Office Only, Firm Only, Agent Only, ",
+    "type": [
+      "string"
+    ],
+    "maxLength": 255,
+    "level": "bronze"
+  },
+  "MediaStatus": {
+    "definition": "The status of the media item referenced by this record.  (Updated, Deleted, etc.,_   ",
+    "type": "string",
+    "maxLength": 50,
+    "level": "bronze"
+  },
+  "PreferredPhotoYN": {
+    "definition": "When set to true, the media record in question is the preferred photo.  This will typically mean the photo to be shown when only one of the photos is to be displayed.",
+    "type": "boolean",
+    "level": "platinum"
+  }
+}

@@ -219,6 +219,9 @@ function wplpro_init() {
 	}
 
 	/** Includes. */
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/wp-reso/wp-reso.php' );
+
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-custom-post-types.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listings.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-agents.php' );
 
