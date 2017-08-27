@@ -1,0 +1,231 @@
+#!/usr/bin/env node
+
+'use strict'
+
+const xlsx = require('xlsx-rows')
+const plural = require('plural')
+
+/**
+ * Source file
+ */
+
+var file = process.argv[2]
+
+/**
+ * Resource
+ */
+
+var res = process.argv[3]
+
+/**
+ * Column names
+ */
+
+const keys = [
+  'key',
+  'definition',
+  'type',
+  'maxLength',
+  'maxPrecision',
+  'synonyms',
+  'status',
+  'lookup',
+  'level',
+  'payloads',
+  'bedesMapping',
+  'path',
+  'group',
+  'repeating',
+  'rid',
+  'resi',
+  'rlse',
+  'rinc',
+  'land',
+  'mobi',
+  'farm',
+  'coms',
+  'coml',
+  'buso'
+]
+
+parse(file, res)
+
+function parse (file, res) {
+  var src = xlsx({file: file, sheetname: res})
+  var enums = xlsx({file: file, sheetname: 'Enumerations'})
+  src.shift()
+  enums.shift()
+
+  out(src
+    .map(toObject(keys))
+    .map(classes(res))
+    .map(toSchema)
+    .map(primaryKey())
+    .map(addEnums(enums))
+    .map(cleanEmpty)
+    .map(repeatingFields)
+    .reduce(reduce, {}))
+}
+
+function out (obj) {
+  console.log(JSON.stringify(obj, null, 2))
+}
+
+/**
+ * Turn array of cols into an
+ * object with given keys
+ */
+
+function toObject (keys) {
+  return function (vals) {
+    var obj = {}
+    keys.forEach((k, i) => obj[k] = vals[i])
+    return obj
+  }
+}
+
+function toSchema (obj) {
+  return {
+    key: obj.key,
+    definition: obj.definition,
+    type: parseType(obj.type),
+    maxLength: parseInt(obj.maxLength, 10) || undefined,
+    maxPrecision: parseInt(obj.maxPrecision, 10) || undefined,
+    synonyms: synonyms(obj.synonyms),
+    lookup: (obj.lookup && obj.lookup.charAt(0) === '<') ? undefined : obj.lookup,
+    level: obj.level.toLowerCase(),
+    repeating: obj.repeating === 'Yes' ? true : undefined
+  }
+}
+
+function synonyms (arr) {
+  if (!arr) return
+  return arr
+    .split(',')
+    .map((s) => s.trim())
+    .filter((s) => s.length)
+}
+
+function classes (res) {
+  const classes = ['resi', 'rlse', 'rinc', 'land', 'mobi', 'farm', 'coms', 'coml', 'buso']
+  return function (obj) {
+    // classes only applies to properties!
+    if (res === 'Property') {
+      obj.classes = classes.filter((c) => obj[c] === 'X')
+    }
+    return obj
+  }
+}
+
+function primaryKey () {
+  var found = false
+  return function (obj) {
+    if (!found && obj.key.match(/Key$/)) {
+      obj.primary = true
+      found = true
+    }
+    return obj
+  }
+}
+
+/**
+ * Add enumeration values to schema
+ */
+
+function addEnums (arr) {
+  var enums = {}
+  arr.forEach((row) => {
+    if (!(row[0] in enums)) enums[row[0]] = []
+    enums[row[0]].push(row[1])
+  })
+
+  return function (obj) {
+    if (!obj.lookup) return obj
+    // do something
+    obj.enum = enums[obj.lookup]
+    return obj
+  }
+}
+
+/**
+ * Resolve repeating fields
+ */
+
+function repeatingFields (obj, i, arr) {
+  // only repeating fields with Type in the name
+  if (!obj.repeating || !obj.key.match(/Type$/)) return obj
+  var collect = true
+  var fields = []
+  var subdoc = {}
+  var shortName
+  var keys = []
+  var j = i
+
+  // add Type to subdocument
+  subdoc.Type = {
+    type: 'string',
+    enum: obj.enum
+  }
+
+  // collect similar fields
+  while (collect) {
+    j++
+    fields.push(arr[j])
+    collect = arr[j].key && arr[j].key.match(/(\w+)\[[Tt]ype\](\w+)$/)
+    if (collect) {
+      keys.push(collect[2]) // short field name
+      shortName = collect[1]
+    }
+  }
+
+  keys.forEach((k, i) => {
+    subdoc[k] = fields[i]
+    delete subdoc[k].repeating
+    delete subdoc[k].key
+  })
+
+  obj.subdoc = {
+    key: plural(shortName),
+    body: [subdoc]
+  }
+
+  return obj
+}
+
+/**
+ * Remove keys with undefined values
+ */
+
+function cleanEmpty (obj) {
+  Object
+    .keys(obj)
+    .forEach((k) => {
+      if (undefined === obj[k]) delete obj[k]
+    })
+  return obj
+}
+
+/**
+ * Turn array into object
+ */
+
+function reduce (obj, el) {
+  if (!el.key) return obj
+  obj[el.key] = el
+  if (el.subdoc) {
+    obj[el.subdoc.key] = el.subdoc.body
+  }
+  delete el.key
+  delete el.subdoc
+  return obj
+}
+
+function parseType (str) {
+  str = str.toLowerCase()
+  switch (str) {
+    case 'timestamp': return 'date'
+    case 'string list, multi': return ['string']
+    case 'string list, single': return 'string'
+    default: return str
+  }
+}

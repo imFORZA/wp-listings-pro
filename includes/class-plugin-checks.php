@@ -13,15 +13,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 
-// Check for IMPress for IDX Broker.
-// Check for IMPress Listings (aka WP-Listings).
-// Check for IMPress Agents.
-// Check for WP Property.
-// Check for WPL Real Estate.
-// Check for Contempo Real Estate Custom Posts.
-// Check for Simple Real Estate Pack.
-// Check for Easy Property Listings.
-// Check for Essential Real Estate.
+// TODO: Check for IMPress for IDX Broker.
+// TODO: Check for IMPress Listings (aka WP-Listings).
+// TODO: Check for IMPress Agents.
+// TODO: Check for WP Property.
+// TODO: Check for WPL Real Estate.
+// TODO: Check for Contempo Real Estate Custom Posts.
+// TODO: Check for Simple Real Estate Pack.
+// TODO: Check for Easy Property Listings.
+// TODO: Check for Essential Real Estate.
 /**
  * Check for Genesis Agent Profiles Plugin.
  *

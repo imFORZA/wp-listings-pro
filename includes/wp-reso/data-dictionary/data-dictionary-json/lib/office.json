@@ -1,0 +1,410 @@
+{
+  "OfficeKey": {
+    "definition": "A system unique identifier. Specifically, in aggregation systems, the Key is the system unique identifier from the system that the record was just retrieved. This may be identical to the related xxxId identifier, but the key is guaranteed unique for this record set. ",
+    "type": "string",
+    "maxLength": 255,
+    "level": "core",
+    "primary": true
+  },
+  "OfficeKeyNumeric": {
+    "definition": "A unique identifier for this record from the immediate source. This is the numeric only key and used as an alternative to the OfficeKey fields.  This is the local key of the system.  When records are received from other systems, a local key is commonly applied.  If conveying the original keys from the source or originating systems, see SourceSystemOfficeKey and OriginatingSystemOfficeKey.",
+    "type": "number",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "OriginatingSystemOfficeKey": {
+    "definition": "The system key, a unique record identifier, from the Originating system.  The Originating system is the system with authoritative control over the record.  For example, the Multiple Listing Service where the office was input.  There may be cases where the Source System (how you received the record) is not the Originating System.  See Source System Key for more information. ",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderKey"
+    ],
+    "level": "core"
+  },
+  "OriginatingSystemName": {
+    "definition": "The name of the Originating record provider.  Most commonly the name of the MLS. The place where the office is originally input by the member.  The legal name of the company.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderName",
+      "MLSID"
+    ],
+    "level": "bronze"
+  },
+  "OriginatingSystemID": {
+    "definition": "The RESO OUID's OrganizationUniqueId of the Originating record provider.  The Originating system is the system with authoritative control over the record.  For example; the name of the MLS where the office was input.  In cases where the Originating system was not where the record originated (the authoritative system), see the Originating System fields.",
+    "type": "string",
+    "maxLength": 25,
+    "synonyms": [
+      "MLSID"
+    ],
+    "level": "platinum"
+  },
+  "SourceSystemOfficeKey": {
+    "definition": "The system key, a unique record identifier, from the Source System.  The Source System is the system from which the record was directly received.  In cases where the Source System was not where the record originated (the authoritative system), see the Originating System fields. ",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderKey"
+    ],
+    "level": "silver"
+  },
+  "SourceSystemName": {
+    "definition": "The name of the immediate record provider.  The system from which the record was directly received.  The legal name of the company.",
+    "type": "string",
+    "maxLength": 255,
+    "synonyms": [
+      "ProviderName",
+      "MLSID"
+    ],
+    "level": "silver"
+  },
+  "SourceSystemID": {
+    "definition": "The RESO OUID's OrganizationUniqueId of the Source record provider.  The source system is the system from which the record was directly received.  In cases where the source system was not where the record originated (the authoritative system), see the Originating System fields.",
+    "type": "string",
+    "maxLength": 25,
+    "synonyms": [
+      "MLSID"
+    ],
+    "level": "platinum"
+  },
+  "OfficeMlsId": {
+    "definition": "The local, well-known identifier. This value may not be unique, specifically in the case of aggregation systems, this value should be the identifier from the original system.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "core"
+  },
+  "OfficeName": {
+    "definition": "The legal name of the brokerage.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "core"
+  },
+  "OfficePhone": {
+    "definition": "North American 10 digit phone numbers should be in the format of ###-###-#### (separated by hyphens).  Other conventions should use the common local standard.  International numbers should be preceded by a plus symbol.",
+    "type": "string",
+    "maxLength": 16,
+    "level": "core"
+  },
+  "OfficePhoneExt": {
+    "definition": "The extension of the given phone number (if applicable).",
+    "type": "string",
+    "maxLength": 10,
+    "level": "core"
+  },
+  "OfficeFax": {
+    "definition": "North American 10 digit phone numbers should be in the format of ###-###-#### (separated by hyphens).  Other conventions should use the common local standard.  International numbers should be preceded by a plus symbol.",
+    "type": "string",
+    "maxLength": 16,
+    "level": "bronze"
+  },
+  "OfficeEmail": {
+    "definition": "The email address of the office",
+    "type": "string",
+    "maxLength": 80,
+    "level": "core"
+  },
+  "OfficeType": {
+    "definition": "The type of business conducted by the office.  i.e. Real Estate, Appraiser, etc.",
+    "type": "string",
+    "maxLength": 50,
+    "lookup": "OfficeType",
+    "level": "bronze",
+    "enum": [
+      "Affiliate",
+      "Appraiser",
+      "Association",
+      "MLS",
+      "MLS Only Branch",
+      "MLS Only Firm",
+      "MLS Only Office",
+      "Non Member/Vendor",
+      "Realtor Branch Office",
+      "Realtor Firm",
+      "Realtor Office"
+    ]
+  },
+  "OfficeBranchType": {
+    "definition": "The level of the office in the hierarchy of Main, Branch, Stand Alone, etc.,",
+    "type": "string",
+    "maxLength": 50,
+    "level": "silver"
+  },
+  "SocialMediaType": {
+    "definition": "A list of types of sites, blog, social media, the Office URL or ID is referring to.  i.e. Website, Blog, Facebook, Twitter, LinkedIn, Skype, etc.,  This list is used to populate the Type with repeating Social Media URL or ID types.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "silver",
+    "repeating": true
+  },
+  "SocialMedias": [
+    {
+      "Type": {
+        "type": "string"
+      },
+      "UrlOrId": {
+        "definition": "The website URL or ID of social media site or account of the Office.  This is a repeating element.  Replace [Type] with any of the options from the SocialMediaType field to create a unique field for that type of social media.  For example: SocialMediaFacebookUrlOrID, SocialMediaSkypeUrlOrID, etc.",
+        "type": "string",
+        "maxLength": 8000,
+        "level": "silver"
+      }
+    }
+  ],
+  "OfficeAOR": {
+    "definition": "The Office's Board or Association of REALTORS.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "bronze"
+  },
+  "OfficeAORMlsId": {
+    "definition": "The local, well-known identifier for the office's Association of REALTORS. This value may not be unique, specifically in the case of aggregation systems, this value should be the identifier from the original system.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "bronze"
+  },
+  "OfficeAORkey": {
+    "definition": "A system unique identifier. Specifically, in aggregation systems, the OfficeAORkey is the system unique identifier from the system that the record was retrieved. This may be identical to the related xxxId.  This is a foreign key relating to the AOR's member management system in which the record was originated.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "bronze"
+  },
+  "OfficeAORkeyNumeric": {
+    "definition": "A system unique identifier. Specifically, in aggregation systems, the OfficeAORkey is the system unique identifier from the system that the record was retrieved. This may be identical to the related xxxId.  This is a foreign key relating to the AOR's member management system in which the record was originated.  This is the numeric only key and used as an alternative to the OfficeAORkey field.",
+    "type": "number",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "OfficeNationalAssociationId": {
+    "definition": "The national association ID of the office.  i.e. in the U.S. is the NRDS number.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "core"
+  },
+  "OfficeCorporateLicense": {
+    "definition": "When an office/firm is a corporation, an independent license number is issued.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "bronze"
+  },
+  "OfficeBrokerMlsId": {
+    "definition": "The MemberMlsId of the responsible/owning broker.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "core"
+  },
+  "OfficeBrokerKey": {
+    "definition": "The MemberKey of the responsible/owning broker.  This is a foreign key relating to the Member resource's MemberKey.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "core"
+  },
+  "OfficeBrokerKeyNumeric": {
+    "definition": "The MemberKey of the responsible/owning broker.  This is a foreign key relating to the Member resource's MemberKey.  This is the numeric only key and used as an alternative to the OfficeBrokerKey field.",
+    "type": "number",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "OfficeManagerMlsId": {
+    "definition": "The lead Office Manager for the given office.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "bronze"
+  },
+  "OfficeManagerKey": {
+    "definition": "The lead Office Manager for the given office.  This is a foreign key relating to the Member resource's MemberKey.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "bronze"
+  },
+  "OfficeManagerKeyNumeric": {
+    "definition": "The lead Office Manager for the given office.  This is a foreign key relating to the Member resource's MemberKey.  This is the numeric only key and used as an alternative to the OfficeManagerKey field.",
+    "type": "number",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "OfficeAddress1": {
+    "definition": "The street number, direction, name and suffix of the office.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "core"
+  },
+  "OfficeAddress2": {
+    "definition": "The unit/suite number of the office.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "core"
+  },
+  "OfficeCity": {
+    "definition": "The city of the office.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "core"
+  },
+  "OfficeStateOrProvince": {
+    "definition": "The state or province in which the office is located.",
+    "type": "string",
+    "maxLength": 2,
+    "lookup": "StateOrProvince",
+    "level": "core",
+    "enum": [
+      "AK",
+      "AL",
+      "AR",
+      "AZ",
+      "CA",
+      "CO",
+      "CT",
+      "DC",
+      "DE",
+      "FL",
+      "GA",
+      "HI",
+      "IA",
+      "ID",
+      "IL",
+      "IN",
+      "KS",
+      "KY",
+      "LA",
+      "MA",
+      "MD",
+      "ME",
+      "MI",
+      "MN",
+      "MO",
+      "MS",
+      "MT",
+      "NC",
+      "ND",
+      "NE",
+      "NH",
+      "NJ",
+      "NM",
+      "NV",
+      "NY",
+      "OH",
+      "OK",
+      "OR",
+      "PA",
+      "RI",
+      "SC",
+      "SD",
+      "TN",
+      "TX",
+      "UT",
+      "VA",
+      "VI",
+      "VT",
+      "WA",
+      "WI",
+      "WV",
+      "WY",
+      "AB",
+      "BC",
+      "MB",
+      "NB",
+      "NF",
+      "NS",
+      "NT",
+      "NU",
+      "ON",
+      "PE",
+      "QC",
+      "SK",
+      "YT"
+    ]
+  },
+  "OfficePostalCode": {
+    "definition": "The postal code of the office.",
+    "type": "string",
+    "maxLength": 10,
+    "level": "core"
+  },
+  "OfficePostalCodePlus4": {
+    "definition": "The extension of the postal/zip code.  i.e. +4",
+    "type": "string",
+    "maxLength": 4,
+    "level": "core"
+  },
+  "OfficeCountyOrParish": {
+    "definition": "The county or parish in which the offices is located.",
+    "type": "string",
+    "maxLength": 50,
+    "synonyms": [
+      "County"
+    ],
+    "level": "core"
+  },
+  "OfficeStatus": {
+    "definition": "Is the office active, inactive or under disciplinary action.",
+    "type": "string",
+    "maxLength": 25,
+    "lookup": "OfficeStatus",
+    "level": "core",
+    "enum": [
+      "Active",
+      "Inactive"
+    ]
+  },
+  "OfficeAssociationComments": {
+    "definition": "Notes relating to the office.",
+    "type": "string",
+    "maxLength": 500,
+    "level": "silver"
+  },
+  "OriginalEntryTimestamp": {
+    "definition": "Date/time the roster (member or office) record was originally input into the source system.",
+    "type": "date",
+    "maxLength": 27,
+    "level": "core"
+  },
+  "ModificationTimestamp": {
+    "definition": "Date/time the roster (member or office) record was last modified.",
+    "type": "date",
+    "maxLength": 27,
+    "level": "core"
+  },
+  "MainOfficeKey": {
+    "definition": "OfficeKey of the Main Office in a firm/company of offices.  This is a self referencing foreign key relating to this resource's OfficeKey.  This key may be the same value as the OfficeKey for a given record if the given office is the Main Office.",
+    "type": "string",
+    "maxLength": 255,
+    "level": "core"
+  },
+  "MainOfficeKeyNumeric": {
+    "definition": "OfficeKey of the Main Office in a firm/company of offices.  This is a self referencing foreign key relating to this resource's OfficeKey.  This key may be the same value as the OfficeKey for a given record if the given office is the Main Office.  This is the numeric only key and used as an alternative to the MainOfficeKey field.",
+    "type": "number",
+    "maxLength": 255,
+    "level": "platinum"
+  },
+  "MainOfficeMlsId": {
+    "definition": "OfficeMlsId of the Main Office in a firm/company of offices.",
+    "type": "string",
+    "maxLength": 25,
+    "level": "core"
+  },
+  "FranchiseAffiliation": {
+    "definition": "The name of the franchise to which the broker/office is contracted.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "silver"
+  },
+  "IDXOfficeParticipationYN": {
+    "definition": "Does the Office/Broker participate in IDX.",
+    "type": "boolean",
+    "level": "bronze"
+  },
+  "SyndicateTo": {
+    "definition": "The principal broker's choice on where they would like their listings syndicated.  i.e. Zillow, Trulia, Homes.com, etc.",
+    "type": [
+      "string"
+    ],
+    "maxLength": 1024,
+    "level": "gold"
+  },
+  "SyndicateAgentOption": {
+    "definition": "A list of options allowing the broker to pass the decision of syndication choice down to the listing agents.  i.e. No Agent Choice, Allow Agent Choice, Restrict Agent Choice, etc.",
+    "type": "string",
+    "maxLength": 50,
+    "level": "gold"
+  }
+}
