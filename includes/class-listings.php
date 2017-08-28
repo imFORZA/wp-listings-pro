@@ -226,7 +226,7 @@ class WP_Listings {
 	 * @return void
 	 */
 	function register_meta_boxes() {
-		add_meta_box( 'listing_sync_metabox' , __( 'Sync Settings', 'wp-listings-pro' ), array( &$this, 'listing_sync_metabox' ), 'listing', 'normal', 'high' );
+		add_meta_box( 'listing_sync_metabox' , __( 'Sync Settings', 'wp-listings-pro' ), array( &$this, 'listing_sync_metabox' ), 'listing', 'side', 'high' );
 		add_meta_box( 'listing_details_metabox', __( 'Property Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_map_metabox', __( 'Location', 'wp-listings-pro' ), array( &$this, 'listing_map_metabox' ), 'listing', 'normal', 'high' );
