@@ -188,31 +188,31 @@ class WP_Listings {
 		$args = apply_filters( 'wp_listings_post_type_args',
 			array(
 				'labels' => array(
-					'name'					=> __( 'Listings', 'wp-listings-pro' ),
-					'singular_name'			=> __( 'Listing', 'wp-listings-pro' ),
-					'add_new'				=> __( 'Add New', 'wp-listings-pro' ),
-					'add_new_item'			=> __( 'Add New Listing', 'wp-listings-pro' ),
-					'edit'					=> __( 'Edit', 'wp-listings-pro' ),
-					'edit_item'				=> __( 'Edit Listing', 'wp-listings-pro' ),
-					'new_item'				=> __( 'New Listing', 'wp-listings-pro' ),
-					'view'					=> __( 'View Listing', 'wp-listings-pro' ),
-					'view_item'				=> __( 'View Listing', 'wp-listings-pro' ),
-					'search_items'			=> __( 'Search Listings', 'wp-listings-pro' ),
-					'not_found'				=> __( 'No listings found', 'wp-listings-pro' ),
-					'not_found_in_trash'	=> __( 'No listings found in Trash', 'wp-listings-pro' ),
+					'name'					        => __( 'Listings', 'wp-listings-pro' ),
+					'singular_name'			    => __( 'Listing', 'wp-listings-pro' ),
+					'add_new'				        => __( 'Add New', 'wp-listings-pro' ),
+					'add_new_item'			    => __( 'Add New Listing', 'wp-listings-pro' ),
+					'edit'					        => __( 'Edit', 'wp-listings-pro' ),
+					'edit_item'				      => __( 'Edit Listing', 'wp-listings-pro' ),
+					'new_item'				      => __( 'New Listing', 'wp-listings-pro' ),
+					'view'					        => __( 'View Listing', 'wp-listings-pro' ),
+					'view_item'				      => __( 'View Listing', 'wp-listings-pro' ),
+					'search_items'			    => __( 'Search Listings', 'wp-listings-pro' ),
+					'not_found'				      => __( 'No listings found', 'wp-listings-pro' ),
+					'not_found_in_trash'	  => __( 'No listings found in Trash', 'wp-listings-pro' ),
 					'filter_items_list'     => __( 'Filter Listings', 'wp-listings-pro' ),
 					'items_list_navigation' => __( 'Listings navigation', 'wp-listings-pro' ),
 					'items_list'            => __( 'Listings list', 'wp-listings-pro' ),
 				),
-				'public'		=> true,
-				'query_var'		=> true,
-				'show_in_rest'  => true,
-				'rest_base'     => 'listing',
+				'public'		            => true,
+				'query_var'		          => true,
+				'show_in_rest'          => true,
+				'rest_base'             => 'listing',
 				'rest_controller_class' => 'WP_REST_Posts_Controller',
-				'menu_position'	=> 5,
-				'menu_icon'		=> 'dashicons-admin-home',
-				'has_archive'	=> true,
-				'supports'		=> array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown' ),
+				'menu_position'	        => 5,
+				'menu_icon'		          => 'dashicons-admin-home',
+				'has_archive'	          => true,
+				'supports'		          => array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown' ),
 				// 'rewrite'     => array( 'slug' => $this->options['wplpro_listings_slug'], 'feeds' => true, 'with_front' => false ),
 			)
 		);
@@ -229,7 +229,7 @@ class WP_Listings {
 		add_meta_box( 'listing_sync_metabox' , __( 'Sync Settings', 'wp-listings-pro' ), array( &$this, 'listing_sync_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_details_metabox', __( 'Property Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
-		add_meta_box( 'listing_map_metabox', __( 'Map Options', 'wp-listings-pro' ), array( &$this, 'listing_map_metabox' ), 'listing', 'normal', 'high' );
+		add_meta_box( 'listing_map_metabox', __( 'Location', 'wp-listings-pro' ), array( &$this, 'listing_map_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_contact_metabox', __( 'Lead Tools', 'wp-listings-pro' ), array( &$this, 'listing_contact_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_assignment_metabox', __( 'Agent Assignments', 'wp-listings-pro' ), array( &$this, 'listing_assignments_metabox' ), 'listing', 'normal', 'high' );
 
