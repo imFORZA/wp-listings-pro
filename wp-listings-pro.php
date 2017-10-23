@@ -239,10 +239,6 @@ function wplpro_init() {
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wp-listings-featured-listings-widget.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wplproagents-widget.php' );
 
-	include_once( plugin_dir_path( __FILE__ ) . 'includes/property/class-listing-price-metabox.php' );
-	include_once( plugin_dir_path( __FILE__ ) . 'includes/property/class-listing-location-metabox.php' );
-
-
 	include_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-register-meta.php');
 
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-gallery-metabox.php' );
@@ -606,6 +602,3 @@ function wplpro_set_sort( $option ) {
 
 	return $option;
 }
-
-
-

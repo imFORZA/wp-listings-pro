@@ -229,7 +229,10 @@ class WP_Listings {
 		add_meta_box( 'listing_sync_metabox' , __( 'Sync Settings', 'wp-listings-pro' ), array( &$this, 'listing_sync_metabox' ), 'listing', 'side', 'high' );
 		add_meta_box( 'listing_details_metabox', __( 'Property Details', 'wp-listings-pro' ), array( &$this, 'listing_details_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_features_metabox', __( 'Additional Details', 'wp-listings-pro' ), array( &$this, 'listing_features_metabox' ), 'listing', 'normal', 'high' );
-		add_meta_box( 'listing_map_metabox', __( 'Location', 'wp-listings-pro' ), array( &$this, 'listing_map_metabox' ), 'listing', 'normal', 'high' );
+		add_meta_box( 'listing_location_metabox', __( 'Map and Location', 'wp-listings-pro' ), array( $this, 'listing_location_metabox' ), 'listing', 'advanced', 'core'
+		);
+		add_meta_box(	'listing_pricing_metabox',	__( 'Pricing', 'wp-listings-pro' ),	array( &$this, 'listing_price_metabox' ),	'listing',	'advanced',	'default');
+		// add_meta_box( 'listing_map_metabox', __( 'Location', 'wp-listings-pro' ), array( &$this, 'listing_map_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_contact_metabox', __( 'Lead Tools', 'wp-listings-pro' ), array( &$this, 'listing_contact_metabox' ), 'listing', 'normal', 'high' );
 		add_meta_box( 'listing_assignment_metabox', __( 'Agent Assignments', 'wp-listings-pro' ), array( &$this, 'listing_assignments_metabox' ), 'listing', 'normal', 'high' );
 
@@ -263,6 +266,24 @@ class WP_Listings {
 	 */
 	function listing_features_metabox() {
 		include( dirname( __FILE__ ) . '/views/listing-features-metabox.php' );
+	}
+
+	/**
+	 * Metabox for location fields
+	 *
+	 * @return void
+	 */
+	function listing_location_metabox(){
+		include( dirname( __FILE__ ) . '/views/listing-location-metabox.php' );
+	}
+
+	/**
+	 * Metabox for pricing settings
+	 *
+	 * @return void
+	 */
+	function listing_price_metabox(){
+		include( dirname( __FILE__ ) . '/views/listing-price-metabox.php' );
 	}
 
 	/**
@@ -319,53 +340,98 @@ class WP_Listings {
 			  return;
 		}
 
-		$property_details = $_POST['wp_listings']; // Grab informmation object from post, and validate before entering it.
+		$dets = $_POST['wp_listings']; // Grab informmation object from post, and validate before entering it.
+		                               // dets => Details
+		                               // Like ya know. Gimme the dets.
+		                               // (Sometimes spelled as deets).
+		                               // Shortened so that data validation is easier to read.
 
-		if ( ! isset( $property_details['_listing_hide_price'] ) ) {
-			$property_details['_listing_hide_price'] = 0;
-		}
-
-		if ( ! isset( $property_details['_listing_custom_sync_featured'] ) ) {
-			$property_details['_listing_custom_sync_featured'] = 0;
-		}
-		if ( ! isset( $property_details['_listing_custom_sync_gallery'] ) ) {
-			$property_details['_listing_custom_sync_gallery'] = 0;
-		}
-		if ( ! isset( $property_details['_listing_custom_sync_details'] ) ) {
-			$property_details['_listing_custom_sync_details'] = 0;
-		}
+		// Sync settings.
+		update_post_meta( $post->ID, '_listing_sync_update', ( isset( $dets['_listing_sync_update'] ) ? $dets['_listing_sync_update'] : '' ) );
+		update_post_meta( $post->ID, '_listing_custom_sync_featured', ( isset( $dets['_listing_custom_sync_featured'] ) ? 1 : 0 ) );
+		update_post_meta( $post->ID, '_listing_custom_sync_gallery', ( isset( $dets['_listing_custom_sync_gallery'] ) ? 1 : 0 ) );
+		update_post_meta( $post->ID, '_listing_custom_sync_details', ( isset( $dets['_listing_custom_sync_details'] ) ? 1 : 0 ) );
 
 		// Saving Agent Assignments.
-		$stuff = get_posts(array(
+		$agents = get_posts(array(
 			'post_type'       => 'employee',
 			'posts_per_page'  => -1,
 		));
 		$ids = array();
-		foreach ( $stuff as $agent ) {
-			if ( isset( $property_details[ '_employee_responsibility_' . $agent->ID ] ) ) {
+		foreach ( $agents as $agent ) {
+			if ( isset( $dets[ '_employee_responsibility_' . $agent->ID ] ) ) {
 				$ids[ count( $ids ) ] = $agent->ID;
 			}
 		}
-		$property_details['_employee_responsibility'] = implode( ',',$ids );
+		update_post_meta( $post->ID, '_employee_responsibility', implode( ',',$ids ) );
 
-		/** Validate and store the property details custom fields */
-		foreach ( (array) $property_details as $key => $value ) {
+		// Map and Location
+		update_post_meta( $post->ID, '_listing_carrier_route', ( isset( $dets['_listing_carrier_route'] ) ? $dets['_listing_carrier_route'] : '' ) ); // Hm, need a regex for this... maybe something like, preg_match( '/\d{5}(-|)[a-zA-Z]\d{3}/', $string )?
+		update_post_meta( $post->ID, '_listing_city', ( isset( $dets['_listing_city'] ) ? sanitize_text_field( $dets['_listing_city'] ) : '' ) );
+		update_post_meta( $post->ID, '_listing_country', ( isset( $dets['_listing_country'] ) ? sanitize_text_field( $dets['_listing_country'] ) : '' ) );
+		update_post_meta( $post->ID, '_listing_county', ( isset( $dets['_listing_county'] ) ? sanitize_text_field( $dets['_listing_county'] ) : '' ) );
+		update_post_meta( $post->ID, '_listing_postal_city', ( isset( $dets['_listing_postal_city'] ) ? sanitize_text_field( $dets['_listing_postal_city'] ) : '' ) );
+		update_post_meta( $post->ID, '_listing_zip', ( isset( $dets['_listing_zip'] ) ? $dets['_listing_zip'] : '' ) ); //  && preg_match( '/(^\d{5}$)/', $dets['_listing_zip_plus_4'] ) validates 5 digits.
+		update_post_meta( $post->ID, '_listing_zip_plus_4', ( isset( $dets['_listing_zip_plus_4'] ) ? $dets['_listing_zip_plus_4'] : '' ) ); // && preg_match( '/(^\d{5}-\d4}$)/', $dets['_listing_zip_plus_4'] ) validates 5 digits, a tack, then 4 digits.
+		update_post_meta( $post->ID, '_listing_state', ( isset( $dets['_listing_state'] ) ?	$dets['_listing_state'] : '' ));
+		update_post_meta( $post->ID, '_listing_street_additional_info', ( isset( $dets['_listing_street_additional_info'] ) ?	$dets['_listing_street_additional_info'] : '' ));
+		update_post_meta( $post->ID, '_listing_automap', ( isset( $dets['_listing_automap'] ) ?	$dets['_listing_automap'] : '' ));
+		update_post_meta( $post->ID, '_listing_latitude', ( isset( $dets['_listing_latitude'] ) ? $dets['_listing_latitude'] : '' )); //  && preg_match( '/(^\d+$)|(^\d+.\d+$)/', $dets['_listing_latitude'] ) Makes sure is only digits (integer, or float).
+		update_post_meta( $post->ID, '_listing_longitude', ( isset( $dets['_listing_longitude'] ) ? $dets['_listing_longitude'] : '' )); //  && preg_match( '/(^\d+$)|(^\d+.\d+$)/', $dets['_listing_longitude'] ) ^^
+		update_post_meta( $post->ID, '_listing_map', ( isset( $dets['_listing_map'] ) ? sanitize_text_field( $dets['_listing_map'] ) : '' ));
 
-			$key = sanitize_key( $key );
+		// Price - sanitized
+		update_post_meta( $post->ID, '_listing_price', ( isset( $dets['_listing_price'] ) ? floatval( $dets['_listing_price'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_list_price_low', ( isset( $dets['_listing_list_price_low'] ) ? floatval( $dets['_listing_list_price_low'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_original_list_price', ( isset( $dets['_listing_original_list_price'] ) ? floatval( $dets['_listing_original_list_price'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_previous_list_price', ( isset( $dets['_listing_previous_list_price'] ) ? floatval( $dets['_listing_previous_list_price'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_sold_price', ( isset( $dets['_listing_sold_price'] ) ? floatval( $dets['_listing_sold_price'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_rent_price', ( isset( $dets['_listing_rent_price'] ) ? floatval( $dets['_listing_rent_price'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_hide_price', ( isset( $dets['_listing_hide_price'] ) ? 1 : 0 ));
 
-			if ( '_employee_email' === $key ) {
-				$value = sanitize_email( $value );
-			} else {
-				$value = sanitize_text_field( $value );
-			}
+		update_post_meta( $post->ID, '_listing_price_alt', ( isset( $dets['_listing_price_alt'] ) ? sanitize_text_field( $dets['_listing_price_alt'] ) : '' ));
 
-			  /** Save/Update/Delete */
-			if ( $value ) {
-				update_post_meta( $post->ID,  $key, $value );
-			} else {
-				  delete_post_meta( $post->ID, $key );
-			}
-		}
+		// Details
+		update_post_meta( $post->ID, '_listing_sold_date', ( isset( $dets['_listing_sold_date'] ) ? sanitize_text_field( $dets['_listing_sold_date'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_mls', ( isset( $dets['_listing_mls'] ) ? $dets['_listing_mls'] : '' ) ); //  && preg_match( '/(^\d+$)|(^\d+-\d+$)/', $dets['_listing_mls'] )
+		update_post_meta( $post->ID, '_listing_open_house', ( isset( $dets['_listing_open_house'] ) ?	$dets['_listing_open_house'] : '' ));
+		update_post_meta( $post->ID, '_listing_year_built', ( isset( $dets['_listing_year_built'] ) ?	intval( $dets['_listing_year_built'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_floors', ( isset( $dets['_listing_floors'] ) ?	floatval( $dets['_listing_floors'] ) : '' )); // You never know when someone might have 2.718 floors.
+		update_post_meta( $post->ID, '_listing_sqft', ( isset( $dets['_listing_sqft'] ) ? intval( $dets['_listing_sqft'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_lot_sqft', ( isset( $dets['_listing_lot_sqft'] ) ? intval( $dets['_listing_lot_sqft'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_bedrooms', ( isset( $dets['_listing_bedrooms'] ) ? intval( $dets['_listing_bedrooms'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_bathrooms', ( isset( $dets['_listing_bathrooms'] ) ? intval( $dets['_listing_bathrooms'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_half_bath', ( isset( $dets['_listing_half_bath'] ) ? intval( $dets['_listing_half_bath'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_garage', ( isset( $dets['_listing_garage'] ) ?	$dets['_listing_garage'] : '' ));
+		update_post_meta( $post->ID, '_listing_pool', ( isset( $dets['_listing_pool'] ) ?	$dets['_listing_pool'] : '' ));
+		update_post_meta( $post->ID, '_listing_living_space', ( isset( $dets['_listing_living_space'] ) ?	$dets['_listing_living_space'] : '' ));
+		update_post_meta( $post->ID, '_listing_land_size', ( isset( $dets['_listing_land_size'] ) ?	$dets['_listing_land_size'] : '' ));
+		update_post_meta( $post->ID, '_listing_list_currency', ( isset( $dets['_listing_list_currency'] ) ?	$dets['_listing_list_currency'] : '' ));
+		update_post_meta( $post->ID, '_listing_lotsize', ( isset( $dets['_listing_lotsize'] ) ?	$dets['_listing_lotsize'] : '' ));
+		update_post_meta( $post->ID, '_listing_scenery', ( isset( $dets['_listing_scenery'] ) ?	$dets['_listing_scenery'] : '' ));
+		update_post_meta( $post->ID, '_listing_community', ( isset( $dets['_listing_community'] ) ?	$dets['_listing_community'] : '' ));
+		update_post_meta( $post->ID, '_listing_recreation', ( isset( $dets['_listing_recreation'] ) ?	$dets['_listing_recreation'] : '' ));
+		update_post_meta( $post->ID, '_listing_general', ( isset( $dets['_listing_general'] ) ?	$dets['_listing_general'] : '' ));
+		update_post_meta( $post->ID, '_listing_inclusions', ( isset( $dets['_listing_inclusions'] ) ?	$dets['_listing_inclusions'] : '' ));
+		update_post_meta( $post->ID, '_listing_parking', ( isset( $dets['_listing_parking'] ) ?	$dets['_listing_parking'] : '' ));
+		update_post_meta( $post->ID, '_listing_rooms', ( isset( $dets['_listing_rooms'] ) ?	$dets['_listing_rooms'] : '' ));
+		update_post_meta( $post->ID, '_listing_laundry', ( isset( $dets['_listing_laundry'] ) ?	$dets['_listing_laundry'] : '' ));
+		update_post_meta( $post->ID, '_listing_utilities', ( isset( $dets['_listing_utilities'] ) ?	$dets['_listing_utilities'] : '' ));
+		update_post_meta( $post->ID, '_listing_virtualtour', ( isset( $dets['_listing_virtualtour'] ) ?	$dets['_listing_virtualtour'] : '' ));
+		update_post_meta( $post->ID, '_listing_text', ( isset( $dets['_listing_text'] ) ?	$dets['_listing_text'] : '' ));
+		update_post_meta( $post->ID, '_listing_video', ( isset( $dets['_listing_video'] ) ?	$dets['_listing_video'] : '' ));
+
+		// Features
+		update_post_meta( $post->ID, '_listing_featured_on', ( isset( $dets['_listing_featured_on'] ) ?	$dets['_listing_featured_on'] : '' ));
+		update_post_meta( $post->ID, '_listing_home_sum', ( isset( $dets['_listing_home_sum'] ) ?	$dets['_listing_home_sum'] : '' ));
+		update_post_meta( $post->ID, '_listing_kitchen_sum', ( isset( $dets['_listing_kitchen_sum'] ) ?	$dets['_listing_kitchen_sum'] : '' ));
+		update_post_meta( $post->ID, '_listing_living_room', ( isset( $dets['_listing_living_room'] ) ?	$dets['_listing_living_room'] : '' ));
+		update_post_meta( $post->ID, '_listing_master_suite', ( isset( $dets['_listing_master_suite'] ) ?	$dets['_listing_master_suite'] : '' ));
+		update_post_meta( $post->ID, '_listing_school_neighborhood', ( isset( $dets['_listing_school_neighborhood'] ) ?	$dets['_listing_school_neighborhood'] : '' ));
+		update_post_meta( $post->ID, '_listing_disclaimer', ( isset( $dets['_listing_disclaimer'] ) ?	$dets['_listing_disclaimer'] : '' ));
+
+		// Contact
+		update_post_meta( $post->ID, '_listing_contact_form', ( isset( $dets['_listing_contact_form'] ) ? sanitize_text_field( $dets['_listing_contact_form'] ) : '' ) );
 
 	}
 
