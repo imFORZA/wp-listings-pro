@@ -2241,6 +2241,6 @@ class ResoProperty{
 			'years_current_owner',
 			'zoning',
 			'zoning_description',
-		)
+		);
 	}
 }
