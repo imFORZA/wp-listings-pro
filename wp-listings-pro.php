@@ -102,8 +102,9 @@ function wplpro_import_image_gallery() {
 	foreach ( $old_listings as $listing ) {
 		$old_gallery = get_post_meta( $listing->ID, '_listing_gallery', true );
 
-		// Get all http urls within the block gallery.
-		preg_match_all( '/http?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif|\.jpeg|\.svg)/', $old_gallery, $matches );
+		// Get all http or https urls within the block gallery.
+		preg_match_all( '/(http|https)?:\/\/[^ ]+?(?:\.jpg|\.png|\.gif|\.jpeg|\.svg)/', $old_gallery, $matches );
+
 		// Check for current listings.
 		$ids = array();
 		foreach ( $matches[0] as $image_url_dirty ) {
@@ -112,6 +113,10 @@ function wplpro_import_image_gallery() {
 			// Filter out URL from their form.
 			$image_url_clean = preg_replace( $pattern, $replacement, $image_url_dirty );
 			$image_id = wplpro_get_image_id( $image_url_clean );
+
+			// Note: this only works if the image already exists in WordPress.
+			//
+			// It does not create the image if it can't find it.
 
 			$ids[ count( $ids ) ] = $image_id;
 		}
