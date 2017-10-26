@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+: ${FILE:="src/dd.xlsx"}
+
+function gen {
+  bin/generate $FILE $1 > lib/$2.json
+}
+
+gen Contacts contact
+gen HistoryTransactional historytransactional
+gen Media media
+gen Member member
+gen Office office
+gen OpenHouse openhouse
+gen Property property
+gen SavedSearch savedsearch
+gen Teams team
+gen TeamMembers teammember
+gen OUID ouid

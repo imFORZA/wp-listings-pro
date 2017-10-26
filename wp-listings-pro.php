@@ -224,6 +224,9 @@ function wplpro_init() {
 	}
 
 	/** Includes. */
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/wp-reso/wp-reso.php' );
+
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-custom-post-types.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listings.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-agents.php' );
 
@@ -240,6 +243,8 @@ function wplpro_init() {
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wp-listings-search-widget.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wp-listings-featured-listings-widget.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wplproagents-widget.php' );
+
+	include_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-register-meta.php');
 
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-gallery-metabox.php' );
 	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-import.php' );

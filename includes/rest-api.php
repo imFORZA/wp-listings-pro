@@ -8,7 +8,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-
+// TODO Just use Delete method on /listings
 add_action( 'rest_api_init', function () {
 	register_rest_route( 'wp-listings-pro/v1', 'delete-listing/', array(
 		'methods'	 => 'POST',
@@ -17,6 +17,7 @@ add_action( 'rest_api_init', function () {
 	));
 } );
 
+// TODO Just use Put/Post method on /listings
 add_action( 'rest_api_init', function () {
 	register_rest_route( 'wp-listings-pro/v1', 'import-listings/', array(
 		'methods'	 => 'GET',
