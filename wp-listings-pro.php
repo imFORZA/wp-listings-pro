@@ -607,3 +607,27 @@ function wplpro_set_sort( $option ) {
 
 	return $option;
 }
+
+
+function wplpro_add_user_roles() {
+       add_role( 'lead', 'Lead', array( 'read' => true, 'level_0' => true ) );
+
+       /*
+	       Association Staff
+Designated REALTOR Appraiser
+Designated REALTOR Participant
+MLS Only Appraiser
+MLS Only Broker
+MLS Only Salesperson
+MLS Staff
+Non Member/Vendor
+Office Manager
+Unlicensed Assistant
+*/
+		/*
+       add_role( 'realtor_appraiser', 'REALTOR Appraiser', array( 'read' => true, 'level_0' => true ) );
+       add_role( 'realtor_salesperson', 'REALTOR Salesperson', array( 'read' => true, 'level_0' => true ) );
+       */
+
+   }
+register_activation_hook( __FILE__, 'wplpro_add_user_roles' );
