@@ -566,13 +566,30 @@ function wplpro_pre_get_listings( $query ) {
 		return $query;
 	}
 
-	// Only modify queries for 'listing' post type.
-	if ( isset( $query->query_vars['post_type'] ) && 'listing' === $query->query_vars['post_type'] ) {
 
+	if( $query->is_tax() ) {
+		// Do a fully inclusive search for currently registered post types of queried taxonomies
+		$post_type = array();
+		$taxonomies = array_keys( $query->tax_query->queried_terms );
+		foreach ( get_post_types( array( 'exclude_from_search' => false ) ) as $pt ) {
+			$object_taxonomies = $pt === 'attachment' ? get_taxonomies_for_attachments() : get_object_taxonomies( $pt );
+			if ( array_intersect( $taxonomies, $object_taxonomies ) )
+				$post_type[] = $pt;
+		}
+		if ( ! $post_type )
+			$post_type = 'any';
+		elseif ( count( $post_type ) == 1 )
+			$post_type = $post_type[0];
+		// Totally stolen from class-wp-query.
+	}else{
+		$post_type = false;
+	}
+
+	// Only modify queries for 'listing' post type.
+	if ( $post_type === 'listing' || ( isset( $query->query_vars['post_type'] ) && 'listing' === $query->query_vars['post_type'] ) ) {
 		$query->set( 'orderby', 'meta_value_num' );
 		$query->set( 'meta_key', '_listing_hidden_price' );
 		$query->set( 'order', 'DESC' );
-
 	}
 
 	return $query;
