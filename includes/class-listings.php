@@ -398,7 +398,7 @@ class WP_Listings {
 		update_post_meta( $post->ID, '_listing_year_built', ( isset( $dets['_listing_year_built'] ) ?	intval( $dets['_listing_year_built'] ) : '' ));
 		update_post_meta( $post->ID, '_listing_floors', ( isset( $dets['_listing_floors'] ) ?	floatval( $dets['_listing_floors'] ) : '' )); // You never know when someone might have 2.718 floors.
 		update_post_meta( $post->ID, '_listing_sqft', ( isset( $dets['_listing_sqft'] ) ? intval( $dets['_listing_sqft'] ) : '' ));
-		update_post_meta( $post->ID, '_listing_lot_sqft', ( isset( $dets['_listing_lot_sqft'] ) ? intval( $dets['_listing_lot_sqft'] ) : '' ));
+		update_post_meta( $post->ID, '_listing_lot_sqft', ( isset( $dets['_listing_lot_sqft'] ) ? $dets['_listing_lot_sqft'] : '' ));
 		update_post_meta( $post->ID, '_listing_bedrooms', ( isset( $dets['_listing_bedrooms'] ) ? intval( $dets['_listing_bedrooms'] ) : '' ));
 		update_post_meta( $post->ID, '_listing_bathrooms', ( isset( $dets['_listing_bathrooms'] ) ? intval( $dets['_listing_bathrooms'] ) : '' ));
 		update_post_meta( $post->ID, '_listing_half_bath', ( isset( $dets['_listing_half_bath'] ) ? intval( $dets['_listing_half_bath'] ) : '' ));
