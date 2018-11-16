@@ -6,7 +6,8 @@
  */
 
 	// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 
 /**
@@ -14,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  *
  * @package wp-reso-media
  */
-class ResoMedia{
+class ResoMedia {
 
 	/**
 	 * changedbymemberid

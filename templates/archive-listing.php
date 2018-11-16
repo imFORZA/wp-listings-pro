@@ -9,7 +9,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * Archive Listing Loop.
@@ -23,7 +24,8 @@ function wplpro_archive_listing_loop() {
 
 	$count = 0; // Start counter at 0.
 
-	while ( have_posts() ) : the_post();
+	while ( have_posts() ) :
+		the_post();
 
 		$count++; // add 1 to counter on each loop
 		$first = ( 1 === $count ) ? 'first' : ''; // If counter is 1 add class of first.
@@ -127,12 +129,17 @@ if ( function_exists( 'equity' ) ) {
 
 					?>
 
-					<small><?php if ( function_exists( 'yoast_breadcrumb' ) ) { yoast_breadcrumb( '<p id="breadcrumbs">','</p>' ); } ?></small>
+					<small>
+					<?php
+					if ( function_exists( 'yoast_breadcrumb' ) ) {
+						yoast_breadcrumb( '<p id="breadcrumbs">', '</p>' ); }
+					?>
+					</small>
 				</header><!-- .archive-header -->
 
-			<?php
+				<?php
 
-			wplpro_archive_listing_loop();
+				wplpro_archive_listing_loop();
 
 			else :
 				// If no content, include the "No posts found" template.
@@ -145,9 +152,9 @@ if ( function_exists( 'equity' ) ) {
 		</div><!-- #content -->
 	</section><!-- #primary -->
 
-<?php
-get_sidebar( 'content' );
-get_sidebar();
-get_footer();
+	<?php
+	get_sidebar( 'content' );
+	get_sidebar();
+	get_footer();
 
 } // End if().

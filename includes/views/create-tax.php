@@ -44,13 +44,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 				$listing_taxonomies = array_merge( $this->property_features_taxonomy(), $this->listing_status_taxonomy(), $this->property_type_taxonomy(), $this->listing_location_taxonomy(), get_option( $this->settings_field ) );
 
 				foreach ( (array) $listing_taxonomies as $id => $data ) :
-				?>
+					?>
 
-				<tr <?php if ( $alt ) { echo 'class="alternate"';
+				<tr 
+					<?php
+					if ( $alt ) {
+						echo 'class="alternate"';
 						$alt = false;
-} else {
-	$alt = true;
-} ?>>
+					} else {
+						$alt = true;
+					}
+					?>
+				>
 					<td class="slug column-slug">
 
 					<?php if ( isset( $data['editable'] ) && 0 === $data['editable'] ) : ?>
@@ -67,8 +72,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php endif; ?>
 
 					</td>
-					<td class="singular-name column-singular-name"><?php echo esc_html( $data['labels']['singular_name'] )?></td>
-					<td class="plural-name column-plural-name"><?php echo esc_html( $data['labels']['name'] )?></td>
+					<td class="singular-name column-singular-name"><?php echo esc_html( $data['labels']['singular_name'] ); ?></td>
+					<td class="plural-name column-plural-name"><?php echo esc_html( $data['labels']['name'] ); ?></td>
 				</tr>
 
 				<?php endforeach; ?>
@@ -89,13 +94,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php wp_nonce_field( 'wp_listings-action_create-taxonomy', 'wp_listings-action_create-taxonomy' ); ?>
 
 			<div class="form-field">
-				<label for="taxonomy-id"><?php  esc_html_e( 'ID', 'wp-listings-pro' ); ?></label>
+				<label for="taxonomy-id"><?php esc_html_e( 'ID', 'wp-listings-pro' ); ?></label>
 				<input name="wp_listings_taxonomy[id]" id="taxonomy-id" type="text" value="" size="40" />
 				<p><?php esc_html_e( 'The unique ID is used to register the taxonomy.', 'wp-listings-pro' ); ?><br /><?php esc_html_e( '(no spaces, underscores, or special characters)', 'wp-listings-pro' ); ?></p>
 			</div>
 
 			<div class="form-field form-required">
-				<label for="taxonomy-name"><?php  esc_html_e( 'Plural Name', 'wp-listings-pro' ); ?></label>
+				<label for="taxonomy-name"><?php esc_html_e( 'Plural Name', 'wp-listings-pro' ); ?></label>
 				<input name="wp_listings_taxonomy[name]" id="taxonomy-name" type="text" value="" size="40" />
 				<p><?php esc_html_e( 'Example: "Property Types" or "Locations"', 'wp-listings-pro' ); ?></p>
 			</div>

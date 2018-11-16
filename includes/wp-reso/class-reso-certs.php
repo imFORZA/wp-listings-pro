@@ -6,13 +6,14 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 
 /**
  * ResoCerts class.
  */
-class ResoCerts{
+class ResoCerts {
 
 	/**
 	 * __construct function.

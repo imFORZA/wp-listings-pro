@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -21,11 +22,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit;
  */
 function wplpro_list_terms( $taxonomy ) {
 	$the_tax_object = get_taxonomy( $taxonomy );
-	$terms = get_terms( $taxonomy );
-	$term_list = '';
+	$terms          = get_terms( $taxonomy );
+	$term_list      = '';
 
 	$count = count( $terms );
-	$i = 0;
+	$i     = 0;
 	if ( $count > 0 ) {
 		foreach ( $terms as $term ) {
 			$i++;
@@ -47,12 +48,12 @@ function wplpro_list_terms( $taxonomy ) {
  * @return [Mixed]          : Post id of attachment on success, false on error.
  */
 function wplpro_upload_image( $image, $post_id = '' ) {
-	require_once( ABSPATH . 'wp-admin/includes/image.php' );
-	require_once( ABSPATH . 'wp-admin/includes/file.php' );
-	require_once( ABSPATH . 'wp-admin/includes/media.php' );
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/media.php';
 
 	$attachment_id = false;
-	$image_tmp = download_url( $image['url'] );
+	$image_tmp     = download_url( $image['url'] );
 	if ( is_wp_error( $image_tmp ) ) {
 		if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
 			error_log( 'WPLPRO Image Import Fail' );
@@ -61,18 +62,18 @@ function wplpro_upload_image( $image, $post_id = '' ) {
 		$image_size = filesize( $image_tmp );
 		// Download complete now upload in your project.
 		$file = array(
-		  'name' => sanitize_file_name( $image['name'] ),
-		  'type' => 'image/jpg',
-		  'tmp_name' => $image_tmp,
-		  'error' => 0,
-		  'size' => $image_size,
+			'name'     => sanitize_file_name( $image['name'] ),
+			'type'     => 'image/jpg',
+			'tmp_name' => $image_tmp,
+			'error'    => 0,
+			'size'     => $image_size,
 		);
 
 		// Set attachment data.
 		$post_data = array(
-			'post_title'     => sanitize_title( $image['title'] ),
-			'post_content'   => '',
-			'post_status'    => 'inherit',
+			'post_title'   => sanitize_title( $image['title'] ),
+			'post_content' => '',
+			'post_status'  => 'inherit',
 		);
 
 		// This image/file will show on media page...
@@ -101,10 +102,10 @@ function wplpro_get_image_id( $image_url ) {
  * Returns true if the queried taxonomy is a taxonomy of the given post type
  *
  * @param string $post_type Post type.
- * @return bool 						^^
+ * @return bool                         ^^
  */
 function wplpro_is_taxonomy_of( $post_type ) {
-	$taxonomies = get_object_taxonomies( $post_type );
+	$taxonomies  = get_object_taxonomies( $post_type );
 	$queried_tax = get_query_var( 'taxonomy' );
 
 	if ( in_array( $queried_tax, $taxonomies, true ) ) {
@@ -204,27 +205,29 @@ function wplpro_paging_nav_listing() {
 	$format .= $GLOBALS['wp_rewrite']->using_permalinks() ? user_trailingslashit( 'page/%#%', 'paged' ) : '?paged=%#%';
 
 	// Set up paginated links.
-	$links = paginate_links( array(
-		'base'     => $pagenum_link,
-		'format'   => $format,
-		'total'    => $GLOBALS['wp_query']->max_num_pages,
-		'current'  => $paged,
-		'mid_size' => 1,
-		'add_args' => array_map( 'urlencode', $query_args ),
-		'prev_text' => __( '&larr; Previous', 'wp-listings-pro' ),
-		'next_text' => __( 'Next &rarr;', 'wp-listings-pro' ),
-	) );
+	$links = paginate_links(
+		array(
+			'base'      => $pagenum_link,
+			'format'    => $format,
+			'total'     => $GLOBALS['wp_query']->max_num_pages,
+			'current'   => $paged,
+			'mid_size'  => 1,
+			'add_args'  => array_map( 'urlencode', $query_args ),
+			'prev_text' => __( '&larr; Previous', 'wp-listings-pro' ),
+			'next_text' => __( 'Next &rarr;', 'wp-listings-pro' ),
+		)
+	);
 
 	if ( $links ) :
 
-	?>
+		?>
 	<nav class="navigation archive-listing-navigation" role="navigation">
 		<h1 class="screen-reader-text"><?php esc_html_e( 'Listings navigation', 'wp-listings-pro' ); ?></h1>
 		<div class="pagination loop-pagination">
 			<?php echo $links; ?>
 		</div><!-- .pagination. -->
 	</nav><!-- .navigation. -->
-	<?php
+		<?php
 	endif;
 }
 /**
@@ -254,27 +257,29 @@ function wplpro_paging_nav_employee() {
 	$format .= $GLOBALS['wp_rewrite']->using_permalinks() ? user_trailingslashit( 'page/%#%', 'paged' ) : '?paged=%#%';
 
 	// Set up paginated links.
-	$links = paginate_links( array(
-		'base'     => $pagenum_link,
-		'format'   => $format,
-		'total'    => $GLOBALS['wp_query']->max_num_pages,
-		'current'  => $paged,
-		'mid_size' => 1,
-		'add_args' => array_map( 'urlencode', $query_args ),
-		'prev_text' => __( '&larr; Previous', 'wp-listings-pro' ),
-		'next_text' => __( 'Next &rarr;', 'wp-listings-pro' ),
-	) );
+	$links = paginate_links(
+		array(
+			'base'      => $pagenum_link,
+			'format'    => $format,
+			'total'     => $GLOBALS['wp_query']->max_num_pages,
+			'current'   => $paged,
+			'mid_size'  => 1,
+			'add_args'  => array_map( 'urlencode', $query_args ),
+			'prev_text' => __( '&larr; Previous', 'wp-listings-pro' ),
+			'next_text' => __( 'Next &rarr;', 'wp-listings-pro' ),
+		)
+	);
 
 	if ( $links ) :
 
-	?>
+		?>
 	<nav class="navigation archive-employee-navigation" role="navigation">
 		<h1 class="screen-reader-text"><?php esc_attr_e( 'Agents navigation', 'wp-listings-pro' ); ?></h1>
 		<div class="pagination loop-pagination">
 			<?php echo $links; ?>
 		</div><!-- .pagination -->
 	</nav><!-- .navigation -->
-	<?php
+		<?php
 	endif;
 }
 
@@ -353,11 +358,13 @@ function get_column_class( $columns ) {
  */
 function wplpro_get_connected_posts_of_type( $type ) {
 
-	$connected = get_posts( array(
-		'connected_type'  => $type,
-		'connected_items' => get_queried_object(),
-		'nopaging'        => true,
-	) );
+	$connected = get_posts(
+		array(
+			'connected_type'  => $type,
+			'connected_items' => get_queried_object(),
+			'nopaging'        => true,
+		)
+	);
 
 	if ( empty( $connected ) ) {
 		return false;
@@ -376,11 +383,13 @@ function wplpro_get_connected_posts_of_type( $type ) {
  */
 function wplpro_get_connected_posts_of_type_archive( $type, $post ) {
 
-	$connected = get_posts( array(
-		'connected_type'  => $type,
-		'connected_items' => $post,
-		'nopaging'        => true,
-	) );
+	$connected = get_posts(
+		array(
+			'connected_type'  => $type,
+			'connected_items' => $post,
+			'nopaging'        => true,
+		)
+	);
 
 	if ( empty( $connected ) ) {
 		return false;
@@ -412,7 +421,7 @@ function wplpro_connected_listings_markup() {
 		setup_postdata( $listing );
 
 		// $post = $listing;
-		$thumb_id = get_post_thumbnail_id();
+		$thumb_id  = get_post_thumbnail_id();
 		$thumb_url = wp_get_attachment_image_src( $thumb_id, 'medium', true );
 
 		$count++;
@@ -442,7 +451,7 @@ function wplpro_connected_listings_markup() {
  * Check if the agent post has connected listings
  *
  * @param WP_Post $post Agent Post to check if there are listings.
- * @return bool 				Whether there are any connected listings.
+ * @return bool                 Whether there are any connected listings.
  */
 function wplpro_has_listings( $post ) {
 
@@ -474,7 +483,7 @@ function wplpro_connected_agents_markup() {
 		setup_postdata( $profile );
 
 		// $post = $profile; // So ya know what, we just won't do it.
-		$thumb_id = get_post_thumbnail_id();
+		$thumb_id  = get_post_thumbnail_id();
 		$thumb_url = wp_get_attachment_image_src( $thumb_id, 'agent-profile-photo', true );
 
 		echo '

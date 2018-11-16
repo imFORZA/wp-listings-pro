@@ -6,7 +6,8 @@
 	 */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -27,14 +28,15 @@ function wp_listings_register_listing_meta() {
 
 	$allowed_meta_keys = allowed_meta_keys();
 	foreach ( $allowed_meta_keys as $listing_meta_key ) {
-	    register_rest_field( 'listing',
-	        $listing_meta_key,
-	    	array(
-	            'get_callback'    => 'wp_listings_get_listing_meta',
-	            'update_callback' => 'wp_listings_update_listing_meta',
-	            'schema'          => null,
-	        )
-	    );
+		register_rest_field(
+			'listing',
+			$listing_meta_key,
+			array(
+				'get_callback'    => 'wp_listings_get_listing_meta',
+				'update_callback' => 'wp_listings_update_listing_meta',
+				'schema'          => null,
+			)
+		);
 	}
 }
 /**
@@ -56,7 +58,7 @@ function wp_listings_add_meta_to_json( $data, $post, $request ) {
 	$response_data = $data->get_data();
 
 	if ( 'view' !== $request['context'] || is_wp_error( $data ) ) {
-	    return $data;
+		return $data;
 	}
 
 	$allowed_meta_keys = allowed_meta_keys();
@@ -65,12 +67,12 @@ function wp_listings_add_meta_to_json( $data, $post, $request ) {
 		$meta = get_post_meta( $post->ID, $listing_meta_key, true );
 
 		if ( ! empty( $meta ) ) {
-		    $listing_meta[ $listing_meta_key ] = $meta;
+			$listing_meta[ $listing_meta_key ] = $meta;
 		}
 	}
 
 	if ( 'listing' === $post->post_type ) {
-	    $response_data['listing_meta'] = $listing_meta;
+		$response_data['listing_meta'] = $listing_meta;
 	}
 
 	$data->set_data( $response_data );
@@ -153,66 +155,69 @@ add_filter( 'rest_api_allowed_public_metadata', 'wp_listings_rest_api_allowed_pu
  * @return allowed_meta_keys the post meta keys.
  */
 function allowed_meta_keys() {
-	apply_filters('wp_listings_allowed_api_meta_keys', $allowed_meta_keys = array(
-		'_listing_price',
-	    '_listing_address',
-	    '_listing_city',
-	    '_listing_county',
-	    '_listing_state',
-	    '_listing_zip',
-	    '_listing_country',
-	    '_listing_city',
-	    '_listing_longitude',
-	    '_listing_latitude',
-	    '_listing_mls',
-	    '_listing_open_house',
-	    '_listing_year_built',
-	    '_listing_floors',
-	    '_listing_sqft',
-	    '_listing_lot_sqft',
-	    '_listing_bedrooms',
-	    '_listing_bathrooms',
-	    '_listing_half_bath',
-	    '_listing_garage',
-	    '_listing_pool',
-	    '_listing_text',
-	    '_listing_gallery',
-	    '_listing_video',
-	    '_listing_map',
-	    '_listing_contact_form',
-	    '_listing_featured_on',
-	    '_listing_home_sum',
-	    '_listing_ktichen_sum',
-	    '_listing_living_room',
-	    '_listing_master_suite',
-	    '_listing_school_neighborhood',
+	apply_filters(
+		'wp_listings_allowed_api_meta_keys',
+		$allowed_meta_keys = array(
+			'_listing_price',
+			'_listing_address',
+			'_listing_city',
+			'_listing_county',
+			'_listing_state',
+			'_listing_zip',
+			'_listing_country',
+			'_listing_city',
+			'_listing_longitude',
+			'_listing_latitude',
+			'_listing_mls',
+			'_listing_open_house',
+			'_listing_year_built',
+			'_listing_floors',
+			'_listing_sqft',
+			'_listing_lot_sqft',
+			'_listing_bedrooms',
+			'_listing_bathrooms',
+			'_listing_half_bath',
+			'_listing_garage',
+			'_listing_pool',
+			'_listing_text',
+			'_listing_gallery',
+			'_listing_video',
+			'_listing_map',
+			'_listing_contact_form',
+			'_listing_featured_on',
+			'_listing_home_sum',
+			'_listing_ktichen_sum',
+			'_listing_living_room',
+			'_listing_master_suite',
+			'_listing_school_neighborhood',
 
-	    // IDX.
-	    '_listing_proptype',
-	    '_listing_condo',
-	    '_listing_financial',
-	    '_listing_city',
-	    '_listing_condition',
-	    '_listing_construction',
-	    '_listing_exterior',
-	    '_listing_fencing',
-	    '_listing_interior',
-	    '_listing_flooring',
-	    '_listing_heatcool',
-	    '_listing_lotsize',
-	    '_listing_location',
-	    '_listing_scenery',
-	    '_listing_community',
-	    '_listing_recreation',
-	    '_listing_general',
-	    '_listing_inclusions',
-	    '_listing_parking',
-	    '_listing_rooms',
-	    '_listing_laundry',
-	    '_listing_utilities',
-	    '_listing_disclaimer',
-	    '_listing_courtesy',
-	) );
+			// IDX.
+			'_listing_proptype',
+			'_listing_condo',
+			'_listing_financial',
+			'_listing_city',
+			'_listing_condition',
+			'_listing_construction',
+			'_listing_exterior',
+			'_listing_fencing',
+			'_listing_interior',
+			'_listing_flooring',
+			'_listing_heatcool',
+			'_listing_lotsize',
+			'_listing_location',
+			'_listing_scenery',
+			'_listing_community',
+			'_listing_recreation',
+			'_listing_general',
+			'_listing_inclusions',
+			'_listing_parking',
+			'_listing_rooms',
+			'_listing_laundry',
+			'_listing_utilities',
+			'_listing_disclaimer',
+			'_listing_courtesy',
+		)
+	);
 
 	return $allowed_meta_keys;
 }

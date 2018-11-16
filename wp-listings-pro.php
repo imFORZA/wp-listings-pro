@@ -20,7 +20,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 
@@ -35,8 +36,8 @@ register_activation_hook( __FILE__, 'wplpro_activation' );
 function wplpro_activation() {
 
 	if ( function_exists( 'wp_listings_init' ) || function_exists( 'impress_agents_init' ) ) {
-	 	deactivate_plugins( basename( __FILE__ ) );
-	 	wp_die( 'WP-Listings-Pro cannot be activated while either IMPress Listings or Agents is active. Please press the back button in your browser, and make sure both of those plugins are not enabled before reactivating WP Listings Pro.' );
+		deactivate_plugins( basename( __FILE__ ) );
+		wp_die( 'WP-Listings-Pro cannot be activated while either IMPress Listings or Agents is active. Please press the back button in your browser, and make sure both of those plugins are not enabled before reactivating WP Listings Pro.' );
 	}
 
 	wplpro_init();
@@ -95,10 +96,12 @@ function wplpro_activation() {
 function wplpro_import_image_gallery() {
 
 	// Get all old listings.
-	$old_listings = get_posts(array(
-		'post_type'       => 'listing',
-		'posts_per_page'  => -1,
-	));
+	$old_listings = get_posts(
+		array(
+			'post_type'      => 'listing',
+			'posts_per_page' => -1,
+		)
+	);
 	foreach ( $old_listings as $listing ) {
 		$old_gallery = get_post_meta( $listing->ID, '_listing_gallery', true );
 
@@ -108,16 +111,15 @@ function wplpro_import_image_gallery() {
 		// Check for current listings.
 		$ids = array();
 		foreach ( $matches[0] as $image_url_dirty ) {
-			$pattern = '/\-*(\d+)x(\d+)\.(.*)$/';
+			$pattern     = '/\-*(\d+)x(\d+)\.(.*)$/';
 			$replacement = '.$3';
 			// Filter out URL from their form.
 			$image_url_clean = preg_replace( $pattern, $replacement, $image_url_dirty );
-			$image_id = wplpro_get_image_id( $image_url_clean );
+			$image_id        = wplpro_get_image_id( $image_url_clean );
 
 			// Note: this only works if the image already exists in WordPress.
 			//
 			// It does not create the image if it can't find it.
-
 			$ids[ count( $ids ) ] = $image_id;
 		}
 
@@ -126,20 +128,20 @@ function wplpro_import_image_gallery() {
 		$wplpro_images;
 		if ( metadata_exists( 'post', $listing->ID, '_listing_image_gallery' ) ) {
 			$listing_gallery = get_post_meta( $listing->ID, '_listing_image_gallery', true );
-			$wplpro_images = array_filter( explode( ',', $listing_gallery ) );
+			$wplpro_images   = array_filter( explode( ',', $listing_gallery ) );
 		} else {
 			$wplpro_images = array();
 		}
 		// $wplpro_images = array_filter( explode( ',', $listing_image_gallery ) );
 		// Only add images that aren't already in the listing (in case the client jumps around plugins, this is a non-duplicating merging).
 		$images_to_append = $ids;
-		$length_images = count( $wplpro_images );
-		$length_ids  	 = count( $ids );
+		$length_images    = count( $wplpro_images );
+		$length_ids       = count( $ids );
 		for ( $i = 0; $i < $length_images; $i++ ) {
 			for ( $j = 0; $j < $length_ids; $j++ ) {
 				if ( $ids[ $j ] === $wplpro_images[ $i ] ) {
 					$images_to_append[ $j ] = -1;
-					$j = count( $ids );
+					$j                      = count( $ids );
 				}
 			}
 		}
@@ -177,7 +179,7 @@ function wplpro_deactivation() {
 }
 
 /**
- * 	Displays nag stating that plugin has been disabled (in-case of incompatibility with other plugins that could try handling the same information we are).
+ *  Displays nag stating that plugin has been disabled (in-case of incompatibility with other plugins that could try handling the same information we are).
  */
 function wplpro_disable_notice() {
 	?>
@@ -198,7 +200,7 @@ add_action( 'after_setup_theme', 'wplpro_init' );
 function wplpro_init() {
 
 	if ( function_exists( 'wp_listings_init' ) || function_exists( 'impress_agents_init' ) ) {
-	 	deactivate_plugins( basename( __FILE__ ) );
+		deactivate_plugins( basename( __FILE__ ) );
 
 		// Since sometimes deactivate_plugins doesn't work so hot.
 		add_action( 'admin_notices', 'wplpro_disable_notice' );
@@ -216,7 +218,7 @@ function wplpro_init() {
 	load_plugin_textdomain( 'wp-listings-pro', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 
 	/** Make sure is_plugin_active() can be called. */
-	include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 	// Check for Genesis Agent Profiles Plugin.
 	if ( is_plugin_active( 'genesis-agent-profiles/plugin.php' ) ) {
@@ -224,42 +226,42 @@ function wplpro_init() {
 	}
 
 	/** Includes. */
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/wp-reso/wp-reso.php' );
+	require_once plugin_dir_path( __FILE__ ) . 'includes/wp-reso/wp-reso.php';
 
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-custom-post-types.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listings.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-agents.php' );
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-custom-post-types.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-listings.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-agents.php';
 
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/helpers.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/functions.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/rest-api.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/shortcodes.php' );
+	require_once plugin_dir_path( __FILE__ ) . 'includes/helpers.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/functions.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/rest-api.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/shortcodes.php';
 
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-taxonomies.php' );
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-taxonomies.php';
 
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-admin-notice.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/wp-api.php' );
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-admin-notice.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/wp-api.php';
 
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wp-listings-search-widget.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wp-listings-featured-listings-widget.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wplproagents-widget.php' );
+	require_once plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wp-listings-search-widget.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wp-listings-featured-listings-widget.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/widgets/class-wplproagents-widget.php';
 
-	include_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-register-meta.php');
+	include_once plugin_dir_path( __FILE__ ) . 'includes/class-listing-register-meta.php';
 
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-gallery-metabox.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-listing-import.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-agent-import.php' );
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-wplpro-idx-api.php' );
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-listing-gallery-metabox.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-listing-import.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-agent-import.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wplpro-idx-api.php';
 
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-saved-searches.php' );
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-saved-searches.php';
 
-	require_once( plugin_dir_path( __FILE__ ) . 'includes/class-migrate-old-posts.php' );
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-migrate-old-posts.php';
 
-	require_once( plugin_dir_path( __FILE__ ) . 'welcome/welcome-logic.php' );
+	require_once plugin_dir_path( __FILE__ ) . 'welcome/welcome-logic.php';
 
 	/** Instantiate */
-	$_wplpro_agents = new WPLPROAgents;
-	$_wplpro_agents_tax = new WPLPROAgents_Taxonomies;
+	$_wplpro_agents     = new WPLPROAgents();
+	$_wplpro_agents_tax = new WPLPROAgents_Taxonomies();
 
 	/** Add theme support for post thumbnails if it does not exist */
 	if ( ! current_theme_supports( 'post-thumbnails' ) ) {
@@ -318,7 +320,7 @@ function wplpro_init() {
 			$options['disable_properticons'] = 0;
 		}
 		if ( '1' !== $options['disable_properticons'] ) {
-			wp_register_style( 'properticons',  WPLPRO_URL . 'assets/css/properticons.min.css', '', null, 'all' );
+			wp_register_style( 'properticons', WPLPRO_URL . 'assets/css/properticons.min.css', '', null, 'all' );
 		}
 
 		/** Register single styles but don't enqueue them. */
@@ -335,8 +337,8 @@ function wplpro_init() {
 	 */
 	function wplpro_admin_scripts_styles() {
 		$localize_script = array(
-			'title'        => __( 'Set Term Image', 'wp-listings-pro' ),
-			'button'       => __( 'Set term image', 'wp-listings-pro' ),
+			'title'  => __( 'Set Term Image', 'wp-listings-pro' ),
+			'button' => __( 'Set term image', 'wp-listings-pro' ),
 		);
 
 		wp_enqueue_script( 'jquery-masonry' );
@@ -354,14 +356,18 @@ function wplpro_init() {
 		global $wp_version;
 		$nonce_action = 'WPLPRO_Admin_Notice';
 		wp_enqueue_script( 'wp-listings-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
-		wp_localize_script( 'wp-listings-admin', 'wp_listings_adminL10n', array(
-			'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-			'othernonce'      => wp_create_nonce( $nonce_action ),
-			'wp_version' => $wp_version,
-			'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
-			'root'    		=> esc_url_raw( rest_url() ),
-			'nonce'      	=> wp_create_nonce( 'wp_rest' ),
-		) );
+		wp_localize_script(
+			'wp-listings-admin',
+			'wp_listings_adminL10n',
+			array(
+				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+				'othernonce' => wp_create_nonce( $nonce_action ),
+				'wp_version' => $wp_version,
+				'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
+				'root'       => esc_url_raw( rest_url() ),
+				'nonce'      => wp_create_nonce( 'wp_rest' ),
+			)
+		);
 
 		/* Pass custom variables to the script. */
 		wp_localize_script( 'wp-listings-admin', 'wplpro_term_image', $localize_script );
@@ -398,8 +404,8 @@ function wplpro_init() {
 	}
 
 	/** Instantiate. */
-	$_wp_listings = new WP_Listings;
-	$_wplpro_taxonomies = new WPLPRO_Taxonomies;
+	$_wp_listings       = new WP_Listings();
+	$_wplpro_taxonomies = new WPLPRO_Taxonomies();
 
 	add_action( 'widgets_init', 'wplpro_register_widgets' );
 
@@ -415,7 +421,7 @@ function wplpro_init() {
 	 * @since  1.3
 	 */
 	function WPLPRO_Admin_Notice( $message, $error = false, $cap_check = 'activate_plugins', $ignore_key = false ) {
-		$_wp_listings_admin = new WPLPRO_Admin_Notice;
+		$_wp_listings_admin = new WPLPRO_Admin_Notice();
 		return $_wp_listings_admin->notice( $message, $error, $cap_check, $ignore_key );
 	}
 
@@ -433,7 +439,7 @@ function wplpro_init() {
 	 * @return ajax call.
 	 */
 	function wplpro_adminnotice_cb() {
-		$_wp_listings_admin = new WPLPRO_Admin_Notice;
+		$_wp_listings_admin = new WPLPRO_Admin_Notice();
 		return $_wp_listings_admin->ajax_cb();
 	}
 
@@ -482,7 +488,7 @@ function wplpro_save_post( $post_id, $post ) {
 	// Check the post type .
 	if ( 'listing' === $post->post_type ) {
 		// Check if price field has been set.
-		if ( isset( $_POST['wp_listings']['_listing_price'] ) && isset( $_POST['wp-hide-price-name'] ) && wp_verify_nonce( $_POST['wp-hide-price-name'], 'wp-hide-price-action' )  ) {
+		if ( isset( $_POST['wp_listings']['_listing_price'] ) && isset( $_POST['wp-hide-price-name'] ) && wp_verify_nonce( $_POST['wp-hide-price-name'], 'wp-hide-price-action' ) ) {
 			// Set hidden price meta_field.
 			$price = filter_var( $_POST['wp_listings']['_listing_price'], FILTER_SANITIZE_STRING ); // Sanitize data, only allow it to be certain characters.
 			wplpro_set_hidden_price( $post_id, $price );
@@ -506,7 +512,7 @@ function wplpro_set_hidden_price( $post_id, $price, $posts = null ) {
 			$pinned = $posts;
 		} else {
 			$options = get_option( 'wplpro_plugin_settings' );
-			$pinned = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
+			$pinned  = ( isset( $options['pinned'] ) ) ? $options['pinned'] : array();
 		}
 	}
 
@@ -529,15 +535,17 @@ function wplpro_set_hidden_price( $post_id, $price, $posts = null ) {
  */
 function wplpro_setall_hidden_price() {
 	// Grab all listings.
-	$listings = get_posts( array(
-		'post_type' => 'listing',
-		'orderby' => 'post_id',
-		'order' => 'ASC',
-		'no_found_rows' => true,
-		'update_post_term_cache' => false,
-		// TODO: Don't use -1, https://10up.github.io/Engineering-Best-Practices/php/ !
-		'posts_per_page' => -1,
-	) );
+	$listings = get_posts(
+		array(
+			'post_type'              => 'listing',
+			'orderby'                => 'post_id',
+			'order'                  => 'ASC',
+			'no_found_rows'          => true,
+			'update_post_term_cache' => false,
+			// TODO: Don't use -1, https://10up.github.io/Engineering-Best-Practices/php/ !
+			'posts_per_page'         => -1,
+		)
+	);
 
 	// Loop and set hidden price.
 	foreach ( $listings as $listing ) {
@@ -566,22 +574,23 @@ function wplpro_pre_get_listings( $query ) {
 		return $query;
 	}
 
-
-	if( $query->is_tax() ) {
+	if ( $query->is_tax() ) {
 		// Do a fully inclusive search for currently registered post types of queried taxonomies
-		$post_type = array();
+		$post_type  = array();
 		$taxonomies = array_keys( $query->tax_query->queried_terms );
 		foreach ( get_post_types( array( 'exclude_from_search' => false ) ) as $pt ) {
 			$object_taxonomies = $pt === 'attachment' ? get_taxonomies_for_attachments() : get_object_taxonomies( $pt );
-			if ( array_intersect( $taxonomies, $object_taxonomies ) )
+			if ( array_intersect( $taxonomies, $object_taxonomies ) ) {
 				$post_type[] = $pt;
+			}
 		}
-		if ( ! $post_type )
+		if ( ! $post_type ) {
 			$post_type = 'any';
-		elseif ( count( $post_type ) == 1 )
+		} elseif ( count( $post_type ) == 1 ) {
 			$post_type = $post_type[0];
+		}
 		// Totally stolen from class-wp-query.
-	}else{
+	} else {
 		$post_type = false;
 	}
 
@@ -602,10 +611,14 @@ function wplpro_pre_get_listings( $query ) {
  * @return void
  */
 function wplpro_add_user_role_lead() {
-	add_role( 'lead', 'Lead', array(
-		'read' => true,
-		'level_0' => true,
-	) );
+	add_role(
+		'lead',
+		'Lead',
+		array(
+			'read'    => true,
+			'level_0' => true,
+		)
+	);
 }
 
 
@@ -627,24 +640,31 @@ function wplpro_set_sort( $option ) {
 
 
 function wplpro_add_user_roles() {
-       add_role( 'lead', 'Lead', array( 'read' => true, 'level_0' => true ) );
+	add_role(
+		'lead',
+		'Lead',
+		array(
+			'read'    => true,
+			'level_0' => true,
+		)
+	);
 
-       /*
-	       Association Staff
-Designated REALTOR Appraiser
-Designated REALTOR Participant
-MLS Only Appraiser
-MLS Only Broker
-MLS Only Salesperson
-MLS Staff
-Non Member/Vendor
-Office Manager
-Unlicensed Assistant
-*/
+	   /*
+		   Association Staff
+	Designated REALTOR Appraiser
+	Designated REALTOR Participant
+	MLS Only Appraiser
+	MLS Only Broker
+	MLS Only Salesperson
+	MLS Staff
+	Non Member/Vendor
+	Office Manager
+	Unlicensed Assistant
+	*/
 		/*
-       add_role( 'realtor_appraiser', 'REALTOR Appraiser', array( 'read' => true, 'level_0' => true ) );
-       add_role( 'realtor_salesperson', 'REALTOR Salesperson', array( 'read' => true, 'level_0' => true ) );
-       */
+	   add_role( 'realtor_appraiser', 'REALTOR Appraiser', array( 'read' => true, 'level_0' => true ) );
+	   add_role( 'realtor_salesperson', 'REALTOR Salesperson', array( 'read' => true, 'level_0' => true ) );
+	   */
 
-   }
+}
 register_activation_hook( __FILE__, 'wplpro_add_user_roles' );

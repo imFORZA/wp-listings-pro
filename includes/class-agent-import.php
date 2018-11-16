@@ -7,7 +7,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -43,10 +44,11 @@ class WPLPROAgentsImport {
 	 * @return bool True or False.
 	 */
 	public static function in_array( $needle, $haystack, $strict = false ) {
-		if ( ! $haystack ) { return false;
+		if ( ! $haystack ) {
+			return false;
 		}
 		foreach ( $haystack as $item ) {
-			if ( ($strict ? $item === $needle : $item === $needle) || ( is_array( $item ) && self::in_array( $needle, $item, $strict ) ) ) {
+			if ( ( $strict ? $item === $needle : $item === $needle ) || ( is_array( $item ) && self::in_array( $needle, $item, $strict ) ) ) {
 				return true;
 			}
 		}
@@ -61,20 +63,20 @@ class WPLPROAgentsImport {
 	 */
 	public static function WPLPROAgents_idx_create_post( $agent_ids ) {
 		// Load IDX Broker API Class and retrieve agents.
-		$_idx_api = new WPLPRO_Idx_Api();
-		$agents = $_idx_api->idx_api(
+		$_idx_api             = new WPLPRO_Idx_Api();
+		$agents               = $_idx_api->idx_api(
 			'agents',
-			$apiversion = '1.2.2',
-			$level = 'clients',
-			$params = array(),
-			$expiration = 7200,
-			$request_type = 'GET',
+			$apiversion       = '1.2.2',
+			$level            = 'clients',
+			$params           = array(),
+			$expiration       = 7200,
+			$request_type     = 'GET',
 			$json_decode_type = true
 		);
 
 		// Load WP options.
 		$idx_agent_wp_options = get_option( 'WPLPROAgents_idx_agent_wp_options' );
-		$wplpro_settings = get_option( 'WPLPROAgents_settings' );
+		$wplpro_settings      = get_option( 'WPLPROAgents_settings' );
 
 		$agents_queue = new WPLPROBackgroundAgents();
 
@@ -84,13 +86,13 @@ class WPLPROAgentsImport {
 		foreach ( $agents['agent'] as $a ) {
 			if ( ! in_array( (string) $a['agentID'], $agent_ids, true ) ) {
 				$idx_agent_wp_options[ $a['agentID'] ]['agentID'] = $a['agentID'];
-				$idx_agent_wp_options[ $a['agentID'] ]['status'] = '';
+				$idx_agent_wp_options[ $a['agentID'] ]['status']  = '';
 			}
 
 			if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) && ! get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 				unset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] );
 				unset( $idx_agent_wp_options[ $a['agentID'] ]['status'] );
-		 	}
+			}
 
 			// TODO: have better handling for this.
 			if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ) {
@@ -101,13 +103,13 @@ class WPLPROAgentsImport {
 
 				$opts = array(
 					'post_content' => $a['bioDetails'],
-					'post_title' => $a['agentDisplayName'],
-					'post_status' => 'publish',
-					'post_type' => 'employee',
+					'post_title'   => $a['agentDisplayName'],
+					'post_status'  => 'publish',
+					'post_type'    => 'employee',
 				);
 
 				$item['opts'] = $opts;
-				$item['a'] = $a;
+				$item['a']    = $a;
 				$agents_queue->push_to_queue( $item );
 				update_option( 'WPLPROAgents_idx_agent_wp_options', $idx_agent_wp_options );
 			} elseif ( in_array( (string) $a['agentID'], $agent_ids, true ) && 'publish' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) {
@@ -145,20 +147,20 @@ class WPLPROAgentsImport {
 	public static function WPLPROAgents_update_post() {
 
 		// Load IDX Broker API Class and retrieve agents.
-		$_idx_api = new WPLPRO_Idx_Api();
-		$agents = $_idx_api->idx_api(
+		$_idx_api             = new WPLPRO_Idx_Api();
+		$agents               = $_idx_api->idx_api(
 			'agents',
-			$apiversion = '1.2.2',
-			$level = 'clients',
-			$params = array(),
-			$expiration = 7200,
-			$request_type = 'GET',
+			$apiversion       = '1.2.2',
+			$level            = 'clients',
+			$params           = array(),
+			$expiration       = 7200,
+			$request_type     = 'GET',
 			$json_decode_type = true
 		);
 
 		// Load WP options.
 		$idx_agent_wp_options = get_option( 'WPLPROAgents_idx_agent_wp_options' );
-		$plugin_settings = get_option( 'wplpro_plugin_settings' );
+		$plugin_settings      = get_option( 'wplpro_plugin_settings' );
 
 		foreach ( $agents as $agent ) {
 			foreach ( $agent as $a ) {
@@ -197,9 +199,9 @@ class WPLPROAgentsImport {
 	 * @return void
 	 */
 	public static function WPLPROAgents_idx_change_post_status( $post_id, $status ) {
-	    $current_post = get_post( $post_id, 'ARRAY_A' );
-	    $current_post['post_status'] = $status;
-	    wp_update_post( $current_post );
+		$current_post                = get_post( $post_id, 'ARRAY_A' );
+		$current_post['post_status'] = $status;
+		wp_update_post( $current_post );
 	}
 
 	/**
@@ -211,25 +213,37 @@ class WPLPROAgentsImport {
 	 * @param mixed $idx_agent_data IDX Agent Data.
 	 * @param bool  $update (default: false) Update.
 	 * @param bool  $update_image (default: true) Update Image.
-	 * @return bool	true if featured image is set.
+	 * @return bool true if featured image is set.
 	 */
 	public static function WPLPROAgents_idx_insert_post_meta( $id, $idx_agent_data, $update = false, $update_image = true ) {
 		// Add or reset taxonomies terms for job-types = agentTitle.
 		wp_set_object_terms( $id, $idx_agent_data['agentTitle'], 'job-types' );
 
 		// Add post meta for existing fields.
-		if ( get_post_meta( $id, '_employee_title' ) === array() ) { update_post_meta( $id, '_employee_title', isset( $idx_agent_data['agentTitle'] )?$idx_agent_data['agentTitle']:'' ); }
-		if ( get_post_meta( $id, '_employee_first_name' ) === array() ) { update_post_meta( $id, '_employee_first_name', isset( $idx_agent_data['agentFirstName'] )?$idx_agent_data['agentFirstName']:'' ); }
-		if ( get_post_meta( $id, '_employee_last_name' ) === array() ) { update_post_meta( $id, '_employee_last_name', isset( $idx_agent_data['agentLastName'] )?$idx_agent_data['agentLastName']:'' ); }
-		if ( get_post_meta( $id, '_employee_agent_id' ) === array() ) { update_post_meta( $id, '_employee_agent_id', isset( $idx_agent_data['agentID'] )?$idx_agent_data['agentID']:'' ); }
-		if ( get_post_meta( $id, '_employee_phone' ) === array() ) { update_post_meta( $id, '_employee_phone', isset( $idx_agent_data['agentContactPhone'] )?$idx_agent_data['agentContactPhone']:'' ); }
-		if ( get_post_meta( $id, '_employee_mobile' ) === array() ) { update_post_meta( $id, '_employee_mobile', isset( $idx_agent_data['agentCellPhone'] )?$idx_agent_data['agentCellPhone']:'' ); }
-		if ( get_post_meta( $id, '_employee_email' ) === array() ) { update_post_meta( $id, '_employee_email', isset( $idx_agent_data['agentEmail'] )?$idx_agent_data['agentEmail']:'' ); }
-		if ( get_post_meta( $id, '_employee_website' ) === array() ) { update_post_meta( $id, '_employee_website', isset( $idx_agent_data['agentURL'] )?$idx_agent_data['agentURL']:'' ); }
-		if ( get_post_meta( $id, '_employee_address' ) === array() ) { update_post_meta( $id, '_employee_address', isset( $idx_agent_data['address'] )?$idx_agent_data['address']:'' ); }
-		if ( get_post_meta( $id, '_employee_city' ) === array() ) { update_post_meta( $id, '_employee_city', isset( $idx_agent_data['city'] )?$idx_agent_data['city']:'' ); }
-		if ( get_post_meta( $id, '_employee_state' ) === array() ) { update_post_meta( $id, '_employee_state', isset( $idx_agent_data['stateProvince'] )?$idx_agent_data['stateProvince']:'' ); }
-		if ( get_post_meta( $id, '_employee_zip' ) === array() ) { update_post_meta( $id, '_employee_zip', isset( $idx_agent_data['zipCode'] )?$idx_agent_data['zipCode']:'' ); }
+		if ( get_post_meta( $id, '_employee_title' ) === array() ) {
+			update_post_meta( $id, '_employee_title', isset( $idx_agent_data['agentTitle'] ) ? $idx_agent_data['agentTitle'] : '' ); }
+		if ( get_post_meta( $id, '_employee_first_name' ) === array() ) {
+			update_post_meta( $id, '_employee_first_name', isset( $idx_agent_data['agentFirstName'] ) ? $idx_agent_data['agentFirstName'] : '' ); }
+		if ( get_post_meta( $id, '_employee_last_name' ) === array() ) {
+			update_post_meta( $id, '_employee_last_name', isset( $idx_agent_data['agentLastName'] ) ? $idx_agent_data['agentLastName'] : '' ); }
+		if ( get_post_meta( $id, '_employee_agent_id' ) === array() ) {
+			update_post_meta( $id, '_employee_agent_id', isset( $idx_agent_data['agentID'] ) ? $idx_agent_data['agentID'] : '' ); }
+		if ( get_post_meta( $id, '_employee_phone' ) === array() ) {
+			update_post_meta( $id, '_employee_phone', isset( $idx_agent_data['agentContactPhone'] ) ? $idx_agent_data['agentContactPhone'] : '' ); }
+		if ( get_post_meta( $id, '_employee_mobile' ) === array() ) {
+			update_post_meta( $id, '_employee_mobile', isset( $idx_agent_data['agentCellPhone'] ) ? $idx_agent_data['agentCellPhone'] : '' ); }
+		if ( get_post_meta( $id, '_employee_email' ) === array() ) {
+			update_post_meta( $id, '_employee_email', isset( $idx_agent_data['agentEmail'] ) ? $idx_agent_data['agentEmail'] : '' ); }
+		if ( get_post_meta( $id, '_employee_website' ) === array() ) {
+			update_post_meta( $id, '_employee_website', isset( $idx_agent_data['agentURL'] ) ? $idx_agent_data['agentURL'] : '' ); }
+		if ( get_post_meta( $id, '_employee_address' ) === array() ) {
+			update_post_meta( $id, '_employee_address', isset( $idx_agent_data['address'] ) ? $idx_agent_data['address'] : '' ); }
+		if ( get_post_meta( $id, '_employee_city' ) === array() ) {
+			update_post_meta( $id, '_employee_city', isset( $idx_agent_data['city'] ) ? $idx_agent_data['city'] : '' ); }
+		if ( get_post_meta( $id, '_employee_state' ) === array() ) {
+			update_post_meta( $id, '_employee_state', isset( $idx_agent_data['stateProvince'] ) ? $idx_agent_data['stateProvince'] : '' ); }
+		if ( get_post_meta( $id, '_employee_zip' ) === array() ) {
+			update_post_meta( $id, '_employee_zip', isset( $idx_agent_data['zipCode'] ) ? $idx_agent_data['zipCode'] : '' ); }
 
 		foreach ( $idx_agent_data as $metakey => $metavalue ) {
 			if ( isset( $metavalue ) && ! is_array( $metavalue ) && '' !== $metavalue ) {
@@ -267,7 +281,7 @@ class WPLPROAgentsImport {
 				if ( '' !== $image_url ) {
 					$image_data = file_get_contents( $image_url ); // Get image data.
 
-					$filename   = basename( sanitize_file_name( strtolower( $idx_agent_data['agentDisplayName'] ) ) . '.jpg' ); // Create image file name.
+					$filename = basename( sanitize_file_name( strtolower( $idx_agent_data['agentDisplayName'] ) ) . '.jpg' ); // Create image file name.
 
 					// Check folder permission and define file location.
 					if ( wp_mkdir_p( $upload_dir['path'] ) ) {
@@ -296,7 +310,7 @@ class WPLPROAgentsImport {
 					$attach_id = wp_insert_attachment( $attachment, $file, $id );
 
 					// Include image.php.
-					require_once( ABSPATH . 'wp-admin/includes/image.php' );
+					require_once ABSPATH . 'wp-admin/includes/image.php';
 
 					// Define attachment metadata.
 					$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
@@ -344,17 +358,19 @@ class WPLPROBackgroundAgents extends WP_Background_Process {
 	 * Task to be run each iteration.
 	 *
 	 * @param  string $data   ID of listing to be imported.
-	 * @return mixed       			False if done, $data if to be re-run.
+	 * @return mixed                False if done, $data if to be re-run.
 	 */
 	protected function task( $data ) {
 		// Get important data.
-		$idx_options 	= get_option( 'WPLPROAgents_idx_agent_wp_options' );
-		$a 						= $data['a'];
+		$idx_options = get_option( 'WPLPROAgents_idx_agent_wp_options' );
+		$a           = $data['a'];
 
 		// Check if it already exists.
-		$stuff = get_posts(array(
-			'post_type'       => 'employee',
-		));
+		$stuff = get_posts(
+			array(
+				'post_type' => 'employee',
+			)
+		);
 		foreach ( $stuff as $temp_agent ) {
 			if ( get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) === $a['agentID'] ) {
 				// Already exists.
@@ -369,7 +385,7 @@ class WPLPROBackgroundAgents extends WP_Background_Process {
 			return;
 		} elseif ( $add_post ) {
 			$idx_options[ $a['agentID'] ]['post_id'] = $add_post;
-			$idx_options[ $a['agentID'] ]['status'] = 'publish';
+			$idx_options[ $a['agentID'] ]['status']  = 'publish';
 			WPLPROAgentsImport::WPLPROAgents_idx_insert_post_meta( $add_post, $a );
 			update_option( 'WPLPROAgents_idx_agent_wp_options', $idx_options );
 		}
@@ -423,7 +439,7 @@ function WPLPROAgents_idx_agent_scripts() {
 		return;
 	}
 
-	wp_enqueue_script( 'images-loaded',  WPLPRO_URL . 'assets/js/imagesloaded.min.js' );
+	wp_enqueue_script( 'images-loaded', WPLPRO_URL . 'assets/js/imagesloaded.min.js' );
 	wp_localize_script( 'WPLPROAgents_idx_agent_delete_script', 'DeleteAgentAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	wp_enqueue_style( 'WPLPROAgents_idx_agent_style', WPLPRO_URL . 'assets/css/wplpro-import.min.css' );
 }
@@ -475,7 +491,10 @@ function WPLPROAgents_idx_agent_setting_page() {
 			<form id="wplpro-idx-agent-import" method="post" action="options.php">
 				<label for="selectall"><input type="checkbox" id="selectall"/>Select/Deselect All<br/><em>If importing all agents, it may take some time. <strong class="error">Please be patient.</strong></em></label>
 				<p>Please note that after pressing the "Import Agents" button, <em>there will be a time delay before all agents are visible depending on how many you are importing</em>. Don't worry, everything that was selected when you pressed "Import Agents" will still be imported, it just takes some time to pull multiple agents and their image from the API feed.</p>
-				<?php if ( $do_button ) { submit_button( 'Import Agents' );} ?>
+				<?php
+				if ( $do_button ) {
+					submit_button( 'Import Agents' );}
+				?>
 
 			<?php
 
@@ -495,14 +514,14 @@ function WPLPROAgents_idx_agent_setting_page() {
 				// settings_errors( 'WPLPROAgents_idx_agent_settings_group' );
 				// return;
 				// }
-			$_idx_api = new WPLPRO_Idx_Api();
-			$agents = $_idx_api->idx_api(
+			$_idx_api             = new WPLPRO_Idx_Api();
+			$agents               = $_idx_api->idx_api(
 				'agents',
-				$apiversion = '1.2.2',
-				$level = 'clients',
-				$params = array(),
-				$expiration = 7200,
-				$request_type = 'GET',
+				$apiversion       = '1.2.2',
+				$level            = 'clients',
+				$params           = array(),
+				$expiration       = 7200,
+				$request_type     = 'GET',
 				$json_decode_type = true
 			);
 			// $agents = $_idx_api->idx_api('agents');
@@ -526,12 +545,14 @@ function WPLPROAgents_idx_agent_setting_page() {
 					if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) || ! get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
 						$idx_agent_wp_options[ $a['agentID'] ] = array(
 							'agentID' => $a['agentID'],
-							);
+						);
 					}
 
-					$stuff = get_posts(array(
-						'post_type'       => 'employee',
-					));
+					$stuff = get_posts(
+						array(
+							'post_type' => 'employee',
+						)
+					);
 					foreach ( $stuff as $temp_agent ) {
 						if ( get_post_meta( $temp_agent->ID, '_employee_agent_id', true ) === (string) $a['agentID'] ) {
 							if ( ! isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) || ! '' !== $idx_agent_wp_options[ $a['agentID'] ]['status'] ) { // what.
@@ -545,15 +566,17 @@ function WPLPROAgents_idx_agent_setting_page() {
 					}
 
 					if ( isset( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) && get_post( $idx_agent_wp_options[ $a['agentID'] ]['post_id'] ) ) {
-						$pid = $idx_agent_wp_options[ $a['agentID'] ]['post_id'];
-						$nonce = wp_create_nonce( 'impa_idx_agent_delete_nonce' );
-						$delete_agent = sprintf('<a href="" data-id="%s" data-nonce="%s" class="delete-agent">Delete</a>',
+						$pid          = $idx_agent_wp_options[ $a['agentID'] ]['post_id'];
+						$nonce        = wp_create_nonce( 'impa_idx_agent_delete_nonce' );
+						$delete_agent = sprintf(
+							'<a href="" data-id="%s" data-nonce="%s" class="delete-agent">Delete</a>',
 							$pid,
 							$nonce
 						);
 					}
 
-					printf('<div class="grid-item post"><label for="%s" class="idx-agent"><li class="%s agent"><img class="agent" src="%s"><input type="checkbox" id="%s" class="checkbox" name="WPLPROAgents_idx_agent_options[]" value="%s" %s /><p><span class="agent-name">%s</span><br/><span class="agent-title">%s</span><br/><span class="agent-phone">%s</span><br/><span class="agent-id">Agent ID: %s</span></p><div class="controls">%s %s</div></li></label></div>',
+					printf(
+						'<div class="grid-item post"><label for="%s" class="idx-agent"><li class="%s agent"><img class="agent" src="%s"><input type="checkbox" id="%s" class="checkbox" name="WPLPROAgents_idx_agent_options[]" value="%s" %s /><p><span class="agent-name">%s</span><br/><span class="agent-title">%s</span><br/><span class="agent-phone">%s</span><br/><span class="agent-id">Agent ID: %s</span></p><div class="controls">%s %s</div></li></label></div>',
 						// @codingStandardsIgnoreStart
 						$a['agentID'],
 						isset( $idx_agent_wp_options[ $a['agentID'] ]['status'] ) ? ( 'publish' === $idx_agent_wp_options[ $a['agentID'] ]['status'] ? 'imported' : '') : '',

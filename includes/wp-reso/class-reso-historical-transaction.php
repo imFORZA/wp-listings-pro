@@ -6,14 +6,15 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * RESO History Transactional Class.
  *
  * @package wp-reso-history-transactional
  */
-class ResoHistoryTransaction{
+class ResoHistoryTransaction {
 
 	/**
 	 * Change Type.

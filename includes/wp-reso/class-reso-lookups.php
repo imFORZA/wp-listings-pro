@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * Reso Lookup Field Values.
@@ -15,7 +16,7 @@ class ResoLookupFieldValues {
 
 	public function __construct() {
 
-		}
+	}
 
 
 	/**

@@ -7,7 +7,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 
@@ -42,7 +43,7 @@ class WPLPRO_Admin_Notice {
 	 *
 	 * @var string
 	 */
-	protected static $nonce_field  = '';
+	protected static $nonce_field = '';
 
 	/**
 	 * The ignore key
@@ -53,7 +54,7 @@ class WPLPRO_Admin_Notice {
 	 *
 	 * @var string
 	 */
-	protected static $ignore_key   = '';
+	protected static $ignore_key = '';
 
 	/**
 	 * Output the message
@@ -115,11 +116,15 @@ class WPLPRO_Admin_Notice {
 	public static function js_css() {
 		global $wp_version;
 		wp_enqueue_script( 'wp-listings-admin', plugin_dir_url( __FILE__ ) . '/assets/js/admin.min.js' );
-		wp_localize_script( 'wp-listings-admin', 'wp_listings_adminL10n', array(
-			'nonce'      => wp_create_nonce( self::$nonce_action ),
-			'wp_version' => $wp_version,
-			'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
-		) );
+		wp_localize_script(
+			'wp-listings-admin',
+			'wp_listings_adminL10n',
+			array(
+				'nonce'      => wp_create_nonce( self::$nonce_action ),
+				'wp_version' => $wp_version,
+				'dismiss'    => __( 'Dismiss this notice', 'wp-listings-pro' ),
+			)
+		);
 	}
 
 	/**

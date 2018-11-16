@@ -6,14 +6,15 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * RESO Saved Search Class.
  *
  * @package wp-reso-saved-search
  */
-class ResoSavedSearch{
+class ResoSavedSearch {
 
 	/**
 	 * classname

@@ -6,14 +6,15 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * RESO Organization Class.
  *
  * @package wp-reso-organization
  */
-class ResoOrganization{
+class ResoOrganization {
 
 	/**
 	 * changedbymemberid

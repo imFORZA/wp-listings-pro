@@ -5,7 +5,8 @@
  @package WP-Listings-Pro
  */
 
-if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) { exit(); }
+if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+	exit(); }
 
 $settings = get_option( 'wplpro_plugin_settings' );
 
@@ -38,15 +39,15 @@ function wplpro_delete_listings() {
 	// Get all Listings.
 	$args = array(
 		'post_type' => array( 'listing' ),
-		'nopaging' => true,
+		'nopaging'  => true,
 	);
 
 	// Remove all Listings.
 	$query = new WP_Query( $args );
 	while ( $query->have_posts() ) {
 		$query->the_post();
-		$identifier = get_the_ID();
-		$taxonomies = array( 'status', 'locations', 'features', 'property-types' );
+		$identifier   = get_the_ID();
+		$taxonomies   = array( 'status', 'locations', 'features', 'property-types' );
 		$post_feat_id = get_post_thumbnail_id( $identifier );
 
 		wp_delete_attachment( $post_feat_id );

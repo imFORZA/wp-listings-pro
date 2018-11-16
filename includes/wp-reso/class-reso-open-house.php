@@ -6,14 +6,15 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * RESO Open House Class.
  *
  * @package wp-reso-openhouse
  */
-class ResoOpenHouse{
+class ResoOpenHouse {
 
 	/**
 	 * Indicates whether or not the openhouse requires an appointment.
@@ -305,7 +306,7 @@ class ResoOpenHouse{
 		if ( strlen( $remarks ) <= 500 ) {
 			return $remarks;
 		} else {
-			 return new WP_Error( 'Not Valid', __( "Your remarks is too long, please keep it under 500 characters.", "wp-reso" ) );
+			 return new WP_Error( 'Not Valid', __( 'Your remarks is too long, please keep it under 500 characters.', 'wp-reso' ) );
 		}
 
 	}

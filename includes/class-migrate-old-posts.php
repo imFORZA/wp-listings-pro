@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -23,9 +24,10 @@ class WPLPROAgents_Migrate {
 	 * @return void
 	 */
 	public function __construct() {
-		$post_info = get_posts( array(
-			'post_type' => 'aeprofiles',
-			'nopaging'  => true,
+		$post_info = get_posts(
+			array(
+				'post_type' => 'aeprofiles',
+				'nopaging'  => true,
 			)
 		);
 		if ( empty( $post_info ) ) {
@@ -43,25 +45,25 @@ class WPLPROAgents_Migrate {
 	 */
 	public function update_post_type( $post_info ) {
 		$meta_keys = array(
-			'_agent_title' 		  => '_employee_title',
-			'_agent_license' 	  => '_employee_license',
+			'_agent_title'        => '_employee_title',
+			'_agent_license'      => '_employee_license',
 			'_agent_designations' => '_employee_designations',
-			'_agent_phone' 		  => '_employee_phone',
-			'_agent_mobile' 	  => '_employee_mobile',
-			'_agent_email' 		  => '_employee_email',
-			'_agent_website' 	  => '_employee_website',
-			'_agent_address' 	  => '_employee_address',
-			'_agent_city' 		  => '_employee_city',
-			'_agent_state' 		  => '_employee_state',
-			'_agent_zip' 		  => '_employee_zip',
-			'_agent_facebook' 	  => '_employee_facebook',
-			'_agent_twitter' 	  => '_employee_twitter',
-			'_agent_linkedin' 	  => '_employee_linkedin',
+			'_agent_phone'        => '_employee_phone',
+			'_agent_mobile'       => '_employee_mobile',
+			'_agent_email'        => '_employee_email',
+			'_agent_website'      => '_employee_website',
+			'_agent_address'      => '_employee_address',
+			'_agent_city'         => '_employee_city',
+			'_agent_state'        => '_employee_state',
+			'_agent_zip'          => '_employee_zip',
+			'_agent_facebook'     => '_employee_facebook',
+			'_agent_twitter'      => '_employee_twitter',
+			'_agent_linkedin'     => '_employee_linkedin',
 			'_agent_googleplus'   => '_employee_googleplus',
-			'_agent_pinterest' 	  => '_employee_pinterest',
-			'_agent_youtube' 	  => '_employee_youtube',
-			'_agent_instagram' 	  => '_employee_instagram',
-			);
+			'_agent_pinterest'    => '_employee_pinterest',
+			'_agent_youtube'      => '_employee_youtube',
+			'_agent_instagram'    => '_employee_instagram',
+		);
 
 		foreach ( $post_info as $post ) {
 			foreach ( $meta_keys as $old_key => $new_key ) {

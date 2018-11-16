@@ -6,14 +6,15 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * RESO Property Class.
  *
  * @package wp-reso-property
  */
-class ResoProperty{
+class ResoProperty {
 
 	/**
 	 * A unique identifier for this record from the immediate source. this is a
@@ -77,8 +78,8 @@ class ResoProperty{
 	 * Finished area within the structure that is at or above the surface of the
 	 * ground.
 	 *
-   * @var [int]
-   * @access private
+	 * @var [int]
+	 * @access private
 	 * @ddwiki http://ddwiki.reso.org/display/DDW/AboveGradeFinishedArea+Field
 	 * @group property resource, structure group
 	 * @maxlength 14
@@ -93,8 +94,8 @@ class ResoProperty{
 	 * The source of the measurements. This is a pick list of options showing the
 	 * source of the measurement. i.e. Agent, Assessor, Estimate, etc.
 	 *
-   * @var [string list], [single]
-   * @access private
+	 * @var [string list], [single]
+	 * @access private
 	 * @ddwiki http://ddwiki.reso.org/display/DDW/AboveGradeFinishedAreaSource+Field
 	 * @group property resouce, structure group
 	 * @maxlength 50
@@ -110,7 +111,7 @@ class ResoProperty{
 	 * Square Meters, Acres, etc.
 	 *
 	 * @var [string list], [single]
-   * @access private
+	 * @access private
 	 * @ddwiki http://ddwiki.reso.org/display/DDW/AboveGradeFinishedAreaUnits+Field
 	 * @group property resouce, structure group
 	 * @maxlength 25
@@ -125,8 +126,8 @@ class ResoProperty{
 	 * If the property is located behind an unmanned security gate such as in a
 	 * Gated Community, what is the code to gain access through the secured gate.
 	 *
-   * @var [string]
-   * @access private
+	 * @var [string]
+	 * @access private
 	 * @ddwiki http://ddwiki.reso.org/display/DDW/AccessCode+Field
 	 * @group property resource, listing group
 	 * @maxlength 25
@@ -141,8 +142,8 @@ class ResoProperty{
 	 * A list or description of the accessibility features included in the
 	 * sale/lease.
 	 *
-   * @var [string list], [multi]
-   * @access private
+	 * @var [string list], [multi]
+	 * @access private
 	 * @ddwiki http://ddwiki.reso.org/display/DDW/AccessibilityFeatures+Field
 	 * @group property resource, structure group
 	 * @maxlength 1024
@@ -157,9 +158,9 @@ class ResoProperty{
 	 * IDs separated by commas. Do not include the first or primary parcel number,
 	 * that should be located in the Parcel Number field.
 	 *
-   * @var [string]
-   * @access private
-   * @ddwiki http://ddwiki.reso.org/display/DDW/AdditionalParcelsDescription+Field
+	 * @var [string]
+	 * @access private
+	 * @ddwiki http://ddwiki.reso.org/display/DDW/AdditionalParcelsDescription+Field
 	 * @group property resoure, tax group
 	 * @maxlength 255
 	 * @synonym
@@ -440,7 +441,7 @@ class ResoProperty{
 	 */
 	private $availability_date;
 
-  /**
+	/**
 	 * A list of information and features about the basement. i.e. None/Slab,
 	 * Finished, Partially Finished, Crawl Space, Dirt, Outside Entrance,
 	 * Radon Mitigation
@@ -475,7 +476,7 @@ class ResoProperty{
 	 */
 	private $bathrooms_full;
 
-  /**
+	/**
 	 * A room containing 2 of the 4 elements constituting a bath, which are;
 	 * Toilet, Sink, Bathtub or Shower Head. A Half Bath will typically contain a
 	 * Sink and Toilet.
@@ -491,7 +492,7 @@ class ResoProperty{
 	 */
 	private $bathrooms_half;
 
-  /**
+	/**
 	 * A room containing 1 of the 4 elements constituting a bath which are;
 	 * Toilet, Sink, Bathtub or Shower Head. Examples are a vanity with a sink or
 	 * a WC (Water Closet, which is a room with only a toilet).
@@ -525,7 +526,7 @@ class ResoProperty{
 	 */
 	private $bathrooms_partial;
 
-  /**
+	/**
 	 * A room containing 3 of the 4 elements constituting a bath, which are;
 	 * Toilet, Sink, Bathtub or Shower Head. A typical Three Quarter Bath will
 	 * contain Sink, Toilet and Shower. Some may considered a Sink, Toilet and Tub
@@ -560,7 +561,7 @@ class ResoProperty{
 	 */
 	private $bathrooms_total_integer;
 
-  /**
+	/**
 	 * The sum of BedroomsTotal plus other rooms that may be used as a bedroom but
 	 * are not defined as bedroom per local policy.
 	 *
@@ -589,7 +590,7 @@ class ResoProperty{
 	 */
 	private $bedrooms_total;
 
-  /**
+	/**
 	 * Finished area within the structure that is below ground.
 	 *
 	 * @var [int]
@@ -603,7 +604,7 @@ class ResoProperty{
 	 */
 	private $below_grade_finished_area;
 
-  /**
+	/**
 	 * The source of the measurements. This is a pick list of options showing the
 	 * source of the measurement. i.e. Agent, Assessor, Estimate, etc.
 	 *
@@ -618,7 +619,7 @@ class ResoProperty{
 	 */
 	private $below_grade_finished_area_source;
 
-  /**
+	/**
 	 * A pick list of the unit of measurement for the area. i.e. Square Feet,
 	 * Square Meters, Acres, etc.
 	 *
@@ -633,7 +634,7 @@ class ResoProperty{
 	 */
 	private $below_grade_finished_area_units;
 
-  /**
+	/**
 	 * Type of mobile home.
 	 *
 	 * @var [string list], [multi]
@@ -647,7 +648,7 @@ class ResoProperty{
 	 */
 	private $body_type;
 
-  /**
+	/**
 	 * The builders model name or number for the property.
 	 *
 	 * @var [string]
@@ -661,7 +662,7 @@ class ResoProperty{
 	 */
 	private $builder_model;
 
-  /**
+	/**
 	 * Name of the builder of the property or builder's tract.
 	 *
 	 * @var [string]
@@ -675,7 +676,7 @@ class ResoProperty{
 	 */
 	private $builder_name;
 
-  /**
+	/**
 	 * The source of the measurements. This is a pick list of options showing the
 	 * source of the measurement. i.e. Agent, Assessor, Estimate, etc.
 	 *
@@ -690,7 +691,7 @@ class ResoProperty{
 	 */
 	private $building_area_source;
 
-  /**
+	/**
 	 * Total area of the structure. Includes both finished and unfinished areas.
 	 *
 	 * @var [int]
@@ -704,7 +705,7 @@ class ResoProperty{
 	 */
 	private $building_area_total;
 
-  /**
+	/**
 	 * A pick list of the unit of measurement for the area. i.e. Square Feet,
 	 * Square Meters, Acres, etc.
 	 *
@@ -719,7 +720,7 @@ class ResoProperty{
 	 */
 	private $building_area_units;
 
-  /**
+	/**
 	 * Features or amenities of the building or business park.
 	 *
 	 * @var [string list], [multi]
@@ -733,7 +734,7 @@ class ResoProperty{
 	 * */
 	private $building_features;
 
-  /**
+	/**
 	 * Name of the building or business park.
 	 *
 	 * @var [string]
@@ -747,7 +748,7 @@ class ResoProperty{
 	 * */
 	private $building_name;
 
-  /**
+	/**
 	 * Name of the business being sold.
 	 *
 	 * @var [255]
@@ -761,7 +762,7 @@ class ResoProperty{
 	 * */
 	private $business_name;
 
-  /**
+	/**
 	 * The type of business being sold. Retail, Wholesale, Grocery, Food & Bev, etc.
 	 *
 	 * @var [string list], [business group]
@@ -775,7 +776,7 @@ class ResoProperty{
 	 * */
 	private $business_type;
 
-  /**
+	/**
 	 * The total commission to be paid for this sale, expressed as either a
 	 * percentage or a constant currency amount.
 	 *
@@ -2005,18 +2006,18 @@ class ResoProperty{
 	private $street_additional_info;
 
 	/**
- 	 * The direction indicator that precedes the listed property's street name.
- 	 *
- 	 * @var [string]
- 	 * @ddwiki http://ddwiki.reso.org/display/DDW/StreetDirPrefix+Field
- 	 * @group Property Resource, Location Group, Address Group
- 	 * @maxlength 15
- 	 * @synonym
- 	 * @certlevel core
- 	 * @propertytpes RESI, RLSE, RINC, LAND, MOBI, FARM, COMS, COML, BUSO
- 	 * @idxbroker streetDirection
- 	 * @lookup street_direction()
- 	 */
+	 * The direction indicator that precedes the listed property's street name.
+	 *
+	 * @var [string]
+	 * @ddwiki http://ddwiki.reso.org/display/DDW/StreetDirPrefix+Field
+	 * @group Property Resource, Location Group, Address Group
+	 * @maxlength 15
+	 * @synonym
+	 * @certlevel core
+	 * @propertytpes RESI, RLSE, RINC, LAND, MOBI, FARM, COMS, COML, BUSO
+	 * @idxbroker streetDirection
+	 * @lookup street_direction()
+	 */
 	private $street_dir_prefix;
 
 	/**

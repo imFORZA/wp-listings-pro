@@ -8,7 +8,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -82,8 +83,8 @@ class WPLPROMetaBoxListing_Images {
 	/**
 	 * Save meta box data.
 	 *
-	 * @param int     $post_id	ID of post to save to.
-	 * @param WP_Post $post			Post to attach to.
+	 * @param int     $post_id  ID of post to save to.
+	 * @param WP_Post $post         Post to attach to.
 	 */
 	public static function save( $post_id, $post ) {
 
@@ -91,7 +92,7 @@ class WPLPROMetaBoxListing_Images {
 			return $post_id;
 		}
 
-		$attachment_ids = isset( $_POST['listing_image_gallery'] ) ? array_filter( explode( ',',  sanitize_text_field( $_POST['listing_image_gallery'] ) ) ) : array();
+		$attachment_ids = isset( $_POST['listing_image_gallery'] ) ? array_filter( explode( ',', sanitize_text_field( $_POST['listing_image_gallery'] ) ) ) : array();
 
 		update_post_meta( $post_id, '_listing_image_gallery', implode( ',', $attachment_ids ) );
 		update_post_meta( $post_id, '_listing_gallery', static::backwards_compatibility_gallery( $attachment_ids ) );
@@ -101,7 +102,7 @@ class WPLPROMetaBoxListing_Images {
 	 * Provides support for the way that wp-listings manages galleries.
 	 *
 	 * @param  array[post_ids] $ids        Array of IDs to be included in the gallery.
-	 * @return string      							HTML block of images, following specifications of old wp-listings gallery.
+	 * @return string                               HTML block of images, following specifications of old wp-listings gallery.
 	 */
 	public static function backwards_compatibility_gallery( $ids ) {
 		$s = '';
@@ -125,7 +126,7 @@ class WPLPROMetaBoxListing_Docs {
 	public static function output( $post = null ) {
 
 			wp_nonce_field( 'wplpro_document_gallery_metabox_save', 'wplpro_document_gallery_metabox_nonce' );
-			?>
+		?>
 			<div id="listing_docs_container">
 
 				<ul class="listing_docs">
@@ -143,7 +144,7 @@ class WPLPROMetaBoxListing_Docs {
 
 					if ( ! empty( $attachments ) ) {
 						foreach ( $attachments as $attachment_id ) {
-							$attachment_url = wp_get_attachment_url( $attachment_id );
+							$attachment_url      = wp_get_attachment_url( $attachment_id );
 							$attachment_filetype = wp_check_filetype( $attachment_url )['ext']; // alternate is 'type', yeilds ie: "image/jpeg" instead of "jpg".
 
 							if ( 'xls' === $attachment_filetype || 'xlsx' === $attachment_filetype ) { // Is spreadsheet.
@@ -188,8 +189,8 @@ class WPLPROMetaBoxListing_Docs {
 		/**
 		 * Save meta box data.
 		 *
-		 * @param int     $post_id 	ID of post.
-		 * @param WP_Post $post			Given post.
+		 * @param int     $post_id  ID of post.
+		 * @param WP_Post $post         Given post.
 		 */
 	public static function save( $post_id, $post ) {
 
@@ -197,7 +198,7 @@ class WPLPROMetaBoxListing_Docs {
 			return $post_id;
 		}
 
-		$attachment_ids = isset( $_POST['listing_doc_gallery'] ) ? array_filter( explode( ',',  sanitize_text_field( $_POST['listing_doc_gallery'] ) ) ) : array();
+		$attachment_ids = isset( $_POST['listing_doc_gallery'] ) ? array_filter( explode( ',', sanitize_text_field( $_POST['listing_doc_gallery'] ) ) ) : array();
 
 		update_post_meta( $post_id, '_listing_doc_gallery', implode( ',', $attachment_ids ) );
 	}

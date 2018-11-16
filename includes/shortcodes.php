@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -25,18 +26,21 @@ add_shortcode( 'listings', 'wplpro_shortcode' );
  */
 function wplpro_shortcode( $atts, $content = null ) {
 
-	$obj = shortcode_atts(array(
-		'id'       => '',
-		'taxonomy' => '',
-		'term'     => '',
-		'limit'    => '',
-		'columns'  => '',
-	), $atts );
+	$obj        = shortcode_atts(
+		array(
+			'id'       => '',
+			'taxonomy' => '',
+			'term'     => '',
+			'limit'    => '',
+			'columns'  => '',
+		),
+		$atts
+	);
 	$identifier = $obj['id'];
-	$taxonomy = $obj['taxonomy'];
-	$term = $obj['term'];
-	$limit = $obj['limit'];
-	$columns = $obj['columns'];
+	$taxonomy   = $obj['taxonomy'];
+	$term       = $obj['term'];
+	$limit      = $obj['limit'];
+	$columns    = $obj['columns'];
 
 	 // If limit is empty set to all.
 	if ( ! $limit ) {
@@ -50,26 +54,26 @@ function wplpro_shortcode( $atts, $content = null ) {
 
 	// Query args based on parameters.
 	$query_args = array(
-		'post_type'       => 'listing',
-		'posts_per_page'  => $limit,
+		'post_type'      => 'listing',
+		'posts_per_page' => $limit,
 	);
 
 	if ( $identifier ) {
 		$query_args = array(
-			'post_type'       => 'listing',
-			'post__in'        => explode( ',', $identifier ),
+			'post_type' => 'listing',
+			'post__in'  => explode( ',', $identifier ),
 		);
 	}
 
 	if ( $term && $taxonomy ) {
 		$query_args = array(
-			'post_type'       => 'listing',
-			'posts_per_page'  => $limit,
-			'tax_query'       => array(
+			'post_type'      => 'listing',
+			'posts_per_page' => $limit,
+			'tax_query'      => array(
 				array(
 					'taxonomy' => $taxonomy,
 					'field'    => 'slug',
-					'terms'     => $term,
+					'terms'    => $term,
 				),
 			),
 		);
@@ -84,7 +88,8 @@ function wplpro_shortcode( $atts, $content = null ) {
 
 	$output = '<div class="wplpro wplpro-shortcode">';
 
-	foreach ( $listings_array as $post ) : setup_postdata( $post );
+	foreach ( $listings_array as $post ) :
+		setup_postdata( $post );
 
 		$count = ( $count === $columns ) ? 1 : $count + 1;
 
@@ -143,9 +148,12 @@ add_shortcode( 'wp_listings_meta', 'wplpro_meta_shortcode' );
  * @return string meta value wrapped in span.
  */
 function wplpro_meta_shortcode( $atts ) {
-	$key = shortcode_atts(array(
-		'key' => '',
-	), $atts )['key'];
+	$key    = shortcode_atts(
+		array(
+			'key' => '',
+		),
+		$atts
+	)['key'];
 	$postid = get_the_id();
 
 	return '<span class=' . $key . '>' . get_post_meta( $postid, '_listing_' . $key, true ) . '</span>';
@@ -167,30 +175,33 @@ add_shortcode( 'employee_profiles', 'wplpro_profile_shortcode' );
  */
 function wplpro_profile_shortcode( $atts, $content = null ) {
 
-	$obj = shortcode_atts(array(
-		'id'   => '',
-		'orderby' => 'menu_order',
-		'order' => 'ASC',
-	), $atts );
-	$id = $obj['id'];
+	$obj     = shortcode_atts(
+		array(
+			'id'      => '',
+			'orderby' => 'menu_order',
+			'order'   => 'ASC',
+		),
+		$atts
+	);
+	$id      = $obj['id'];
 	$orderby = $obj['orderby'];
-	$order = $obj['order'];
+	$order   = $obj['order'];
 
 	if ( '' === $id ) {
 		$query_args = array(
-			'post_type'       => 'employee',
-			'posts_per_page'  => -1,
-			'orderby' 		  => $orderby,
-			'order' 		  => $order,
+			'post_type'      => 'employee',
+			'posts_per_page' => -1,
+			'orderby'        => $orderby,
+			'order'          => $order,
 
 		);
 	} else {
 		$query_args = array(
-			'post_type'       => 'employee',
-			'post__in'        => explode( ',', $id ),
-			'posts_per_page'  => -1,
-			'orderby' 		  => $orderby,
-			'order' 		  => $order,
+			'post_type'      => 'employee',
+			'post__in'       => explode( ',', $id ),
+			'posts_per_page' => -1,
+			'orderby'        => $orderby,
+			'order'          => $order,
 
 		);
 	}
@@ -201,7 +212,8 @@ function wplpro_profile_shortcode( $atts, $content = null ) {
 
 	$output = '';
 
-	foreach ( $profiles_array as $post ) : setup_postdata( $post );
+	foreach ( $profiles_array as $post ) :
+		setup_postdata( $post );
 
 		$output .= '<div class="shortcode-agent-wrap">';
 		$output .= '<a href="' . get_permalink() . '">' . get_the_post_thumbnail( $post->ID, 'employee-thumbnail' ) . '</a>';
@@ -210,7 +222,7 @@ function wplpro_profile_shortcode( $atts, $content = null ) {
 		if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wplpro_init' ) ) {
 			$has_listings = wplpro_has_listings( $post->ID );
 			if ( ! empty( $has_listings ) ) {
-			    echo '<p><a class="agent-listings-link" href="' . esc_url( get_permalink() ) . '#agent-listings">View My Listings</a></p>';
+				echo '<p><a class="agent-listings-link" href="' . esc_url( get_permalink() ) . '#agent-listings">View My Listings</a></p>';
 			}
 		}
 

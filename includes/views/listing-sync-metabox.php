@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 global $post;
@@ -39,11 +40,11 @@ echo '</ul>';
 <script>
 jQuery(function(){
 	jQuery('#sync-select').on('change',function(){
-	    if(jQuery(this).val()=='update-custom'){
-	        jQuery('.custom-options').show();
-	    } else {
-	        jQuery('.custom-options').hide();
-	    }
+		if(jQuery(this).val()=='update-custom'){
+			jQuery('.custom-options').show();
+		} else {
+			jQuery('.custom-options').hide();
+		}
 	});
 
 	// Initial check.

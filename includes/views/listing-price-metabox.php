@@ -5,7 +5,7 @@
  * @package WP-Listings-Pro
  */
 
-if( !defined( 'ABSPATH' ) ){
+if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
 
@@ -73,7 +73,7 @@ echo '	<tr>';
 echo '		<th><label for="listing_total_actual_rent" class="listing_total_actual_rent_label">' . __( 'Hide Price', 'wp-listings-pro' ) . '</label></th>';
 echo '		<td>';
 wp_nonce_field( 'wp-hide-price-action', 'wp-hide-price-name' );
-echo '			<input type="checkbox" name="wp_listings[_listing_hide_price]" value="1" '. checked( get_post_meta( $post->ID, '_listing_hide_price', true ), 1, 0 ) .' />';
+echo '			<input type="checkbox" name="wp_listings[_listing_hide_price]" value="1" ' . checked( get_post_meta( $post->ID, '_listing_hide_price', true ), 1, 0 ) . ' />';
 echo '			<p class="description">' . __( 'Hide the price from visitors?', 'wp-listings-pro' ) . '</p>';
 echo '		</td>';
 echo '	</tr>';
@@ -82,7 +82,7 @@ echo '	</tr>';
 echo '	<tr>';
 echo '		<th><label for="listing_total_actual_rent" class="listing_total_actual_rent_label">' . __( 'Alternate Text to Display', 'wp-listings-pro' ) . '</label></th>';
 echo '		<td>';
-echo '			<input type="text" placeholder="" name="wp_listings[_listing_price_alt]" value="'. htmlentities( get_post_meta( $post->ID, '_listing_price_alt', true ) ) .'" />';
+echo '			<input type="text" placeholder="" name="wp_listings[_listing_price_alt]" value="' . htmlentities( get_post_meta( $post->ID, '_listing_price_alt', true ) ) . '" />';
 echo '			<p class="description">' . __( 'Text to display instead of price (or leave blank).', 'wp-listings-pro' ) . '</p>';
 echo '		</td>';
 echo '	</tr>';

@@ -6,14 +6,15 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * RESO Team Member Class.
  *
  * @package wp-reso-team-member
  */
-class ResoTeamMember{
+class ResoTeamMember {
 
 	/**
 	 * MemberKey
@@ -224,10 +225,10 @@ class ResoTeamMember{
 
 		$sanitized_member_key = sanitize_text_field( $member_key );
 
-		if(	strlen( $sanitized_member_key ) <= 255 ) {
+		if ( strlen( $sanitized_member_key ) <= 255 ) {
 			return $sanitized_member_key;
 		} else {
-			return new WP_Error( 'invalid length', __( "Your Member key is too long, please make it 255 characters or less.", "wp-reso" ) );
+			return new WP_Error( 'invalid length', __( 'Your Member key is too long, please make it 255 characters or less.', 'wp-reso' ) );
 			// or wp_trim_words( $sanitized_member_key, $num_words = 255, $more = null );
 		}
 

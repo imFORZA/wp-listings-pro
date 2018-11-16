@@ -7,7 +7,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -36,11 +37,14 @@ function wplpro_safe_welcome_redirect() {
 
 	// Redirect to Welcome Page.
 	// Redirects to `your-domain.com/wp-admin/plugin.php?page=wplpro_welcome_page`.
-	wp_safe_redirect( add_query_arg( array(
-			'page' => 'wplpro_welcome_page',
-		),
-		admin_url( 'plugins.php' )
-	) );
+	wp_safe_redirect(
+		add_query_arg(
+			array(
+				'page' => 'wplpro_welcome_page',
+			),
+			admin_url( 'plugins.php' )
+		)
+	);
 
 }
 
@@ -89,7 +93,7 @@ function wplpro_welcome_page_content() {
 
 	if ( file_exists( WPLPRO_DIR . '/welcome/welcome-view.php' ) ) {
 
-		require_once( WPLPRO_DIR . '/welcome/welcome-view.php' );
+		require_once WPLPRO_DIR . '/welcome/welcome-view.php';
 
 	}
 }

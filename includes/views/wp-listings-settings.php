@@ -7,7 +7,8 @@
 
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 
@@ -17,7 +18,7 @@ if ( isset( $_GET['settings-updated'] ) ) {
 	<div id="message" class="updated">
 		<p><strong><?php esc_html_e( 'Settings saved.', 'wp-listings-pro' ); ?></strong></p>
 	</div>
-<?php
+	<?php
 }
 
 ?>
@@ -33,33 +34,34 @@ if ( isset( $_GET['settings-updated'] ) ) {
 		<div id="post-body">
 			<div id="post-body-content" class="has-sidebar-content">
 
-				<?php $options = get_option( 'wplpro_plugin_settings' );
+				<?php
+				$options = get_option( 'wplpro_plugin_settings' );
 
 				$defaults = array(
-					'disable_css'													=> 0,
-					'disable_fontawesome'									=> 0,
-					'disable_properticons'								=> 0,
-					'wplpro_currency_symbol'							=> '',
-					'wplpro_currency_code'								=> '',
-					'wplpro_display_currency_code'				=> 0,
-					'wplpro_archive_posts_num'						=> 9,
-					'wplpro_global_disclaimer'						=> '',
-					'wplpro_listings_slug'								=> 'listing',
-					'wplpro_employees_slug'								=> 'employee',
-					'wplpro_default_form'									=> '',
-					'wplpro_custom_wrapper'								=> 0,
-					'wplpro_start_wrapper'								=> '',
-					'wplpro_end_wrapper'									=> '',
-					'wplpro_idx_update'										=> 'update-all',
-					'wplpro_idx_update_agents'   					=> 'update-all',
-					'wplpro_custom_sync_featured'					=> 0,
-					'wplpro_custom_sync_gallery' 					=> 0,
-					'wplpro_custom_sync_details' 					=> 0,
-					'wplpro_idx_sold'											=> 'sold-keep',
-					'wplpro_display_idx_link'							=> 0,
-					'wplpro_import_author'								=> 0,
-					'wplpro_uninstall_delete'							=> 0,
-					);
+					'disable_css'                  => 0,
+					'disable_fontawesome'          => 0,
+					'disable_properticons'         => 0,
+					'wplpro_currency_symbol'       => '',
+					'wplpro_currency_code'         => '',
+					'wplpro_display_currency_code' => 0,
+					'wplpro_archive_posts_num'     => 9,
+					'wplpro_global_disclaimer'     => '',
+					'wplpro_listings_slug'         => 'listing',
+					'wplpro_employees_slug'        => 'employee',
+					'wplpro_default_form'          => '',
+					'wplpro_custom_wrapper'        => 0,
+					'wplpro_start_wrapper'         => '',
+					'wplpro_end_wrapper'           => '',
+					'wplpro_idx_update'            => 'update-all',
+					'wplpro_idx_update_agents'     => 'update-all',
+					'wplpro_custom_sync_featured'  => 0,
+					'wplpro_custom_sync_gallery'   => 0,
+					'wplpro_custom_sync_details'   => 0,
+					'wplpro_idx_sold'              => 'sold-keep',
+					'wplpro_display_idx_link'      => 0,
+					'wplpro_import_author'         => 0,
+					'wplpro_uninstall_delete'      => 0,
+				);
 
 				foreach ( $defaults as $name => $value ) {
 					if ( ! isset( $options[ $name ] ) ) {
@@ -85,15 +87,15 @@ if ( isset( $_GET['settings-updated'] ) ) {
 					<?php
 					settings_fields( 'wp_listings_options' );
 
-					if ( isset( $options['wplpro_api_key'] ) || get_option('idx_broker_apikey') !== false ) {
-					?>
+					if ( isset( $options['wplpro_api_key'] ) || get_option( 'idx_broker_apikey' ) !== false ) {
+						?>
 						<h3>Update Listings and Employees</h3>
 						<input name="submit" type="submit" value="Sync now" class="button-primary" id="sync-idx-settings-now"></input>
-					<?php
+						<?php
 					}
 
-					if ( ! isset( $options['wplpro_api_key'] ) && get_option('idx_broker_apikey') !== false ) {
-						$options['wplpro_api_key'] = get_option('idx_broker_apikey');
+					if ( ! isset( $options['wplpro_api_key'] ) && get_option( 'idx_broker_apikey' ) !== false ) {
+						$options['wplpro_api_key'] = get_option( 'idx_broker_apikey' );
 						update_option( 'wplpro_plugin_settings', $options );
 					}
 
@@ -308,7 +310,7 @@ if ( isset( $_GET['settings-updated'] ) ) {
 
 					_e( '<p>Total Number of Listings to display on Listing Archives: <input name="wplpro_plugin_settings[wplpro_archive_posts_num]" id="wplpro_archive_posts_num" type="number" value="' . $options['wplpro_archive_posts_num'] . '" size="1" min="0" max="50" /></p>', 'wp-listings-pro' );
 
-				    _e( '<p>Total Number of Employees to display on Employee Archives: <input name="wplpro_plugin_settings[wplpro_archive_agent_num]" id="wplpro_archive_posts_num" type="number" value="' . $options['wplpro_archive_agent_num'] . '" size="1" min="0" max="50" /></p>', 'wplpro-agents' );
+					_e( '<p>Total Number of Employees to display on Employee Archives: <input name="wplpro_plugin_settings[wplpro_archive_agent_num]" id="wplpro_archive_posts_num" type="number" value="' . $options['wplpro_archive_agent_num'] . '" size="1" min="0" max="50" /></p>', 'wplpro-agents' );
 
 					echo '<hr>';
 
@@ -364,15 +366,36 @@ if ( isset( $_GET['settings-updated'] ) ) {
 						_e( '<div class="idx-import-option update-none"><label><h4>Do Not Update</h4> <span class="dashicons dashicons-dismiss"></span><input name="wplpro_plugin_settings[wplpro_idx_update_agents]" id="wplpro_idx_update_agents_none" type="radio" value="update-none" class="code" ' . checked( 'update-none', $options['wplpro_idx_update_agents'], false ) . ' /> <p><strong>Not recommended as displaying inaccurate MLS data may violate your IDX agreement.</strong><br /> Does not update any fields.<br /></p></label></div>', 'wp-listings-pro' );
 
 						_e( '<br style="clear: both;"><h2>Additional Options</h2>', 'wp-listings-pro' );
-						_e( '<p>Select an author to use when importing listings <br />' . wp_dropdown_users( array( 'selected' => $options['wplpro_import_author'], 'name' => 'wplpro_plugin_settings[wplpro_import_author]', 'id' => 'wplpro_import_author', 'echo' => false, 'who' => 'authors' ) ) . '</p>', 'wp-listings-pro' );
+						_e(
+							'<p>Select an author to use when importing listings <br />' . wp_dropdown_users(
+								array(
+									'selected' => $options['wplpro_import_author'],
+									'name'     => 'wplpro_plugin_settings[wplpro_import_author]',
+									'id'       => 'wplpro_import_author',
+									'echo'     => false,
+									'who'      => 'authors',
+								)
+							) . '</p>',
+							'wp-listings-pro'
+						);
 						_e( '<p><input name="wplpro_plugin_settings[wplpro_display_idx_link]" id="wplpro_display_idx_link" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_display_idx_link'], false ) . ' /> Display a link to IDX Broker details page</p><hr style="clear: both;">', 'wp-listings-pro' );
 
 
 						_e( '<h3>Sort Listings (High to Low Price)</h3>', 'wp-listings-pro' );
 
 						?>
-						<label> <input type="radio" name="wplpro_plugin_settings[enable_sort]" value="1" <?php if ( ! empty( $options['enable_sort'] ) == '1' ) {  echo 'checked="checked"'; } ?>> Yes</label><br>
-						<label> <input type="radio" name="wplpro_plugin_settings[enable_sort]" value="0" <?php if ( ! empty( $options['enable_sort'] ) == '0' ) {  echo 'checked="checked"'; } ?>> No</label><br><br>
+						<label> <input type="radio" name="wplpro_plugin_settings[enable_sort]" value="1" 
+						<?php
+						if ( ! empty( $options['enable_sort'] ) == '1' ) {
+							echo 'checked="checked"'; }
+						?>
+						> Yes</label><br>
+						<label> <input type="radio" name="wplpro_plugin_settings[enable_sort]" value="0" 
+						<?php
+						if ( ! empty( $options['enable_sort'] ) == '0' ) {
+							echo 'checked="checked"'; }
+						?>
+						> No</label><br><br>
 
 						<?php
 						_e( '<h3>Pin Listings</h3>', 'wp-listings-pro' );
@@ -392,7 +415,7 @@ if ( isset( $_GET['settings-updated'] ) ) {
 						_e( '<p><input name="wplpro_plugin_settings[wplpro_uninstall_delete]" id="wplpro_uninstall_delete" type="checkbox" value="1" class="code" ' . checked( 1, $options['wplpro_uninstall_delete'], false ) . ' /> <strong style="color: red;">Delete plugin data on uninstall</strong></p><hr>', 'wp-listings-pro' );
 
 
-					?>
+						?>
 
 					<input name="submit" class="button-primary" type="submit" value="<?php esc_attr_e( 'Save Settings' ); ?>" />
 				</form>

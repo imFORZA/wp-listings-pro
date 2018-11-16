@@ -9,7 +9,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 
@@ -50,14 +51,16 @@ function wplpro_add_employee_body_class( $classes ) {
 function wplpro_archive_employee_loop() {
 
 	$class = '';
-	$i = 4;
+	$i     = 4;
 
-	if ( have_posts() ) : while ( have_posts() ) : the_post();
+	if ( have_posts() ) :
+		while ( have_posts() ) :
+			the_post();
 
 			// Starting at 4. que.
 			if ( 4 === $i ) {
 				$class = 'first one-fourth agent-wrap';
-				$i = 0;
+				$i     = 0;
 			} else {
 				$class = 'one-fourth agent-wrap';
 			}
@@ -65,43 +68,46 @@ function wplpro_archive_employee_loop() {
 			// Increase count by 1.
 			$i++;
 
-			$post_id = get_the_id();
-			$thumb_id = get_post_thumbnail_id();
+			$post_id   = get_the_id();
+			$thumb_id  = get_post_thumbnail_id();
 			$thumb_url = wp_get_attachment_image_src( $thumb_id, 'employee-thumbnail', true );
 
-	?>
+			?>
 
 	<div <?php post_class( $class ); ?> itemscope itemtype="https://schema.org/Person">
-	<?php echo '<a href="' . esc_url( get_permalink() ) . '"><img src="' . esc_url( $thumb_url[0] ) . '" alt="' . esc_attr( get_the_title() ) . ' photo" class="attachment-employee-thumbnail wp-post-image" itemprop="image" /></a>'; ?>
+			<?php echo '<a href="' . esc_url( get_permalink() ) . '"><img src="' . esc_url( $thumb_url[0] ) . '" alt="' . esc_attr( get_the_title() ) . ' photo" class="attachment-employee-thumbnail wp-post-image" itemprop="image" /></a>'; ?>
 		<div class="agent-details vcard">
-		<?php
+			<?php
 
-		printf( '<p><a class="fn" href="%s" itemprop="name">%s</a></p>', esc_url( get_permalink() ), esc_html( get_the_title() ) );
+			printf( '<p><a class="fn" href="%s" itemprop="name">%s</a></p>', esc_url( get_permalink() ), esc_html( get_the_title() ) );
 
-		echo wplpro_employee_archive_details();
-		if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wplpro_init' ) ) {
+			echo wplpro_employee_archive_details();
+			if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wplpro_init' ) ) {
 
-			$has_listings = wplpro_has_listings( $post_id );
-			if ( ! empty( $has_listings ) ) {
-				echo '<p><a class="agent-listings-link" href="' . esc_url( get_permalink() ) . '#agent-listings">' . __( 'View My Listings', 'wp-listings-pro' ) . '</a></p>';
+				$has_listings = wplpro_has_listings( $post_id );
+				if ( ! empty( $has_listings ) ) {
+					echo '<p><a class="agent-listings-link" href="' . esc_url( get_permalink() ) . '#agent-listings">' . __( 'View My Listings', 'wp-listings-pro' ) . '</a></p>';
+				}
 			}
-		}
 
-		?>
+			?>
 		</div><!-- .agent-details -->
 	</div> <!-- .agent-wrap -->
 
-	<?php endwhile;
-	if ( function_exists( 'equity' ) ) {
-		equity_posts_nav();
-	} elseif ( function_exists( 'genesis_init' ) ) {
-		genesis_posts_nav();
-	} else {
-		wplpro_paging_nav_employee();
-	} else : ?>
+			<?php
+	endwhile;
+		if ( function_exists( 'equity' ) ) {
+			equity_posts_nav();
+		} elseif ( function_exists( 'genesis_init' ) ) {
+			genesis_posts_nav();
+		} else {
+			wplpro_paging_nav_employee();
+		} else :
+			?>
 
 	<p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
-	<?php endif;
+			<?php
+	endif;
 
 }
 
@@ -138,7 +144,8 @@ if ( function_exists( 'equity' ) ) {
 		echo '<div id="primary" class="content-area container inner">
 		<div id="content" class="site-content" role="main">';
 	}
-	if ( have_posts() ) : ?>
+	if ( have_posts() ) :
+		?>
 
 		<header class="archive-header">
 			<?php
@@ -152,12 +159,17 @@ if ( function_exists( 'equity' ) ) {
 
 			?>
 
-			<small><?php if ( function_exists( 'yoast_breadcrumb' ) ) { yoast_breadcrumb( '<p id="breadcrumbs">','</p>' ); } ?></small>
+			<small>
+			<?php
+			if ( function_exists( 'yoast_breadcrumb' ) ) {
+				yoast_breadcrumb( '<p id="breadcrumbs">', '</p>' ); }
+			?>
+			</small>
 		</header><!-- .archive-header -->
 
-	<?php
+		<?php
 
-	wplpro_archive_employee_loop();
+		wplpro_archive_employee_loop();
 
 	else :
 		// If no content, include the "No posts found" template.

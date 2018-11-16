@@ -7,7 +7,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 add_action( 'wp_enqueue_scripts', 'enqueue_single_employee_scripts' );
@@ -37,7 +38,7 @@ function wplpro_single_employee_post_content() {
 
 	<div class="agent-wrap" itemscope itemtype="https://schema.org/Person">
 		<?php
-			$thumb_id = get_post_thumbnail_id();
+			$thumb_id  = get_post_thumbnail_id();
 			$thumb_url = wp_get_attachment_image_src( $thumb_id, 'employee-full', true );
 			echo '<img src="' . esc_url( $thumb_url[0] ) . '" alt="' . get_the_title() . ' photo" class="attachment-employee-full wp-post-image" itemprop="image" />';
 		?>
@@ -52,16 +53,18 @@ function wplpro_single_employee_post_content() {
 		<?php the_content(); ?>
 	</div><!-- .agent-bio -->
 
-	<?php if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wplpro_init' ) ) {
-		echo'
+	<?php
+	if ( function_exists( '_p2p_init' ) && function_exists( 'agentpress_listings_init' ) || function_exists( '_p2p_init' ) && function_exists( 'wplpro_init' ) ) {
+		echo '
 		<div class="connected-agent-listings">';
 		wplpro_connected_listings_markup();
 		echo '</div>';
-}?>
+	}
+	?>
 
 	</div><!-- .entry-content -->
 
-<?php
+	<?php
 }
 
 $options = get_option( 'WPLPROAgents_settings' );
@@ -104,12 +107,19 @@ if ( function_exists( 'equity' ) ) {
 		<div id="content" class="site-content" role="main">';
 	}
 	// Start the Loop.
-	while ( have_posts() ) : the_post(); ?>
+	while ( have_posts() ) :
+		the_post();
+		?>
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 		<header class="entry-header">
 			<?php the_title( '<h1 class="entry-title" itemprop="name">', '</h1>' ); ?>
-			<small><?php if ( function_exists( 'yoast_breadcrumb' ) ) { yoast_breadcrumb( '<p id="breadcrumbs">','</p>' ); } ?></small>
+			<small>
+			<?php
+			if ( function_exists( 'yoast_breadcrumb' ) ) {
+				yoast_breadcrumb( '<p id="breadcrumbs">', '</p>' ); }
+			?>
+			</small>
 			<div class="entry-meta">
 
 				<?php edit_post_link( __( 'Edit', 'wp-listings-pro' ), '<span class="edit-link">', '</span>' ); ?>
@@ -117,18 +127,18 @@ if ( function_exists( 'equity' ) ) {
 		</header><!-- .entry-header -->
 
 
-	<?php wplpro_single_employee_post_content(); ?>
+		<?php wplpro_single_employee_post_content(); ?>
 
 	</article><!-- #post-ID -->
 
-	<?php
-	// Previous/next post navigation.
-	wplpro_post_nav_employee();
+		<?php
+		// Previous/next post navigation.
+		wplpro_post_nav_employee();
 
-	// If comments are open or we have at least one comment, load up the comment template.
-	if ( comments_open() || get_comments_number() ) {
-		comments_template();
-	}
+		// If comments are open or we have at least one comment, load up the comment template.
+		if ( comments_open() || get_comments_number() ) {
+			comments_template();
+		}
 	endwhile;
 
 	if ( $options['wplpro_custom_wrapper'] && $options['wplpro_end_wrapper'] ) {

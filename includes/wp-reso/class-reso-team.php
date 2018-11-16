@@ -6,14 +6,15 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * RESO Team Class.
  *
  * @package wp-reso-team-member
  */
-class ResoTeam{
+class ResoTeam {
 
 	/**
 	 * modificationtimestamp
@@ -355,7 +356,7 @@ class ResoTeam{
 	 * team constructor
 	 */
 	public function __construct() {
- 	}
+	}
 
 	public function get_teams_fields() {
 		return array(

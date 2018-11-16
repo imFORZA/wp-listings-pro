@@ -6,14 +6,15 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * RESO Office Class.
  *
  * @package wp-reso-office
  */
-class ResoOffice{
+class ResoOffice {
 
 	/**
 	 * franchiseaffiliation

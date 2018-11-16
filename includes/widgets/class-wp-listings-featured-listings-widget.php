@@ -21,13 +21,13 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		$widget_ops  = array(
-			'classname' => 'wplistings-featured-listings clearfix',
-			'description' => __( 'Display grid-style featured listings', 'wp-listings-pro' ),
+			'classname'                   => 'wplistings-featured-listings clearfix',
+			'description'                 => __( 'Display grid-style featured listings', 'wp-listings-pro' ),
 			'customize_selective_refresh' => true,
 		);
 		$control_ops = array(
-			'width' 	=> 300,
-			'height' 	=> 350,
+			'width'  => 300,
+			'height' => 350,
 		);
 		parent::__construct( 'wplpro_listings_showcase', __( 'WP Listings Pro - Listings Showcase', 'wp-listings-pro' ), $widget_ops, $control_ops );
 	}
@@ -81,16 +81,16 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 	 * @return void
 	 */
 	function widget( $args, $instance ) {
-		$before_widget 	= $args['before_widget'	];
-		$after_widget 	= $args['after_widget'	];
-		$name 					= $args['name'					];
-		$id 						= $args['id'						];
-		$description 		= $args['description'		];
-		$class 					= $args['class'					];
-		$before_title 	= $args['before_title'	];
-		$after_title 		= $args['after_title'		];
-		$widget_id 			= $args['widget_id'			];
-		$widget_name 		= $args['widget_name'		];
+		$before_widget = $args['before_widget'];
+		$after_widget  = $args['after_widget'];
+		$name          = $args['name'];
+		$id            = $args['id'];
+		$description   = $args['description'];
+		$class         = $args['class'];
+		$before_title  = $args['before_title'];
+		$after_title   = $args['after_title'];
+		$widget_id     = $args['widget_id'];
+		$widget_name   = $args['widget_name'];
 
 		$options = get_option( 'wplpro_plugin_settings' );
 
@@ -110,9 +110,9 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 		}
 
 			$query_args = array(
-				'post_type'			=> 'listing',
-				'posts_per_page'	=> $instance['posts_per_page'],
-				'paged'				=> get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
+				'post_type'      => 'listing',
+				'posts_per_page' => $instance['posts_per_page'],
+				'paged'          => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
 			);
 
 		if ( ! empty( $instance['posts_term'] ) && count( $posts_term ) === 2 ) {
@@ -125,7 +125,9 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 
 			global $post;
 
-		if ( $wpl_widget_query->have_posts() ) : while ( $wpl_widget_query->have_posts() ) : $wpl_widget_query->the_post();
+		if ( $wpl_widget_query->have_posts() ) :
+			while ( $wpl_widget_query->have_posts() ) :
+				$wpl_widget_query->the_post();
 
 				$count = ( $count === $instance['number_columns'] ) ? 1 : $count + 1;
 
@@ -146,7 +148,7 @@ class WP_Listings_Featured_Listings_Widget extends WP_Widget {
 				}
 
 				if ( '' !== get_post_meta( $post->ID, '_listing_price', true ) ) {
-					$loop .= sprintf( '<span class="listing-price"><span class="currency-symbol">%s</span>%s %s</span>', $options['wplpro_currency_symbol'], get_post_meta( $post->ID, '_listing_price', true ), (isset( $options['wplpro_display_currency_code'] ) && 1 === $options['wplpro_display_currency_code'] 	) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>': '' );
+					$loop .= sprintf( '<span class="listing-price"><span class="currency-symbol">%s</span>%s %s</span>', $options['wplpro_currency_symbol'], get_post_meta( $post->ID, '_listing_price', true ), ( isset( $options['wplpro_display_currency_code'] ) && 1 === $options['wplpro_display_currency_code'] ) ? '<span class="currency-code">' . $options['wplpro_currency_code'] . '</span>' : '' );
 				}
 
 				$loop .= sprintf( '</div><!-- .listing-thumb-meta --></div><!-- .listing-widget-thumb -->' );
@@ -188,10 +190,10 @@ endif;
 	 * @return array Updated safe values to be saved.
 	 */
 	function update( $new_instance, $old_instance ) {
-		$instance = array();
+		$instance                   = array();
 		$instance['title']          = strip_tags( $new_instance['title'] );
 		$instance['posts_per_page'] = (int) $new_instance['posts_per_page'];
-		$instance['image_size'] 	= strip_tags( $new_instance['image_size'] );
+		$instance['image_size']     = strip_tags( $new_instance['image_size'] );
 		$instance['use_columns']    = (int) $new_instance['use_columns'];
 		$instance['number_columns'] = (int) $new_instance['number_columns'];
 		$instance['posts_term']     = strip_tags( $new_instance['posts_term'] );
@@ -208,14 +210,17 @@ endif;
 	 */
 	function form( $instance ) {
 
-		$instance = wp_parse_args( $instance, array(
-			'title'				=> '',
-			'posts_per_page'	=> 3,
-			'image_size'		=> 'listings',
-			'use_columns'       => 0,
-			'number_columns'    => 3,
-			'posts_term'        => '',
-		) );
+		$instance = wp_parse_args(
+			$instance,
+			array(
+				'title'          => '',
+				'posts_per_page' => 3,
+				'image_size'     => 'listings',
+				'use_columns'    => 0,
+				'number_columns' => 3,
+				'posts_term'     => '',
+			)
+		);
 
 		printf(
 			'<p><label for="%s">%s</label><input type="text" id="%s" name="%s" value="%s" style="%s" /></p>',

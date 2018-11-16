@@ -5,7 +5,7 @@
  * @package WP-Listings-Pro
  */
 
-if( !defined( 'ABSPATH' ) ){
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
@@ -111,8 +111,8 @@ if ( get_post_meta( $post->ID, '_listing_automap', 1 ) === false ) {
 echo '	<tr>';
 echo '		<th><label for="listing_street_additional_info" class="listing_street_additional_info_label">' . __( 'Automatically Insert Map', 'wp-listings-pro' ) . '</label></th>';
 echo '		<td>';
-echo '			<input type="radio" name="wp_listings[_listing_automap]" value="y" '. checked( get_post_meta( $post->ID, '_listing_automap', true ), 'y', 0 ) .'>Yes</input>';
-echo '			<input type="radio" name="wp_listings[_listing_automap]" value="n" '. checked( get_post_meta( $post->ID, '_listing_automap', true ), 'n', 0 ) .'>No</input>';
+echo '			<input type="radio" name="wp_listings[_listing_automap]" value="y" ' . checked( get_post_meta( $post->ID, '_listing_automap', true ), 'y', 0 ) . '>Yes</input>';
+echo '			<input type="radio" name="wp_listings[_listing_automap]" value="n" ' . checked( get_post_meta( $post->ID, '_listing_automap', true ), 'n', 0 ) . '>No</input>';
 echo '			<p class="description">' . __( 'Automatically insert map based on latitude/longitude?', 'wp-listings-pro' ) . '</p>';
 echo '			<p class="description">' . __( 'Will be overridden if a shortode is entered below.', 'wp-listings-pro' ) . '</p>';
 echo '		</td>';

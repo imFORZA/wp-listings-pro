@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
@@ -57,35 +58,40 @@ class WPLPROAgents {
 
 		$this->options = get_option( 'WPLPROAgents_settings' );
 
-		$this->employee_details = apply_filters( 'WPLPROAgents_employee_details', array(
-			'col1' => array(
-				__( 'First Name:', 'wp-listings-pro' ) 		=> '_employee_first_name',
-				__( 'Last Name:', 'wp-listings-pro' ) 		=> '_employee_last_name',
-				__( 'Title:', 'wp-listings-pro' ) 			=> '_employee_title',
-				__( 'Email:', 'wp-listings-pro' )			=> '_employee_email',
-				__( 'Website:', 'wp-listings-pro' )			=> '_employee_website',
-				__( 'Phone:', 'wp-listings-pro' ) 			=> '_employee_phone',
-				__( 'Mobile:', 'wp-listings-pro' ) 			=> '_employee_mobile',
-			),
-			'col2' => array(
-				__( 'License #:', 'wp-listings-pro' ) 		=> '_employee_license',
-				__( 'Agent ID:', 'wp-listings-pro' ) 		=> '_employee_agent_id',
-				__( 'Designations:', 'wp-listings-pro' ) 	=> '_employee_designations',
-				__( 'Address:', 'wp-listings-pro' ) 		=> '_employee_address',
-				__( 'City:', 'wp-listings-pro' )			=> '_employee_city',
-				__( 'State:', 'wp-listings-pro' )			=> '_employee_state',
-				__( 'Zip:', 'wp-listings-pro' )				=> '_employee_zip',
-			),
-		) );
+		$this->employee_details = apply_filters(
+			'WPLPROAgents_employee_details',
+			array(
+				'col1' => array(
+					__( 'First Name:', 'wp-listings-pro' ) => '_employee_first_name',
+					__( 'Last Name:', 'wp-listings-pro' )  => '_employee_last_name',
+					__( 'Title:', 'wp-listings-pro' )      => '_employee_title',
+					__( 'Email:', 'wp-listings-pro' )      => '_employee_email',
+					__( 'Website:', 'wp-listings-pro' )    => '_employee_website',
+					__( 'Phone:', 'wp-listings-pro' )      => '_employee_phone',
+					__( 'Mobile:', 'wp-listings-pro' )     => '_employee_mobile',
+				),
+				'col2' => array(
+					__( 'License #:', 'wp-listings-pro' ) => '_employee_license',
+					__( 'Agent ID:', 'wp-listings-pro' )  => '_employee_agent_id',
+					__( 'Designations:', 'wp-listings-pro' ) => '_employee_designations',
+					__( 'Address:', 'wp-listings-pro' )   => '_employee_address',
+					__( 'City:', 'wp-listings-pro' )      => '_employee_city',
+					__( 'State:', 'wp-listings-pro' )     => '_employee_state',
+					__( 'Zip:', 'wp-listings-pro' )       => '_employee_zip',
+				),
+			)
+		);
 
-		$this->employee_social = apply_filters( 'WPLPROAgents_employee_social', array(
-				__( 'Facebook URL:', 'wp-listings-pro' ) 	=> '_employee_facebook',
-				__( 'Twitter URL:', 'wp-listings-pro' )		=> '_employee_twitter',
-				__( 'LinkedIn URL:', 'wp-listings-pro' )		=> '_employee_linkedin',
-				__( 'Google+ URL:', 'wp-listings-pro' )		=> '_employee_googleplus',
-				__( 'Pinterest URL:', 'wp-listings-pro' )	=> '_employee_pinterest',
-				__( 'YouTube URL:', 'wp-listings-pro' )		=> '_employee_youtube',
-				__( 'Instagram URL:', 'wp-listings-pro' )	=> '_employee_instagram',
+		$this->employee_social = apply_filters(
+			'WPLPROAgents_employee_social',
+			array(
+				__( 'Facebook URL:', 'wp-listings-pro' )  => '_employee_facebook',
+				__( 'Twitter URL:', 'wp-listings-pro' )   => '_employee_twitter',
+				__( 'LinkedIn URL:', 'wp-listings-pro' )  => '_employee_linkedin',
+				__( 'Google+ URL:', 'wp-listings-pro' )   => '_employee_googleplus',
+				__( 'Pinterest URL:', 'wp-listings-pro' ) => '_employee_pinterest',
+				__( 'YouTube URL:', 'wp-listings-pro' )   => '_employee_youtube',
+				__( 'Instagram URL:', 'wp-listings-pro' ) => '_employee_instagram',
 			)
 		);
 
@@ -106,35 +112,40 @@ class WPLPROAgents {
 	 */
 	function create_post_type() {
 
-		$args = apply_filters( 'WPLPROAgents_post_type_args',
+		$args = apply_filters(
+			'WPLPROAgents_post_type_args',
 			array(
-				'labels' => array(
-					'name'					=> __( 'Employees', 'wp-listings-pro' ),
-					'singular_name'			=> __( 'Employee', 'wp-listings-pro' ),
-					'add_new'				=> __( 'Add New', 'wp-listings-pro' ),
-					'add_new_item'			=> __( 'Add New Employee', 'wp-listings-pro' ),
-					'edit'					=> __( 'Edit', 'wp-listings-pro' ),
-					'edit_item'				=> __( 'Edit Employee', 'wp-listings-pro' ),
-					'new_item'				=> __( 'New Employee', 'wp-listings-pro' ),
-					'view'					=> __( 'View Employee', 'wp-listings-pro' ),
-					'view_item'				=> __( 'View Employee', 'wp-listings-pro' ),
-					'search_items'			=> __( 'Search Employees', 'wp-listings-pro' ),
-					'not_found'				=> __( 'No employees found', 'wp-listings-pro' ),
-					'not_found_in_trash'	=> __( 'No employees found in Trash', 'wp-listings-pro' ),
+				'labels'                => array(
+					'name'                  => __( 'Employees', 'wp-listings-pro' ),
+					'singular_name'         => __( 'Employee', 'wp-listings-pro' ),
+					'add_new'               => __( 'Add New', 'wp-listings-pro' ),
+					'add_new_item'          => __( 'Add New Employee', 'wp-listings-pro' ),
+					'edit'                  => __( 'Edit', 'wp-listings-pro' ),
+					'edit_item'             => __( 'Edit Employee', 'wp-listings-pro' ),
+					'new_item'              => __( 'New Employee', 'wp-listings-pro' ),
+					'view'                  => __( 'View Employee', 'wp-listings-pro' ),
+					'view_item'             => __( 'View Employee', 'wp-listings-pro' ),
+					'search_items'          => __( 'Search Employees', 'wp-listings-pro' ),
+					'not_found'             => __( 'No employees found', 'wp-listings-pro' ),
+					'not_found_in_trash'    => __( 'No employees found in Trash', 'wp-listings-pro' ),
 					'filter_items_list'     => __( 'Filter Employees', 'wp-listings-pro' ),
 					'items_list_navigation' => __( 'Employees navigation', 'wp-listings-pro' ),
 					'items_list'            => __( 'Employees list', 'wp-listings-pro' ),
 				),
-				'public'		=> true,
-				'query_var'		=> true,
-				'show_in_rest'  => true,
-				'rest_base'     => 'employee',
+				'public'                => true,
+				'query_var'             => true,
+				'show_in_rest'          => true,
+				'rest_base'             => 'employee',
 				'rest_controller_class' => 'WP_REST_Posts_Controller',
-				'menu_position'	=> 5,
-				'menu_icon'		=> 'dashicons-groups',
-				'has_archive'	=> true,
-				'supports'		=> array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown' ),
-				'rewrite'		=> array( 'slug' => $this->options['wplpro_slug'], 'feeds' => true, 'with_front' => false ),
+				'menu_position'         => 5,
+				'menu_icon'             => 'dashicons-groups',
+				'has_archive'           => true,
+				'supports'              => array( 'title', 'editor', 'author', 'comments', 'excerpt', 'thumbnail', 'revisions', 'equity-layouts', 'equity-cpt-archives-settings', 'genesis-seo', 'genesis-layouts', 'genesis-simple-sidebars', 'genesis-cpt-archives-settings', 'publicize', 'wpcom-markdown' ),
+				'rewrite'               => array(
+					'slug'       => $this->options['wplpro_slug'],
+					'feeds'      => true,
+					'with_front' => false,
+				),
 			)
 		);
 
@@ -161,17 +172,17 @@ class WPLPROAgents {
 	 * @return void
 	 */
 	function employee_details_metabox() {
-		include( dirname( __FILE__ ) . '/views/employee-details-metabox.php' );
+		include dirname( __FILE__ ) . '/views/employee-details-metabox.php';
 	}
 
 	/**
-	 *	Employee sync settings metabox function
+	 *  Employee sync settings metabox function
 	 *
-	 * 	@access public
-	 * 	@return void
+	 *  @access public
+	 *  @return void
 	 */
 	function employee_sync_metabox() {
-		include( dirname( __FILE__ ) . '/views/employee-sync-metabox.php' );
+		include dirname( __FILE__ ) . '/views/employee-sync-metabox.php';
 	}
 
 	/**
@@ -188,18 +199,21 @@ class WPLPROAgents {
 		}
 
 		if ( ! isset( $_POST['WPLPROAgents_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['WPLPROAgents_metabox_nonce'], 'WPLPROAgents_metabox_save' ) ) {
-	        return $post_id;
+			return $post_id;
 		}
 
-	    /** Don't try to save the data under autosave, ajax, or future post. */
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return;
+		/** Don't try to save the data under autosave, ajax, or future post. */
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
 		}
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) { return;
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return;
 		}
-		if ( defined( 'DOING_CRON' ) && DOING_CRON ) { return;
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+			return;
 		}
 
-	    /** Check permissions. */
+		/** Check permissions. */
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			  return;
 		}
@@ -234,11 +248,11 @@ class WPLPROAgents {
 	function columns_filter( $columns ) {
 
 		$columns = array(
-			'cb'					=> '<input type="checkbox" />',
-			'employee_thumbnail'	=> __( 'Thumbnail', 'wp-listings-pro' ),
-			'title'					=> __( 'Employee Name', 'wp-listings-pro' ),
-			'employee_details'		=> __( 'Details', 'wp-listings-pro' ),
-			'employee_tags'			=> __( 'Categories', 'wp-listings-pro' ),
+			'cb'                 => '<input type="checkbox" />',
+			'employee_thumbnail' => __( 'Thumbnail', 'wp-listings-pro' ),
+			'title'              => __( 'Employee Name', 'wp-listings-pro' ),
+			'employee_details'   => __( 'Details', 'wp-listings-pro' ),
+			'employee_tags'      => __( 'Categories', 'wp-listings-pro' ),
 		);
 
 		return $columns;
@@ -293,7 +307,7 @@ class WPLPROAgents {
 			case 'employee_tags':
 				echo '<b>Job Type:</b> ' . get_the_term_list( $post->ID, 'job-types', '', ', ', '' ) . '<br />';
 				echo '<b>Office:</b> ' . get_the_term_list( $post->ID, 'offices', '', ', ', '' ) . '<br />';
-break;
+				break;
 		}
 
 	}

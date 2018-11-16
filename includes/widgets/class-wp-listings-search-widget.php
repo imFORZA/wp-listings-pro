@@ -20,14 +20,14 @@ class WP_Listings_Search_Widget extends WP_Widget {
 	 * @return void
 	 */
 	function __construct() {
-		$widget_ops = array(
-			'classname' 									=> 'listings-search wp-listings-search',
-			'description' 								=> __( 'Display listings search dropdown', 'wp-listings-pro' ),
+		$widget_ops  = array(
+			'classname'                   => 'listings-search wp-listings-search',
+			'description'                 => __( 'Display listings search dropdown', 'wp-listings-pro' ),
 			'customize_selective_refresh' => true,
 		);
 		$control_ops = array(
-			'width' 	=> 300,
-			'height' 	=> 350,
+			'width'   => 300,
+			'height'  => 350,
 			'id_base' => 'listings-search',
 		);
 		parent::__construct( 'wplpro_listings_search', __( 'WP Listings Pro - Search', 'wp-listings-pro' ), $widget_ops, $control_ops );
@@ -43,10 +43,13 @@ class WP_Listings_Search_Widget extends WP_Widget {
 	 */
 	function widget( $args, $instance ) {
 
-		$instance = wp_parse_args( (array) $instance, array(
-			'title'			=> '',
-			'button_text'	=> __( 'Search Listings', 'wp-listings-pro' ),
-		) );
+		$instance = wp_parse_args(
+			(array) $instance,
+			array(
+				'title'       => '',
+				'button_text' => __( 'Search Listings', 'wp-listings-pro' ),
+			)
+		);
 
 		global $_wplpro_taxonomies;
 
@@ -65,11 +68,14 @@ class WP_Listings_Search_Widget extends WP_Widget {
 				continue;
 			}
 
-			$terms = get_terms( $tax, array(
-				'orderby' 			=> 'title',
-				'number' 				=> 100,
-				'hierarchical' 	=> false,
-			) );
+			$terms = get_terms(
+				$tax,
+				array(
+					'orderby'      => 'title',
+					'number'       => 100,
+					'hierarchical' => false,
+				)
+			);
 			if ( empty( $terms ) ) {
 				continue;
 			}
@@ -113,15 +119,18 @@ class WP_Listings_Search_Widget extends WP_Widget {
 	 */
 	function form( $instance ) {
 
-		$instance = wp_parse_args( (array) $instance, array(
-			'title'			=> '',
-			'button_text'	=> __( 'Search Listings', 'wp-listings-pro' ),
-		) );
+		$instance = wp_parse_args(
+			(array) $instance,
+			array(
+				'title'       => '',
+				'button_text' => __( 'Search Listings', 'wp-listings-pro' ),
+			)
+		);
 
 		global $_wplpro_taxonomies;
 
 		$listings_taxonomies = $_wplpro_taxonomies->get_taxonomies();
-		$new_widget = empty( $instance );
+		$new_widget          = empty( $instance );
 
 		printf( '<p><label for="%s">%s</label><input type="text" id="%s" name="%s" value="%s" style="%s" /></p>', esc_attr( $this->get_field_id( 'title' ) ), esc_html_e( 'Title:', 'wp-listings-pro' ), esc_attr( $this->get_field_id( 'title' ) ), esc_attr( $this->get_field_name( 'title' ) ), esc_attr( $instance['title'] ), 'width: 95%;' );
 		?>

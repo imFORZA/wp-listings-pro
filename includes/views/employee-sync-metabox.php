@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 global $post;
@@ -14,8 +15,8 @@ $string = get_post_meta( $post->ID, '_listing_featured_on', true );
 if ( null === get_post_meta( $post->ID, '_listing_sync_update', true ) || '' === get_post_meta( $post->ID, '_listing_sync_update', true ) ) {
 	update_post_meta( $post->ID, '_listing_sync_update', 'update-useglobal' );
 }
-$sync_setting = get_post_meta( $post->ID, '_listing_sync_update', true );
-$options = get_option( 'wp' );
+$sync_setting   = get_post_meta( $post->ID, '_listing_sync_update', true );
+$options        = get_option( 'wp' );
 $plugin_options = get_option( 'wplpro_plugin_settings' );
 if ( ! isset( $plugin_options['wplpro_idx_update_agents'] ) ) {
 	$plugin_options['wplpro_idx_update_agents'] = 'update-useglobal';

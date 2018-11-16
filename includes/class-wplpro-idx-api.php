@@ -48,53 +48,70 @@ class WPLPRO_Idx_Api {
 	 */
 	public function api_response( $response ) {
 		if ( ! $response || ! is_array( $response ) || ! isset( $response['response'] ) ) {
-			return array( 'code' => 'Generic', 'error' => 'Unable to complete API call.' );
+			return array(
+				'code'  => 'Generic',
+				'error' => 'Unable to complete API call.',
+			);
 		}
 		if ( ! function_exists( 'curl_init' ) ) {
-			return array( 'code' => 'PHP', 'error' => 'The cURL extension for PHP is not enabled on your server.<br />Please contact your developer and/or hosting provider.' );
+			return array(
+				'code'  => 'PHP',
+				'error' => 'The cURL extension for PHP is not enabled on your server.<br />Please contact your developer and/or hosting provider.',
+			);
 		}
 		$response_code = $response['response']['code'];
-		$err_message = false;
+		$err_message   = false;
 		if ( is_numeric( $response_code ) ) {
 			switch ( $response_code ) {
-				case 401:$err_message = 'Access key is invalid or has been revoked, please ensure there are no spaces in your key.<br />If the problem persists, please reset your API key in the IDX Broker Platinum Dashboard or call 800-421-9668.';
+				case 401:
+					$err_message = 'Access key is invalid or has been revoked, please ensure there are no spaces in your key.<br />If the problem persists, please reset your API key in the IDX Broker Platinum Dashboard or call 800-421-9668.';
 					break;
-				case 403:$err_message = 'IP address blocked due to violation of TOS. Contact 800-421-9668 to determine the reason for the block.';
+				case 403:
+					$err_message = 'IP address blocked due to violation of TOS. Contact 800-421-9668 to determine the reason for the block.';
 					break;
-				case 403.4:$err_message = 'API call generated from WordPress is not using SSL (HTTPS) to communicate.<br />Please contact your developer and/or hosting provider.';
+				case 403.4:
+					$err_message = 'API call generated from WordPress is not using SSL (HTTPS) to communicate.<br />Please contact your developer and/or hosting provider.';
 					break;
 				case 405:
-				case 409:$err_message = 'Invalid request sent to IDX Broker API, please re-install the IDX Broker Platinum plugin';
+				case 409:
+					$err_message = 'Invalid request sent to IDX Broker API, please re-install the IDX Broker Platinum plugin';
 					break;
-				case 406:$err_message = 'Access key is missing. To obtain an access key, please visit your IDX Broker Platinum Dashboard';
+				case 406:
+					$err_message = 'Access key is missing. To obtain an access key, please visit your IDX Broker Platinum Dashboard';
 					break;
-				case 412:$err_message = 'Your account has exceeded the hourly access limit for your API key.<br />You may either wait and try again later, reset your API key in the IDX Broker Platinum Dashboard, or call 800-421-9668.';
+				case 412:
+					$err_message = 'Your account has exceeded the hourly access limit for your API key.<br />You may either wait and try again later, reset your API key in the IDX Broker Platinum Dashboard, or call 800-421-9668.';
 					break;
-				case 500:$err_message = 'General system error when attempting to communicate with the IDX Broker API, please try again in a few moments or contact 800-421-9668 if the problem persists.';
+				case 500:
+					$err_message = 'General system error when attempting to communicate with the IDX Broker API, please try again in a few moments or contact 800-421-9668 if the problem persists.';
 					break;
-				case 503:$err_message = 'IDX Broker API is currently undergoing maintenance. Please try again in a few moments or call 800-421-9668 if the problem persists.';
+				case 503:
+					$err_message = 'IDX Broker API is currently undergoing maintenance. Please try again in a few moments or call 800-421-9668 if the problem persists.';
 					break;
 			}
 		}
-		return array( 'code' => $response_code, 'error' => $err_message );
+		return array(
+			'code'  => $response_code,
+			'error' => $err_message,
+		);
 	}
 
 	/**
 	 * Main function for using the IDX API
 	 *
-	 * @param  string $method     			GET POST etc. Nope not actually but I'm not gonna rewrite the doc comments.
-	 * @param  string $apiversion 			Version of API expected (default this->idx_api_default_version).
-	 * @param  string $level      			Access level (default 'clients').
-	 * @param  array  $params     			Arguments (default array()).
-	 * @param  number $expiration 			Timeout for expiration on transient (default 7200).
-	 * @param  string $request_type			Actual method sike, GET POST etc.
+	 * @param  string $method               GET POST etc. Nope not actually but I'm not gonna rewrite the doc comments.
+	 * @param  string $apiversion           Version of API expected (default this->idx_api_default_version).
+	 * @param  string $level                Access level (default 'clients').
+	 * @param  array  $params               Arguments (default array()).
+	 * @param  number $expiration           Timeout for expiration on transient (default 7200).
+	 * @param  string $request_type         Actual method sike, GET POST etc.
 	 * @param  bool   $json_decode_type (default false).
-	 * @return object Data        			Response from server in object form?
+	 * @return object Data                  Response from server in object form?
 	 */
 	public function idx_api(
 		  $method,
 		  $apiversion = '',
-	 		$level = 'clients',
+			$level = 'clients',
 		  $params = array(),
 		  $expiration = 7200,
 		  $request_type = 'GET',
@@ -110,15 +127,22 @@ class WPLPRO_Idx_Api {
 		}
 
 		$headers = array(
-			'Content-Type' => 'application/x-www-form-urlencoded',
-			'accesskey' => $this->api_key,
-			'outputtype' => 'json',
-			'apiversion' => $apiversion,
+			'Content-Type'  => 'application/x-www-form-urlencoded',
+			'accesskey'     => $this->api_key,
+			'outputtype'    => 'json',
+			'apiversion'    => $apiversion,
 			'pluginversion' => '2.3.3', // \Idx_Broker_Plugin::IDX_WP_PLUGIN_VERSION, // '2.3.3'
 		);
 
-		$params = array_merge( array( 'timeout' => 120, 'sslverify' => false, 'headers' => $headers ), $params );
-		$url = $this->idx_api_url . '/' . $level . '/' . $method; // 'https://api.idxbroker.com'
+		$params = array_merge(
+			array(
+				'timeout'   => 120,
+				'sslverify' => false,
+				'headers'   => $headers,
+			),
+			$params
+		);
+		$url    = $this->idx_api_url . '/' . $level . '/' . $method; // 'https://api.idxbroker.com'
 
 		if ( 'POST' === $request_type ) {
 			$response = wp_safe_remote_post( $url, $params );
@@ -160,7 +184,7 @@ class WPLPRO_Idx_Api {
 		if ( empty( $data ) ) {
 			return false;
 		}
-		$data = unserialize( $data );
+		$data       = unserialize( $data );
 		$expiration = $data['expiration'];
 		if ( $expiration < time() ) {
 			return false;
@@ -177,11 +201,11 @@ class WPLPRO_Idx_Api {
 	 */
 	public function set_transient( $name, $data, $expiration ) {
 		$expiration = time() + $expiration;
-		$data = array(
-			'data' => $data,
+		$data       = array(
+			'data'       => $data,
 			'expiration' => $expiration,
 		);
-		$data = serialize( $data );
+		$data       = serialize( $data );
 		update_option( $name, $data );
 	}
 
@@ -273,7 +297,7 @@ class WPLPRO_Idx_Api {
 	/**
 	 * Get URL of results.
 	 *
-	 * @return mixed 	If successful, the url to send to. False if failure.
+	 * @return mixed    If successful, the url to send to. False if failure.
 	 */
 	public function system_results_url() {
 
@@ -468,13 +492,13 @@ class WPLPRO_Idx_Api {
 			$page_type = $this->find_idx_page_type( $idx_page );
 			if ( 'saved_link' === $page_type ) {
 				$params = array(
-					'dynamicURL' => $wrapper_url,
+					'dynamicURL'  => $wrapper_url,
 					'savedLinkID' => $idx_page,
 				);
 			} else {
 				$params = array(
 					'dynamicURL' => $wrapper_url,
-					'pageID' => $idx_page,
+					'pageID'     => $idx_page,
 				);
 			}
 			$this->idx_api( 'dynamicwrapperurl', $this->idx_api_default_version, 'clients', array( 'body' => $params ), 10, 'POST' );
@@ -490,7 +514,7 @@ class WPLPRO_Idx_Api {
 		$idx_broker_key = $this->api_key;
 
 		// access URL and request method.
-		$url = $this->idx_api_url . '/clients/wrappercache';
+		$url    = $this->idx_api_url . '/clients/wrappercache';
 		$method = 'DELETE';
 
 		// headers (required and optional).
@@ -511,7 +535,7 @@ class WPLPRO_Idx_Api {
 
 		// exec the cURL request and returned information. Store the returned HTTP code in $code for later reference.
 		$response = curl_exec( $handle );
-		$code = curl_getinfo( $handle, CURLINFO_HTTP_CODE );
+		$code     = curl_getinfo( $handle, CURLINFO_HTTP_CODE );
 
 		if ( 204 === (int) $code ) {
 			$response = true;
@@ -573,7 +597,7 @@ class WPLPRO_Idx_Api {
 	/**
 	 * Returns a list of cities
 	 *
-	 * @param string $list_id 	ID of list to access.
+	 * @param string $list_id   ID of list to access.
 	 * @return array $city_list List to access.
 	 */
 	public function city_list( $list_id ) {
@@ -647,7 +671,7 @@ class WPLPRO_Idx_Api {
 	 * Returns search field names for an MLS
 	 *
 	 * @param string $idx_id IDX to check for.
-	 * @return [type] 			 Search fields name.
+	 * @return [type]            Search fields name.
 	 */
 	public function searchfields( $idx_id ) {
 		$approved_mls = $this->idx_api( "searchfields/$idx_id", $this->idx_api_default_version, 'mls', array() );
@@ -672,26 +696,26 @@ class WPLPRO_Idx_Api {
 	/**
 	 * Compares the price fields of two arrays
 	 *
-	 * @param array $a 	Um.
-	 * @param array $b	God I love when I'm given documentation.
-	 * @return int			Don't you just love documentation.
+	 * @param array $a  Um.
+	 * @param array $b  God I love when I'm given documentation.
+	 * @return int          Don't you just love documentation.
 	 */
 	public function price_cmp( $first, $second ) {
 
-		$first = $this->clean_price( $first['listingPrice'] );
+		$first  = $this->clean_price( $first['listingPrice'] );
 		$second = $this->clean_price( $second['listingPrice'] );
 
 		if ( $first === $second ) {
 			return 0;
 		}
 
-		return ($first < $second) ? -1 : 1;
+		return ( $first < $second ) ? -1 : 1;
 	}
 
 	/**
 	 * Removes the "$" and "," from the price field
 	 *
-	 * @param string $price	not cleaned price.
+	 * @param string $price not cleaned price.
 	 * @return mixed $price the cleaned price
 	 */
 	public function clean_price( $price ) {
@@ -724,7 +748,7 @@ class WPLPRO_Idx_Api {
 	 *
 	 * @param  time   $timeframe  Timeframe to check within (default null).
 	 * @param  string $start_date Starting date (default null).
-	 * @return array             	A big ol stack of leads.
+	 * @return array                A big ol stack of leads.
 	 */
 	public function get_leads( $timeframe = null, $start_date = '' ) {
 		if ( ! empty( $start_date ) ) {

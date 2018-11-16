@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * WP Listing Pro Customizer Settings.
@@ -17,35 +18,56 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  */
 function wplpro_customize_register( $wp_customize ) {
 
-	$wp_customize->add_section('wplpro_customizer_settings', array(
-		'title'    => __( 'WPLPRO Page Settings', 'wplpro' ),
-		'priority' => 120,
-	));
+	$wp_customize->add_section(
+		'wplpro_customizer_settings',
+		array(
+			'title'    => __( 'WPLPRO Page Settings', 'wplpro' ),
+			'priority' => 120,
+		)
+	);
 
 	// Image Upload Example.
-	$wp_customize->add_setting('wplpro_customizer_settings[employee_nophoto]', array(
-		'default'           => plugin_dir_url( __FILE__ ) . '../assets/images/default.gif',
-		'capability'        => 'edit_theme_options',
-		'type'           => 'option',
-	));
+	$wp_customize->add_setting(
+		'wplpro_customizer_settings[employee_nophoto]',
+		array(
+			'default'    => plugin_dir_url( __FILE__ ) . '../assets/images/default.gif',
+			'capability' => 'edit_theme_options',
+			'type'       => 'option',
+		)
+	);
 
-	$wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'employee_nophoto', array(
-		'label'    => __( 'Default Employee Thumbnail', 'wplpro' ),
-		'section'  => 'wplpro_customizer_settings',
-		'settings' => 'wplpro_customizer_settings[employee_nophoto]',
-	)));
+	$wp_customize->add_control(
+		new WP_Customize_Image_Control(
+			$wp_customize,
+			'employee_nophoto',
+			array(
+				'label'    => __( 'Default Employee Thumbnail', 'wplpro' ),
+				'section'  => 'wplpro_customizer_settings',
+				'settings' => 'wplpro_customizer_settings[employee_nophoto]',
+			)
+		)
+	);
 
-		$wp_customize->add_setting('wplpro_customizer_settings[listing_nophoto]', array(
-			'default'           => plugin_dir_url( __FILE__ ) . '../assets/images/listing-nophoto.jpg',
-			'capability'        => 'edit_theme_options',
-			'type'           => 'option',
-		));
+		$wp_customize->add_setting(
+			'wplpro_customizer_settings[listing_nophoto]',
+			array(
+				'default'    => plugin_dir_url( __FILE__ ) . '../assets/images/listing-nophoto.jpg',
+				'capability' => 'edit_theme_options',
+				'type'       => 'option',
+			)
+		);
 
-	$wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, 'listing_nophoto', array(
-		'label'    => __( 'Default Listing Thumbnail', 'wplpro' ),
-		'section'  => 'wplpro_customizer_settings',
-		'settings' => 'wplpro_customizer_settings[listing_nophoto]',
-	)));
+	$wp_customize->add_control(
+		new WP_Customize_Image_Control(
+			$wp_customize,
+			'listing_nophoto',
+			array(
+				'label'    => __( 'Default Listing Thumbnail', 'wplpro' ),
+				'section'  => 'wplpro_customizer_settings',
+				'settings' => 'wplpro_customizer_settings[listing_nophoto]',
+			)
+		)
+	);
 
 }
 add_action( 'customize_register', 'wplpro_customize_register' );
@@ -72,9 +94,11 @@ function wplpro_clear_references( $post_id ) {
 	if ( 'listing' === $post_type ) {
 		// Delete references.
 		$idx_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
-		if ( isset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] ) ) { unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] );
+		if ( isset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] ) ) {
+			unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['post_id'] );
 		}
-		if ( isset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] ) ) { unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] );
+		if ( isset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] ) ) {
+			unset( $idx_options[ get_post_meta( $post_id, '_listing_mls', true ) ]['status'] );
 		}
 		update_option( 'wplpro_idx_featured_listing_wp_options', $idx_options );
 	}
@@ -102,7 +126,7 @@ function wplpro_template_include( $template ) {
 	}
 	if ( wplpro_is_taxonomy_of( $post_type ) ) {
 		if ( file_exists( get_stylesheet_directory() . '/taxonomy-' . $post_type . '.php' ) ) {
-		    return get_stylesheet_directory() . '/taxonomy-' . $post_type . '.php';
+			return get_stylesheet_directory() . '/taxonomy-' . $post_type . '.php';
 		} elseif ( file_exists( get_stylesheet_directory() . '/archive-' . $post_type . '.php' ) ) {
 			return get_stylesheet_directory() . '/archive-' . $post_type . '.php';
 		} else {
@@ -131,7 +155,8 @@ function wplpro_template_include( $template ) {
 		if ( ! $custom_template ) {
 			if ( file_exists( get_stylesheet_directory() . '/single-' . $post_type . '.php' ) ) {
 				return $template;
-			} else { return WPLPRO_DIR . '/templates/single-' . $post_type . '.php';
+			} else {
+				return WPLPRO_DIR . '/templates/single-' . $post_type . '.php';
 			}
 		} elseif ( file_exists( get_stylesheet_directory() . "/{$custom_template}" ) ) {
 				$template = get_stylesheet_directory() . "/{$custom_template}";
@@ -325,7 +350,8 @@ function wplpro_glance_items( $items = array() ) {
 
 	foreach ( $post_types as $type ) {
 
-		if ( ! post_type_exists( $type ) ) { continue;
+		if ( ! post_type_exists( $type ) ) {
+			continue;
 		}
 
 		$num_posts = wp_count_posts( $type );
@@ -440,7 +466,7 @@ function wplpro_template_include_employee( $template ) {
 	}
 	if ( wplpro_is_taxonomy_of( $post_type ) ) {
 		if ( file_exists( get_stylesheet_directory() . '/taxonomy-' . $post_type . '.php' ) ) {
-		    return get_stylesheet_directory() . '/taxonomy-' . $post_type . '.php';
+			return get_stylesheet_directory() . '/taxonomy-' . $post_type . '.php';
 		} elseif ( file_exists( get_stylesheet_directory() . '/archive-' . $post_type . '.php' ) ) {
 			return get_stylesheet_directory() . '/archive-' . $post_type . '.php';
 		} else {
@@ -460,7 +486,8 @@ function wplpro_template_include_employee( $template ) {
 	if ( is_single() && get_post_type() === $post_type ) {
 		if ( file_exists( get_stylesheet_directory() . '/single-' . $post_type . '.php' ) ) {
 			return $template;
-		} else { return WPLPRO_DIR . '/templates/single-' . $post_type . '.php';
+		} else {
+			return WPLPRO_DIR . '/templates/single-' . $post_type . '.php';
 		}
 	}
 
@@ -499,14 +526,14 @@ function wplpro_employee_details() {
 	}
 
 	if ( get_post_meta( $post->ID, '_employee_email', true ) !== '' ) {
-		$email = get_post_meta( $post->ID, '_employee_email', true );
+		$email   = get_post_meta( $post->ID, '_employee_email', true );
 		$output .= sprintf( '<p><a class="email" itemprop="email" href="mailto:%s">%s</a></p>', antispambot( $email ), antispambot( $email ) );
 	}
 
 	if ( get_post_meta( $post->ID, '_employee_website', true ) !== '' ) {
-		$website = get_post_meta( $post->ID, '_employee_website', true );
-		$website_no_http = preg_replace( '#^https?://#', '', rtrim( $website,'/' ) );
-		$output .= sprintf( '<p><a class="website" itemprop="url" href="%s">%s</a></p>', $website, $website_no_http );
+		$website         = get_post_meta( $post->ID, '_employee_website', true );
+		$website_no_http = preg_replace( '#^https?://#', '', rtrim( $website, '/' ) );
+		$output         .= sprintf( '<p><a class="website" itemprop="url" href="%s">%s</a></p>', $website, $website_no_http );
 	}
 
 	if ( get_post_meta( $post->ID, '_employee_city', true ) !== '' || get_post_meta( $post->ID, '_employee_address', true ) !== '' || get_post_meta( $post->ID, '_employee_state', true ) !== '' || get_post_meta( $post->ID, '_employee_zip', true ) !== '' ) {
@@ -559,7 +586,7 @@ function wplpro_employee_archive_details() {
 	}
 
 	if ( get_post_meta( $post->ID, '_employee_email', true ) !== '' ) {
-		$email = get_post_meta( $post->ID, '_employee_email', true );
+		$email   = get_post_meta( $post->ID, '_employee_email', true );
 		$output .= sprintf( '<p><a class="email" itemprop="email" href="mailto:%s">%s</a></p>', antispambot( $email ), antispambot( $email ) );
 	}
 
@@ -577,7 +604,7 @@ function wplpro_employee_archive_details() {
  * WPLPRO Employee Social Information.
  *
  * @access public
- * @return string	If employee has social information, a formatted HTMl block with their information.
+ * @return string   If employee has social information, a formatted HTMl block with their information.
  */
 function wplpro_employee_social() {
 	global $post;
@@ -713,11 +740,11 @@ function wplpro_post_select( $select_id, $post_type, $selected = array() ) {
 	// Grab posts.
 	$posts = get_posts(
 		array(
-			'post_type' => $post_type,
-			'post_status' => 'publish',
+			'post_type'        => $post_type,
+			'post_status'      => 'publish',
 			'suppress_filters' => false,
 			// TODO: Don't use -1, https://10up.github.io/Engineering-Best-Practices/php/.
-			'posts_per_page' => -1,
+			'posts_per_page'   => -1,
 		)
 	);
 

@@ -6,14 +6,15 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * RESO Contact Class.
  *
  * @package wp-reso-contact
  */
-class ResoContact{
+class ResoContact {
 
 	/**
 	 * anniversary

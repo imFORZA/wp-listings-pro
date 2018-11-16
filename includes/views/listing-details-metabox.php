@@ -21,7 +21,7 @@ echo '<input name="wp_listings[_listing_sold_date]" id="wp_listings[_listing_sol
 
 echo '<div style="width: 90%; float: left;">';
 
-echo '<h3>'. esc_html__( 'Extended Details', 'wp-listings-pro') .'</h3>';
+echo '<h3>' . esc_html__( 'Extended Details', 'wp-listings-pro' ) . '</h3>';
 echo '<hr>';
 
 
@@ -132,8 +132,8 @@ echo '<p><input type="text" name="wp_listings[_listing_virtualtour]" id="" class
 
 // Custom Overlay Text.
 echo '<label><strong>' . esc_html__( 'Custom Overlay Text:', 'wp-listings-pro' ) . '</strong></label>';
-echo '<p><input type="text" name="wp_listings[_listing_text]" style="width: 80%" value="' . htmlentities( get_post_meta( $post->ID, '_listing_text', true ) ) .'" /></p>';
-echo '<p class="description">'. esc_html__( 'Custom text to display as overlay on featured listings.', 'wp-listings-pro') .'</p>';
+echo '<p><input type="text" name="wp_listings[_listing_text]" style="width: 80%" value="' . htmlentities( get_post_meta( $post->ID, '_listing_text', true ) ) . '" /></p>';
+echo '<p class="description">' . esc_html__( 'Custom text to display as overlay on featured listings.', 'wp-listings-pro' ) . '</p>';
 
 echo '<label><strong>' . esc_html__( 'Video Embed:', 'wp-listings-pro' ) . '</strong></label>';
 
@@ -142,4 +142,4 @@ echo '</div>';
 // Video Embed.
 echo '<p><input type="text" name="wp_listings[_listing_video]" style="width:72%;" value="' . htmlentities( get_post_meta( $post->ID, '_listing_video', true ) ) . '"></p>'; // 0.8 * 0.9 = 0.72. Also, so for some really annoying reason, I cannot get this fricking element to move into the div above. I have no idea why.
 
-echo '<p class="description">'. esc_html__( 'Enter Video or Virtual Tour Embed Code.', 'wp-listings-pro') .'</p>';
+echo '<p class="description">' . esc_html__( 'Enter Video or Virtual Tour Embed Code.', 'wp-listings-pro' ) . '</p>';

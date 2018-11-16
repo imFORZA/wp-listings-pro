@@ -42,9 +42,9 @@ function get_all_data_dictionary_versions() {
 }
 
 /* Include all of our classes. */
-include_once('class-reso-contact.php');
-include_once('class-reso-historical-transaction.php');
-include_once('class-reso-lookups.php');
+require_once 'class-reso-contact.php';
+require_once 'class-reso-historical-transaction.php';
+require_once 'class-reso-lookups.php';
 /*
 include_once('class-reso-media.php');
 include_once('class-reso-member.php');

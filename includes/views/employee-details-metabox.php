@@ -6,7 +6,8 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 wp_nonce_field( 'WPLPROAgents_metabox_save', 'WPLPROAgents_metabox_nonce' );
