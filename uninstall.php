@@ -2,7 +2,7 @@
 /**
  * Uninstall
  *
- @package WP-Listings-Pro
+ * @package WP-Listings-Pro
  */
 
 if ( ! defined( 'ABSPATH' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
