@@ -1,0 +1,3 @@
+[submodule "libraries/wp-queue"]
+	path = libraries/wp-queue
+	url = https://github.com/wp-queue/wp-queue.git

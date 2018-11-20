@@ -21,7 +21,7 @@ function wplpro_customize_register( $wp_customize ) {
 	$wp_customize->add_section(
 		'wplpro_customizer_settings',
 		array(
-			'title'    => __( 'WPLPRO Page Settings', 'wplpro' ),
+			'title'    => __( 'WP Listings Pro', 'wplpro' ),
 			'priority' => 120,
 		)
 	);
