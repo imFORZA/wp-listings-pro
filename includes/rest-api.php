@@ -9,7 +9,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; }
 
-// TODO Just use Delete method on /listings
+// TODO Just use Delete method on /listings.
 add_action(
 	'rest_api_init',
 	function () {
@@ -25,7 +25,7 @@ add_action(
 	}
 );
 
-// TODO Just use Put/Post method on /listings
+// TODO Just use Put/Post method on /listings.
 add_action(
 	'rest_api_init',
 	function () {
@@ -92,6 +92,12 @@ function wplpro_sync_listings_and_agents( $data ) {
 	return rest_ensure_response( 'success' );
 }
 
+/**
+ * wplpro_rest_permission_check function.
+ *
+ * @access public
+ * @return void
+ */
 function wplpro_rest_permission_check() {
 	return current_user_can( 'edit_posts' );
 }
