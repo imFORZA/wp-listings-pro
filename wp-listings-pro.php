@@ -25,8 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // require_once('modules/class-wplpro-settings.php');
-
-
 // Register Activation Hook.
 register_activation_hook( __FILE__, 'wplpro_activation' );
 

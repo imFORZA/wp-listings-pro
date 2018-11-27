@@ -8,9 +8,9 @@ add_action( 'admin_menu', 'wplpro_menu' );
 		 * @access public
 		 * @return void
 		 */
-		function wplpro_menu() {
-			add_menu_page( 'WP Listings Pro', 'WP Listings Pro', 'manage_options', 'wp-listings-pro', 'wplpro_settings_page' );
-		}
+function wplpro_menu() {
+	add_menu_page( 'WP Listings Pro', 'WP Listings Pro', 'manage_options', 'wp-listings-pro', 'wplpro_settings_page' );
+}
 
 		/**
 		 * wplpro_output_submenu function.
@@ -20,7 +20,7 @@ add_action( 'admin_menu', 'wplpro_menu' );
 		 * @param array $submenu_links (default: array())
 		 * @return void
 		 */
-		function wplpro_output_submenu( $tab, $submenu_links = array() ) {
+function wplpro_output_submenu( $tab, $submenu_links = array() ) {
 
 	echo '<ul>';
 	foreach ( $submenu_links as $submenu_link ) {
@@ -67,13 +67,13 @@ function wplpro_menu_active_subtab() {
 		 * @access public
 		 * @return void
 		 */
-		function wplpro_settings_page() {
+function wplpro_settings_page() {
 
-				$active_tab = idxbrokerpro_menu_active_tab() ?? '';
+		$active_tab = idxbrokerpro_menu_active_tab() ?? '';
 
 	$tabs = array( 'Intro', 'listings', 'employees', 'integrations', 'settings', 'support' );
 
-		?>
+	?>
 	<div class="wrap settings">
 		<form method="post" action="options.php">
 			<h1>WP Listings Pro - <?php echo ucwords( $active_tab ); ?></h1>
@@ -106,17 +106,17 @@ function wplpro_menu_active_subtab() {
 			</style>
 
 			<h2 class="nav-tab-wrapper">
-				<?php
+		<?php
 
-				foreach ( $tabs as $tab ) {
-					if ( $tab === $active_tab ) {
-						$active_tab_class = 'nav-tab-active';
-					} else {
-						$active_tab_class = '';
-					}
-						echo '<a href="?page=wp-listings-pro&#38;tab=' . $tab . '" class="nav-tab ' . $active_tab_class . ' nav-tab-' . $tab . '">' . ucwords( $tab ) . '</a>';
-				}
-				?>
+		foreach ( $tabs as $tab ) {
+			if ( $tab === $active_tab ) {
+				$active_tab_class = 'nav-tab-active';
+			} else {
+				$active_tab_class = '';
+			}
+				echo '<a href="?page=wp-listings-pro&#38;tab=' . $tab . '" class="nav-tab ' . $active_tab_class . ' nav-tab-' . $tab . '">' . ucwords( $tab ) . '</a>';
+		}
+		?>
 
 			</h2>	<div class="wrap">
 
@@ -132,5 +132,4 @@ function wplpro_menu_active_subtab() {
 
 	echo '</div>';
 
-
-		}
+}
