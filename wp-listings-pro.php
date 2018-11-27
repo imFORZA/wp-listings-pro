@@ -279,7 +279,7 @@ function wplpro_init() {
 		wp_register_script( 'fitvids', 'https://cdnjs.cloudflare.com/ajax/libs/fitvids/1.2.0/jquery.fitvids.min.js', array( 'jquery' ), '1.2.0', true ); // Enqueued only on single listings.
 		wp_register_script( 'bxslider', 'https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js', array( 'jquery' ), '4.2.15', true );
 		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'jquery-ui-tabs', array( 'jquery' ) );
+		wp_enqueue_script( 'jquery-ui-tabs', array( 'jquery' ), '', '1.0.0', true );
 	}
 
 	/** Registers and enqueues scripts for single listings. */
@@ -320,7 +320,7 @@ function wplpro_init() {
 			$options['disable_properticons'] = 0;
 		}
 		if ( '1' !== $options['disable_properticons'] ) {
-			wp_register_style( 'properticons', WPLPRO_URL . 'assets/css/properticons.min.css', '', null, 'all' );
+			wp_register_style( 'properticons', WPLPRO_URL . 'assets/css/properticons.min.css', '', '1.0.0', 'all' );
 		}
 
 		/** Register single styles but don't enqueue them. */
@@ -350,12 +350,12 @@ function wplpro_init() {
 		if ( ! class_exists( 'Idx_Broker_Plugin' ) ) {
 			wp_register_style( 'fontawesome', 'https://use.fontawesome.com/releases/v5.5.0/css/all.css', '', '5.5.0', 'all' );
 			wp_enqueue_style( 'fontawesome' );
-			wp_enqueue_style( 'upgrade-icon', WPLPRO_URL . 'assets/css/wp-listings-upgrade.css' );
+			wp_enqueue_style( 'upgrade-icon', WPLPRO_URL . 'assets/css/wp-listings-upgrade.css', '', '1.0.0', 'all' );
 		}
 
 		global $wp_version;
 		$nonce_action = 'WPLPRO_Admin_Notice';
-		wp_enqueue_script( 'wp-listings-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views' );
+		wp_enqueue_script( 'wp-listings-admin', WPLPRO_URL . 'assets/js/admin.min.js', 'media-views', '1.0.0', true );
 		wp_localize_script(
 			'wp-listings-admin',
 			'wp_listings_adminL10n',
@@ -575,11 +575,11 @@ function wplpro_pre_get_listings( $query ) {
 	}
 
 	if ( $query->is_tax() ) {
-		// Do a fully inclusive search for currently registered post types of queried taxonomies
+		// Do a fully inclusive search for currently registered post types of queried taxonomies.
 		$post_type  = array();
 		$taxonomies = array_keys( $query->tax_query->queried_terms );
 		foreach ( get_post_types( array( 'exclude_from_search' => false ) ) as $pt ) {
-			$object_taxonomies = $pt === 'attachment' ? get_taxonomies_for_attachments() : get_object_taxonomies( $pt );
+			$object_taxonomies = 'attachment' === $pt ? get_taxonomies_for_attachments() : get_object_taxonomies( $pt );
 			if ( array_intersect( $taxonomies, $object_taxonomies ) ) {
 				$post_type[] = $pt;
 			}
@@ -640,7 +640,7 @@ function wplpro_set_sort( $option ) {
 
 
 /**
- * wplpro_add_user_roles function.
+ * WPL Pro - Add User Roles.
  *
  * @access public
  * @return void
