@@ -86,7 +86,9 @@ class WPLPROIdxListing {
 		$properties = $_idx_api->client_properties( 'featured?disclaimers=true' );
 
 		// Load WP options.
-		$idx_feat_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
+		$maybe_feat_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
+		$idx_feat_options = ( !is_array( $maybe_feat_options ) ) ? array() : $maybe_feat_options; // Set to array if empty for some reason.
+
 		$wpl_options      = get_option( 'wplpro_plugin_settings' );
 		update_option( 'wp_listings_import_progress', true );
 
@@ -100,21 +102,23 @@ class WPLPROIdxListing {
 				// this is too dangerous of a command
 				// Get the listing ID.
 				$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
+				$listing_id = $prop['listingID'];
 
 				// Add options.
-				if ( ! in_array( $prop['listingID'], $listings, true ) ) {
-					$idx_feat_options[ $prop['listingID'] ]['listingID'] = $prop['listingID'];
-					$idx_feat_options[ $prop['listingID'] ]['status']    = '';
+				if ( ! in_array( $listing_id, $listings, true ) ) {
+				  $idx_feat_options[ $listing_id ] = array();
+					$idx_feat_options[ $listing_id ]['listingID'] = $listing_id;
+					$idx_feat_options[ $listing_id ]['status']    = '';
 				}
 
 				// Unset options if they don't exist.
-				if ( isset( $idx_feat_options[ $prop['listingID'] ]['post_id'] ) && ! get_post( $idx_feat_options[ $prop['listingID'] ]['post_id'] ) ) {
-					unset( $idx_feat_options[ $prop['listingID'] ]['post_id'] );
-					unset( $idx_feat_options[ $prop['listingID'] ]['status'] );
+				if ( isset( $idx_feat_options[ $listing_id ]['post_id'] ) && ! get_post( $idx_feat_options[ $listing_id ]['post_id'] ) ) {
+					unset( $idx_feat_options[ $listing_id ]['post_id'] );
+					unset( $idx_feat_options[ $listing_id ]['status'] );
 				}
 
 				// Add post and update post meta.
-				if ( in_array( $prop['listingID'], $listings, true ) && ! isset( $idx_feat_options[ $prop['listingID'] ]['post_id'] ) ) {
+				if ( in_array( $listing_id, $listings, true ) && ! isset( $idx_feat_options[ $listing_id ]['post_id'] ) ) {
 					$idx_feat_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
 
 					if ( '' === $properties[ $key ]['address'] || null === $properties[ $key ]['address'] ) {
@@ -144,29 +148,29 @@ class WPLPROIdxListing {
 
 				} // End if().
 				// Change status to publish if it's not already.
-				elseif ( in_array( $prop['listingID'], $listings, true ) && 'publish' !== $idx_feat_options[ $prop['listingID'] ]['status'] ) {
-					self::wp_listings_idx_change_post_status( $idx_feat_options[ $prop['listingID'] ]['post_id'], 'publish' );
-					$idx_feat_options[ $prop['listingID'] ]['status'] = 'publish';
+				elseif ( in_array( $listing_id, $listings, true ) && 'publish' !== $idx_feat_options[ $listing_id ]['status'] ) {
+					self::wp_listings_idx_change_post_status( $idx_feat_options[ $listing_id ]['post_id'], 'publish' );
+					$idx_feat_options[ $listing_id ]['status'] = 'publish';
 
 				} // Change post status or delete post based on options.
-				elseif ( ! in_array( $prop['listingID'], $listings, true ) && isset( $idx_feat_options[ $prop['listingID'] ]['status'] ) && 'publish' === $idx_feat_options[ $prop['listingID'] ]['status'] ) {
+				elseif ( ! in_array( $listing_id, $listings, true ) && isset( $idx_feat_options[ $listing_id ]['status'] ) && 'publish' === $idx_feat_options[ $listing_id ]['status'] ) {
 
 					// Change to draft or delete listing if the post exists but is not in the listing array based on settings.
 					if ( isset( $wpl_options['wplpro_idx_sold'] ) && 'sold-draft' === $wpl_options['wplpro_idx_sold'] ) {
 
 						// Change to draft.
-						self::wp_listings_idx_change_post_status( $idx_feat_options[ $prop['listingID'] ]['post_id'], 'draft' );
-						$idx_feat_options[ $prop['listingID'] ]['status'] = 'draft';
+						self::wp_listings_idx_change_post_status( $idx_feat_options[ $listing_id ]['post_id'], 'draft' );
+						$idx_feat_options[ $listing_id ]['status'] = 'draft';
 					} elseif ( isset( $wpl_options['wplpro_idx_sold'] ) && 'sold-delete' === $wpl_options['wplpro_idx_sold'] ) {
 
-						$idx_feat_options[ $prop['listingID'] ]['status'] = 'deleted';
+						$idx_feat_options[ $listing_id ]['status'] = 'deleted';
 
 						// Delete featured image.
-						$post_feat_id = get_post_thumbnail_id( $idx_feat_options[ $prop['listingID'] ]['post_id'] );
+						$post_feat_id = get_post_thumbnail_id( $idx_feat_options[ $listing_id ]['post_id'] );
 						wp_delete_attachment( $post_feat_id );
 
 						// Delete post.
-						wp_delete_post( $idx_feat_options[ $prop['listingID'] ]['post_id'] );
+						wp_delete_post( $idx_feat_options[ $listing_id ]['post_id'] );
 					}
 				}
 			} // End foreach().
@@ -364,6 +368,7 @@ class WPLPROIdxListing {
 			update_post_meta( $id, '_listing_half_bath', isset( $idx_featured_listing_data['partialBaths'] ) ? $idx_featured_listing_data['partialBaths'] : '' );
 		}
 
+		//TODO: Remove previous gallery images.
 		// Inserts image tags into Old Listing Gallery Box.
 		if ( $update_gallery ) {
 			$ids = array();
@@ -615,6 +620,7 @@ function wp_listings_idx_listing_setting_page() {
 		add_settings_error( 'wp_listings_idx_listing_settings_group', 'idx_listing_import_progress', 'Your listings are being imported in the background. This notice will dismiss when all selected listings have been imported.', 'updated' );
 	}
 	$idx_feat_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
+	$idx_feat_options = ( !is_array( $idx_feat_options ) ) ? array() : $idx_feat_options; // Set to array if empty for some reason.
 
 	?>
 			<h1>IDX Broker: Import Listings</h1>
@@ -673,8 +679,9 @@ function wp_listings_idx_listing_setting_page() {
 			);
 			foreach ( $stuff as $prop ) {
 				if ( ! isset( $idx_feat_options[ get_post_meta( $prop->ID, '_listing_mls', true ) ]['post_id'] ) ) {
-					$idx_feat_options[ get_post_meta( $prop->ID, '_listing_mls', true ) ]['post_id'] = $prop->ID;
-					$idx_feat_options[ get_post_meta( $prop->ID, '_listing_mls', true ) ]['status']  = 'publish';
+					$list_mls = get_post_meta( $prop->ID, '_listing_mls', true );
+					$idx_feat_options[ $list_mls ]['post_id'] = $prop->ID;
+					$idx_feat_options[ $list_mls ]['status']  = 'publish';
 				}
 			}
 			// Loop through properties.
