@@ -106,7 +106,6 @@ class WPLPROIdxListing {
 
 				// Add options.
 				if ( ! in_array( $listing_id, $listings, true ) ) {
-				  $idx_feat_options[ $listing_id ] = array();
 					$idx_feat_options[ $listing_id ]['listingID'] = $listing_id;
 					$idx_feat_options[ $listing_id ]['status']    = '';
 				}
@@ -119,7 +118,6 @@ class WPLPROIdxListing {
 
 				// Add post and update post meta.
 				if ( in_array( $listing_id, $listings, true ) && ! isset( $idx_feat_options[ $listing_id ]['post_id'] ) ) {
-					$idx_feat_options = get_option( 'wplpro_idx_featured_listing_wp_options' );
 
 					if ( '' === $properties[ $key ]['address'] || null === $properties[ $key ]['address'] ) {
 						$properties[ $key ]['address'] = 'Address unlisted';
@@ -201,11 +199,9 @@ class WPLPROIdxListing {
 		$wpl_options      = get_option( 'wplpro_plugin_settings' );
 
 		foreach ( $properties as $prop ) {
-
 			$key = self::get_key( $properties, 'listingID', $prop['listingID'] );
 
 			if ( isset( $idx_feat_options[ $prop['listingID'] ]['post_id'] ) ) {
-
 				// Update property data.
 				$global_setting;
 				if ( isset( $wpl_options['wplpro_idx_update'] ) ) {
@@ -318,7 +314,6 @@ class WPLPROIdxListing {
 	 * @return void
 	 */
 	public static function wp_listings_idx_insert_post_meta( $id, $idx_featured_listing_data, $update = false, $update_image = true, $sold = false, $update_details = true, $update_gallery = true ) {
-
 		if ( ( false === $update || true === $update_image ) && isset( $idx_featured_listing_data['image']['0']['url'] ) ) {
 			$imgs           = '';
 			$featured_image = $idx_featured_listing_data['image']['0']['url'];
@@ -371,6 +366,8 @@ class WPLPROIdxListing {
 		//TODO: Remove previous gallery images.
 		// Inserts image tags into Old Listing Gallery Box.
 		if ( $update_gallery ) {
+			$feat_id = get_post_thumbnail_id( $id );
+			self::delete_attch($id, array( $feat_id ) );
 			$ids = array();
 			// Possible timeout here?
 			for ( $i = 0; $i < $idx_featured_listing_data['image']['totalCount']; $i++ ) {
@@ -447,6 +444,27 @@ class WPLPROIdxListing {
 			} // End if().
 		} // End if().
 	}
+
+	public static function get_image_attchs( $post ) {
+		$args = array(
+			'post_type'       => 'attachment',
+			'post_status'     => 'inherit',
+			'post_mime_type'  => 'image',
+			// TODO: Don't use -1, https://10up.github.io/Engineering-Best-Practices/php/
+			'posts_per_page'  => -1,
+			'parent' => $post,
+			'fields'          => 'ids',
+		);
+		return get_posts( $args );
+	}
+
+	public static function delete_attch( $post, $excludes = array() ) {
+	  $attachments = static::get_image_attchs( $post );
+	  $attachments = array_diff($attachments, $excludes);
+	  foreach ( $attachments as $image ) {
+	  	wp_delete_post( $image, true );
+	  }
+  }
 
 }
 
