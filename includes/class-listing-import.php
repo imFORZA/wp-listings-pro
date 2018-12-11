@@ -450,12 +450,13 @@ class WPLPROIdxListing {
 			'post_type'       => 'attachment',
 			'post_status'     => 'inherit',
 			'post_mime_type'  => 'image',
-			// TODO: Don't use -1, https://10up.github.io/Engineering-Best-Practices/php/
 			'posts_per_page'  => -1,
-			'parent' => $post,
+			'post_parent' => $post,
 			'fields'          => 'ids',
 		);
-		return get_posts( $args );
+		$the_query = new WP_Query( $args );
+
+		return $the_query->get_posts();
 	}
 
 	public static function delete_attch( $post, $excludes = array() ) {
