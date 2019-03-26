@@ -25,6 +25,8 @@ class WPLPROIdxListing {
 	 */
 	public $_idx;
 
+	private $photos_import;
+
 	/**
 	 * __construct function.
 	 *
@@ -366,24 +368,29 @@ class WPLPROIdxListing {
 		//TODO: Remove previous gallery images.
 		// Inserts image tags into Old Listing Gallery Box.
 		if ( $update_gallery ) {
+			// Start background process for photo import.
+			$photos_import = new WPLPROBackgroundPhotos();
+
+			// Reset thumbnail.
 			$feat_id = get_post_thumbnail_id( $id );
 			self::delete_attch($id, array( $feat_id ) );
-			$ids = array();
+
 			// Possible timeout here?
 			for ( $i = 0; $i < $idx_featured_listing_data['image']['totalCount']; $i++ ) {
+				update_post_meta( $id, '_listing_image_gallery', '' );
 				$image_url            = $idx_featured_listing_data['image'][ $i ];
-				$ids[ count( $ids ) ] = wplpro_upload_image(
-					array(
-						'url'         => $image_url['url'],
-						'name'        => $idx_featured_listing_data['address'] . '-' . $i . '.jpg',
-						'title'       => $idx_featured_listing_data['address'] . '-' . $i,
-						'content'     => '',
-						'description' => '',
-					),
-					$id
+				$image = array(
+					'listing_id' => $id,
+					'url'         => $image_url['url'],
+					'name'        => $idx_featured_listing_data['address'] . '-' . $i . '.jpg',
+					'title'       => $idx_featured_listing_data['address'] . '-' . $i,
+					'content'     => '',
+					'description' => '',
 				);
+				$photos_import->push_to_queue( $image );
 			}
-			update_post_meta( $id, '_listing_image_gallery', implode( ',', $ids ) );
+
+			$photos_import->save()->dispatch();
 		}
 
 		/**
@@ -528,6 +535,41 @@ class WPLPROBackgroundListings extends WP_Background_Process {
 			// Insert meta for post.
 			WPLPROIdxListing::wp_listings_idx_insert_post_meta( $add_post, $property );
 		}
+		return false;
+	}
+}
+
+/**
+ * Class for handling background importing of listing photos.
+ */
+class WPLPROBackgroundPhotos extends WP_Background_Process {
+
+	/**
+	 * Protected ID that is single title (for working with super::)
+	 *
+	 * @var protected 'background-processing-listings'
+	 */
+	protected $action = 'background-processing-photos';
+
+	/**
+	 * Task to be run each iteration
+	 *
+	 * @param  string $data     Information of listing to be imported.
+	 * @return mixed                False if done, $data if to be re-run.
+	 */
+	protected function task( $image ) {
+
+		// Get gallery meta in order to append new images.
+		$gallery = get_post_meta( $image['listing_id'], '_listing_image_gallery', true );
+		$gallery_arr = ( empty( $gallery ) ) ? array() : explode( ',', $gallery );
+
+		// Insert image.
+		$id = wplpro_upload_image( $image, $image['listing_id'] );
+		$gallery_arr[] = $id;
+		$gallery = implode( ',', $gallery_arr );
+
+		update_post_meta( $image['listing_id'], '_listing_image_gallery', $gallery );
+
 		return false;
 	}
 }
@@ -783,3 +825,4 @@ add_action( 'wplpro_idx_update', array( 'WPLPROIdxListing', 'wp_listings_update_
 
 
 new WPLPROBackgroundListings();
+new WPLPROBackgroundPhotos();
