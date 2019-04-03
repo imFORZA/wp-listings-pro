@@ -3,7 +3,8 @@ Contributors: imforza, bradleymoore111, bhubbard, sgarza
 Tags: listings, wp-listings, wp-listings-pro, listings, properties, property, real-estate, real estate, real estate agents, real estate brokers, idxbroker, imforza
 Donate link: https://www.imforza.com
 Requires at least: 4.7
-Tested up to: 4.7.5
+Tested up to: 5.1.1
+Requires PHP: 7.0.3
 Stable tag: 3.0.8
 License: GPL v3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
